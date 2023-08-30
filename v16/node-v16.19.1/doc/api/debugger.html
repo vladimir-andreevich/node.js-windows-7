@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v16.19.1">
+  <title>Debugger | Node.js v16.19.1 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/debugger.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  
+</head>
+<body class="alt apidoc" id="api-section-debugger">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger active">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="debugger" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v16.19.1 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v16.19.1</li>
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Table of contents
+      </a>
+
+      <div class="picker"><div class="toc"><ul>
+<li><span class="stability_2"><a href="#debugger">Debugger</a></span>
+<ul>
+<li><a href="#watchers">Watchers</a></li>
+<li><a href="#command-reference">Command reference</a>
+<ul>
+<li><a href="#stepping">Stepping</a></li>
+<li><a href="#breakpoints">Breakpoints</a></li>
+<li><a href="#information">Information</a></li>
+<li><a href="#execution-control">Execution control</a></li>
+<li><a href="#various">Various</a></li>
+</ul>
+</li>
+<li><a href="#advanced-usage">Advanced usage</a>
+<ul>
+<li><a href="#v8-inspector-integration-for-nodejs">V8 inspector integration for Node.js</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Index
+      </a>
+
+      <div class="picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger active">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Other versions
+      </a>
+      <div class="picker"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v19.x/api/debugger.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/debugger.html">18.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/debugger.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/debugger.html">16.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/debugger.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/debugger.html">14.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/debugger.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/debugger.html">12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/debugger.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/debugger.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/debugger.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/debugger.html">8.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v7.x/api/debugger.html">7.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v6.x/api/debugger.html">6.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v5.x/api/debugger.html">5.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v4.x/api/debugger.html">4.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.12.x/api/debugger.html">0.12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.10.x/api/debugger.html">0.10.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#">
+                <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+                Options
+              </a>
+        
+              <div class="picker">
+                <ul>
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="debugger.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/debugger.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_2"><a href="#debugger">Debugger</a></span>
+<ul>
+<li><a href="#watchers">Watchers</a></li>
+<li><a href="#command-reference">Command reference</a>
+<ul>
+<li><a href="#stepping">Stepping</a></li>
+<li><a href="#breakpoints">Breakpoints</a></li>
+<li><a href="#information">Information</a></li>
+<li><a href="#execution-control">Execution control</a></li>
+<li><a href="#various">Various</a></li>
+</ul>
+</li>
+<li><a href="#advanced-usage">Advanced usage</a>
+<ul>
+<li><a href="#v8-inspector-integration-for-nodejs">V8 inspector integration for Node.js</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Debugger<span><a class="mark" href="#debugger" id="debugger">#</a></span><a aria-hidden="true" class="legacy" id="debugger_debugger"></a></h2>
+
+<p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
+
+<p>Node.js includes a command-line debugging utility. The Node.js debugger client
+is not a full-featured debugger, but simple stepping and inspection are
+possible.</p>
+<p>To use it, start Node.js with the <code>inspect</code> argument followed by the path to the
+script to debug.</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">node inspect myscript.js</span>
+&#x3C; Debugger listening on ws://127.0.0.1:9229/621111f9-ffcb-4e82-b718-48a145fa5db8
+&#x3C; For help, see: https://nodejs.org/en/docs/inspector
+&#x3C;
+&#x3C; Debugger attached.
+&#x3C;
+ ok
+Break on start in myscript.js:2
+  1 // myscript.js
+<span class="hljs-meta prompt_">> </span><span class="language-bash">2 global.x = 5;</span>
+  3 setTimeout(() => {
+  4   debugger;
+<span class="hljs-meta prompt_">debug></span></code></pre>
+<p>The debugger automatically breaks on the first executable line. To instead
+run until the first breakpoint (specified by a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger"><code>debugger</code></a> statement), set
+the <code>NODE_INSPECT_RESUME_ON_START</code> environment variable to <code>1</code>.</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cat</span> myscript.js</span>
+// myscript.js
+global.x = 5;
+setTimeout(() => {
+  debugger;
+  console.log('world');
+}, 1000);
+console.log('hello');
+<span class="hljs-meta prompt_">$ </span><span class="language-bash">NODE_INSPECT_RESUME_ON_START=1 node inspect myscript.js</span>
+&#x3C; Debugger listening on ws://127.0.0.1:9229/f1ed133e-7876-495b-83ae-c32c6fc319c2
+&#x3C; For help, see: https://nodejs.org/en/docs/inspector
+&#x3C;
+connecting to 127.0.0.1:9229 ... ok
+&#x3C; Debugger attached.
+&#x3C;
+&#x3C; hello
+&#x3C;
+break in myscript.js:4
+  2 global.x = 5;
+  3 setTimeout(() => {
+<span class="hljs-meta prompt_">> </span><span class="language-bash">4   debugger;</span>
+  5   console.log('world');
+  6 }, 1000);
+<span class="hljs-meta prompt_">debug> </span><span class="language-bash">next</span>
+break in myscript.js:5
+  3 setTimeout(() => {
+  4   debugger;
+<span class="hljs-meta prompt_">> </span><span class="language-bash">5   console.log(<span class="hljs-string">'world'</span>);</span>
+  6 }, 1000);
+  7 console.log('hello');
+<span class="hljs-meta prompt_">debug> </span><span class="language-bash">repl</span>
+Press Ctrl+C to leave debug repl
+<span class="hljs-meta prompt_">> </span><span class="language-bash">x</span>
+5
+<span class="hljs-meta prompt_">> </span><span class="language-bash">2 + 2</span>
+4
+<span class="hljs-meta prompt_">debug> </span><span class="language-bash">next</span>
+&#x3C; world
+&#x3C;
+break in myscript.js:6
+  4   debugger;
+  5   console.log('world');
+<span class="hljs-meta prompt_">> </span><span class="language-bash">6 }, 1000);</span>
+  7 console.log('hello');
+  8
+<span class="hljs-meta prompt_">debug> </span><span class="language-bash">.<span class="hljs-built_in">exit</span></span>
+<span class="hljs-meta prompt_">$</span></code></pre>
+<p>The <code>repl</code> command allows code to be evaluated remotely. The <code>next</code> command
+steps to the next line. Type <code>help</code> to see what other commands are available.</p>
+<p>Pressing <code>enter</code> without typing a command will repeat the previous debugger
+command.</p>
+<section><h3>Watchers<span><a class="mark" href="#watchers" id="watchers">#</a></span><a aria-hidden="true" class="legacy" id="debugger_watchers"></a></h3>
+<p>It is possible to watch expression and variable values while debugging. On
+every breakpoint, each expression from the watchers list will be evaluated
+in the current context and displayed immediately before the breakpoint's
+source code listing.</p>
+<p>To begin watching an expression, type <code>watch('my_expression')</code>. The command
+<code>watchers</code> will print the active watchers. To remove a watcher, type
+<code>unwatch('my_expression')</code>.</p>
+</section><section><h3>Command reference<span><a class="mark" href="#command-reference" id="command-reference">#</a></span><a aria-hidden="true" class="legacy" id="debugger_command_reference"></a></h3>
+<h4>Stepping<span><a class="mark" href="#stepping" id="stepping">#</a></span><a aria-hidden="true" class="legacy" id="debugger_stepping"></a></h4>
+<ul>
+<li><code>cont</code>, <code>c</code>: Continue execution</li>
+<li><code>next</code>, <code>n</code>: Step next</li>
+<li><code>step</code>, <code>s</code>: Step in</li>
+<li><code>out</code>, <code>o</code>: Step out</li>
+<li><code>pause</code>: Pause running code (like pause button in Developer Tools)</li>
+</ul>
+<h4>Breakpoints<span><a class="mark" href="#breakpoints" id="breakpoints">#</a></span><a aria-hidden="true" class="legacy" id="debugger_breakpoints"></a></h4>
+<ul>
+<li><code>setBreakpoint()</code>, <code>sb()</code>: Set breakpoint on current line</li>
+<li><code>setBreakpoint(line)</code>, <code>sb(line)</code>: Set breakpoint on specific line</li>
+<li><code>setBreakpoint('fn()')</code>, <code>sb(...)</code>: Set breakpoint on a first statement in
+function's body</li>
+<li><code>setBreakpoint('script.js', 1)</code>, <code>sb(...)</code>: Set breakpoint on first line of
+<code>script.js</code></li>
+<li><code>setBreakpoint('script.js', 1, 'num &#x3C; 4')</code>, <code>sb(...)</code>: Set conditional
+breakpoint on first line of <code>script.js</code> that only breaks when <code>num &#x3C; 4</code>
+evaluates to <code>true</code></li>
+<li><code>clearBreakpoint('script.js', 1)</code>, <code>cb(...)</code>: Clear breakpoint in <code>script.js</code>
+on line 1</li>
+</ul>
+<p>It is also possible to set a breakpoint in a file (module) that
+is not loaded yet:</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">node inspect main.js</span>
+&#x3C; Debugger listening on ws://127.0.0.1:9229/48a5b28a-550c-471b-b5e1-d13dd7165df9
+&#x3C; For help, see: https://nodejs.org/en/docs/inspector
+&#x3C;
+&#x3C; Debugger attached.
+&#x3C;
+ ok
+Break on start in main.js:1
+<span class="hljs-meta prompt_">> </span><span class="language-bash">1 const mod = require(<span class="hljs-string">'./mod.js'</span>);</span>
+  2 mod.hello();
+  3 mod.hello();
+<span class="hljs-meta prompt_">debug> </span><span class="language-bash">setBreakpoint(<span class="hljs-string">'mod.js'</span>, 22)</span>
+Warning: script 'mod.js' was not loaded yet.
+<span class="hljs-meta prompt_">debug> </span><span class="language-bash">c</span>
+break in mod.js:22
+ 20 // USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 21
+<span class="hljs-meta prompt_">></span><span class="language-bash">22 exports.hello = <span class="hljs-function"><span class="hljs-title">function</span></span>() {</span>
+ 23   return 'hello from module';
+ 24 };
+<span class="hljs-meta prompt_">debug></span></code></pre>
+<p>It is also possible to set a conditional breakpoint that only breaks when a
+given expression evaluates to <code>true</code>:</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">node inspect main.js</span>
+&#x3C; Debugger listening on ws://127.0.0.1:9229/ce24daa8-3816-44d4-b8ab-8273c8a66d35
+&#x3C; For help, see: https://nodejs.org/en/docs/inspector
+&#x3C; Debugger attached.
+Break on start in main.js:7
+  5 }
+  6
+<span class="hljs-meta prompt_">> </span><span class="language-bash">7 addOne(10);</span>
+  8 addOne(-1);
+  9
+<span class="hljs-meta prompt_">debug> </span><span class="language-bash">setBreakpoint(<span class="hljs-string">'main.js'</span>, 4, <span class="hljs-string">'num &#x3C; 0'</span>)</span>
+  1 'use strict';
+  2
+  3 function addOne(num) {
+<span class="hljs-meta prompt_">> </span><span class="language-bash">4   <span class="hljs-built_in">return</span> num + 1;</span>
+  5 }
+  6
+  7 addOne(10);
+  8 addOne(-1);
+  9
+<span class="hljs-meta prompt_">debug> </span><span class="language-bash">cont</span>
+break in main.js:4
+  2
+  3 function addOne(num) {
+<span class="hljs-meta prompt_">> </span><span class="language-bash">4   <span class="hljs-built_in">return</span> num + 1;</span>
+  5 }
+  6
+<span class="hljs-meta prompt_">debug> </span><span class="language-bash"><span class="hljs-built_in">exec</span>(<span class="hljs-string">'num'</span>)</span>
+-1
+<span class="hljs-meta prompt_">debug></span></code></pre>
+<h4>Information<span><a class="mark" href="#information" id="information">#</a></span><a aria-hidden="true" class="legacy" id="debugger_information"></a></h4>
+<ul>
+<li><code>backtrace</code>, <code>bt</code>: Print backtrace of current execution frame</li>
+<li><code>list(5)</code>: List scripts source code with 5 line context (5 lines before and
+after)</li>
+<li><code>watch(expr)</code>: Add expression to watch list</li>
+<li><code>unwatch(expr)</code>: Remove expression from watch list</li>
+<li><code>watchers</code>: List all watchers and their values (automatically listed on each
+breakpoint)</li>
+<li><code>repl</code>: Open debugger's repl for evaluation in debugging script's context</li>
+<li><code>exec expr</code>, <code>p expr</code>: Execute an expression in debugging script's context and
+print its value</li>
+</ul>
+<h4>Execution control<span><a class="mark" href="#execution-control" id="execution-control">#</a></span><a aria-hidden="true" class="legacy" id="debugger_execution_control"></a></h4>
+<ul>
+<li><code>run</code>: Run script (automatically runs on debugger's start)</li>
+<li><code>restart</code>: Restart script</li>
+<li><code>kill</code>: Kill script</li>
+</ul>
+<h4>Various<span><a class="mark" href="#various" id="various">#</a></span><a aria-hidden="true" class="legacy" id="debugger_various"></a></h4>
+<ul>
+<li><code>scripts</code>: List all loaded scripts</li>
+<li><code>version</code>: Display V8's version</li>
+</ul>
+</section><section><h3>Advanced usage<span><a class="mark" href="#advanced-usage" id="advanced-usage">#</a></span><a aria-hidden="true" class="legacy" id="debugger_advanced_usage"></a></h3>
+<h4>V8 inspector integration for Node.js<span><a class="mark" href="#v8-inspector-integration-for-nodejs" id="v8-inspector-integration-for-nodejs">#</a></span><a aria-hidden="true" class="legacy" id="debugger_v8_inspector_integration_for_node_js"></a></h4>
+<p>V8 Inspector integration allows attaching Chrome DevTools to Node.js
+instances for debugging and profiling. It uses the
+<a href="https://chromedevtools.github.io/devtools-protocol/">Chrome DevTools Protocol</a>.</p>
+<p>V8 Inspector can be enabled by passing the <code>--inspect</code> flag when starting a
+Node.js application. It is also possible to supply a custom port with that flag,
+e.g. <code>--inspect=9222</code> will accept DevTools connections on port 9222.</p>
+<p>To break on the first line of the application code, pass the <code>--inspect-brk</code>
+flag instead of <code>--inspect</code>.</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">node --inspect index.js</span>
+Debugger listening on ws://127.0.0.1:9229/dc9010dd-f8b8-4ac5-a510-c1a114ec7d29
+For help, see: https://nodejs.org/en/docs/inspector</code></pre>
+<p>(In the example above, the UUID dc9010dd-f8b8-4ac5-a510-c1a114ec7d29
+at the end of the URL is generated on the fly, it varies in different
+debugging sessions.)</p>
+<p>If the Chrome browser is older than 66.0.3345.0,
+use <code>inspector.html</code> instead of <code>js_app.html</code> in the above URL.</p>
+<p>Chrome DevTools doesn't support debugging <a href="worker_threads.html">worker threads</a> yet.
+<a href="https://github.com/GoogleChromeLabs/ndb/">ndb</a> can be used to debug them.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{
+  "type": "module",
+  "source": "doc/api/documentation.md",
+  "introduced_in": "v0.10.0",
+  "miscs": [
+    {
+      "textRaw": "About this documentation",
+      "name": "About this documentation",
+      "introduced_in": "v0.10.0",
+      "type": "misc",
+      "desc": "<p>Welcome to the official API reference documentation for Node.js!</p>\n<p>Node.js is a JavaScript runtime built on the <a href=\"https://v8.dev/\">V8 JavaScript engine</a>.</p>",
+      "miscs": [
+        {
+          "textRaw": "Contributing",
+          "name": "contributing",
+          "desc": "<p>Report errors in this documentation in <a href=\"https://github.com/nodejs/node/issues/new\">the issue tracker</a>. See\n<a href=\"https://github.com/nodejs/node/blob/HEAD/CONTRIBUTING.md\">the contributing guide</a> for directions on how to submit pull requests.</p>",
+          "type": "misc",
+          "displayName": "Contributing"
+        },
+        {
+          "textRaw": "Stability index",
+          "name": "Stability index",
+          "type": "misc",
+          "desc": "<p>Throughout the documentation are indications of a section's stability. Some APIs\nare so proven and so relied upon that they are unlikely to ever change at all.\nOthers are brand new and experimental, or known to be hazardous.</p>\n<p>The stability indices are as follows:</p>\n<blockquote>\n<p>Stability: 0 - Deprecated. The feature may emit warnings. Backward\ncompatibility is not guaranteed.</p>\n</blockquote>\n<!-- separator -->\n<blockquote>\n<p>Stability: 1 - Experimental. The feature is not subject to\n<a href=\"https://semver.org/\">Semantic Versioning</a> rules. Non-backward compatible changes or removal may\noccur in any future release. Use of the feature is not recommended in\nproduction environments.</p>\n</blockquote>\n<!-- separator -->\n<blockquote>\n<p>Stability: 2 - Stable. Compatibility with the npm ecosystem is a high\npriority.</p>\n</blockquote>\n<!-- separator -->\n<blockquote>\n<p>Stability: 3 - Legacy. The feature is no longer recommended for use. While it\nlikely will not be removed, and is still covered by semantic-versioning\nguarantees, use of the feature should be avoided.</p>\n</blockquote>\n<p>Use caution when making use of Experimental features, particularly within\nmodules. Users may not be aware that experimental features are being used.\nBugs or behavior changes may surprise users when Experimental API\nmodifications occur. To avoid surprises, use of an Experimental feature may need\na command-line flag. Experimental features may also emit a <a href=\"process.html#process_event_warning\">warning</a>.</p>"
+        },
+        {
+          "textRaw": "Stability overview",
+          "name": "stability_overview",
+          "desc": "<!-- STABILITY_OVERVIEW_SLOT_BEGIN --><table><thead><tr><th>API</th><th>Stability</th></tr></thead><tbody><tr><td class=\"module_stability\"><a href=\"assert.html\">assert</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"async_hooks.html\">async_hooks</a></td><td class=\"api_stability api_stability_1\">(1) Experimental</td></tr><tr><td class=\"module_stability\"><a href=\"buffer.html\">buffer</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"child_process.html\">child_process</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"cluster.html\">cluster</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"console.html\">console</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"crypto.html\">crypto</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"dgram.html\">dgram</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"diagnostics_channel.html\">diagnostics_channel</a></td><td class=\"api_stability api_stability_1\">(1) Experimental</td></tr><tr><td class=\"module_stability\"><a href=\"dns.html\">dns</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"domain.html\">domain</a></td><td class=\"api_stability api_stability_0\">(0) Deprecated</td></tr><tr><td class=\"module_stability\"><a href=\"fs.html\">fs</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"http.html\">http</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"http2.html\">http/2</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"https.html\">https</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"inspector.html\">inspector</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"modules.html\">module</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"os.html\">os</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"path.html\">path</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"perf_hooks.html\">performance_measurement_apis</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"punycode.html\">punycode</a></td><td class=\"api_stability api_stability_0\">(0) Deprecated</td></tr><tr><td class=\"module_stability\"><a href=\"querystring.html\">querystring</a></td><td class=\"api_stability api_stability_3\">(3) Legacy</td></tr><tr><td class=\"module_stability\"><a href=\"readline.html\">readline</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"repl.html\">repl</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"stream.html\">stream</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"string_decoder.html\">string_decoder</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"timers.html\">timers</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"tls.html\">tls_(ssl)</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"tracing.html\">trace_events</a></td><td class=\"api_stability api_stability_1\">(1) Experimental</td></tr><tr><td class=\"module_stability\"><a href=\"tty.html\">tty</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"url.html\">url</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"util.html\">util</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"vm.html\">vm</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"wasi.html\">webassembly_system_interface_(wasi)</a></td><td class=\"api_stability api_stability_1\">(1) Experimental</td></tr><tr><td class=\"module_stability\"><a href=\"worker_threads.html\">worker_threads</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr><tr><td class=\"module_stability\"><a href=\"zlib.html\">zlib</a></td><td class=\"api_stability api_stability_2\">(2) Stable</td></tr></tbody></table><!-- STABILITY_OVERVIEW_SLOT_END -->",
+          "type": "misc",
+          "displayName": "Stability overview"
+        },
+        {
+          "textRaw": "JSON output",
+          "name": "json_output",
+          "meta": {
+            "added": [
+              "v0.6.12"
+            ],
+            "changes": []
+          },
+          "desc": "<p>Every <code>.html</code> document has a corresponding <code>.json</code> document. This is for IDEs\nand other utilities that consume the documentation.</p>",
+          "type": "misc",
+          "displayName": "JSON output"
+        },
+        {
+          "textRaw": "System calls and man pages",
+          "name": "system_calls_and_man_pages",
+          "desc": "<p>Node.js functions which wrap a system call will document that. The docs link\nto the corresponding man pages which describe how the system call works.</p>\n<p>Most Unix system calls have Windows analogues. Still, behavior differences may\nbe unavoidable.</p>",
+          "type": "misc",
+          "displayName": "System calls and man pages"
+        }
+      ]
+    }
+  ]
+}

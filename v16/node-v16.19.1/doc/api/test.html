@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v16.19.1">
+  <title>Test runner | Node.js v16.19.1 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/test.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  <style>@media(max-width:494px){.with-34-chars>.js-flavor-selector{float:none;margin:0 0 1em auto;}}@media(max-width:454px){.with-29-chars>.js-flavor-selector{float:none;margin:0 0 1em auto;}}@media(max-width:590px){.with-46-chars>.js-flavor-selector{float:none;margin:0 0 1em auto;}}</style>
+</head>
+<body class="alt apidoc" id="api-section-test">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test active">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="test" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v16.19.1 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v16.19.1</li>
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Table of contents
+      </a>
+
+      <div class="picker"><div class="toc"><ul>
+<li><span class="stability_1"><a href="#test-runner">Test runner</a></span>
+<ul>
+<li><a href="#subtests">Subtests</a></li>
+<li><a href="#skipping-tests">Skipping tests</a></li>
+<li><a href="#describeit-syntax"><code>describe</code>/<code>it</code> syntax</a>
+<ul>
+<li><a href="#only-tests"><code>only</code> tests</a></li>
+</ul>
+</li>
+<li><a href="#extraneous-asynchronous-activity">Extraneous asynchronous activity</a></li>
+<li><a href="#running-tests-from-the-command-line">Running tests from the command line</a>
+<ul>
+<li><a href="#test-runner-execution-model">Test runner execution model</a></li>
+</ul>
+</li>
+<li><a href="#runoptions"><code>run([options])</code></a></li>
+<li><a href="#testname-options-fn"><code>test([name][, options][, fn])</code></a></li>
+<li><a href="#describename-options-fn"><code>describe([name][, options][, fn])</code></a></li>
+<li><a href="#describeskipname-options-fn"><code>describe.skip([name][, options][, fn])</code></a></li>
+<li><a href="#describetodoname-options-fn"><code>describe.todo([name][, options][, fn])</code></a></li>
+<li><a href="#itname-options-fn"><code>it([name][, options][, fn])</code></a></li>
+<li><a href="#itskipname-options-fn"><code>it.skip([name][, options][, fn])</code></a></li>
+<li><a href="#ittodoname-options-fn"><code>it.todo([name][, options][, fn])</code></a></li>
+<li><a href="#before-fn-options"><code>before([, fn][, options])</code></a></li>
+<li><a href="#after-fn-options"><code>after([, fn][, options])</code></a></li>
+<li><a href="#beforeeach-fn-options"><code>beforeEach([, fn][, options])</code></a></li>
+<li><a href="#aftereach-fn-options"><code>afterEach([, fn][, options])</code></a></li>
+<li><a href="#class-tapstream">Class: <code>TapStream</code></a>
+<ul>
+<li><a href="#event-testdiagnostic">Event: <code>'test:diagnostic'</code></a></li>
+<li><a href="#event-testfail">Event: <code>'test:fail'</code></a></li>
+<li><a href="#event-testpass">Event: <code>'test:pass'</code></a></li>
+</ul>
+</li>
+<li><a href="#class-testcontext">Class: <code>TestContext</code></a>
+<ul>
+<li><a href="#contextbeforeeach-fn-options"><code>context.beforeEach([, fn][, options])</code></a></li>
+<li><a href="#contextaftereach-fn-options"><code>context.afterEach([, fn][, options])</code></a></li>
+<li><a href="#contextdiagnosticmessage"><code>context.diagnostic(message)</code></a></li>
+<li><a href="#contextname"><code>context.name</code></a></li>
+<li><a href="#contextrunonlyshouldrunonlytests"><code>context.runOnly(shouldRunOnlyTests)</code></a></li>
+<li><a href="#contextsignal"><code>context.signal</code></a></li>
+<li><a href="#contextskipmessage"><code>context.skip([message])</code></a></li>
+<li><a href="#contexttodomessage"><code>context.todo([message])</code></a></li>
+<li><a href="#contexttestname-options-fn"><code>context.test([name][, options][, fn])</code></a></li>
+</ul>
+</li>
+<li><a href="#class-suitecontext">Class: <code>SuiteContext</code></a>
+<ul>
+<li><a href="#contextname_1"><code>context.name</code></a></li>
+<li><a href="#contextsignal_1"><code>context.signal</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Index
+      </a>
+
+      <div class="picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test active">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Other versions
+      </a>
+      <div class="picker"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v19.x/api/test.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/test.html">18.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/test.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/test.html">16.x <b>LTS</b></a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#">
+                <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+                Options
+              </a>
+        
+              <div class="picker">
+                <ul>
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="test.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/test.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_1"><a href="#test-runner">Test runner</a></span>
+<ul>
+<li><a href="#subtests">Subtests</a></li>
+<li><a href="#skipping-tests">Skipping tests</a></li>
+<li><a href="#describeit-syntax"><code>describe</code>/<code>it</code> syntax</a>
+<ul>
+<li><a href="#only-tests"><code>only</code> tests</a></li>
+</ul>
+</li>
+<li><a href="#extraneous-asynchronous-activity">Extraneous asynchronous activity</a></li>
+<li><a href="#running-tests-from-the-command-line">Running tests from the command line</a>
+<ul>
+<li><a href="#test-runner-execution-model">Test runner execution model</a></li>
+</ul>
+</li>
+<li><a href="#runoptions"><code>run([options])</code></a></li>
+<li><a href="#testname-options-fn"><code>test([name][, options][, fn])</code></a></li>
+<li><a href="#describename-options-fn"><code>describe([name][, options][, fn])</code></a></li>
+<li><a href="#describeskipname-options-fn"><code>describe.skip([name][, options][, fn])</code></a></li>
+<li><a href="#describetodoname-options-fn"><code>describe.todo([name][, options][, fn])</code></a></li>
+<li><a href="#itname-options-fn"><code>it([name][, options][, fn])</code></a></li>
+<li><a href="#itskipname-options-fn"><code>it.skip([name][, options][, fn])</code></a></li>
+<li><a href="#ittodoname-options-fn"><code>it.todo([name][, options][, fn])</code></a></li>
+<li><a href="#before-fn-options"><code>before([, fn][, options])</code></a></li>
+<li><a href="#after-fn-options"><code>after([, fn][, options])</code></a></li>
+<li><a href="#beforeeach-fn-options"><code>beforeEach([, fn][, options])</code></a></li>
+<li><a href="#aftereach-fn-options"><code>afterEach([, fn][, options])</code></a></li>
+<li><a href="#class-tapstream">Class: <code>TapStream</code></a>
+<ul>
+<li><a href="#event-testdiagnostic">Event: <code>'test:diagnostic'</code></a></li>
+<li><a href="#event-testfail">Event: <code>'test:fail'</code></a></li>
+<li><a href="#event-testpass">Event: <code>'test:pass'</code></a></li>
+</ul>
+</li>
+<li><a href="#class-testcontext">Class: <code>TestContext</code></a>
+<ul>
+<li><a href="#contextbeforeeach-fn-options"><code>context.beforeEach([, fn][, options])</code></a></li>
+<li><a href="#contextaftereach-fn-options"><code>context.afterEach([, fn][, options])</code></a></li>
+<li><a href="#contextdiagnosticmessage"><code>context.diagnostic(message)</code></a></li>
+<li><a href="#contextname"><code>context.name</code></a></li>
+<li><a href="#contextrunonlyshouldrunonlytests"><code>context.runOnly(shouldRunOnlyTests)</code></a></li>
+<li><a href="#contextsignal"><code>context.signal</code></a></li>
+<li><a href="#contextskipmessage"><code>context.skip([message])</code></a></li>
+<li><a href="#contexttodomessage"><code>context.todo([message])</code></a></li>
+<li><a href="#contexttestname-options-fn"><code>context.test([name][, options][, fn])</code></a></li>
+</ul>
+</li>
+<li><a href="#class-suitecontext">Class: <code>SuiteContext</code></a>
+<ul>
+<li><a href="#contextname_1"><code>context.name</code></a></li>
+<li><a href="#contextsignal_1"><code>context.signal</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Test runner<span><a class="mark" href="#test-runner" id="test-runner">#</a></span><a aria-hidden="true" class="legacy" id="test_test_runner"></a></h2>
+
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v16.19.1/lib/test.js">lib/test.js</a></p>
+<p>The <code>node:test</code> module facilitates the creation of JavaScript tests that
+report results in <a href="https://testanything.org/">TAP</a> format. To access it:</p>
+
+<pre class="with-34-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> test <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;</code><code class="language-js cjs"><span class="hljs-keyword">const</span> test = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:test'</span>);</code></pre>
+<p>This module is only available under the <code>node:</code> scheme. The following will not
+work:</p>
+
+<pre class="with-29-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> test <span class="hljs-keyword">from</span> <span class="hljs-string">'test'</span>;</code><code class="language-js cjs"><span class="hljs-keyword">const</span> test = <span class="hljs-built_in">require</span>(<span class="hljs-string">'test'</span>);</code></pre>
+<p>Tests created via the <code>test</code> module consist of a single function that is
+processed in one of three ways:</p>
+<ol>
+<li>A synchronous function that is considered failing if it throws an exception,
+and is considered passing otherwise.</li>
+<li>A function that returns a <code>Promise</code> that is considered failing if the
+<code>Promise</code> rejects, and is considered passing if the <code>Promise</code> resolves.</li>
+<li>A function that receives a callback function. If the callback receives any
+truthy value as its first argument, the test is considered failing. If a
+falsy value is passed as the first argument to the callback, the test is
+considered passing. If the test function receives a callback function and
+also returns a <code>Promise</code>, the test will fail.</li>
+</ol>
+<p>The following example illustrates how tests are written using the
+<code>test</code> module.</p>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'synchronous passing test'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  <span class="hljs-comment">// This test passes because it does not throw an exception.</span>
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+});
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'synchronous failing test'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  <span class="hljs-comment">// This test fails because it throws an exception.</span>
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>);
+});
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'asynchronous passing test'</span>, <span class="hljs-keyword">async</span> (t) => {
+  <span class="hljs-comment">// This test passes because the Promise returned by the async</span>
+  <span class="hljs-comment">// function is not rejected.</span>
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+});
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'asynchronous failing test'</span>, <span class="hljs-keyword">async</span> (t) => {
+  <span class="hljs-comment">// This test fails because the Promise returned by the async</span>
+  <span class="hljs-comment">// function is rejected.</span>
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>);
+});
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'failing test using Promises'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  <span class="hljs-comment">// Promises can be used directly as well.</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =></span> {
+    <span class="hljs-title function_">setImmediate</span>(<span class="hljs-function">() =></span> {
+      <span class="hljs-title function_">reject</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'this will cause the test to fail'</span>));
+    });
+  });
+});
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'callback passing test'</span>, <span class="hljs-function">(<span class="hljs-params">t, done</span>) =></span> {
+  <span class="hljs-comment">// done() is the callback function. When the setImmediate() runs, it invokes</span>
+  <span class="hljs-comment">// done() with no arguments.</span>
+  <span class="hljs-title function_">setImmediate</span>(done);
+});
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'callback failing test'</span>, <span class="hljs-function">(<span class="hljs-params">t, done</span>) =></span> {
+  <span class="hljs-comment">// When the setImmediate() runs, done() is invoked with an Error object and</span>
+  <span class="hljs-comment">// the test fails.</span>
+  <span class="hljs-title function_">setImmediate</span>(<span class="hljs-function">() =></span> {
+    <span class="hljs-title function_">done</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'callback failure'</span>));
+  });
+});</code></pre>
+<p>As a test file executes, TAP is written to the standard output of the Node.js
+process. This output can be interpreted by any test harness that understands
+the TAP format. If any tests fail, the process exit code is set to <code>1</code>.</p>
+<section><h3>Subtests<span><a class="mark" href="#subtests" id="subtests">#</a></span><a aria-hidden="true" class="legacy" id="test_subtests"></a></h3>
+<p>The test context's <code>test()</code> method allows subtests to be created. This method
+behaves identically to the top level <code>test()</code> function. The following example
+demonstrates the creation of a top level test with two subtests.</p>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'top level test'</span>, <span class="hljs-keyword">async</span> (t) => {
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'subtest 1'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+    assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+  });
+
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'subtest 2'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+    assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>);
+  });
+});</code></pre>
+<p>In this example, <code>await</code> is used to ensure that both subtests have completed.
+This is necessary because parent tests do not wait for their subtests to
+complete. Any subtests that are still outstanding when their parent finishes
+are cancelled and treated as failures. Any subtest failures cause the parent
+test to fail.</p>
+</section><section><h3>Skipping tests<span><a class="mark" href="#skipping-tests" id="skipping-tests">#</a></span><a aria-hidden="true" class="legacy" id="test_skipping_tests"></a></h3>
+<p>Individual tests can be skipped by passing the <code>skip</code> option to the test, or by
+calling the test context's <code>skip()</code> method. Both of these options support
+including a message that is displayed in the TAP output as shown in the
+following example.</p>
+<pre><code class="language-js"><span class="hljs-comment">// The skip option is used, but no message is provided.</span>
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'skip option'</span>, { <span class="hljs-attr">skip</span>: <span class="hljs-literal">true</span> }, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  <span class="hljs-comment">// This code is never executed.</span>
+});
+
+<span class="hljs-comment">// The skip option is used, and a message is provided.</span>
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'skip option with message'</span>, { <span class="hljs-attr">skip</span>: <span class="hljs-string">'this is skipped'</span> }, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  <span class="hljs-comment">// This code is never executed.</span>
+});
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'skip() method'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  <span class="hljs-comment">// Make sure to return here as well if the test contains additional logic.</span>
+  t.<span class="hljs-title function_">skip</span>();
+});
+
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'skip() method with message'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  <span class="hljs-comment">// Make sure to return here as well if the test contains additional logic.</span>
+  t.<span class="hljs-title function_">skip</span>(<span class="hljs-string">'this is skipped'</span>);
+});</code></pre>
+</section><section><h3><code>describe</code>/<code>it</code> syntax<span><a class="mark" href="#describeit-syntax" id="describeit-syntax">#</a></span><a aria-hidden="true" class="legacy" id="test_describe_it_syntax"></a></h3>
+<p>Running tests can also be done using <code>describe</code> to declare a suite
+and <code>it</code> to declare a test.
+A suite is used to organize and group related tests together.
+<code>it</code> is an alias for <code>test</code>, except there is no test context passed,
+since nesting is done using suites.</p>
+<pre><code class="language-js"><span class="hljs-title function_">describe</span>(<span class="hljs-string">'A thing'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'should work'</span>, <span class="hljs-function">() =></span> {
+    assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+  });
+
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'should be ok'</span>, <span class="hljs-function">() =></span> {
+    assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>);
+  });
+
+  <span class="hljs-title function_">describe</span>(<span class="hljs-string">'a nested thing'</span>, <span class="hljs-function">() =></span> {
+    <span class="hljs-title function_">it</span>(<span class="hljs-string">'should work'</span>, <span class="hljs-function">() =></span> {
+      assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>);
+    });
+  });
+});</code></pre>
+<p><code>describe</code> and <code>it</code> are imported from the <code>node:test</code> module.</p>
+
+<pre class="with-46-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { describe, it } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:test'</span>;</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { describe, it } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:test'</span>);</code></pre>
+<h4><code>only</code> tests<span><a class="mark" href="#only-tests" id="only-tests">#</a></span><a aria-hidden="true" class="legacy" id="test_only_tests"></a></h4>
+<p>If Node.js is started with the <a href="cli.html#--test-only"><code>--test-only</code></a> command-line option, it is
+possible to skip all top level tests except for a selected subset by passing
+the <code>only</code> option to the tests that should be run. When a test with the <code>only</code>
+option set is run, all subtests are also run. The test context's <code>runOnly()</code>
+method can be used to implement the same behavior at the subtest level.</p>
+<pre><code class="language-js"><span class="hljs-comment">// Assume Node.js is run with the --test-only command-line option.</span>
+<span class="hljs-comment">// The 'only' option is set, so this test is run.</span>
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'this test is run'</span>, { <span class="hljs-attr">only</span>: <span class="hljs-literal">true</span> }, <span class="hljs-keyword">async</span> (t) => {
+  <span class="hljs-comment">// Within this test, all subtests are run by default.</span>
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'running subtest'</span>);
+
+  <span class="hljs-comment">// The test context can be updated to run subtests with the 'only' option.</span>
+  t.<span class="hljs-title function_">runOnly</span>(<span class="hljs-literal">true</span>);
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'this subtest is now skipped'</span>);
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'this subtest is run'</span>, { <span class="hljs-attr">only</span>: <span class="hljs-literal">true</span> });
+
+  <span class="hljs-comment">// Switch the context back to execute all tests.</span>
+  t.<span class="hljs-title function_">runOnly</span>(<span class="hljs-literal">false</span>);
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'this subtest is now run'</span>);
+
+  <span class="hljs-comment">// Explicitly do not run these tests.</span>
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'skipped subtest 3'</span>, { <span class="hljs-attr">only</span>: <span class="hljs-literal">false</span> });
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'skipped subtest 4'</span>, { <span class="hljs-attr">skip</span>: <span class="hljs-literal">true</span> });
+});
+
+<span class="hljs-comment">// The 'only' option is not set, so this test is skipped.</span>
+<span class="hljs-title function_">test</span>(<span class="hljs-string">'this test is not run'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-comment">// This code is not run.</span>
+  <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'fail'</span>);
+});</code></pre>
+</section><section><h3>Extraneous asynchronous activity<span><a class="mark" href="#extraneous-asynchronous-activity" id="extraneous-asynchronous-activity">#</a></span><a aria-hidden="true" class="legacy" id="test_extraneous_asynchronous_activity"></a></h3>
+<p>Once a test function finishes executing, the TAP results are output as quickly
+as possible while maintaining the order of the tests. However, it is possible
+for the test function to generate asynchronous activity that outlives the test
+itself. The test runner handles this type of activity, but does not delay the
+reporting of test results in order to accommodate it.</p>
+<p>In the following example, a test completes with two <code>setImmediate()</code>
+operations still outstanding. The first <code>setImmediate()</code> attempts to create a
+new subtest. Because the parent test has already finished and output its
+results, the new subtest is immediately marked as failed, and reported in the
+top level of the file's TAP output.</p>
+<p>The second <code>setImmediate()</code> creates an <code>uncaughtException</code> event.
+<code>uncaughtException</code> and <code>unhandledRejection</code> events originating from a completed
+test are handled by the <code>test</code> module and reported as diagnostic warnings in
+the top level of the file's TAP output.</p>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'a test that creates asynchronous activity'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  <span class="hljs-title function_">setImmediate</span>(<span class="hljs-function">() =></span> {
+    t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'subtest that is created too late'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'error1'</span>);
+    });
+  });
+
+  <span class="hljs-title function_">setImmediate</span>(<span class="hljs-function">() =></span> {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'error2'</span>);
+  });
+
+  <span class="hljs-comment">// The test finishes after this line.</span>
+});</code></pre>
+</section><section><h3>Running tests from the command line<span><a class="mark" href="#running-tests-from-the-command-line" id="running-tests-from-the-command-line">#</a></span><a aria-hidden="true" class="legacy" id="test_running_tests_from_the_command_line"></a></h3>
+<p>The Node.js test runner can be invoked from the command line by passing the
+<a href="cli.html#--test"><code>--test</code></a> flag:</p>
+<pre><code class="language-bash">node --<span class="hljs-built_in">test</span></code></pre>
+<p>By default, Node.js will recursively search the current directory for
+JavaScript source files matching a specific naming convention. Matching files
+are executed as test files. More information on the expected test file naming
+convention and behavior can be found in the <a href="#test-runner-execution-model">test runner execution model</a>
+section.</p>
+<p>Alternatively, one or more paths can be provided as the final argument(s) to
+the Node.js command, as shown below.</p>
+<pre><code class="language-bash">node --<span class="hljs-built_in">test</span> test1.js test2.mjs custom_test_dir/</code></pre>
+<p>In this example, the test runner will execute the files <code>test1.js</code> and
+<code>test2.mjs</code>. The test runner will also recursively search the
+<code>custom_test_dir/</code> directory for test files to execute.</p>
+<h4>Test runner execution model<span><a class="mark" href="#test-runner-execution-model" id="test-runner-execution-model">#</a></span><a aria-hidden="true" class="legacy" id="test_test_runner_execution_model"></a></h4>
+<p>When searching for test files to execute, the test runner behaves as follows:</p>
+<ul>
+<li>Any files explicitly provided by the user are executed.</li>
+<li>If the user did not explicitly specify any paths, the current working
+directory is recursively searched for files as specified in the following
+steps.</li>
+<li><code>node_modules</code> directories are skipped unless explicitly provided by the
+user.</li>
+<li>If a directory named <code>test</code> is encountered, the test runner will search it
+recursively for all all <code>.js</code>, <code>.cjs</code>, and <code>.mjs</code> files. All of these files
+are treated as test files, and do not need to match the specific naming
+convention detailed below. This is to accommodate projects that place all of
+their tests in a single <code>test</code> directory.</li>
+<li>In all other directories, <code>.js</code>, <code>.cjs</code>, and <code>.mjs</code> files matching the
+following patterns are treated as test files:
+<ul>
+<li><code>^test$</code> - Files whose basename is the string <code>'test'</code>. Examples:
+<code>test.js</code>, <code>test.cjs</code>, <code>test.mjs</code>.</li>
+<li><code>^test-.+</code> - Files whose basename starts with the string <code>'test-'</code>
+followed by one or more characters. Examples: <code>test-example.js</code>,
+<code>test-another-example.mjs</code>.</li>
+<li><code>.+[\.\-\_]test$</code> - Files whose basename ends with <code>.test</code>, <code>-test</code>, or
+<code>_test</code>, preceded by one or more characters. Examples: <code>example.test.js</code>,
+<code>example-test.cjs</code>, <code>example_test.mjs</code>.</li>
+<li>Other file types understood by Node.js such as <code>.node</code> and <code>.json</code> are not
+automatically executed by the test runner, but are supported if explicitly
+provided on the command line.</li>
+</ul>
+</li>
+</ul>
+<p>Each matching test file is executed in a separate child process. If the child
+process finishes with an exit code of 0, the test is considered passing.
+Otherwise, the test is considered to be a failure. Test files must be
+executable by Node.js, but are not required to use the <code>node:test</code> module
+internally.</p>
+</section><section><h3><code>run([options])</code><span><a class="mark" href="#runoptions" id="runoptions">#</a></span><a aria-hidden="true" class="legacy" id="test_run_options"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.19.0</span>
+</div>
+<ul>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration options for running tests. The following
+properties are supported:
+<ul>
+<li><code>concurrency</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> If a number is provided,
+then that many files would run in parallel.
+If truthy, it would run (number of cpu cores - 1)
+files in parallel.
+If falsy, it would only run one file at a time.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>true</code>.</li>
+<li><code>files</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> An array containing the list of files to run.
+<strong>Default</strong> matching files from <a href="#test-runner-execution-model">test runner execution model</a>.</li>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Allows aborting an in-progress test execution.</li>
+<li><code>timeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> A number of milliseconds the test execution will
+fail after.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>Infinity</code>.</li>
+<li><code>inspectPort</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Sets inspector port of test child process.
+This can be a number, or a function that takes no arguments and returns a
+number. If a nullish value is provided, each process gets its own port,
+incremented from the primary's <code>process.debugPort</code>.
+<strong>Default:</strong> <code>undefined</code>.</li>
+</ul>
+</li>
+<li>Returns: <a href="test.html#class-tapstream" class="type">&#x3C;TapStream></a></li>
+</ul>
+<pre><code class="language-js"><span class="hljs-title function_">run</span>({ <span class="hljs-attr">files</span>: [path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">'./tests/test.js'</span>)] })
+  .<span class="hljs-title function_">pipe</span>(process.<span class="hljs-property">stdout</span>);</code></pre>
+</section><section><h3><code>test([name][, options][, fn])</code><span><a class="mark" href="#testname-options-fn" id="testname-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_test_name_options_fn"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.18.0</td>
+<td><p>Add a <code>signal</code> option.</p></td></tr>
+<tr><td>v16.17.0</td>
+<td><p>Add a <code>timeout</code> option.</p></td></tr>
+<tr><td>v16.17.0</td>
+<td><p><span>Added in: v16.17.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The name of the test, which is displayed when reporting test
+results. <strong>Default:</strong> The <code>name</code> property of <code>fn</code>, or <code>'&#x3C;anonymous>'</code> if <code>fn</code>
+does not have a name.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration options for the test. The following
+properties are supported:
+<ul>
+<li><code>concurrency</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> If a number is provided,
+then that many tests would run in parallel.
+If truthy, it would run (number of cpu cores - 1)
+tests in parallel.
+For subtests, it will be <code>Infinity</code> tests in parallel.
+If falsy, it would only run one test at a time.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>false</code>.</li>
+<li><code>only</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> If truthy, and the test context is configured to run
+<code>only</code> tests, then this test will be run. Otherwise, the test is skipped.
+<strong>Default:</strong> <code>false</code>.</li>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Allows aborting an in-progress test.</li>
+<li><code>skip</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> If truthy, the test is skipped. If a string is
+provided, that string is displayed in the test results as the reason for
+skipping the test. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>todo</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> If truthy, the test marked as <code>TODO</code>. If a string
+is provided, that string is displayed in the test results as the reason why
+the test is <code>TODO</code>. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>timeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> A number of milliseconds the test will fail after.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>Infinity</code>.</li>
+</ul>
+</li>
+<li><code>fn</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> The function under test. The first argument
+to this function is a <a href="#class-testcontext"><code>TestContext</code></a> object. If the test uses callbacks,
+the callback function is passed as the second argument. <strong>Default:</strong> A no-op
+function.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Resolved with <code>undefined</code> once the test completes.</li>
+</ul>
+<p>The <code>test()</code> function is the value imported from the <code>test</code> module. Each
+invocation of this function results in the creation of a test point in the TAP
+output.</p>
+<p>The <code>TestContext</code> object passed to the <code>fn</code> argument can be used to perform
+actions related to the current test. Examples include skipping the test, adding
+additional TAP diagnostic information, or creating subtests.</p>
+<p><code>test()</code> returns a <code>Promise</code> that resolves once the test completes. The return
+value can usually be discarded for top level tests. However, the return value
+from subtests should be used to prevent the parent test from finishing first
+and cancelling the subtest as shown in the following example.</p>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'top level test'</span>, <span class="hljs-keyword">async</span> (t) => {
+  <span class="hljs-comment">// The setTimeout() in the following subtest would cause it to outlive its</span>
+  <span class="hljs-comment">// parent test if 'await' is removed on the next line. Once the parent test</span>
+  <span class="hljs-comment">// completes, it will cancel any outstanding subtests.</span>
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'longer running subtest'</span>, <span class="hljs-keyword">async</span> (t) => {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =></span> {
+      <span class="hljs-built_in">setTimeout</span>(resolve, <span class="hljs-number">1000</span>);
+    });
+  });
+});</code></pre>
+<p>The <code>timeout</code> option can be used to fail the test if it takes longer than
+<code>timeout</code> milliseconds to complete. However, it is not a reliable mechanism for
+canceling tests because a running test might block the application thread and
+thus prevent the scheduled cancellation.</p>
+</section><section><h3><code>describe([name][, options][, fn])</code><span><a class="mark" href="#describename-options-fn" id="describename-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_describe_name_options_fn"></a></h3>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The name of the suite, which is displayed when reporting test
+results. <strong>Default:</strong> The <code>name</code> property of <code>fn</code>, or <code>'&#x3C;anonymous>'</code> if <code>fn</code>
+does not have a name.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration options for the suite.
+supports the same options as <code>test([name][, options][, fn])</code>.</li>
+<li><code>fn</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> The function under suite
+declaring all subtests and subsuites.
+The first argument to this function is a <a href="#class-suitecontext"><code>SuiteContext</code></a> object.
+<strong>Default:</strong> A no-op function.</li>
+<li>Returns: <code>undefined</code>.</li>
+</ul>
+<p>The <code>describe()</code> function imported from the <code>node:test</code> module. Each
+invocation of this function results in the creation of a Subtest
+and a test point in the TAP output.
+After invocation of top level <code>describe</code> functions,
+all top level tests and suites will execute.</p>
+</section><section><h3><code>describe.skip([name][, options][, fn])</code><span><a class="mark" href="#describeskipname-options-fn" id="describeskipname-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_describe_skip_name_options_fn"></a></h3>
+<p>Shorthand for skipping a suite, same as <a href="#describename-options-fn"><code>describe([name], { skip: true }[, fn])</code></a>.</p>
+</section><section><h3><code>describe.todo([name][, options][, fn])</code><span><a class="mark" href="#describetodoname-options-fn" id="describetodoname-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_describe_todo_name_options_fn"></a></h3>
+<p>Shorthand for marking a suite as <code>TODO</code>, same as
+<a href="#describename-options-fn"><code>describe([name], { todo: true }[, fn])</code></a>.</p>
+</section><section><h3><code>it([name][, options][, fn])</code><span><a class="mark" href="#itname-options-fn" id="itname-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_it_name_options_fn"></a></h3>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The name of the test, which is displayed when reporting test
+results. <strong>Default:</strong> The <code>name</code> property of <code>fn</code>, or <code>'&#x3C;anonymous>'</code> if <code>fn</code>
+does not have a name.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration options for the suite.
+supports the same options as <code>test([name][, options][, fn])</code>.</li>
+<li><code>fn</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> The function under test.
+If the test uses callbacks, the callback function is passed as an argument.
+<strong>Default:</strong> A no-op function.</li>
+<li>Returns: <code>undefined</code>.</li>
+</ul>
+<p>The <code>it()</code> function is the value imported from the <code>node:test</code> module.
+Each invocation of this function results in the creation of a test point in the
+TAP output.</p>
+</section><section><h3><code>it.skip([name][, options][, fn])</code><span><a class="mark" href="#itskipname-options-fn" id="itskipname-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_it_skip_name_options_fn"></a></h3>
+<p>Shorthand for skipping a test,
+same as <a href="#testname-options-fn"><code>it([name], { skip: true }[, fn])</code></a>.</p>
+</section><section><h3><code>it.todo([name][, options][, fn])</code><span><a class="mark" href="#ittodoname-options-fn" id="ittodoname-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_it_todo_name_options_fn"></a></h3>
+<p>Shorthand for marking a test as <code>TODO</code>,
+same as <a href="#testname-options-fn"><code>it([name], { todo: true }[, fn])</code></a>.</p>
+</section><section><h3><code>before([, fn][, options])</code><span><a class="mark" href="#before-fn-options" id="before-fn-options">#</a></span><a aria-hidden="true" class="legacy" id="test_before_fn_options"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.18.0</span>
+</div>
+<ul>
+<li><code>fn</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> The hook function.
+If the hook uses callbacks,
+the callback function is passed as the second argument. <strong>Default:</strong> A no-op
+function.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration options for the hook. The following
+properties are supported:
+<ul>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Allows aborting an in-progress hook.</li>
+<li><code>timeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> A number of milliseconds the hook will fail after.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>Infinity</code>.</li>
+</ul>
+</li>
+</ul>
+<p>This function is used to create a hook running before running a suite.</p>
+<pre><code class="language-js"><span class="hljs-title function_">describe</span>(<span class="hljs-string">'tests'</span>, <span class="hljs-keyword">async</span> () => {
+  <span class="hljs-title function_">before</span>(<span class="hljs-function">() =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'about to run some test'</span>));
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'is a subtest'</span>, <span class="hljs-function">() =></span> {
+    assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+  });
+});</code></pre>
+</section><section><h3><code>after([, fn][, options])</code><span><a class="mark" href="#after-fn-options" id="after-fn-options">#</a></span><a aria-hidden="true" class="legacy" id="test_after_fn_options"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.18.0</span>
+</div>
+<ul>
+<li><code>fn</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> The hook function.
+If the hook uses callbacks,
+the callback function is passed as the second argument. <strong>Default:</strong> A no-op
+function.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration options for the hook. The following
+properties are supported:
+<ul>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Allows aborting an in-progress hook.</li>
+<li><code>timeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> A number of milliseconds the hook will fail after.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>Infinity</code>.</li>
+</ul>
+</li>
+</ul>
+<p>This function is used to create a hook running after  running a suite.</p>
+<pre><code class="language-js"><span class="hljs-title function_">describe</span>(<span class="hljs-string">'tests'</span>, <span class="hljs-keyword">async</span> () => {
+  <span class="hljs-title function_">after</span>(<span class="hljs-function">() =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'finished running tests'</span>));
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'is a subtest'</span>, <span class="hljs-function">() =></span> {
+    assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+  });
+});</code></pre>
+</section><section><h3><code>beforeEach([, fn][, options])</code><span><a class="mark" href="#beforeeach-fn-options" id="beforeeach-fn-options">#</a></span><a aria-hidden="true" class="legacy" id="test_beforeeach_fn_options"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.18.0</span>
+</div>
+<ul>
+<li><code>fn</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> The hook function.
+If the hook uses callbacks,
+the callback function is passed as the second argument. <strong>Default:</strong> A no-op
+function.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration options for the hook. The following
+properties are supported:
+<ul>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Allows aborting an in-progress hook.</li>
+<li><code>timeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> A number of milliseconds the hook will fail after.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>Infinity</code>.</li>
+</ul>
+</li>
+</ul>
+<p>This function is used to create a hook running
+before each subtest of the current suite.</p>
+<pre><code class="language-js"><span class="hljs-title function_">describe</span>(<span class="hljs-string">'tests'</span>, <span class="hljs-keyword">async</span> () => {
+  <span class="hljs-title function_">beforeEach</span>(<span class="hljs-function">() =></span> t.<span class="hljs-title function_">diagnostic</span>(<span class="hljs-string">'about to run a test'</span>));
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'is a subtest'</span>, <span class="hljs-function">() =></span> {
+    assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+  });
+});</code></pre>
+</section><section><h3><code>afterEach([, fn][, options])</code><span><a class="mark" href="#aftereach-fn-options" id="aftereach-fn-options">#</a></span><a aria-hidden="true" class="legacy" id="test_aftereach_fn_options"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.18.0</span>
+</div>
+<ul>
+<li><code>fn</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> The hook function.
+If the hook uses callbacks,
+the callback function is passed as the second argument. <strong>Default:</strong> A no-op
+function.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration options for the hook. The following
+properties are supported:
+<ul>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Allows aborting an in-progress hook.</li>
+<li><code>timeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> A number of milliseconds the hook will fail after.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>Infinity</code>.</li>
+</ul>
+</li>
+</ul>
+<p>This function is used to create a hook running
+after each subtest of the current test.</p>
+<pre><code class="language-js"><span class="hljs-title function_">describe</span>(<span class="hljs-string">'tests'</span>, <span class="hljs-keyword">async</span> () => {
+  <span class="hljs-title function_">afterEach</span>(<span class="hljs-function">() =></span> t.<span class="hljs-title function_">diagnostic</span>(<span class="hljs-string">'about to run a test'</span>));
+  <span class="hljs-title function_">it</span>(<span class="hljs-string">'is a subtest'</span>, <span class="hljs-function">() =></span> {
+    assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+  });
+});</code></pre>
+</section><section><h3>Class: <code>TapStream</code><span><a class="mark" href="#class-tapstream" id="class-tapstream">#</a></span><a aria-hidden="true" class="legacy" id="test_class_tapstream"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.19.0</span>
+</div>
+<ul>
+<li>Extends <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a></li>
+</ul>
+<p>A successful call to <a href="#runoptions"><code>run()</code></a> method will return a new <a href="test.html#class-tapstream" class="type">&#x3C;TapStream></a>
+object, streaming a <a href="https://testanything.org/">TAP</a> output
+<code>TapStream</code> will emit events, in the order of the tests definition</p>
+<h4>Event: <code>'test:diagnostic'</code><span><a class="mark" href="#event-testdiagnostic" id="event-testdiagnostic">#</a></span><a aria-hidden="true" class="legacy" id="test_event_test_diagnostic"></a></h4>
+<ul>
+<li><code>message</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The diagnostic message.</li>
+</ul>
+<p>Emitted when <a href="#contextdiagnosticmessage"><code>context.diagnostic</code></a> is called.</p>
+<h4>Event: <code>'test:fail'</code><span><a class="mark" href="#event-testfail" id="event-testfail">#</a></span><a aria-hidden="true" class="legacy" id="test_event_test_fail"></a></h4>
+<ul>
+<li><code>data</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>duration</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The test duration.</li>
+<li><code>error</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a> The failure casing test to fail.</li>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The test name.</li>
+<li><code>testNumber</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The ordinal number of the test.</li>
+<li><code>todo</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Undefined_type" class="type">&#x3C;undefined></a> Present if <a href="#contexttodomessage"><code>context.todo</code></a> is called</li>
+<li><code>skip</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Undefined_type" class="type">&#x3C;undefined></a> Present if <a href="#contextskipmessage"><code>context.skip</code></a> is called</li>
+</ul>
+</li>
+</ul>
+<p>Emitted when a test fails.</p>
+<h4>Event: <code>'test:pass'</code><span><a class="mark" href="#event-testpass" id="event-testpass">#</a></span><a aria-hidden="true" class="legacy" id="test_event_test_pass"></a></h4>
+<ul>
+<li><code>data</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>duration</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The test duration.</li>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The test name.</li>
+<li><code>testNumber</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The ordinal number of the test.</li>
+<li><code>todo</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Undefined_type" class="type">&#x3C;undefined></a> Present if <a href="#contexttodomessage"><code>context.todo</code></a> is called</li>
+<li><code>skip</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Undefined_type" class="type">&#x3C;undefined></a> Present if <a href="#contextskipmessage"><code>context.skip</code></a> is called</li>
+</ul>
+</li>
+</ul>
+<p>Emitted when a test passes.</p>
+</section><section><h3>Class: <code>TestContext</code><span><a class="mark" href="#class-testcontext" id="class-testcontext">#</a></span><a aria-hidden="true" class="legacy" id="test_class_testcontext"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.17.0</span>
+</div>
+<p>An instance of <code>TestContext</code> is passed to each test function in order to
+interact with the test runner. However, the <code>TestContext</code> constructor is not
+exposed as part of the API.</p>
+<h4><code>context.beforeEach([, fn][, options])</code><span><a class="mark" href="#contextbeforeeach-fn-options" id="contextbeforeeach-fn-options">#</a></span><a aria-hidden="true" class="legacy" id="test_context_beforeeach_fn_options"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.18.0</span>
+</div>
+<ul>
+<li><code>fn</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> The hook function. The first argument
+to this function is a <a href="#class-testcontext"><code>TestContext</code></a> object. If the hook uses callbacks,
+the callback function is passed as the second argument. <strong>Default:</strong> A no-op
+function.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration options for the hook. The following
+properties are supported:
+<ul>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Allows aborting an in-progress hook.</li>
+<li><code>timeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> A number of milliseconds the hook will fail after.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>Infinity</code>.</li>
+</ul>
+</li>
+</ul>
+<p>This function is used to create a hook running
+before each subtest of the current test.</p>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'top level test'</span>, <span class="hljs-keyword">async</span> (t) => {
+  t.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-function">(<span class="hljs-params">t</span>) =></span> t.<span class="hljs-title function_">diagnostic</span>(<span class="hljs-string">`about to run <span class="hljs-subst">${t.name}</span>`</span>));
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(
+    <span class="hljs-string">'This is a subtest'</span>,
+    <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+      assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+    }
+  );
+});</code></pre>
+<h4><code>context.afterEach([, fn][, options])</code><span><a class="mark" href="#contextaftereach-fn-options" id="contextaftereach-fn-options">#</a></span><a aria-hidden="true" class="legacy" id="test_context_aftereach_fn_options"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.18.0</span>
+</div>
+<ul>
+<li><code>fn</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> The hook function. The first argument
+to this function is a <a href="#class-testcontext"><code>TestContext</code></a> object. If the hook uses callbacks,
+the callback function is passed as the second argument. <strong>Default:</strong> A no-op
+function.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration options for the hook. The following
+properties are supported:
+<ul>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Allows aborting an in-progress hook.</li>
+<li><code>timeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> A number of milliseconds the hook will fail after.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>Infinity</code>.</li>
+</ul>
+</li>
+</ul>
+<p>This function is used to create a hook running
+after each subtest of the current test.</p>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'top level test'</span>, <span class="hljs-keyword">async</span> (t) => {
+  t.<span class="hljs-title function_">afterEach</span>(<span class="hljs-function">(<span class="hljs-params">t</span>) =></span> t.<span class="hljs-title function_">diagnostic</span>(<span class="hljs-string">`finished running <span class="hljs-subst">${t.name}</span>`</span>));
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(
+    <span class="hljs-string">'This is a subtest'</span>,
+    <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+      assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+    }
+  );
+});</code></pre>
+<h4><code>context.diagnostic(message)</code><span><a class="mark" href="#contextdiagnosticmessage" id="contextdiagnosticmessage">#</a></span><a aria-hidden="true" class="legacy" id="test_context_diagnostic_message"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.17.0</span>
+</div>
+<ul>
+<li><code>message</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Message to be displayed as a TAP diagnostic.</li>
+</ul>
+<p>This function is used to write TAP diagnostics to the output. Any diagnostic
+information is included at the end of the test's results. This function does
+not return a value.</p>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'top level test'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  t.<span class="hljs-title function_">diagnostic</span>(<span class="hljs-string">'A diagnostic message'</span>);
+});</code></pre>
+<h4><code>context.name</code><span><a class="mark" href="#contextname" id="contextname">#</a></span><a aria-hidden="true" class="legacy" id="test_context_name"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.18.0</span>
+</div>
+<p>The name of the test.</p>
+<h4><code>context.runOnly(shouldRunOnlyTests)</code><span><a class="mark" href="#contextrunonlyshouldrunonlytests" id="contextrunonlyshouldrunonlytests">#</a></span><a aria-hidden="true" class="legacy" id="test_context_runonly_shouldrunonlytests"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.17.0</span>
+</div>
+<ul>
+<li><code>shouldRunOnlyTests</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> Whether or not to run <code>only</code> tests.</li>
+</ul>
+<p>If <code>shouldRunOnlyTests</code> is truthy, the test context will only run tests that
+have the <code>only</code> option set. Otherwise, all tests are run. If Node.js was not
+started with the <a href="cli.html#--test-only"><code>--test-only</code></a> command-line option, this function is a
+no-op.</p>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'top level test'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  <span class="hljs-comment">// The test context can be set to run subtests with the 'only' option.</span>
+  t.<span class="hljs-title function_">runOnly</span>(<span class="hljs-literal">true</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([
+    t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'this subtest is now skipped'</span>),
+    t.<span class="hljs-title function_">test</span>(<span class="hljs-string">'this subtest is run'</span>, { <span class="hljs-attr">only</span>: <span class="hljs-literal">true</span> }),
+  ]);
+});</code></pre>
+<h4><code>context.signal</code><span><a class="mark" href="#contextsignal" id="contextsignal">#</a></span><a aria-hidden="true" class="legacy" id="test_context_signal"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.17.0</span>
+</div>
+<ul>
+<li><a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Can be used to abort test subtasks when the test has been
+aborted.</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'top level test'</span>, <span class="hljs-keyword">async</span> (t) => {
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">'some/uri'</span>, { <span class="hljs-attr">signal</span>: t.<span class="hljs-property">signal</span> });
+});</code></pre>
+<h4><code>context.skip([message])</code><span><a class="mark" href="#contextskipmessage" id="contextskipmessage">#</a></span><a aria-hidden="true" class="legacy" id="test_context_skip_message"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.17.0</span>
+</div>
+<ul>
+<li><code>message</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Optional skip message to be displayed in TAP output.</li>
+</ul>
+<p>This function causes the test's output to indicate the test as skipped. If
+<code>message</code> is provided, it is included in the TAP output. Calling <code>skip()</code> does
+not terminate execution of the test function. This function does not return a
+value.</p>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'top level test'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  <span class="hljs-comment">// Make sure to return here as well if the test contains additional logic.</span>
+  t.<span class="hljs-title function_">skip</span>(<span class="hljs-string">'this is skipped'</span>);
+});</code></pre>
+<h4><code>context.todo([message])</code><span><a class="mark" href="#contexttodomessage" id="contexttodomessage">#</a></span><a aria-hidden="true" class="legacy" id="test_context_todo_message"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.17.0</span>
+</div>
+<ul>
+<li><code>message</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Optional <code>TODO</code> message to be displayed in TAP output.</li>
+</ul>
+<p>This function adds a <code>TODO</code> directive to the test's output. If <code>message</code> is
+provided, it is included in the TAP output. Calling <code>todo()</code> does not terminate
+execution of the test function. This function does not return a value.</p>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'top level test'</span>, <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+  <span class="hljs-comment">// This test is marked as `TODO`</span>
+  t.<span class="hljs-title function_">todo</span>(<span class="hljs-string">'this is a todo'</span>);
+});</code></pre>
+<h4><code>context.test([name][, options][, fn])</code><span><a class="mark" href="#contexttestname-options-fn" id="contexttestname-options-fn">#</a></span><a aria-hidden="true" class="legacy" id="test_context_test_name_options_fn"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.18.0</td>
+<td><p>Add a <code>signal</code> option.</p></td></tr>
+<tr><td>v16.17.0</td>
+<td><p>Add a <code>timeout</code> option.</p></td></tr>
+<tr><td>v16.17.0</td>
+<td><p><span>Added in: v16.17.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The name of the subtest, which is displayed when reporting
+test results. <strong>Default:</strong> The <code>name</code> property of <code>fn</code>, or <code>'&#x3C;anonymous>'</code> if
+<code>fn</code> does not have a name.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Configuration options for the subtest. The following
+properties are supported:
+<ul>
+<li><code>concurrency</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The number of tests that can be run at the same time.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>1</code>.</li>
+<li><code>only</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> If truthy, and the test context is configured to run
+<code>only</code> tests, then this test will be run. Otherwise, the test is skipped.
+<strong>Default:</strong> <code>false</code>.</li>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Allows aborting an in-progress test.</li>
+<li><code>skip</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> If truthy, the test is skipped. If a string is
+provided, that string is displayed in the test results as the reason for
+skipping the test. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>todo</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> If truthy, the test marked as <code>TODO</code>. If a string
+is provided, that string is displayed in the test results as the reason why
+the test is <code>TODO</code>. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>timeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> A number of milliseconds the test will fail after.
+If unspecified, subtests inherit this value from their parent.
+<strong>Default:</strong> <code>Infinity</code>.</li>
+</ul>
+</li>
+<li><code>fn</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> | <a href="https://tc39.es/ecma262/#sec-async-function-constructor" class="type">&#x3C;AsyncFunction></a> The function under test. The first argument
+to this function is a <a href="#class-testcontext"><code>TestContext</code></a> object. If the test uses callbacks,
+the callback function is passed as the second argument. <strong>Default:</strong> A no-op
+function.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Resolved with <code>undefined</code> once the test completes.</li>
+</ul>
+<p>This function is used to create subtests under the current test. This function
+behaves in the same fashion as the top level <a href="#testname-options-fn"><code>test()</code></a> function.</p>
+<pre><code class="language-js"><span class="hljs-title function_">test</span>(<span class="hljs-string">'top level test'</span>, <span class="hljs-keyword">async</span> (t) => {
+  <span class="hljs-keyword">await</span> t.<span class="hljs-title function_">test</span>(
+    <span class="hljs-string">'This is a subtest'</span>,
+    { <span class="hljs-attr">only</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">skip</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">concurrency</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">todo</span>: <span class="hljs-literal">false</span> },
+    <span class="hljs-function">(<span class="hljs-params">t</span>) =></span> {
+      assert.<span class="hljs-title function_">ok</span>(<span class="hljs-string">'some relevant assertion here'</span>);
+    }
+  );
+});</code></pre>
+</section><section><h3>Class: <code>SuiteContext</code><span><a class="mark" href="#class-suitecontext" id="class-suitecontext">#</a></span><a aria-hidden="true" class="legacy" id="test_class_suitecontext"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.17.0</span>
+</div>
+<p>An instance of <code>SuiteContext</code> is passed to each suite function in order to
+interact with the test runner. However, the <code>SuiteContext</code> constructor is not
+exposed as part of the API.</p>
+<h4><code>context.name</code><span><a class="mark" href="#contextname_1" id="contextname_1">#</a></span><a aria-hidden="true" class="legacy" id="test_context_name_1"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.18.0</span>
+</div>
+<p>The name of the suite.</p>
+<h4><code>context.signal</code><span><a class="mark" href="#contextsignal_1" id="contextsignal_1">#</a></span><a aria-hidden="true" class="legacy" id="test_context_signal_1"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.17.0</span>
+</div>
+<ul>
+<li><a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Can be used to abort test subtasks when the test has been
+aborted.</li>
+</ul></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{
+  "type": "module",
+  "source": "doc/api/corepack.md",
+  "introduced_in": "v14.19.0",
+  "stability": 1,
+  "stabilityText": "Experimental",
+  "miscs": [
+    {
+      "textRaw": "Corepack",
+      "name": "Corepack",
+      "introduced_in": "v14.19.0",
+      "type": "misc",
+      "stability": 1,
+      "stabilityText": "Experimental",
+      "desc": "<p><em><a href=\"https://github.com/nodejs/corepack\">Corepack</a></em> is an experimental tool to help with\nmanaging versions of your package managers. It exposes binary proxies for\neach <a href=\"#corepack_supported_package_managers\">supported package manager</a> that, when called, will identify whatever\npackage manager is configured for the current project, transparently install\nit if needed, and finally run it without requiring explicit user interactions.</p>\n<p>This feature simplifies two core workflows:</p>\n<ul>\n<li>\n<p>It eases new contributor onboarding, since they won't have to follow\nsystem-specific installation processes anymore just to have the package\nmanager you want them to.</p>\n</li>\n<li>\n<p>It allows you to ensure that everyone in your team will use exactly the\npackage manager version you intend them to, without them having to\nmanually synchronize it each time you need to make an update.</p>\n</li>\n</ul>",
+      "miscs": [
+        {
+          "textRaw": "Workflows",
+          "name": "workflows",
+          "modules": [
+            {
+              "textRaw": "Enabling the feature",
+              "name": "enabling_the_feature",
+              "desc": "<p>Due to its experimental status, Corepack currently needs to be explicitly\nenabled to have any effect. To do that simply run <a href=\"https://github.com/nodejs/corepack#corepack-enable--name\"><code>corepack enable</code></a>, which\nwill set up the symlinks in your environment, next to the <code>node</code> binary\n(and overwrite the existing symlinks if necessary).</p>\n<p>From this point forward, any call to the <a href=\"#corepack_supported_package_managers\">supported binaries</a> will work\nwithout further setup. Should you experience a problem, just run\n<a href=\"https://github.com/nodejs/corepack#corepack-disable--name\"><code>corepack disable</code></a> to remove the proxies from your system (and consider\nopening up an issue on the <a href=\"https://github.com/nodejs/corepack\">Corepack repository</a> to let us know).</p>",
+              "type": "module",
+              "displayName": "Enabling the feature"
+            },
+            {
+              "textRaw": "Configuring a package",
+              "name": "configuring_a_package",
+              "desc": "<p>The Corepack proxies will find the closest <a href=\"packages.html#packages_node_js_package_json_field_definitions\"><code>package.json</code></a> file in your\ncurrent directory hierarchy to extract its <a href=\"packages.html#packages_packagemanager\"><code>\"packageManager\"</code></a> property.</p>\n<p>If the value corresponds to a <a href=\"#corepack_supported_package_managers\">supported package manager</a>, Corepack will make\nsure that all calls to the relevant binaries are run against the requested\nversion, downloading it on demand if needed, and aborting if it cannot be\nsuccessfully retrieved.</p>",
+              "type": "module",
+              "displayName": "Configuring a package"
+            },
+            {
+              "textRaw": "Upgrading the global versions",
+              "name": "upgrading_the_global_versions",
+              "desc": "<p>When running outside of an existing project (for example when running\n<code>yarn init</code>), Corepack will by default use predefined versions roughly\ncorresponding to the latest stable releases from each tool. Those versions can\nbe easily overriden by running the <a href=\"https://github.com/nodejs/corepack#corepack-prepare--nameversion\"><code>corepack prepare</code></a> command along with the\npackage manager version you wish to set:</p>\n<pre><code class=\"language-bash\">corepack prepare yarn@x.y.z --activate\n</code></pre>",
+              "type": "module",
+              "displayName": "Upgrading the global versions"
+            },
+            {
+              "textRaw": "Offline workflow",
+              "name": "offline_workflow",
+              "desc": "<p>Many production environments don't have network access. Since Corepack\nusually downloads the package manager releases straight from their registries,\nit can conflict with such environments. To avoid that happening, call the\n<a href=\"https://github.com/nodejs/corepack#corepack-prepare--nameversion\"><code>corepack prepare</code></a> command while you still have network access (typically at\nthe same time you're preparing your deploy image). This will ensure that the\nrequired package managers are available even without network access.</p>\n<p>The <code>prepare</code> command has <a href=\"https://github.com/nodejs/corepack#utility-commands\">various flags</a>, consult the detailed\n<a href=\"https://github.com/nodejs/corepack#readme\">Corepack documentation</a> for more information on the matter.</p>",
+              "type": "module",
+              "displayName": "Offline workflow"
+            }
+          ],
+          "type": "misc",
+          "displayName": "Workflows"
+        },
+        {
+          "textRaw": "Supported package managers",
+          "name": "supported_package_managers",
+          "desc": "<p>The following binaries are provided through Corepack:</p>\n<table>\n<thead>\n<tr>\n<th>Package manager</th>\n<th>Binary names</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><a href=\"https://yarnpkg.com\">Yarn</a></td>\n<td><code>yarn</code>, <code>yarnpkg</code></td>\n</tr>\n<tr>\n<td><a href=\"https://pnpm.js.org\">pnpm</a></td>\n<td><code>pnpm</code>, <code>pnpx</code></td>\n</tr>\n</tbody>\n</table>",
+          "type": "misc",
+          "displayName": "Supported package managers"
+        },
+        {
+          "textRaw": "Common questions",
+          "name": "common_questions",
+          "modules": [
+            {
+              "textRaw": "How does Corepack currently interact with npm?",
+              "name": "how_does_corepack_currently_interact_with_npm?",
+              "desc": "<p>While Corepack could easily support npm like any other package manager, its\nshims aren't currently enabled by default. This has a few consequences:</p>\n<ul>\n<li>It's always possible to run a <code>npm</code> command within a project configured to</li>\n</ul>\n<p>be used with another package manager, since Corepack cannot intercept it.</p>\n<ul>\n<li>While <code>npm</code> is a valid option in the <a href=\"packages.html#packages_packagemanager\"><code>\"packageManager\"</code></a> property, the</li>\n</ul>\n<p>lack of shim will cause the global npm to be used.</p>",
+              "type": "module",
+              "displayName": "How does Corepack currently interact with npm?"
+            },
+            {
+              "textRaw": "Running `npm install -g yarn` doesn't work",
+              "name": "running_`npm_install_-g_yarn`_doesn't_work",
+              "desc": "<p>npm prevents accidentally overriding the Corepack binaries when doing a global\ninstall. To avoid this problem, consider one of the following options:</p>\n<ul>\n<li>Don't run this command anymore; Corepack will provide the package manager</li>\n</ul>\n<p>binaries anyway and will ensure that the requested versions are always\navailable, so installing the package managers explicitly isn't needed anymore.</p>\n<ul>\n<li>Add the <code>--force</code> flag to <code>npm install</code>; this will tell npm that it's fine to</li>\n</ul>\n<p>override binaries, but you'll erase the Corepack ones in the process (should\nthat happen, run <a href=\"https://github.com/nodejs/corepack#corepack-enable--name\"><code>corepack enable</code></a> again to add them back).</p>",
+              "type": "module",
+              "displayName": "Running `npm install -g yarn` doesn't work"
+            }
+          ],
+          "type": "misc",
+          "displayName": "Common questions"
+        }
+      ]
+    }
+  ]
+}

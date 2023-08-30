@@ -1,0 +1,475 @@
+{
+  "type": "module",
+  "source": "doc/api/packages.md",
+  "introduced_in": "v12.20.0",
+  "meta": {
+    "changes": [
+      {
+        "version": [
+          "v14.13.0"
+        ],
+        "pr-url": "https://github.com/nodejs/node/pull/34718",
+        "description": "Add support for `\"exports\"` patterns."
+      },
+      {
+        "version": [
+          "v14.6.0",
+          "v12.19.0"
+        ],
+        "pr-url": "https://github.com/nodejs/node/pull/34117",
+        "description": "Add package `\"imports\"` field."
+      },
+      {
+        "version": [
+          "v13.7.0",
+          "v12.16.0"
+        ],
+        "pr-url": "https://github.com/nodejs/node/pull/31001",
+        "description": "Unflag conditional exports."
+      },
+      {
+        "version": [
+          "v13.6.0",
+          "v12.16.0"
+        ],
+        "pr-url": "https://github.com/nodejs/node/pull/31002",
+        "description": "Unflag self-referencing a package using its name."
+      },
+      {
+        "version": "v12.7.0",
+        "pr-url": "https://github.com/nodejs/node/pull/28568",
+        "description": "Introduce `\"exports\"` `package.json` field as a more powerful alternative to the classic `\"main\"` field."
+      },
+      {
+        "version": "v12.0.0",
+        "pr-url": "https://github.com/nodejs/node/pull/26745",
+        "description": "Add support for ES modules using `.js` file extension via `package.json` `\"type\"` field."
+      }
+    ]
+  },
+  "miscs": [
+    {
+      "textRaw": "Modules: Packages",
+      "name": "Modules: Packages",
+      "introduced_in": "v12.20.0",
+      "type": "misc",
+      "meta": {
+        "changes": [
+          {
+            "version": [
+              "v14.13.0"
+            ],
+            "pr-url": "https://github.com/nodejs/node/pull/34718",
+            "description": "Add support for `\"exports\"` patterns."
+          },
+          {
+            "version": [
+              "v14.6.0",
+              "v12.19.0"
+            ],
+            "pr-url": "https://github.com/nodejs/node/pull/34117",
+            "description": "Add package `\"imports\"` field."
+          },
+          {
+            "version": [
+              "v13.7.0",
+              "v12.16.0"
+            ],
+            "pr-url": "https://github.com/nodejs/node/pull/31001",
+            "description": "Unflag conditional exports."
+          },
+          {
+            "version": [
+              "v13.6.0",
+              "v12.16.0"
+            ],
+            "pr-url": "https://github.com/nodejs/node/pull/31002",
+            "description": "Unflag self-referencing a package using its name."
+          },
+          {
+            "version": "v12.7.0",
+            "pr-url": "https://github.com/nodejs/node/pull/28568",
+            "description": "Introduce `\"exports\"` `package.json` field as a more powerful alternative to the classic `\"main\"` field."
+          },
+          {
+            "version": "v12.0.0",
+            "pr-url": "https://github.com/nodejs/node/pull/26745",
+            "description": "Add support for ES modules using `.js` file extension via `package.json` `\"type\"` field."
+          }
+        ]
+      },
+      "miscs": [
+        {
+          "textRaw": "Introduction",
+          "name": "introduction",
+          "desc": "<p>A package is a folder tree described by a <code>package.json</code> file. The package\nconsists of the folder containing the <code>package.json</code> file and all subfolders\nuntil the next folder containing another <code>package.json</code> file, or a folder\nnamed <code>node_modules</code>.</p>\n<p>This page provides guidance for package authors writing <code>package.json</code> files\nalong with a reference for the <a href=\"#packages_node_js_package_json_field_definitions\"><code>package.json</code></a> fields defined by Node.js.</p>",
+          "type": "misc",
+          "displayName": "Introduction"
+        },
+        {
+          "textRaw": "Determining module system",
+          "name": "determining_module_system",
+          "desc": "<p>Node.js will treat the following as <a href=\"esm.html\">ES modules</a> when passed to <code>node</code> as the\ninitial input, or when referenced by <code>import</code> statements within ES module code:</p>\n<ul>\n<li>\n<p>Files ending in <code>.mjs</code>.</p>\n</li>\n<li>\n<p>Files ending in <code>.js</code> when the nearest parent <code>package.json</code> file contains a\ntop-level <a href=\"#packages_type\"><code>\"type\"</code></a> field with a value of <code>\"module\"</code>.</p>\n</li>\n<li>\n<p>Strings passed in as an argument to <code>--eval</code>, or piped to <code>node</code> via <code>STDIN</code>,\nwith the flag <code>--input-type=module</code>.</p>\n</li>\n</ul>\n<p>Node.js will treat as <a href=\"modules.html\">CommonJS</a> all other forms of input, such as <code>.js</code> files\nwhere the nearest parent <code>package.json</code> file contains no top-level <code>\"type\"</code>\nfield, or string input without the flag <code>--input-type</code>. This behavior is to\npreserve backward compatibility. However, now that Node.js supports both\nCommonJS and ES modules, it is best to be explicit whenever possible. Node.js\nwill treat the following as CommonJS when passed to <code>node</code> as the initial input,\nor when referenced by <code>import</code> statements within ES module code:</p>\n<ul>\n<li>\n<p>Files ending in <code>.cjs</code>.</p>\n</li>\n<li>\n<p>Files ending in <code>.js</code> when the nearest parent <code>package.json</code> file contains a\ntop-level field <a href=\"#packages_type\"><code>\"type\"</code></a> with a value of <code>\"commonjs\"</code>.</p>\n</li>\n<li>\n<p>Strings passed in as an argument to <code>--eval</code> or <code>--print</code>, or piped to <code>node</code>\nvia <code>STDIN</code>, with the flag <code>--input-type=commonjs</code>.</p>\n</li>\n</ul>\n<p>Package authors should include the <a href=\"#packages_type\"><code>\"type\"</code></a> field, even in packages where\nall sources are CommonJS. Being explicit about the <code>type</code> of the package will\nfuture-proof the package in case the default type of Node.js ever changes, and\nit will also make things easier for build tools and loaders to determine how the\nfiles in the package should be interpreted.</p>",
+          "modules": [
+            {
+              "textRaw": "`package.json` and file extensions",
+              "name": "`package.json`_and_file_extensions",
+              "desc": "<p>Within a package, the <a href=\"#packages_node_js_package_json_field_definitions\"><code>package.json</code></a> <a href=\"#packages_type\"><code>\"type\"</code></a> field defines how\nNode.js should interpret <code>.js</code> files. If a <code>package.json</code> file does not have a\n<code>\"type\"</code> field, <code>.js</code> files are treated as <a href=\"modules.html\">CommonJS</a>.</p>\n<p>A <code>package.json</code> <code>\"type\"</code> value of <code>\"module\"</code> tells Node.js to interpret <code>.js</code>\nfiles within that package as using <a href=\"esm.html\">ES module</a> syntax.</p>\n<p>The <code>\"type\"</code> field applies not only to initial entry points (<code>node my-app.js</code>)\nbut also to files referenced by <code>import</code> statements and <code>import()</code> expressions.</p>\n<pre><code class=\"language-js\">// my-app.js, treated as an ES module because there is a package.json\n// file in the same folder with \"type\": \"module\".\n\nimport './startup/init.js';\n// Loaded as ES module since ./startup contains no package.json file,\n// and therefore inherits the \"type\" value from one level up.\n\nimport 'commonjs-package';\n// Loaded as CommonJS since ./node_modules/commonjs-package/package.json\n// lacks a \"type\" field or contains \"type\": \"commonjs\".\n\nimport './node_modules/commonjs-package/index.js';\n// Loaded as CommonJS since ./node_modules/commonjs-package/package.json\n// lacks a \"type\" field or contains \"type\": \"commonjs\".\n</code></pre>\n<p>Files ending with <code>.mjs</code> are always loaded as <a href=\"esm.html\">ES modules</a> regardless of\nthe nearest parent <code>package.json</code>.</p>\n<p>Files ending with <code>.cjs</code> are always loaded as <a href=\"modules.html\">CommonJS</a> regardless of the\nnearest parent <code>package.json</code>.</p>\n<pre><code class=\"language-js\">import './legacy-file.cjs';\n// Loaded as CommonJS since .cjs is always loaded as CommonJS.\n\nimport 'commonjs-package/src/index.mjs';\n// Loaded as ES module since .mjs is always loaded as ES module.\n</code></pre>\n<p>The <code>.mjs</code> and <code>.cjs</code> extensions can be used to mix types within the same\npackage:</p>\n<ul>\n<li>\n<p>Within a <code>\"type\": \"module\"</code> package, Node.js can be instructed to\ninterpret a particular file as <a href=\"modules.html\">CommonJS</a> by naming it with a <code>.cjs</code>\nextension (since both <code>.js</code> and <code>.mjs</code> files are treated as ES modules within\na <code>\"module\"</code> package).</p>\n</li>\n<li>\n<p>Within a <code>\"type\": \"commonjs\"</code> package, Node.js can be instructed to\ninterpret a particular file as an <a href=\"esm.html\">ES module</a> by naming it with an <code>.mjs</code>\nextension (since both <code>.js</code> and <code>.cjs</code> files are treated as CommonJS within a\n<code>\"commonjs\"</code> package).</p>\n</li>\n</ul>",
+              "type": "module",
+              "displayName": "`package.json` and file extensions"
+            },
+            {
+              "textRaw": "`--input-type` flag",
+              "name": "`--input-type`_flag",
+              "meta": {
+                "added": [
+                  "v12.0.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>Strings passed in as an argument to <code>--eval</code> (or <code>-e</code>), or piped to <code>node</code> via\n<code>STDIN</code>, are treated as <a href=\"esm.html\">ES modules</a> when the <code>--input-type=module</code> flag\nis set.</p>\n<pre><code class=\"language-bash\">node --input-type=module --eval \"import { sep } from 'path'; console.log(sep);\"\n\necho \"import { sep } from 'path'; console.log(sep);\" | node --input-type=module\n</code></pre>\n<p>For completeness there is also <code>--input-type=commonjs</code>, for explicitly running\nstring input as CommonJS. This is the default behavior if <code>--input-type</code> is\nunspecified.</p>",
+              "type": "module",
+              "displayName": "`--input-type` flag"
+            }
+          ],
+          "type": "misc",
+          "displayName": "Determining module system"
+        },
+        {
+          "textRaw": "Determining package manager",
+          "name": "determining_package_manager",
+          "stability": 1,
+          "stabilityText": "Experimental",
+          "desc": "<p>While all Node.js projects are expected to be installable by all package\nmanagers once published, their development teams are often required to use one\nspecific package manager. To make this process easier, Node.js ships with a\ntool called <a href=\"corepack.html\">Corepack</a> that aims to make all package managers transparently\navailable in your environment - provided you have Node.js installed.</p>\n<p>By default Corepack won't enforce any specific package manager and will use\nthe generic \"Last Known Good\" versions associated with each Node.js release,\nbut you can improve this experience by setting the <a href=\"#packages_packagemanager\"><code>\"packageManager\"</code></a> field\nin your project's <code>package.json</code>.</p>",
+          "type": "misc",
+          "displayName": "Determining package manager"
+        },
+        {
+          "textRaw": "Package entry points",
+          "name": "package_entry_points",
+          "desc": "<p>In a package’s <code>package.json</code> file, two fields can define entry points for a\npackage: <a href=\"#packages_main\"><code>\"main\"</code></a> and <a href=\"#packages_exports\"><code>\"exports\"</code></a>. The <a href=\"#packages_main\"><code>\"main\"</code></a> field is supported\nin all versions of Node.js, but its capabilities are limited: it only defines\nthe main entry point of the package.</p>\n<p>The <a href=\"#packages_exports\"><code>\"exports\"</code></a> field provides an alternative to <a href=\"#packages_main\"><code>\"main\"</code></a> where the\npackage main entry point can be defined while also encapsulating the package,\n<strong>preventing any other entry points besides those defined in <a href=\"#packages_exports\"><code>\"exports\"</code></a></strong>.\nThis encapsulation allows module authors to define a public interface for\ntheir package.</p>\n<p>If both <a href=\"#packages_exports\"><code>\"exports\"</code></a> and <a href=\"#packages_main\"><code>\"main\"</code></a> are defined, the <a href=\"#packages_exports\"><code>\"exports\"</code></a> field\ntakes precedence over <a href=\"#packages_main\"><code>\"main\"</code></a>. <a href=\"#packages_exports\"><code>\"exports\"</code></a> are not specific to ES\nmodules or CommonJS; <a href=\"#packages_main\"><code>\"main\"</code></a> is overridden by <a href=\"#packages_exports\"><code>\"exports\"</code></a> if it\nexists. As such <a href=\"#packages_main\"><code>\"main\"</code></a> cannot be used as a fallback for CommonJS but it\ncan be used as a fallback for legacy versions of Node.js that do not support the\n<a href=\"#packages_exports\"><code>\"exports\"</code></a> field.</p>\n<p><a href=\"#packages_conditional_exports\">Conditional exports</a> can be used within <a href=\"#packages_exports\"><code>\"exports\"</code></a> to define different\npackage entry points per environment, including whether the package is\nreferenced via <code>require</code> or via <code>import</code>. For more information about supporting\nboth CommonJS and ES Modules in a single package please consult\n<a href=\"#packages_dual_commonjs_es_module_packages\">the dual CommonJS/ES module packages section</a>.</p>\n<p><strong>Warning</strong>: Introducing the <a href=\"#packages_exports\"><code>\"exports\"</code></a> field prevents consumers of a\npackage from using any entry points that are not defined, including the\n<a href=\"#packages_node_js_package_json_field_definitions\"><code>package.json</code></a> (e.g. <code>require('your-package/package.json')</code>. <strong>This will\nlikely be a breaking change.</strong></p>\n<p>To make the introduction of <a href=\"#packages_exports\"><code>\"exports\"</code></a> non-breaking, ensure that every\npreviously supported entry point is exported. It is best to explicitly specify\nentry points so that the package’s public API is well-defined. For example,\na project that previous exported <code>main</code>, <code>lib</code>,\n<code>feature</code>, and the <code>package.json</code> could use the following <code>package.exports</code>:</p>\n<pre><code class=\"language-json\">{\n  \"name\": \"my-mod\",\n  \"exports\": {\n    \".\": \"./lib/index.js\",\n    \"./lib\": \"./lib/index.js\",\n    \"./lib/index\": \"./lib/index.js\",\n    \"./lib/index.js\": \"./lib/index.js\",\n    \"./feature\": \"./feature/index.js\",\n    \"./feature/index.js\": \"./feature/index.js\",\n    \"./package.json\": \"./package.json\"\n  }\n}\n</code></pre>\n<p>Alternatively a project could choose to export entire folders:</p>\n<pre><code class=\"language-json\">{\n  \"name\": \"my-mod\",\n  \"exports\": {\n    \".\": \"./lib/index.js\",\n    \"./lib\": \"./lib/index.js\",\n    \"./lib/*\": \"./lib/*.js\",\n    \"./feature\": \"./feature/index.js\",\n    \"./feature/*\": \"./feature/*.js\",\n    \"./package.json\": \"./package.json\"\n  }\n}\n</code></pre>\n<p>As a last resort, package encapsulation can be disabled entirely by creating an\nexport for the root of the package <code>\"./*\": \"./*\"</code>. This exposes every file\nin the package at the cost of disabling the encapsulation and potential tooling\nbenefits this provides. As the ES Module loader in Node.js enforces the use of\n<a href=\"esm.html#esm_mandatory_file_extensions\">the full specifier path</a>, exporting the root rather than being explicit\nabout entry is less expressive than either of the prior examples. Not only\nis encapsulation lost but module consumers are unable to\n<code>import feature from 'my-mod/feature'</code> as they need to provide the full\npath <code>import feature from 'my-mod/feature/index.js</code>.</p>",
+          "modules": [
+            {
+              "textRaw": "Main entry point export",
+              "name": "main_entry_point_export",
+              "desc": "<p>To set the main entry point for a package, it is advisable to define both\n<a href=\"#packages_exports\"><code>\"exports\"</code></a> and <a href=\"#packages_main\"><code>\"main\"</code></a> in the package’s <a href=\"#packages_node_js_package_json_field_definitions\"><code>package.json</code></a> file:</p>\n<pre><code class=\"language-json\">{\n  \"main\": \"./main.js\",\n  \"exports\": \"./main.js\"\n}\n</code></pre>\n<p>When the <a href=\"#packages_exports\"><code>\"exports\"</code></a> field is defined, all subpaths of the package are\nencapsulated and no longer available to importers. For example,\n<code>require('pkg/subpath.js')</code> throws an <a href=\"errors.html#errors_err_package_path_not_exported\"><code>ERR_PACKAGE_PATH_NOT_EXPORTED</code></a>\nerror.</p>\n<p>This encapsulation of exports provides more reliable guarantees\nabout package interfaces for tools and when handling semver upgrades for a\npackage. It is not a strong encapsulation since a direct require of any\nabsolute subpath of the package such as\n<code>require('/path/to/node_modules/pkg/subpath.js')</code> will still load <code>subpath.js</code>.</p>",
+              "type": "module",
+              "displayName": "Main entry point export"
+            },
+            {
+              "textRaw": "Subpath exports",
+              "name": "subpath_exports",
+              "meta": {
+                "added": [
+                  "v12.7.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>When using the <a href=\"#packages_exports\"><code>\"exports\"</code></a> field, custom subpaths can be defined along\nwith the main entry point by treating the main entry point as the\n<code>\".\"</code> subpath:</p>\n<pre><code class=\"language-json\">{\n  \"main\": \"./main.js\",\n  \"exports\": {\n    \".\": \"./main.js\",\n    \"./submodule\": \"./src/submodule.js\"\n  }\n}\n</code></pre>\n<p>Now only the defined subpath in <a href=\"#packages_exports\"><code>\"exports\"</code></a> can be imported by a consumer:</p>\n<pre><code class=\"language-js\">import submodule from 'es-module-package/submodule';\n// Loads ./node_modules/es-module-package/src/submodule.js\n</code></pre>\n<p>While other subpaths will error:</p>\n<pre><code class=\"language-js\">import submodule from 'es-module-package/private-module.js';\n// Throws ERR_PACKAGE_PATH_NOT_EXPORTED\n</code></pre>",
+              "type": "module",
+              "displayName": "Subpath exports"
+            },
+            {
+              "textRaw": "Subpath imports",
+              "name": "subpath_imports",
+              "meta": {
+                "added": [
+                  "v14.6.0",
+                  "v12.19.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>In addition to the <a href=\"#packages_exports\"><code>\"exports\"</code></a> field, it is possible to define internal\npackage import maps that only apply to import specifiers from within the package\nitself.</p>\n<p>Entries in the imports field must always start with <code>#</code> to ensure they are\ndisambiguated from package specifiers.</p>\n<p>For example, the imports field can be used to gain the benefits of conditional\nexports for internal modules:</p>\n<pre><code class=\"language-json\">// package.json\n{\n  \"imports\": {\n    \"#dep\": {\n      \"node\": \"dep-node-native\",\n      \"default\": \"./dep-polyfill.js\"\n    }\n  },\n  \"dependencies\": {\n    \"dep-node-native\": \"^1.0.0\"\n  }\n}\n</code></pre>\n<p>where <code>import '#dep'</code> does not get the resolution of the external package\n<code>dep-node-native</code> (including its exports in turn), and instead gets the local\nfile <code>./dep-polyfill.js</code> relative to the package in other environments.</p>\n<p>Unlike the <code>\"exports\"</code> field, the <code>\"imports\"</code> field permits mapping to external\npackages.</p>\n<p>The resolution rules for the imports field are otherwise\nanalogous to the exports field.</p>",
+              "type": "module",
+              "displayName": "Subpath imports"
+            },
+            {
+              "textRaw": "Subpath patterns",
+              "name": "subpath_patterns",
+              "meta": {
+                "added": [
+                  "v14.13.0",
+                  "v12.20.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>For packages with a small number of exports or imports, we recommend\nexplicitly listing each exports subpath entry. But for packages that have\nlarge numbers of subpaths, this might cause <code>package.json</code> bloat and\nmaintenance issues.</p>\n<p>For these use cases, subpath export patterns can be used instead:</p>\n<pre><code class=\"language-json\">// ./node_modules/es-module-package/package.json\n{\n  \"exports\": {\n    \"./features/*\": \"./src/features/*.js\"\n  },\n  \"imports\": {\n    \"#internal/*\": \"./src/internal/*.js\"\n  }\n}\n</code></pre>\n<p><strong><code>*</code> maps expose nested subpaths as it is a string replacement syntax\nonly.</strong></p>\n<p>All instances of <code>*</code> on the right hand side will then be replaced with this\nvalue, including if it contains any <code>/</code> separators.</p>\n<pre><code class=\"language-js\">import featureX from 'es-module-package/features/x';\n// Loads ./node_modules/es-module-package/src/features/x.js\n\nimport featureY from 'es-module-package/features/y/y';\n// Loads ./node_modules/es-module-package/src/features/y/y.js\n\nimport internalZ from '#internal/z';\n// Loads ./node_modules/es-module-package/src/internal/z.js\n</code></pre>\n<p>This is a direct static replacement without any special handling for file\nextensions. In the previous example, <code>pkg/features/x.json</code> would be resolved to\n<code>./src/features/x.json.js</code> in the mapping.</p>\n<p>The property of exports being statically enumerable is maintained with exports\npatterns since the individual exports for a package can be determined by\ntreating the right hand side target pattern as a <code>**</code> glob against the list of\nfiles within the package. Because <code>node_modules</code> paths are forbidden in exports\ntargets, this expansion is dependent on only the files of the package itself.</p>\n<p>To exclude private subfolders from patterns, <code>null</code> targets can be used:</p>\n<pre><code class=\"language-json\">// ./node_modules/es-module-package/package.json\n{\n  \"exports\": {\n    \"./features/*\": \"./src/features/*.js\",\n    \"./features/private-internal/*\": null\n  }\n}\n</code></pre>\n<pre><code class=\"language-js\">import featureInternal from 'es-module-package/features/private-internal/m';\n// Throws: ERR_PACKAGE_PATH_NOT_EXPORTED\n\nimport featureX from 'es-module-package/features/x';\n// Loads ./node_modules/es-module-package/src/features/x.js\n</code></pre>",
+              "type": "module",
+              "displayName": "Subpath patterns"
+            },
+            {
+              "textRaw": "Exports sugar",
+              "name": "exports_sugar",
+              "meta": {
+                "added": [
+                  "v12.11.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>If the <code>\".\"</code> export is the only export, the <a href=\"#packages_exports\"><code>\"exports\"</code></a> field provides sugar\nfor this case being the direct <a href=\"#packages_exports\"><code>\"exports\"</code></a> field value.</p>\n<p>If the <code>\".\"</code> export has a fallback array or string value, then the\n<a href=\"#packages_exports\"><code>\"exports\"</code></a> field can be set to this value directly.</p>\n<pre><code class=\"language-json\">{\n  \"exports\": {\n    \".\": \"./main.js\"\n  }\n}\n</code></pre>\n<p>can be written:</p>\n<pre><code class=\"language-json\">{\n  \"exports\": \"./main.js\"\n}\n</code></pre>",
+              "type": "module",
+              "displayName": "Exports sugar"
+            },
+            {
+              "textRaw": "Conditional exports",
+              "name": "conditional_exports",
+              "meta": {
+                "added": [
+                  "v13.2.0",
+                  "v12.16.0"
+                ],
+                "changes": [
+                  {
+                    "version": [
+                      "v13.7.0",
+                      "v12.16.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/31001",
+                    "description": "Unflag conditional exports."
+                  }
+                ]
+              },
+              "desc": "<p>Conditional exports provide a way to map to different paths depending on\ncertain conditions. They are supported for both CommonJS and ES module imports.</p>\n<p>For example, a package that wants to provide different ES module exports for\n<code>require()</code> and <code>import</code> can be written:</p>\n<pre><code class=\"language-json\">// package.json\n{\n  \"main\": \"./main-require.cjs\",\n  \"exports\": {\n    \"import\": \"./main-module.js\",\n    \"require\": \"./main-require.cjs\"\n  },\n  \"type\": \"module\"\n}\n</code></pre>\n<p>Node.js implements the following conditions:</p>\n<ul>\n<li><code>\"import\"</code> - matches when the package is loaded via <code>import</code> or\n<code>import()</code>, or via any top-level import or resolve operation by the\nECMAScript module loader. Applies regardless of the module format of the\ntarget file. <em>Always mutually exclusive with <code>\"require\"</code>.</em></li>\n<li><code>\"require\"</code> - matches when the package is loaded via <code>require()</code>. The\nreferenced file should be loadable with <code>require()</code> although the condition\nmatches regardless of the module format of the target file. Expected\nformats include CommonJS, JSON, and native addons but not ES modules as\n<code>require()</code> doesn't support them. <em>Always mutually exclusive with\n<code>\"import\"</code>.</em></li>\n<li><code>\"node\"</code> - matches for any Node.js environment. Can be a CommonJS or ES\nmodule file. <em>This condition should always come after <code>\"import\"</code> or\n<code>\"require\"</code>.</em></li>\n<li><code>\"node-addons\"</code> - similar to <code>\"node\"</code> and matches for any Node.js environment.\nThis condition can be used to provide an entry point which uses native C++\naddons as opposed to an entry point which is more universal and doesn't rely\non native addons. This condition can be disabled via the\n<a href=\"cli.html#cli_no_addons\"><code>--no-addons</code> flag</a>.</li>\n<li><code>\"default\"</code> - the generic fallback that always matches. Can be a CommonJS\nor ES module file. <em>This condition should always come last.</em></li>\n</ul>\n<p>Within the <a href=\"#packages_exports\"><code>\"exports\"</code></a> object, key order is significant. During condition\nmatching, earlier entries have higher priority and take precedence over later\nentries. <em>The general rule is that conditions should be from most specific to\nleast specific in object order</em>.</p>\n<p>Using the <code>\"import\"</code> and <code>\"require\"</code> conditions can lead to some hazards,\nwhich are further explained in <a href=\"#packages_dual_commonjs_es_module_packages\">the dual CommonJS/ES module packages section</a>.</p>\n<p>Conditional exports can also be extended to exports subpaths, for example:</p>\n<pre><code class=\"language-json\">{\n  \"main\": \"./main.js\",\n  \"exports\": {\n    \".\": \"./main.js\",\n    \"./feature\": {\n      \"node\": \"./feature-node.js\",\n      \"default\": \"./feature.js\"\n    }\n  }\n}\n</code></pre>\n<p>Defines a package where <code>require('pkg/feature')</code> and <code>import 'pkg/feature'</code>\ncould provide different implementations between Node.js and other JS\nenvironments.</p>\n<p>When using environment branches, always include a <code>\"default\"</code> condition where\npossible. Providing a <code>\"default\"</code> condition ensures that any unknown JS\nenvironments are able to use this universal implementation, which helps avoid\nthese JS environments from having to pretend to be existing environments in\norder to support packages with conditional exports. For this reason, using\n<code>\"node\"</code> and <code>\"default\"</code> condition branches is usually preferable to using\n<code>\"node\"</code> and <code>\"browser\"</code> condition branches.</p>",
+              "type": "module",
+              "displayName": "Conditional exports"
+            },
+            {
+              "textRaw": "Nested conditions",
+              "name": "nested_conditions",
+              "desc": "<p>In addition to direct mappings, Node.js also supports nested condition objects.</p>\n<p>For example, to define a package that only has dual mode entry points for\nuse in Node.js but not the browser:</p>\n<pre><code class=\"language-json\">{\n  \"main\": \"./main.js\",\n  \"exports\": {\n    \"node\": {\n      \"import\": \"./feature-node.mjs\",\n      \"require\": \"./feature-node.cjs\"\n    },\n    \"default\": \"./feature.mjs\",\n  }\n}\n</code></pre>\n<p>Conditions continue to be matched in order as with flat conditions. If\na nested conditional does not have any mapping it will continue checking\nthe remaining conditions of the parent condition. In this way nested\nconditions behave analogously to nested JavaScript <code>if</code> statements.</p>",
+              "type": "module",
+              "displayName": "Nested conditions"
+            },
+            {
+              "textRaw": "Resolving user conditions",
+              "name": "resolving_user_conditions",
+              "meta": {
+                "added": [
+                  "v14.9.0",
+                  "v12.19.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>When running Node.js, custom user conditions can be added with the\n<code>--conditions</code> flag:</p>\n<pre><code class=\"language-bash\">node --conditions=development main.js\n</code></pre>\n<p>which would then resolve the <code>\"development\"</code> condition in package imports and\nexports, while resolving the existing <code>\"node\"</code>, <code>\"node-addons\"</code>, <code>\"default\"</code>,\n<code>\"import\"</code>, and <code>\"require\"</code> conditions as appropriate.</p>\n<p>Any number of custom conditions can be set with repeat flags.</p>",
+              "type": "module",
+              "displayName": "Resolving user conditions"
+            },
+            {
+              "textRaw": "Conditions Definitions",
+              "name": "conditions_definitions",
+              "desc": "<p>The <code>\"import\"</code>, <code>\"require\"</code>, <code>\"node\"</code>, <code>\"node-addons\"</code> and <code>\"default\"</code>\nconditions are defined and implemented in Node.js core,\n<a href=\"#packages_conditional_exports\">as specified above</a>.</p>\n<p>The <code>\"node-addons\"</code> condition can be used to provide an entry point which\nuses native C++ addons. However, this condition can be disabled via the\n<a href=\"cli.html#cli_no_addons\"><code>--no-addons</code> flag</a>. When using <code>\"node-addons\"</code>, it's recommended to treat\n<code>\"default\"</code> as an enhancement that provides a more universal entry point, e.g.\nusing WebAssembly instead of a native addon.</p>\n<p>Other condition strings are unknown to Node.js and thus ignored by default.\nRuntimes or tools other than Node.js can use them at their discretion.</p>\n<p>These user conditions can be enabled in Node.js via the <a href=\"#packages_resolving_user_conditions\"><code>--conditions</code>\nflag</a>.</p>\n<p>The following condition definitions are currently endorsed by Node.js:</p>\n<ul>\n<li><code>\"browser\"</code> - any environment which implements a standard subset of global\nbrowser APIs available from JavaScript in web browsers, including the DOM\nAPIs.</li>\n<li><code>\"development\"</code> - can be used to define a development-only environment\nentry point. <em>Must always be mutually exclusive with <code>\"production\"</code>.</em></li>\n<li><code>\"production\"</code> - can be used to define a production environment entry\npoint. <em>Must always be mutually exclusive with <code>\"development\"</code>.</em></li>\n</ul>\n<p>The above user conditions can be enabled in Node.js via the <a href=\"#packages_resolving_user_conditions\"><code>--conditions</code>\nflag</a>.</p>\n<p>Platform specific conditions such as <code>\"deno\"</code>, <code>\"electron\"</code>, or <code>\"react-native\"</code>\nmay be used, but while there remain no implementation or integration intent\nfrom these platforms, the above are not explicitly endorsed by Node.js.</p>\n<p>New conditions definitions may be added to this list by creating a pull request\nto the <a href=\"https://github.com/nodejs/node/blob/HEAD/doc/api/packages.md#conditions-definitions\">Node.js documentation for this section</a>. The requirements for listing\na new condition definition here are that:</p>\n<ul>\n<li>The definition should be clear and unambiguous for all implementers.</li>\n<li>The use case for why the condition is needed should be clearly justified.</li>\n<li>There should exist sufficient existing implementation usage.</li>\n<li>The condition name should not conflict with another condition definition or\ncondition in wide usage.</li>\n<li>The listing of the condition definition should provide a coordination\nbenefit to the ecosystem that wouldn't otherwise be possible. For example,\nthis would not necessarily be the case for company-specific or\napplication-specific conditions.</li>\n</ul>\n<p>The above definitions may be moved to a dedicated conditions registry in due\ncourse.</p>",
+              "type": "module",
+              "displayName": "Conditions Definitions"
+            },
+            {
+              "textRaw": "Self-referencing a package using its name",
+              "name": "self-referencing_a_package_using_its_name",
+              "meta": {
+                "added": [
+                  "v13.1.0",
+                  "v12.16.0"
+                ],
+                "changes": [
+                  {
+                    "version": [
+                      "v13.6.0",
+                      "v12.16.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/31002",
+                    "description": "Unflag self-referencing a package using its name."
+                  }
+                ]
+              },
+              "desc": "<p>Within a package, the values defined in the package’s\n<code>package.json</code> <a href=\"#packages_exports\"><code>\"exports\"</code></a> field can be referenced via the package’s name.\nFor example, assuming the <code>package.json</code> is:</p>\n<pre><code class=\"language-json\">// package.json\n{\n  \"name\": \"a-package\",\n  \"exports\": {\n    \".\": \"./main.mjs\",\n    \"./foo\": \"./foo.js\"\n  }\n}\n</code></pre>\n<p>Then any module <em>in that package</em> can reference an export in the package itself:</p>\n<pre><code class=\"language-js\">// ./a-module.mjs\nimport { something } from 'a-package'; // Imports \"something\" from ./main.mjs.\n</code></pre>\n<p>Self-referencing is available only if <code>package.json</code> has <a href=\"#packages_exports\"><code>\"exports\"</code></a>, and\nwill allow importing only what that <a href=\"#packages_exports\"><code>\"exports\"</code></a> (in the <code>package.json</code>)\nallows. So the code below, given the previous package, will generate a runtime\nerror:</p>\n<pre><code class=\"language-js\">// ./another-module.mjs\n\n// Imports \"another\" from ./m.mjs. Fails because\n// the \"package.json\" \"exports\" field\n// does not provide an export named \"./m.mjs\".\nimport { another } from 'a-package/m.mjs';\n</code></pre>\n<p>Self-referencing is also available when using <code>require</code>, both in an ES module,\nand in a CommonJS one. For example, this code will also work:</p>\n<pre><code class=\"language-cjs\">// ./a-module.js\nconst { something } = require('a-package/foo'); // Loads from ./foo.js.\n</code></pre>\n<p>Finally, self-referencing also works with scoped packages. For example, this\ncode will also work:</p>\n<pre><code class=\"language-json\">// package.json\n{\n  \"name\": \"@my/package\",\n  \"exports\": \"./index.js\"\n}\n</code></pre>\n<pre><code class=\"language-cjs\">// ./index.js\nmodule.exports = 42;\n</code></pre>\n<pre><code class=\"language-cjs\">// ./other.js\nconsole.log(require('@my/package'));\n</code></pre>\n<pre><code class=\"language-console\">$ node other.js\n42\n</code></pre>",
+              "type": "module",
+              "displayName": "Self-referencing a package using its name"
+            }
+          ],
+          "type": "misc",
+          "displayName": "Package entry points"
+        },
+        {
+          "textRaw": "Dual CommonJS/ES module packages",
+          "name": "dual_commonjs/es_module_packages",
+          "desc": "<p>Prior to the introduction of support for ES modules in Node.js, it was a common\npattern for package authors to include both CommonJS and ES module JavaScript\nsources in their package, with <code>package.json</code> <a href=\"#packages_main\"><code>\"main\"</code></a> specifying the\nCommonJS entry point and <code>package.json</code> <code>\"module\"</code> specifying the ES module\nentry point.\nThis enabled Node.js to run the CommonJS entry point while build tools such as\nbundlers used the ES module entry point, since Node.js ignored (and still\nignores) the top-level <code>\"module\"</code> field.</p>\n<p>Node.js can now run ES module entry points, and a package can contain both\nCommonJS and ES module entry points (either via separate specifiers such as\n<code>'pkg'</code> and <code>'pkg/es-module'</code>, or both at the same specifier via <a href=\"#packages_conditional_exports\">Conditional\nexports</a>). Unlike in the scenario where <code>\"module\"</code> is only used by bundlers,\nor ES module files are transpiled into CommonJS on the fly before evaluation by\nNode.js, the files referenced by the ES module entry point are evaluated as ES\nmodules.</p>",
+          "modules": [
+            {
+              "textRaw": "Dual package hazard",
+              "name": "dual_package_hazard",
+              "desc": "<p>When an application is using a package that provides both CommonJS and ES module\nsources, there is a risk of certain bugs if both versions of the package get\nloaded. This potential comes from the fact that the <code>pkgInstance</code> created by\n<code>const pkgInstance = require('pkg')</code> is not the same as the <code>pkgInstance</code>\ncreated by <code>import pkgInstance from 'pkg'</code> (or an alternative main path like\n<code>'pkg/module'</code>). This is the “dual package hazard,” where two versions of the\nsame package can be loaded within the same runtime environment. While it is\nunlikely that an application or package would intentionally load both versions\ndirectly, it is common for an application to load one version while a dependency\nof the application loads the other version. This hazard can happen because\nNode.js supports intermixing CommonJS and ES modules, and can lead to unexpected\nbehavior.</p>\n<p>If the package main export is a constructor, an <code>instanceof</code> comparison of\ninstances created by the two versions returns <code>false</code>, and if the export is an\nobject, properties added to one (like <code>pkgInstance.foo = 3</code>) are not present on\nthe other. This differs from how <code>import</code> and <code>require</code> statements work in\nall-CommonJS or all-ES module environments, respectively, and therefore is\nsurprising to users. It also differs from the behavior users are familiar with\nwhen using transpilation via tools like <a href=\"https://babeljs.io/\">Babel</a> or <a href=\"https://github.com/standard-things/esm#readme\"><code>esm</code></a>.</p>",
+              "type": "module",
+              "displayName": "Dual package hazard"
+            },
+            {
+              "textRaw": "Writing dual packages while avoiding or minimizing hazards",
+              "name": "writing_dual_packages_while_avoiding_or_minimizing_hazards",
+              "desc": "<p>First, the hazard described in the previous section occurs when a package\ncontains both CommonJS and ES module sources and both sources are provided for\nuse in Node.js, either via separate main entry points or exported paths. A\npackage might instead be written where any version of Node.js receives only\nCommonJS sources, and any separate ES module sources the package might contain\nare intended only for other environments such as browsers. Such a package\nwould be usable by any version of Node.js, since <code>import</code> can refer to CommonJS\nfiles; but it would not provide any of the advantages of using ES module syntax.</p>\n<p>A package might also switch from CommonJS to ES module syntax in a <a href=\"https://semver.org/\">breaking\nchange</a> version bump. This has the disadvantage that the\nnewest version of the package would only be usable in ES module-supporting\nversions of Node.js.</p>\n<p>Every pattern has tradeoffs, but there are two broad approaches that satisfy the\nfollowing conditions:</p>\n<ol>\n<li>The package is usable via both <code>require</code> and <code>import</code>.</li>\n<li>The package is usable in both current Node.js and older versions of Node.js\nthat lack support for ES modules.</li>\n<li>The package main entry point, e.g. <code>'pkg'</code> can be used by both <code>require</code> to\nresolve to a CommonJS file and by <code>import</code> to resolve to an ES module file.\n(And likewise for exported paths, e.g. <code>'pkg/feature'</code>.)</li>\n<li>The package provides named exports, e.g. <code>import { name } from 'pkg'</code> rather\nthan <code>import pkg from 'pkg'; pkg.name</code>.</li>\n<li>The package is potentially usable in other ES module environments such as\nbrowsers.</li>\n<li>The hazards described in the previous section are avoided or minimized.</li>\n</ol>",
+              "modules": [
+                {
+                  "textRaw": "Approach #1: Use an ES module wrapper",
+                  "name": "approach_#1:_use_an_es_module_wrapper",
+                  "desc": "<p>Write the package in CommonJS or transpile ES module sources into CommonJS, and\ncreate an ES module wrapper file that defines the named exports. Using\n<a href=\"#packages_conditional_exports\">Conditional exports</a>, the ES module wrapper is used for <code>import</code> and the\nCommonJS entry point for <code>require</code>.</p>\n<pre><code class=\"language-json\">// ./node_modules/pkg/package.json\n{\n  \"type\": \"module\",\n  \"main\": \"./index.cjs\",\n  \"exports\": {\n    \"import\": \"./wrapper.mjs\",\n    \"require\": \"./index.cjs\"\n  }\n}\n</code></pre>\n<p>The preceding example uses explicit extensions <code>.mjs</code> and <code>.cjs</code>.\nIf your files use the <code>.js</code> extension, <code>\"type\": \"module\"</code> will cause such files\nto be treated as ES modules, just as <code>\"type\": \"commonjs\"</code> would cause them\nto be treated as CommonJS.\nSee <a href=\"esm.html#esm_enabling\">Enabling</a>.</p>\n<pre><code class=\"language-cjs\">// ./node_modules/pkg/index.cjs\nexports.name = 'value';\n</code></pre>\n<pre><code class=\"language-js\">// ./node_modules/pkg/wrapper.mjs\nimport cjsModule from './index.cjs';\nexport const name = cjsModule.name;\n</code></pre>\n<p>In this example, the <code>name</code> from <code>import { name } from 'pkg'</code> is the same\nsingleton as the <code>name</code> from <code>const { name } = require('pkg')</code>. Therefore <code>===</code>\nreturns <code>true</code> when comparing the two <code>name</code>s and the divergent specifier hazard\nis avoided.</p>\n<p>If the module is not simply a list of named exports, but rather contains a\nunique function or object export like <code>module.exports = function () { ... }</code>,\nor if support in the wrapper for the <code>import pkg from 'pkg'</code> pattern is desired,\nthen the wrapper would instead be written to export the default optionally\nalong with any named exports as well:</p>\n<pre><code class=\"language-js\">import cjsModule from './index.cjs';\nexport const name = cjsModule.name;\nexport default cjsModule;\n</code></pre>\n<p>This approach is appropriate for any of the following use cases:</p>\n<ul>\n<li>The package is currently written in CommonJS and the author would prefer not\nto refactor it into ES module syntax, but wishes to provide named exports for\nES module consumers.</li>\n<li>The package has other packages that depend on it, and the end user might\ninstall both this package and those other packages. For example a <code>utilities</code>\npackage is used directly in an application, and a <code>utilities-plus</code> package\nadds a few more functions to <code>utilities</code>. Because the wrapper exports\nunderlying CommonJS files, it doesn’t matter if <code>utilities-plus</code> is written in\nCommonJS or ES module syntax; it will work either way.</li>\n<li>The package stores internal state, and the package author would prefer not to\nrefactor the package to isolate its state management. See the next section.</li>\n</ul>\n<p>A variant of this approach not requiring conditional exports for consumers could\nbe to add an export, e.g. <code>\"./module\"</code>, to point to an all-ES module-syntax\nversion of the package. This could be used via <code>import 'pkg/module'</code> by users\nwho are certain that the CommonJS version will not be loaded anywhere in the\napplication, such as by dependencies; or if the CommonJS version can be loaded\nbut doesn’t affect the ES module version (for example, because the package is\nstateless):</p>\n<pre><code class=\"language-json\">// ./node_modules/pkg/package.json\n{\n  \"type\": \"module\",\n  \"main\": \"./index.cjs\",\n  \"exports\": {\n    \".\": \"./index.cjs\",\n    \"./module\": \"./wrapper.mjs\"\n  }\n}\n</code></pre>",
+                  "type": "module",
+                  "displayName": "Approach #1: Use an ES module wrapper"
+                },
+                {
+                  "textRaw": "Approach #2: Isolate state",
+                  "name": "approach_#2:_isolate_state",
+                  "desc": "<p>A <a href=\"#packages_node_js_package_json_field_definitions\"><code>package.json</code></a> file can define the separate CommonJS and ES module entry\npoints directly:</p>\n<pre><code class=\"language-json\">// ./node_modules/pkg/package.json\n{\n  \"type\": \"module\",\n  \"main\": \"./index.cjs\",\n  \"exports\": {\n    \"import\": \"./index.mjs\",\n    \"require\": \"./index.cjs\"\n  }\n}\n</code></pre>\n<p>This can be done if both the CommonJS and ES module versions of the package are\nequivalent, for example because one is the transpiled output of the other; and\nthe package’s management of state is carefully isolated (or the package is\nstateless).</p>\n<p>The reason that state is an issue is because both the CommonJS and ES module\nversions of the package might get used within an application; for example, the\nuser’s application code could <code>import</code> the ES module version while a dependency\n<code>require</code>s the CommonJS version. If that were to occur, two copies of the\npackage would be loaded in memory and therefore two separate states would be\npresent. This would likely cause hard-to-troubleshoot bugs.</p>\n<p>Aside from writing a stateless package (if JavaScript’s <code>Math</code> were a package,\nfor example, it would be stateless as all of its methods are static), there are\nsome ways to isolate state so that it’s shared between the potentially loaded\nCommonJS and ES module instances of the package:</p>\n<ol>\n<li>\n<p>If possible, contain all state within an instantiated object. JavaScript’s\n<code>Date</code>, for example, needs to be instantiated to contain state; if it were a\npackage, it would be used like this:</p>\n<pre><code class=\"language-js\">import Date from 'date';\nconst someDate = new Date();\n// someDate contains state; Date does not\n</code></pre>\n<p>The <code>new</code> keyword isn’t required; a package’s function can return a new\nobject, or modify a passed-in object, to keep the state external to the\npackage.</p>\n</li>\n<li>\n<p>Isolate the state in one or more CommonJS files that are shared between the\nCommonJS and ES module versions of the package. For example, if the CommonJS\nand ES module entry points are <code>index.cjs</code> and <code>index.mjs</code>, respectively:</p>\n<pre><code class=\"language-cjs\">// ./node_modules/pkg/index.cjs\nconst state = require('./state.cjs');\nmodule.exports.state = state;\n</code></pre>\n<pre><code class=\"language-js\">// ./node_modules/pkg/index.mjs\nimport state from './state.cjs';\nexport {\n  state\n};\n</code></pre>\n<p>Even if <code>pkg</code> is used via both <code>require</code> and <code>import</code> in an application (for\nexample, via <code>import</code> in application code and via <code>require</code> by a dependency)\neach reference of <code>pkg</code> will contain the same state; and modifying that\nstate from either module system will apply to both.</p>\n</li>\n</ol>\n<p>Any plugins that attach to the package’s singleton would need to separately\nattach to both the CommonJS and ES module singletons.</p>\n<p>This approach is appropriate for any of the following use cases:</p>\n<ul>\n<li>The package is currently written in ES module syntax and the package author\nwants that version to be used wherever such syntax is supported.</li>\n<li>The package is stateless or its state can be isolated without too much\ndifficulty.</li>\n<li>The package is unlikely to have other public packages that depend on it, or if\nit does, the package is stateless or has state that need not be shared between\ndependencies or with the overall application.</li>\n</ul>\n<p>Even with isolated state, there is still the cost of possible extra code\nexecution between the CommonJS and ES module versions of a package.</p>\n<p>As with the previous approach, a variant of this approach not requiring\nconditional exports for consumers could be to add an export, e.g.\n<code>\"./module\"</code>, to point to an all-ES module-syntax version of the package:</p>\n<pre><code class=\"language-json\">// ./node_modules/pkg/package.json\n{\n  \"type\": \"module\",\n  \"main\": \"./index.cjs\",\n  \"exports\": {\n    \".\": \"./index.cjs\",\n    \"./module\": \"./index.mjs\"\n  }\n}\n</code></pre>",
+                  "type": "module",
+                  "displayName": "Approach #2: Isolate state"
+                }
+              ],
+              "type": "module",
+              "displayName": "Writing dual packages while avoiding or minimizing hazards"
+            }
+          ],
+          "type": "misc",
+          "displayName": "Dual CommonJS/ES module packages"
+        },
+        {
+          "textRaw": "Node.js `package.json` field definitions",
+          "name": "node.js_`package.json`_field_definitions",
+          "desc": "<p>This section describes the fields used by the Node.js runtime. Other tools (such\nas <a href=\"https://docs.npmjs.com/creating-a-package-json-file\">npm</a>) use\nadditional fields which are ignored by Node.js and not documented here.</p>\n<p>The following fields in <code>package.json</code> files are used in Node.js:</p>\n<ul>\n<li><a href=\"#packages_name\"><code>\"name\"</code></a> - Relevant when using named imports within a package. Also used\nby package managers as the name of the package.</li>\n<li><a href=\"#packages_main\"><code>\"main\"</code></a> - The default module when loading the package, if exports is not\nspecified, and in versions of Node.js prior to the introduction of exports.</li>\n<li><a href=\"#packages_packagemanager\"><code>\"packageManager\"</code></a> - The package manager recommended when contributing to\nthe package. Leveraged by the <a href=\"corepack.html\">Corepack</a> shims.</li>\n<li><a href=\"#packages_type\"><code>\"type\"</code></a> - The package type determining whether to load <code>.js</code> files as\nCommonJS or ES modules.</li>\n<li><a href=\"#packages_exports\"><code>\"exports\"</code></a> - Package exports and conditional exports. When present,\nlimits which submodules can be loaded from within the package.</li>\n<li><a href=\"#packages_imports\"><code>\"imports\"</code></a> - Package imports, for use by modules within the package\nitself.</li>\n</ul>",
+          "modules": [
+            {
+              "textRaw": "`\"name\"`",
+              "name": "`\"name\"`",
+              "meta": {
+                "added": [
+                  "v13.1.0",
+                  "v12.16.0"
+                ],
+                "changes": [
+                  {
+                    "version": [
+                      "v13.6.0",
+                      "v12.16.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/31002",
+                    "description": "Remove the `--experimental-resolve-self` option."
+                  }
+                ]
+              },
+              "desc": "<ul>\n<li>Type: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a></li>\n</ul>\n<pre><code class=\"language-json\">{\n  \"name\": \"package-name\"\n}\n</code></pre>\n<p>The <code>\"name\"</code> field defines your package’s name. Publishing to the\n<em>npm</em> registry requires a name that satisfies\n<a href=\"https://docs.npmjs.com/files/package.json#name\">certain requirements</a>.</p>\n<p>The <code>\"name\"</code> field can be used in addition to the <a href=\"#packages_exports\"><code>\"exports\"</code></a> field to\n<a href=\"#packages_self_referencing_a_package_using_its_name\">self-reference</a> a package using its name.</p>",
+              "type": "module",
+              "displayName": "`\"name\"`"
+            },
+            {
+              "textRaw": "`\"main\"`",
+              "name": "`\"main\"`",
+              "meta": {
+                "added": [
+                  "v0.4.0"
+                ],
+                "changes": []
+              },
+              "desc": "<ul>\n<li>Type: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a></li>\n</ul>\n<pre><code class=\"language-json\">{\n  \"main\": \"./main.js\"\n}\n</code></pre>\n<p>The <code>\"main\"</code> field defines the script that is used when the <a href=\"modules.html#modules_folders_as_modules\">package directory\nis loaded via <code>require()</code></a>. Its value\nis a path.</p>\n<pre><code class=\"language-cjs\">require('./path/to/directory'); // This resolves to ./path/to/directory/main.js.\n</code></pre>\n<p>When a package has an <a href=\"#packages_exports\"><code>\"exports\"</code></a> field, this will take precedence over the\n<code>\"main\"</code> field when importing the package by name.</p>",
+              "type": "module",
+              "displayName": "`\"main\"`"
+            },
+            {
+              "textRaw": "`\"packageManager\"`",
+              "name": "`\"packagemanager\"`",
+              "meta": {
+                "added": [
+                  "v14.19.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": "Experimental",
+              "desc": "<ul>\n<li>Type: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a></li>\n</ul>\n<pre><code class=\"language-json\">{\n  \"packageManager\": \"&#x3C;package manager name>@&#x3C;version>\"\n}\n</code></pre>\n<p>The <code>\"packageManager\"</code> field defines which package manager is expected to be\nused when working on the current project. It can set to any of the\n<a href=\"corepack.html#corepack_supported_package_managers\">supported package managers</a>, and will ensure that your teams use the exact\nsame package manager versions without having to install anything else than\nNode.js.</p>\n<p>This field is currently experimental and needs to be opted-in; check the\n<a href=\"corepack.html\">Corepack</a> page for details about the procedure.</p>",
+              "type": "module",
+              "displayName": "`\"packageManager\"`"
+            },
+            {
+              "textRaw": "`\"type\"`",
+              "name": "`\"type\"`",
+              "meta": {
+                "added": [
+                  "v12.0.0"
+                ],
+                "changes": [
+                  {
+                    "version": [
+                      "v13.2.0",
+                      "v12.17.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/29866",
+                    "description": "Unflag `--experimental-modules`."
+                  }
+                ]
+              },
+              "desc": "<ul>\n<li>Type: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a></li>\n</ul>\n<p>The <code>\"type\"</code> field defines the module format that Node.js uses for all\n<code>.js</code> files that have that <code>package.json</code> file as their nearest parent.</p>\n<p>Files ending with <code>.js</code> are loaded as ES modules when the nearest parent\n<code>package.json</code> file contains a top-level field <code>\"type\"</code> with a value of\n<code>\"module\"</code>.</p>\n<p>The nearest parent <code>package.json</code> is defined as the first <code>package.json</code> found\nwhen searching in the current folder, that folder’s parent, and so on up\nuntil a node_modules folder or the volume root is reached.</p>\n<pre><code class=\"language-json\">// package.json\n{\n  \"type\": \"module\"\n}\n</code></pre>\n<pre><code class=\"language-bash\"># In same folder as preceding package.json\nnode my-app.js # Runs as ES module\n</code></pre>\n<p>If the nearest parent <code>package.json</code> lacks a <code>\"type\"</code> field, or contains\n<code>\"type\": \"commonjs\"</code>, <code>.js</code> files are treated as <a href=\"modules.html\">CommonJS</a>. If the volume\nroot is reached and no <code>package.json</code> is found, <code>.js</code> files are treated as\n<a href=\"modules.html\">CommonJS</a>.</p>\n<p><code>import</code> statements of <code>.js</code> files are treated as ES modules if the nearest\nparent <code>package.json</code> contains <code>\"type\": \"module\"</code>.</p>\n<pre><code class=\"language-js\">// my-app.js, part of the same example as above\nimport './startup.js'; // Loaded as ES module because of package.json\n</code></pre>\n<p>Regardless of the value of the <code>\"type\"</code> field, <code>.mjs</code> files are always treated\nas ES modules and <code>.cjs</code> files are always treated as CommonJS.</p>",
+              "type": "module",
+              "displayName": "`\"type\"`"
+            },
+            {
+              "textRaw": "`\"exports\"`",
+              "name": "`\"exports\"`",
+              "meta": {
+                "added": [
+                  "v12.7.0"
+                ],
+                "changes": [
+                  {
+                    "version": [
+                      "v14.13.0",
+                      "v12.20.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/34718",
+                    "description": "Add support for `\"exports\"` patterns."
+                  },
+                  {
+                    "version": [
+                      "v13.7.0",
+                      "v12.16.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/31008",
+                    "description": "Implement logical conditional exports ordering."
+                  },
+                  {
+                    "version": [
+                      "v13.7.0",
+                      "v12.16.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/31001",
+                    "description": "Remove the `--experimental-conditional-exports` option."
+                  },
+                  {
+                    "version": [
+                      "v13.2.0",
+                      "v12.16.0"
+                    ],
+                    "pr-url": "https://github.com/nodejs/node/pull/29978",
+                    "description": "Implement conditional exports."
+                  }
+                ]
+              },
+              "desc": "<ul>\n<li>Type: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string[]&gt;</a></li>\n</ul>\n<pre><code class=\"language-json\">{\n  \"exports\": \"./index.js\"\n}\n</code></pre>\n<p>The <code>\"exports\"</code> field allows defining the <a href=\"#packages_package_entry_points\">entry points</a> of a package when\nimported by name loaded either via a <code>node_modules</code> lookup or a\n<a href=\"#packages_self_referencing_a_package_using_its_name\">self-reference</a> to its own name. It is supported in Node.js 12+ as an\nalternative to the <a href=\"#packages_main\"><code>\"main\"</code></a> that can support defining <a href=\"#packages_subpath_exports\">subpath exports</a>\nand <a href=\"#packages_conditional_exports\">conditional exports</a> while encapsulating internal unexported modules.</p>\n<p><a href=\"#packages_conditional_exports\">Conditional Exports</a> can also be used within <code>\"exports\"</code> to define different\npackage entry points per environment, including whether the package is\nreferenced via <code>require</code> or via <code>import</code>.</p>\n<p>All paths defined in the <code>\"exports\"</code> must be relative file URLs starting with\n<code>./</code>.</p>",
+              "type": "module",
+              "displayName": "`\"exports\"`"
+            },
+            {
+              "textRaw": "`\"imports\"`",
+              "name": "`\"imports\"`",
+              "meta": {
+                "added": [
+                  "v14.6.0",
+                  "v12.19.0"
+                ],
+                "changes": []
+              },
+              "desc": "<ul>\n<li>Type: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a></li>\n</ul>\n<pre><code class=\"language-json\">// package.json\n{\n  \"imports\": {\n    \"#dep\": {\n      \"node\": \"dep-node-native\",\n      \"default\": \"./dep-polyfill.js\"\n    }\n  },\n  \"dependencies\": {\n    \"dep-node-native\": \"^1.0.0\"\n  }\n}\n</code></pre>\n<p>Entries in the imports field must be strings starting with <code>#</code>.</p>\n<p>Import maps permit mapping to external packages.</p>\n<p>This field defines <a href=\"#packages_subpath_imports\">subpath imports</a> for the current package.</p>",
+              "type": "module",
+              "displayName": "`\"imports\"`"
+            }
+          ],
+          "type": "misc",
+          "displayName": "Node.js `package.json` field definitions"
+        }
+      ]
+    }
+  ]
+}

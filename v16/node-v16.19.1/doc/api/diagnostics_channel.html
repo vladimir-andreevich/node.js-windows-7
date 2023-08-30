@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v16.19.1">
+  <title>Diagnostics Channel | Node.js v16.19.1 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/diagnostics_channel.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  <style>@media(max-width:734px){.with-64-chars>.js-flavor-selector{float:none;margin:0 0 1em auto;}}@media(max-width:694px){.with-59-chars>.js-flavor-selector{float:none;margin:0 0 1em auto;}}</style>
+</head>
+<body class="alt apidoc" id="api-section-diagnostics_channel">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel active">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="diagnostics_channel" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v16.19.1 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v16.19.1</li>
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Table of contents
+      </a>
+
+      <div class="picker"><div class="toc"><ul>
+<li><span class="stability_1"><a href="#diagnostics-channel">Diagnostics Channel</a></span>
+<ul>
+<li><a href="#public-api">Public API</a>
+<ul>
+<li><a href="#overview">Overview</a>
+<ul>
+<li><a href="#diagnostics_channelhassubscribersname"><code>diagnostics_channel.hasSubscribers(name)</code></a></li>
+<li><a href="#diagnostics_channelchannelname"><code>diagnostics_channel.channel(name)</code></a></li>
+<li><a href="#diagnostics_channelsubscribename-onmessage"><code>diagnostics_channel.subscribe(name, onMessage)</code></a></li>
+<li><a href="#diagnostics_channelunsubscribename-onmessage"><code>diagnostics_channel.unsubscribe(name, onMessage)</code></a></li>
+</ul>
+</li>
+<li><a href="#class-channel">Class: <code>Channel</code></a>
+<ul>
+<li><a href="#channelhassubscribers"><code>channel.hasSubscribers</code></a></li>
+<li><a href="#channelpublishmessage"><code>channel.publish(message)</code></a></li>
+<li><span class="stability_0"><a href="#channelsubscribeonmessage"><code>channel.subscribe(onMessage)</code></a></span></li>
+<li><span class="stability_0"><a href="#channelunsubscribeonmessage"><code>channel.unsubscribe(onMessage)</code></a></span></li>
+</ul>
+</li>
+<li><a href="#built-in-channels">Built-in Channels</a>
+<ul>
+<li><a href="#http">HTTP</a></li>
+<li><a href="#net">NET</a></li>
+<li><a href="#udp">UDP</a></li>
+<li><a href="#process">Process</a></li>
+<li><a href="#worker-thread">Worker Thread</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Index
+      </a>
+
+      <div class="picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel active">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Other versions
+      </a>
+      <div class="picker"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v19.x/api/diagnostics_channel.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/diagnostics_channel.html">18.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/diagnostics_channel.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/diagnostics_channel.html">16.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/diagnostics_channel.html">15.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#">
+                <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+                Options
+              </a>
+        
+              <div class="picker">
+                <ul>
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="diagnostics_channel.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/diagnostics_channel.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_1"><a href="#diagnostics-channel">Diagnostics Channel</a></span>
+<ul>
+<li><a href="#public-api">Public API</a>
+<ul>
+<li><a href="#overview">Overview</a>
+<ul>
+<li><a href="#diagnostics_channelhassubscribersname"><code>diagnostics_channel.hasSubscribers(name)</code></a></li>
+<li><a href="#diagnostics_channelchannelname"><code>diagnostics_channel.channel(name)</code></a></li>
+<li><a href="#diagnostics_channelsubscribename-onmessage"><code>diagnostics_channel.subscribe(name, onMessage)</code></a></li>
+<li><a href="#diagnostics_channelunsubscribename-onmessage"><code>diagnostics_channel.unsubscribe(name, onMessage)</code></a></li>
+</ul>
+</li>
+<li><a href="#class-channel">Class: <code>Channel</code></a>
+<ul>
+<li><a href="#channelhassubscribers"><code>channel.hasSubscribers</code></a></li>
+<li><a href="#channelpublishmessage"><code>channel.publish(message)</code></a></li>
+<li><span class="stability_0"><a href="#channelsubscribeonmessage"><code>channel.subscribe(onMessage)</code></a></span></li>
+<li><span class="stability_0"><a href="#channelunsubscribeonmessage"><code>channel.unsubscribe(onMessage)</code></a></span></li>
+</ul>
+</li>
+<li><a href="#built-in-channels">Built-in Channels</a>
+<ul>
+<li><a href="#http">HTTP</a></li>
+<li><a href="#net">NET</a></li>
+<li><a href="#udp">UDP</a></li>
+<li><a href="#process">Process</a></li>
+<li><a href="#worker-thread">Worker Thread</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Diagnostics Channel<span><a class="mark" href="#diagnostics-channel" id="diagnostics-channel">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_diagnostics_channel"></a></h2>
+
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v16.19.1/lib/diagnostics_channel.js">lib/diagnostics_channel.js</a></p>
+<p>The <code>node:diagnostics_channel</code> module provides an API to create named channels
+to report arbitrary message data for diagnostics purposes.</p>
+<p>It can be accessed using:</p>
+
+<pre class="with-64-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> diagnostics_channel <span class="hljs-keyword">from</span> <span class="hljs-string">'node:diagnostics_channel'</span>;</code><code class="language-js cjs"><span class="hljs-keyword">const</span> diagnostics_channel = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:diagnostics_channel'</span>);</code></pre>
+<p>It is intended that a module writer wanting to report diagnostics messages
+will create one or many top-level channels to report messages through.
+Channels may also be acquired at runtime but it is not encouraged
+due to the additional overhead of doing so. Channels may be exported for
+convenience, but as long as the name is known it can be acquired anywhere.</p>
+<p>If you intend for your module to produce diagnostics data for others to
+consume it is recommended that you include documentation of what named
+channels are used along with the shape of the message data. Channel names
+should generally include the module name to avoid collisions with data from
+other modules.</p>
+<section><h3>Public API<span><a class="mark" href="#public-api" id="public-api">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_public_api"></a></h3>
+<h4>Overview<span><a class="mark" href="#overview" id="overview">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_overview"></a></h4>
+<p>Following is a simple overview of the public API.</p>
+
+<pre class="with-64-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> diagnostics_channel <span class="hljs-keyword">from</span> <span class="hljs-string">'node:diagnostics_channel'</span>;
+
+<span class="hljs-comment">// Get a reusable channel object</span>
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onMessage</span>(<span class="hljs-params">message, name</span>) {
+  <span class="hljs-comment">// Received data</span>
+}
+
+<span class="hljs-comment">// Subscribe to the channel</span>
+diagnostics_channel.<span class="hljs-title function_">subscribe</span>(<span class="hljs-string">'my-channel'</span>, onMessage);
+
+<span class="hljs-comment">// Check if the channel has an active subscriber</span>
+<span class="hljs-keyword">if</span> (channel.<span class="hljs-property">hasSubscribers</span>) {
+  <span class="hljs-comment">// Publish data to the channel</span>
+  channel.<span class="hljs-title function_">publish</span>({
+    <span class="hljs-attr">some</span>: <span class="hljs-string">'data'</span>
+  });
+}
+
+<span class="hljs-comment">// Unsubscribe from the channel</span>
+diagnostics_channel.<span class="hljs-title function_">unsubscribe</span>(<span class="hljs-string">'my-channel'</span>, onMessage);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> diagnostics_channel = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:diagnostics_channel'</span>);
+
+<span class="hljs-comment">// Get a reusable channel object</span>
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onMessage</span>(<span class="hljs-params">message, name</span>) {
+  <span class="hljs-comment">// Received data</span>
+}
+
+<span class="hljs-comment">// Subscribe to the channel</span>
+diagnostics_channel.<span class="hljs-title function_">subscribe</span>(<span class="hljs-string">'my-channel'</span>, onMessage);
+
+<span class="hljs-comment">// Check if the channel has an active subscriber</span>
+<span class="hljs-keyword">if</span> (channel.<span class="hljs-property">hasSubscribers</span>) {
+  <span class="hljs-comment">// Publish data to the channel</span>
+  channel.<span class="hljs-title function_">publish</span>({
+    <span class="hljs-attr">some</span>: <span class="hljs-string">'data'</span>
+  });
+}
+
+<span class="hljs-comment">// Unsubscribe from the channel</span>
+diagnostics_channel.<span class="hljs-title function_">unsubscribe</span>(<span class="hljs-string">'my-channel'</span>, onMessage);</code></pre>
+<h5><code>diagnostics_channel.hasSubscribers(name)</code><span><a class="mark" href="#diagnostics_channelhassubscribersname" id="diagnostics_channelhassubscribersname">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_diagnostics_channel_hassubscribers_name"></a></h5>
+<div class="api_metadata">
+<span>Added in: v15.1.0, v14.17.0</span>
+</div>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Symbol_type" class="type">&#x3C;symbol></a> The channel name</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> If there are active subscribers</li>
+</ul>
+<p>Check if there are active subscribers to the named channel. This is helpful if
+the message you want to send might be expensive to prepare.</p>
+<p>This API is optional but helpful when trying to publish messages from very
+performance-sensitive code.</p>
+
+<pre class="with-64-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> diagnostics_channel <span class="hljs-keyword">from</span> <span class="hljs-string">'node:diagnostics_channel'</span>;
+
+<span class="hljs-keyword">if</span> (diagnostics_channel.<span class="hljs-title function_">hasSubscribers</span>(<span class="hljs-string">'my-channel'</span>)) {
+  <span class="hljs-comment">// There are subscribers, prepare and publish message</span>
+}</code><code class="language-js cjs"><span class="hljs-keyword">const</span> diagnostics_channel = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:diagnostics_channel'</span>);
+
+<span class="hljs-keyword">if</span> (diagnostics_channel.<span class="hljs-title function_">hasSubscribers</span>(<span class="hljs-string">'my-channel'</span>)) {
+  <span class="hljs-comment">// There are subscribers, prepare and publish message</span>
+}</code></pre>
+<h5><code>diagnostics_channel.channel(name)</code><span><a class="mark" href="#diagnostics_channelchannelname" id="diagnostics_channelchannelname">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_diagnostics_channel_channel_name"></a></h5>
+<div class="api_metadata">
+<span>Added in: v15.1.0, v14.17.0</span>
+</div>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Symbol_type" class="type">&#x3C;symbol></a> The channel name</li>
+<li>Returns: <a href="diagnostics_channel.html#class-channel" class="type">&#x3C;Channel></a> The named channel object</li>
+</ul>
+<p>This is the primary entry-point for anyone wanting to publish to a named
+channel. It produces a channel object which is optimized to reduce overhead at
+publish time as much as possible.</p>
+
+<pre class="with-64-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> diagnostics_channel <span class="hljs-keyword">from</span> <span class="hljs-string">'node:diagnostics_channel'</span>;
+
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> diagnostics_channel = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:diagnostics_channel'</span>);
+
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);</code></pre>
+<h5><code>diagnostics_channel.subscribe(name, onMessage)</code><span><a class="mark" href="#diagnostics_channelsubscribename-onmessage" id="diagnostics_channelsubscribename-onmessage">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_diagnostics_channel_subscribe_name_onmessage"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.17.0</span>
+</div>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Symbol_type" class="type">&#x3C;symbol></a> The channel name</li>
+<li><code>onMessage</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> The handler to receive channel messages
+<ul>
+<li><code>message</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a> The message data</li>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Symbol_type" class="type">&#x3C;symbol></a> The name of the channel</li>
+</ul>
+</li>
+</ul>
+<p>Register a message handler to subscribe to this channel. This message handler
+will be run synchronously whenever a message is published to the channel. Any
+errors thrown in the message handler will trigger an <a href="process.html#event-uncaughtexception"><code>'uncaughtException'</code></a>.</p>
+
+<pre class="with-59-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> diagnostics_channel <span class="hljs-keyword">from</span> <span class="hljs-string">'diagnostics_channel'</span>;
+
+diagnostics_channel.<span class="hljs-title function_">subscribe</span>(<span class="hljs-string">'my-channel'</span>, <span class="hljs-function">(<span class="hljs-params">message, name</span>) =></span> {
+  <span class="hljs-comment">// Received data</span>
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> diagnostics_channel = <span class="hljs-built_in">require</span>(<span class="hljs-string">'diagnostics_channel'</span>);
+
+diagnostics_channel.<span class="hljs-title function_">subscribe</span>(<span class="hljs-string">'my-channel'</span>, <span class="hljs-function">(<span class="hljs-params">message, name</span>) =></span> {
+  <span class="hljs-comment">// Received data</span>
+});</code></pre>
+<h5><code>diagnostics_channel.unsubscribe(name, onMessage)</code><span><a class="mark" href="#diagnostics_channelunsubscribename-onmessage" id="diagnostics_channelunsubscribename-onmessage">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_diagnostics_channel_unsubscribe_name_onmessage"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.17.0</span>
+</div>
+<ul>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Symbol_type" class="type">&#x3C;symbol></a> The channel name</li>
+<li><code>onMessage</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> The previous subscribed handler to remove</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>true</code> if the handler was found, <code>false</code> otherwise.</li>
+</ul>
+<p>Remove a message handler previously registered to this channel with
+<a href="#diagnostics_channelsubscribename-onmessage"><code>diagnostics_channel.subscribe(name, onMessage)</code></a>.</p>
+
+<pre class="with-59-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> diagnostics_channel <span class="hljs-keyword">from</span> <span class="hljs-string">'diagnostics_channel'</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onMessage</span>(<span class="hljs-params">message, name</span>) {
+  <span class="hljs-comment">// Received data</span>
+}
+
+diagnostics_channel.<span class="hljs-title function_">subscribe</span>(<span class="hljs-string">'my-channel'</span>, onMessage);
+
+diagnostics_channel.<span class="hljs-title function_">unsubscribe</span>(<span class="hljs-string">'my-channel'</span>, onMessage);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> diagnostics_channel = <span class="hljs-built_in">require</span>(<span class="hljs-string">'diagnostics_channel'</span>);
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onMessage</span>(<span class="hljs-params">message, name</span>) {
+  <span class="hljs-comment">// Received data</span>
+}
+
+diagnostics_channel.<span class="hljs-title function_">subscribe</span>(<span class="hljs-string">'my-channel'</span>, onMessage);
+
+diagnostics_channel.<span class="hljs-title function_">unsubscribe</span>(<span class="hljs-string">'my-channel'</span>, onMessage);</code></pre>
+<h4>Class: <code>Channel</code><span><a class="mark" href="#class-channel" id="class-channel">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_class_channel"></a></h4>
+<div class="api_metadata">
+<span>Added in: v15.1.0, v14.17.0</span>
+</div>
+<p>The class <code>Channel</code> represents an individual named channel within the data
+pipeline. It is used to track subscribers and to publish messages when there
+are subscribers present. It exists as a separate object to avoid channel
+lookups at publish time, enabling very fast publish speeds and allowing
+for heavy use while incurring very minimal cost. Channels are created with
+<a href="#diagnostics_channelchannelname"><code>diagnostics_channel.channel(name)</code></a>, constructing a channel directly
+with <code>new Channel(name)</code> is not supported.</p>
+<h5><code>channel.hasSubscribers</code><span><a class="mark" href="#channelhassubscribers" id="channelhassubscribers">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_channel_hassubscribers"></a></h5>
+<div class="api_metadata">
+<span>Added in: v15.1.0, v14.17.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> If there are active subscribers</li>
+</ul>
+<p>Check if there are active subscribers to this channel. This is helpful if
+the message you want to send might be expensive to prepare.</p>
+<p>This API is optional but helpful when trying to publish messages from very
+performance-sensitive code.</p>
+
+<pre class="with-64-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> diagnostics_channel <span class="hljs-keyword">from</span> <span class="hljs-string">'node:diagnostics_channel'</span>;
+
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);
+
+<span class="hljs-keyword">if</span> (channel.<span class="hljs-property">hasSubscribers</span>) {
+  <span class="hljs-comment">// There are subscribers, prepare and publish message</span>
+}</code><code class="language-js cjs"><span class="hljs-keyword">const</span> diagnostics_channel = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:diagnostics_channel'</span>);
+
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);
+
+<span class="hljs-keyword">if</span> (channel.<span class="hljs-property">hasSubscribers</span>) {
+  <span class="hljs-comment">// There are subscribers, prepare and publish message</span>
+}</code></pre>
+<h5><code>channel.publish(message)</code><span><a class="mark" href="#channelpublishmessage" id="channelpublishmessage">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_channel_publish_message"></a></h5>
+<div class="api_metadata">
+<span>Added in: v15.1.0, v14.17.0</span>
+</div>
+<ul>
+<li><code>message</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a> The message to send to the channel subscribers</li>
+</ul>
+<p>Publish a message to any subscribers to the channel. This will trigger
+message handlers synchronously so they will execute within the same context.</p>
+
+<pre class="with-64-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> diagnostics_channel <span class="hljs-keyword">from</span> <span class="hljs-string">'node:diagnostics_channel'</span>;
+
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);
+
+channel.<span class="hljs-title function_">publish</span>({
+  <span class="hljs-attr">some</span>: <span class="hljs-string">'message'</span>
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> diagnostics_channel = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:diagnostics_channel'</span>);
+
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);
+
+channel.<span class="hljs-title function_">publish</span>({
+  <span class="hljs-attr">some</span>: <span class="hljs-string">'message'</span>
+});</code></pre>
+<h5><code>channel.subscribe(onMessage)</code><span><a class="mark" href="#channelsubscribeonmessage" id="channelsubscribeonmessage">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_channel_subscribe_onmessage"></a></h5>
+<div class="api_metadata">
+<span>Added in: v15.1.0, v14.17.0</span><span>Deprecated since: v16.17.0</span>
+</div>
+<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <a href="#diagnostics_channelsubscribename-onmessage"><code>diagnostics_channel.subscribe(name, onMessage)</code></a></div><p></p>
+<ul>
+<li><code>onMessage</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> The handler to receive channel messages
+<ul>
+<li><code>message</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a> The message data</li>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Symbol_type" class="type">&#x3C;symbol></a> The name of the channel</li>
+</ul>
+</li>
+</ul>
+<p>Register a message handler to subscribe to this channel. This message handler
+will be run synchronously whenever a message is published to the channel. Any
+errors thrown in the message handler will trigger an <a href="process.html#event-uncaughtexception"><code>'uncaughtException'</code></a>.</p>
+
+<pre class="with-64-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> diagnostics_channel <span class="hljs-keyword">from</span> <span class="hljs-string">'node:diagnostics_channel'</span>;
+
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);
+
+channel.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function">(<span class="hljs-params">message, name</span>) =></span> {
+  <span class="hljs-comment">// Received data</span>
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> diagnostics_channel = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:diagnostics_channel'</span>);
+
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);
+
+channel.<span class="hljs-title function_">subscribe</span>(<span class="hljs-function">(<span class="hljs-params">message, name</span>) =></span> {
+  <span class="hljs-comment">// Received data</span>
+});</code></pre>
+<h5><code>channel.unsubscribe(onMessage)</code><span><a class="mark" href="#channelunsubscribeonmessage" id="channelunsubscribeonmessage">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_channel_unsubscribe_onmessage"></a></h5>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.17.0</td>
+<td><p><span>Deprecated since: v16.17.0</span></p></td></tr>
+<tr><td>v16.14.0</td>
+<td><p>Added return value. Added to channels without subscribers.</p></td></tr>
+<tr><td>v15.1.0, v14.17.0</td>
+<td><p><span>Added in: v15.1.0, v14.17.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated: Use <a href="#diagnostics_channelunsubscribename-onmessage"><code>diagnostics_channel.unsubscribe(name, onMessage)</code></a></div><p></p>
+<ul>
+<li><code>onMessage</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> The previous subscribed handler to remove</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>true</code> if the handler was found, <code>false</code> otherwise.</li>
+</ul>
+<p>Remove a message handler previously registered to this channel with
+<a href="#channelsubscribeonmessage"><code>channel.subscribe(onMessage)</code></a>.</p>
+
+<pre class="with-64-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> diagnostics_channel <span class="hljs-keyword">from</span> <span class="hljs-string">'node:diagnostics_channel'</span>;
+
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onMessage</span>(<span class="hljs-params">message, name</span>) {
+  <span class="hljs-comment">// Received data</span>
+}
+
+channel.<span class="hljs-title function_">subscribe</span>(onMessage);
+
+channel.<span class="hljs-title function_">unsubscribe</span>(onMessage);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> diagnostics_channel = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:diagnostics_channel'</span>);
+
+<span class="hljs-keyword">const</span> channel = diagnostics_channel.<span class="hljs-title function_">channel</span>(<span class="hljs-string">'my-channel'</span>);
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onMessage</span>(<span class="hljs-params">message, name</span>) {
+  <span class="hljs-comment">// Received data</span>
+}
+
+channel.<span class="hljs-title function_">subscribe</span>(onMessage);
+
+channel.<span class="hljs-title function_">unsubscribe</span>(onMessage);</code></pre>
+<h4>Built-in Channels<span><a class="mark" href="#built-in-channels" id="built-in-channels">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_built_in_channels"></a></h4>
+<h5>HTTP<span><a class="mark" href="#http" id="http">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_http"></a></h5>
+<p><code>http.client.request.start</code></p>
+<ul>
+<li><code>request</code> <a href="http.html#class-httpclientrequest" class="type">&#x3C;http.ClientRequest></a></li>
+</ul>
+<p>Emitted when client starts a request.</p>
+<p><code>http.client.response.finish</code></p>
+<ul>
+<li><code>request</code> <a href="http.html#class-httpclientrequest" class="type">&#x3C;http.ClientRequest></a></li>
+<li><code>response</code> <a href="http.html#class-httpincomingmessage" class="type">&#x3C;http.IncomingMessage></a></li>
+</ul>
+<p>Emitted when client receives a response.</p>
+<p><code>http.server.request.start</code></p>
+<ul>
+<li><code>request</code> <a href="http.html#class-httpincomingmessage" class="type">&#x3C;http.IncomingMessage></a></li>
+<li><code>response</code> <a href="http.html#class-httpserverresponse" class="type">&#x3C;http.ServerResponse></a></li>
+<li><code>socket</code> <a href="net.html#class-netsocket" class="type">&#x3C;net.Socket></a></li>
+<li><code>server</code> <a href="http.html#class-httpserver" class="type">&#x3C;http.Server></a></li>
+</ul>
+<p>Emitted when server receives a request.</p>
+<p><code>http.server.response.finish</code></p>
+<ul>
+<li><code>request</code> <a href="http.html#class-httpincomingmessage" class="type">&#x3C;http.IncomingMessage></a></li>
+<li><code>response</code> <a href="http.html#class-httpserverresponse" class="type">&#x3C;http.ServerResponse></a></li>
+<li><code>socket</code> <a href="net.html#class-netsocket" class="type">&#x3C;net.Socket></a></li>
+<li><code>server</code> <a href="http.html#class-httpserver" class="type">&#x3C;http.Server></a></li>
+</ul>
+<p>Emitted when server sends a response.</p>
+<h5>NET<span><a class="mark" href="#net" id="net">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_net"></a></h5>
+<p><code>net.client.socket</code></p>
+<ul>
+<li><code>socket</code> <a href="net.html#class-netsocket" class="type">&#x3C;net.Socket></a></li>
+</ul>
+<p>Emitted when a new TCP or pipe client socket is created.</p>
+<p><code>net.server.socket</code></p>
+<ul>
+<li><code>socket</code> <a href="net.html#class-netsocket" class="type">&#x3C;net.Socket></a></li>
+</ul>
+<p>Emitted when a new TCP or pipe connection is received.</p>
+<h5>UDP<span><a class="mark" href="#udp" id="udp">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_udp"></a></h5>
+<p><code>udp.socket</code></p>
+<ul>
+<li><code>socket</code> <a href="dgram.html#class-dgramsocket" class="type">&#x3C;dgram.Socket></a></li>
+</ul>
+<p>Emitted when a new UDP socket is created.</p>
+<h5>Process<span><a class="mark" href="#process" id="process">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_process"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.18.0</span>
+</div>
+<p><code>child_process</code></p>
+<ul>
+<li><code>process</code> <a href="child_process.html#class-childprocess" class="type">&#x3C;ChildProcess></a></li>
+</ul>
+<p>Emitted when a new process is created.</p>
+<h5>Worker Thread<span><a class="mark" href="#worker-thread" id="worker-thread">#</a></span><a aria-hidden="true" class="legacy" id="diagnostics_channel_worker_thread"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.18.0</span>
+</div>
+<p><code>worker_threads</code></p>
+<ul>
+<li><code>worker</code> <a href="worker_threads.html#class-worker"><code>Worker</code></a></li>
+</ul>
+<p>Emitted when a new thread is created.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

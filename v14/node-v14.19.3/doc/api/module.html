@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v14.19.3">
+  <title>Modules: module API | Node.js v14.19.3 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/module.html">
+</head>
+<body class="alt apidoc" id="api-section-module">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module active">Modules: <code>module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="policy.html" class="nav-policy">Policies</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="module" class="interior">
+      <header>
+        <div class="header-container">
+          <h1>Node.js v14.19.3 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li>
+              <a href="index.html">Index</a>
+            </li>
+            <li>
+              <a href="all.html">View on single page</a>
+            </li>
+            <li>
+              <a href="module.json">View as JSON</a>
+            </li>
+            
+    <li class="version-picker">
+      <a href="#">View another version <span>&#x25bc;</span></a>
+      <ol class="version-picker"><li><a href="https://nodejs.org/docs/latest-v18.x/api/module.html">18.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/module.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/module.html">16.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/module.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/module.html">14.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/module.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/module.html">12.x <b>LTS</b></a></li></ol>
+    </li>
+  
+            <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/master/doc/api/module.md">Edit on GitHub</a></li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><a href="#module_modules_module_api">Modules: <code>module</code> API</a>
+<ul>
+<li><a href="#module_the_module_object">The <code>Module</code> object</a>
+<ul>
+<li><a href="#module_module_builtinmodules"><code>module.builtinModules</code></a></li>
+<li><a href="#module_module_createrequire_filename"><code>module.createRequire(filename)</code></a></li>
+<li><span class="stability_0"><a href="#module_module_createrequirefrompath_filename"><code>module.createRequireFromPath(filename)</code></a></span></li>
+<li><a href="#module_module_syncbuiltinesmexports"><code>module.syncBuiltinESMExports()</code></a></li>
+</ul>
+</li>
+<li><span class="stability_1"><a href="#module_source_map_v3_support">Source map v3 support</a></span>
+<ul>
+<li><a href="#module_module_findsourcemap_path"><code>module.findSourceMap(path)</code></a></li>
+<li><a href="#module_class_module_sourcemap">Class: <code>module.SourceMap</code></a>
+<ul>
+<li><a href="#module_new_sourcemap_payload"><code>new SourceMap(payload)</code></a></li>
+<li><a href="#module_sourcemap_payload"><code>sourceMap.payload</code></a></li>
+<li><a href="#module_sourcemap_findentry_linenumber_columnnumber"><code>sourceMap.findEntry(lineNumber, columnNumber)</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Modules: <code>module</code> API<span><a class="mark" href="#module_modules_module_api" id="module_modules_module_api">#</a></span></h2>
+
+<div class="api_metadata">
+<span>Added in: v0.3.7</span>
+</div>
+<section><h3>The <code>Module</code> object<span><a class="mark" href="#module_the_module_object" id="module_the_module_object">#</a></span></h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Provides general utility methods when interacting with instances of
+<code>Module</code>, the <a href="modules.html#modules_the_module_object"><code>module</code></a> variable often seen in <a href="modules.html">CommonJS</a> modules. Accessed
+via <code>import 'module'</code> or <code>require('module')</code>.</p>
+<h4><code>module.builtinModules</code><span><a class="mark" href="#module_module_builtinmodules" id="module_module_builtinmodules">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v9.3.0, v8.10.0, v6.13.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></li>
+</ul>
+<p>A list of the names of all modules provided by Node.js. Can be used to verify
+if a module is maintained by a third party or not.</p>
+<p><code>module</code> in this context isn't the same object that's provided
+by the <a href="modules.html#modules_the_module_wrapper">module wrapper</a>. To access it, require the <code>Module</code> module:</p>
+
+<pre><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-comment">// module.mjs</span>
+<span class="hljs-comment">// In an ECMAScript module</span>
+<span class="hljs-keyword">import</span> { builtinModules <span class="hljs-keyword">as</span> builtin } <span class="hljs-keyword">from</span> <span class="hljs-string">'module'</span>;</code><code class="language-js cjs"><span class="hljs-comment">// module.cjs</span>
+<span class="hljs-comment">// In a CommonJS module</span>
+<span class="hljs-keyword">const</span> builtin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'module'</span>).<span class="hljs-property">builtinModules</span>;</code></pre>
+<h4><code>module.createRequire(filename)</code><span><a class="mark" href="#module_module_createrequire_filename" id="module_module_createrequire_filename">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v12.2.0</span>
+</div>
+<ul>
+<li><code>filename</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="url.html#url_the_whatwg_url_api" class="type">&#x3C;URL></a> Filename to be used to construct the require
+function. Must be a file URL object, file URL string, or absolute path
+string.</li>
+<li>Returns: <a href="modules.html#modules_require_id" class="type">&#x3C;require></a> Require function</li>
+</ul>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { createRequire } <span class="hljs-keyword">from</span> <span class="hljs-string">'module'</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-built_in">require</span> = <span class="hljs-title function_">createRequire</span>(<span class="hljs-keyword">import</span>.<span class="hljs-property">meta</span>.<span class="hljs-property">url</span>);
+
+<span class="hljs-comment">// sibling-module.js is a CommonJS module.</span>
+<span class="hljs-keyword">const</span> siblingModule = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./sibling-module'</span>);</code></pre>
+<h4><code>module.createRequireFromPath(filename)</code><span><a class="mark" href="#module_module_createrequirefrompath_filename" id="module_module_createrequirefrompath_filename">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v10.12.0</span><span>Deprecated since: v12.2.0</span>
+</div>
+<p></p><div class="api_stability api_stability_0"><a href="documentation.html#documentation_stability_index">Stability: 0</a> - Deprecated: Please use <a href="#module_module_createrequire_filename"><code>createRequire()</code></a> instead.</div><p></p>
+<ul>
+<li><code>filename</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Filename to be used to construct the relative require
+function.</li>
+<li>Returns: <a href="modules.html#modules_require_id" class="type">&#x3C;require></a> Require function</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> { createRequireFromPath } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'module'</span>);
+<span class="hljs-keyword">const</span> requireUtil = <span class="hljs-title function_">createRequireFromPath</span>(<span class="hljs-string">'../src/utils/'</span>);
+
+<span class="hljs-comment">// Require `../src/utils/some-tool`</span>
+requireUtil(<span class="hljs-string">'./some-tool'</span>);</code></pre>
+<h4><code>module.syncBuiltinESMExports()</code><span><a class="mark" href="#module_module_syncbuiltinesmexports" id="module_module_syncbuiltinesmexports">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v12.12.0</span>
+</div>
+<p>The <code>module.syncBuiltinESMExports()</code> method updates all the live bindings for
+builtin <a href="esm.html">ES Modules</a> to match the properties of the <a href="modules.html">CommonJS</a> exports. It
+does not add or remove exported names from the <a href="esm.html">ES Modules</a>.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> assert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'assert'</span>);
+<span class="hljs-keyword">const</span> { syncBuiltinESMExports } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'module'</span>);
+
+fs.<span class="hljs-property">readFile</span> = newAPI;
+
+<span class="hljs-keyword">delete</span> fs.<span class="hljs-property">readFileSync</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">newAPI</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// ...</span>
+}
+
+fs.<span class="hljs-property">newAPI</span> = newAPI;
+
+<span class="hljs-title function_">syncBuiltinESMExports</span>();
+
+<span class="hljs-title function_">import</span>(<span class="hljs-string">'fs'</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">esmFS</span>) =></span> {
+  <span class="hljs-comment">// It syncs the existing readFile property with the new value</span>
+  assert.<span class="hljs-title function_">strictEqual</span>(esmFS.<span class="hljs-property">readFile</span>, newAPI);
+  <span class="hljs-comment">// readFileSync has been deleted from the required fs</span>
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-string">'readFileSync'</span> <span class="hljs-keyword">in</span> fs, <span class="hljs-literal">false</span>);
+  <span class="hljs-comment">// syncBuiltinESMExports() does not remove readFileSync from esmFS</span>
+  assert.<span class="hljs-title function_">strictEqual</span>(<span class="hljs-string">'readFileSync'</span> <span class="hljs-keyword">in</span> esmFS, <span class="hljs-literal">true</span>);
+  <span class="hljs-comment">// syncBuiltinESMExports() does not add names</span>
+  assert.<span class="hljs-title function_">strictEqual</span>(esmFS.<span class="hljs-property">newAPI</span>, <span class="hljs-literal">undefined</span>);
+});</code></pre>
+</section><section><h3>Source map v3 support<span><a class="mark" href="#module_source_map_v3_support" id="module_source_map_v3_support">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v13.7.0, v12.17.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#documentation_stability_index">Stability: 1</a> - Experimental</div><p></p>
+<p>Helpers for interacting with the source map cache. This cache is
+populated when source map parsing is enabled and
+<a href="https://sourcemaps.info/spec.html#h.lmz475t4mvbx">source map include directives</a> are found in a modules' footer.</p>
+<p>To enable source map parsing, Node.js must be run with the flag
+<a href="cli.html#cli_enable_source_maps"><code>--enable-source-maps</code></a>, or with code coverage enabled by setting
+<a href="cli.html#cli_node_v8_coverage_dir"><code>NODE_V8_COVERAGE=dir</code></a>.</p>
+
+<pre><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-comment">// module.mjs</span>
+<span class="hljs-comment">// In an ECMAScript module</span>
+<span class="hljs-keyword">import</span> { findSourceMap, <span class="hljs-title class_">SourceMap</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'module'</span>;</code><code class="language-js cjs"><span class="hljs-comment">// module.cjs</span>
+<span class="hljs-comment">// In a CommonJS module</span>
+<span class="hljs-keyword">const</span> { findSourceMap, <span class="hljs-title class_">SourceMap</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'module'</span>);</code></pre>
+<!-- Anchors to make sure old links find a target -->
+<p><a id="module_module_findsourcemap_path_error"></a></p>
+<h4><code>module.findSourceMap(path)</code><span><a class="mark" href="#module_module_findsourcemap_path" id="module_module_findsourcemap_path">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v13.7.0, v12.17.0</span>
+</div>
+<ul>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li>Returns: <a href="module.html#module_class_module_sourcemap" class="type">&#x3C;module.SourceMap></a></li>
+</ul>
+<p><code>path</code> is the resolved path for the file for which a corresponding source map
+should be fetched.</p>
+<h4>Class: <code>module.SourceMap</code><span><a class="mark" href="#module_class_module_sourcemap" id="module_class_module_sourcemap">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v13.7.0, v12.17.0</span>
+</div>
+<h5><code>new SourceMap(payload)</code><span><a class="mark" href="#module_new_sourcemap_payload" id="module_new_sourcemap_payload">#</a></span></h5>
+<ul>
+<li><code>payload</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Creates a new <code>sourceMap</code> instance.</p>
+<p><code>payload</code> is an object with keys matching the <a href="https://sourcemaps.info/spec.html#h.mofvlxcwqzej">Source map v3 format</a>:</p>
+<ul>
+<li><code>file</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>version</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li><code>sources</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></li>
+<li><code>sourcesContent</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></li>
+<li><code>names</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></li>
+<li><code>mappings</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>sourceRoot</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<h5><code>sourceMap.payload</code><span><a class="mark" href="#module_sourcemap_payload" id="module_sourcemap_payload">#</a></span></h5>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Getter for the payload used to construct the <a href="#module_class_module_sourcemap"><code>SourceMap</code></a> instance.</p>
+<h5><code>sourceMap.findEntry(lineNumber, columnNumber)</code><span><a class="mark" href="#module_sourcemap_findentry_linenumber_columnnumber" id="module_sourcemap_findentry_linenumber_columnnumber">#</a></span></h5>
+<ul>
+<li><code>lineNumber</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li><code>columnNumber</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Given a line number and column number in the generated source file, returns
+an object representing the position in the original file. The object returned
+consists of the following keys:</p>
+<ul>
+<li>generatedLine: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li>generatedColumn: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li>originalSource: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li>originalLine: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li>originalColumn: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li>name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+  <script>
+    'use strict';
+    {
+      const kCustomPreference = 'customDarkTheme';
+      const userSettings = sessionStorage.getItem(kCustomPreference);
+      const themeToggleButton = document.getElementById('theme-toggle-btn');
+      if (userSettings === null && window.matchMedia) {
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        if ('onchange' in mq) {
+          function mqChangeListener(e) {
+            document.body.classList.toggle('dark-mode', e.matches);
+          }
+          mq.addEventListener('change', mqChangeListener);
+          if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', function() {
+              mq.removeEventListener('change', mqChangeListener);
+            }, { once: true });
+          }
+        }
+        if (mq.matches) {
+          document.body.classList.add('dark-mode');
+        }
+      } else if (userSettings === 'true') {
+        document.body.classList.add('dark-mode');
+      }
+      if (themeToggleButton) {
+        themeToggleButton.hidden = false;
+        themeToggleButton.addEventListener('click', function() {
+          sessionStorage.setItem(
+            kCustomPreference,
+            document.body.classList.toggle('dark-mode')
+          );
+        });
+      }
+    }
+  </script>
+</body>
+</html>
