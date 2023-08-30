@@ -1,0 +1,1026 @@
+{
+  "type": "module",
+  "source": "doc/api/test.md",
+  "modules": [
+    {
+      "textRaw": "Test runner",
+      "name": "test_runner",
+      "introduced_in": "v16.17.0",
+      "stability": 1,
+      "stabilityText": "Experimental",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v16.19.1/lib/test.js\">lib/test.js</a></p>\n<p>The <code>node:test</code> module facilitates the creation of JavaScript tests that\nreport results in <a href=\"https://testanything.org/\">TAP</a> format. To access it:</p>\n<pre><code class=\"language-mjs\">import test from 'node:test';\n</code></pre>\n<pre><code class=\"language-cjs\">const test = require('node:test');\n</code></pre>\n<p>This module is only available under the <code>node:</code> scheme. The following will not\nwork:</p>\n<pre><code class=\"language-mjs\">import test from 'test';\n</code></pre>\n<pre><code class=\"language-cjs\">const test = require('test');\n</code></pre>\n<p>Tests created via the <code>test</code> module consist of a single function that is\nprocessed in one of three ways:</p>\n<ol>\n<li>A synchronous function that is considered failing if it throws an exception,\nand is considered passing otherwise.</li>\n<li>A function that returns a <code>Promise</code> that is considered failing if the\n<code>Promise</code> rejects, and is considered passing if the <code>Promise</code> resolves.</li>\n<li>A function that receives a callback function. If the callback receives any\ntruthy value as its first argument, the test is considered failing. If a\nfalsy value is passed as the first argument to the callback, the test is\nconsidered passing. If the test function receives a callback function and\nalso returns a <code>Promise</code>, the test will fail.</li>\n</ol>\n<p>The following example illustrates how tests are written using the\n<code>test</code> module.</p>\n<pre><code class=\"language-js\">test('synchronous passing test', (t) => {\n  // This test passes because it does not throw an exception.\n  assert.strictEqual(1, 1);\n});\n\ntest('synchronous failing test', (t) => {\n  // This test fails because it throws an exception.\n  assert.strictEqual(1, 2);\n});\n\ntest('asynchronous passing test', async (t) => {\n  // This test passes because the Promise returned by the async\n  // function is not rejected.\n  assert.strictEqual(1, 1);\n});\n\ntest('asynchronous failing test', async (t) => {\n  // This test fails because the Promise returned by the async\n  // function is rejected.\n  assert.strictEqual(1, 2);\n});\n\ntest('failing test using Promises', (t) => {\n  // Promises can be used directly as well.\n  return new Promise((resolve, reject) => {\n    setImmediate(() => {\n      reject(new Error('this will cause the test to fail'));\n    });\n  });\n});\n\ntest('callback passing test', (t, done) => {\n  // done() is the callback function. When the setImmediate() runs, it invokes\n  // done() with no arguments.\n  setImmediate(done);\n});\n\ntest('callback failing test', (t, done) => {\n  // When the setImmediate() runs, done() is invoked with an Error object and\n  // the test fails.\n  setImmediate(() => {\n    done(new Error('callback failure'));\n  });\n});\n</code></pre>\n<p>As a test file executes, TAP is written to the standard output of the Node.js\nprocess. This output can be interpreted by any test harness that understands\nthe TAP format. If any tests fail, the process exit code is set to <code>1</code>.</p>",
+      "modules": [
+        {
+          "textRaw": "Subtests",
+          "name": "subtests",
+          "desc": "<p>The test context's <code>test()</code> method allows subtests to be created. This method\nbehaves identically to the top level <code>test()</code> function. The following example\ndemonstrates the creation of a top level test with two subtests.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  await t.test('subtest 1', (t) => {\n    assert.strictEqual(1, 1);\n  });\n\n  await t.test('subtest 2', (t) => {\n    assert.strictEqual(2, 2);\n  });\n});\n</code></pre>\n<p>In this example, <code>await</code> is used to ensure that both subtests have completed.\nThis is necessary because parent tests do not wait for their subtests to\ncomplete. Any subtests that are still outstanding when their parent finishes\nare cancelled and treated as failures. Any subtest failures cause the parent\ntest to fail.</p>",
+          "type": "module",
+          "displayName": "Subtests"
+        },
+        {
+          "textRaw": "Skipping tests",
+          "name": "skipping_tests",
+          "desc": "<p>Individual tests can be skipped by passing the <code>skip</code> option to the test, or by\ncalling the test context's <code>skip()</code> method. Both of these options support\nincluding a message that is displayed in the TAP output as shown in the\nfollowing example.</p>\n<pre><code class=\"language-js\">// The skip option is used, but no message is provided.\ntest('skip option', { skip: true }, (t) => {\n  // This code is never executed.\n});\n\n// The skip option is used, and a message is provided.\ntest('skip option with message', { skip: 'this is skipped' }, (t) => {\n  // This code is never executed.\n});\n\ntest('skip() method', (t) => {\n  // Make sure to return here as well if the test contains additional logic.\n  t.skip();\n});\n\ntest('skip() method with message', (t) => {\n  // Make sure to return here as well if the test contains additional logic.\n  t.skip('this is skipped');\n});\n</code></pre>",
+          "type": "module",
+          "displayName": "Skipping tests"
+        },
+        {
+          "textRaw": "`describe`/`it` syntax",
+          "name": "`describe`/`it`_syntax",
+          "desc": "<p>Running tests can also be done using <code>describe</code> to declare a suite\nand <code>it</code> to declare a test.\nA suite is used to organize and group related tests together.\n<code>it</code> is an alias for <code>test</code>, except there is no test context passed,\nsince nesting is done using suites.</p>\n<pre><code class=\"language-js\">describe('A thing', () => {\n  it('should work', () => {\n    assert.strictEqual(1, 1);\n  });\n\n  it('should be ok', () => {\n    assert.strictEqual(2, 2);\n  });\n\n  describe('a nested thing', () => {\n    it('should work', () => {\n      assert.strictEqual(3, 3);\n    });\n  });\n});\n</code></pre>\n<p><code>describe</code> and <code>it</code> are imported from the <code>node:test</code> module.</p>\n<pre><code class=\"language-mjs\">import { describe, it } from 'node:test';\n</code></pre>\n<pre><code class=\"language-cjs\">const { describe, it } = require('node:test');\n</code></pre>",
+          "modules": [
+            {
+              "textRaw": "`only` tests",
+              "name": "`only`_tests",
+              "desc": "<p>If Node.js is started with the <a href=\"cli.html#--test-only\"><code>--test-only</code></a> command-line option, it is\npossible to skip all top level tests except for a selected subset by passing\nthe <code>only</code> option to the tests that should be run. When a test with the <code>only</code>\noption set is run, all subtests are also run. The test context's <code>runOnly()</code>\nmethod can be used to implement the same behavior at the subtest level.</p>\n<pre><code class=\"language-js\">// Assume Node.js is run with the --test-only command-line option.\n// The 'only' option is set, so this test is run.\ntest('this test is run', { only: true }, async (t) => {\n  // Within this test, all subtests are run by default.\n  await t.test('running subtest');\n\n  // The test context can be updated to run subtests with the 'only' option.\n  t.runOnly(true);\n  await t.test('this subtest is now skipped');\n  await t.test('this subtest is run', { only: true });\n\n  // Switch the context back to execute all tests.\n  t.runOnly(false);\n  await t.test('this subtest is now run');\n\n  // Explicitly do not run these tests.\n  await t.test('skipped subtest 3', { only: false });\n  await t.test('skipped subtest 4', { skip: true });\n});\n\n// The 'only' option is not set, so this test is skipped.\ntest('this test is not run', () => {\n  // This code is not run.\n  throw new Error('fail');\n});\n</code></pre>",
+              "type": "module",
+              "displayName": "`only` tests"
+            }
+          ],
+          "type": "module",
+          "displayName": "`describe`/`it` syntax"
+        },
+        {
+          "textRaw": "Extraneous asynchronous activity",
+          "name": "extraneous_asynchronous_activity",
+          "desc": "<p>Once a test function finishes executing, the TAP results are output as quickly\nas possible while maintaining the order of the tests. However, it is possible\nfor the test function to generate asynchronous activity that outlives the test\nitself. The test runner handles this type of activity, but does not delay the\nreporting of test results in order to accommodate it.</p>\n<p>In the following example, a test completes with two <code>setImmediate()</code>\noperations still outstanding. The first <code>setImmediate()</code> attempts to create a\nnew subtest. Because the parent test has already finished and output its\nresults, the new subtest is immediately marked as failed, and reported in the\ntop level of the file's TAP output.</p>\n<p>The second <code>setImmediate()</code> creates an <code>uncaughtException</code> event.\n<code>uncaughtException</code> and <code>unhandledRejection</code> events originating from a completed\ntest are handled by the <code>test</code> module and reported as diagnostic warnings in\nthe top level of the file's TAP output.</p>\n<pre><code class=\"language-js\">test('a test that creates asynchronous activity', (t) => {\n  setImmediate(() => {\n    t.test('subtest that is created too late', (t) => {\n      throw new Error('error1');\n    });\n  });\n\n  setImmediate(() => {\n    throw new Error('error2');\n  });\n\n  // The test finishes after this line.\n});\n</code></pre>",
+          "type": "module",
+          "displayName": "Extraneous asynchronous activity"
+        },
+        {
+          "textRaw": "Running tests from the command line",
+          "name": "running_tests_from_the_command_line",
+          "desc": "<p>The Node.js test runner can be invoked from the command line by passing the\n<a href=\"cli.html#--test\"><code>--test</code></a> flag:</p>\n<pre><code class=\"language-bash\">node --test\n</code></pre>\n<p>By default, Node.js will recursively search the current directory for\nJavaScript source files matching a specific naming convention. Matching files\nare executed as test files. More information on the expected test file naming\nconvention and behavior can be found in the <a href=\"#test-runner-execution-model\">test runner execution model</a>\nsection.</p>\n<p>Alternatively, one or more paths can be provided as the final argument(s) to\nthe Node.js command, as shown below.</p>\n<pre><code class=\"language-bash\">node --test test1.js test2.mjs custom_test_dir/\n</code></pre>\n<p>In this example, the test runner will execute the files <code>test1.js</code> and\n<code>test2.mjs</code>. The test runner will also recursively search the\n<code>custom_test_dir/</code> directory for test files to execute.</p>",
+          "modules": [
+            {
+              "textRaw": "Test runner execution model",
+              "name": "test_runner_execution_model",
+              "desc": "<p>When searching for test files to execute, the test runner behaves as follows:</p>\n<ul>\n<li>Any files explicitly provided by the user are executed.</li>\n<li>If the user did not explicitly specify any paths, the current working\ndirectory is recursively searched for files as specified in the following\nsteps.</li>\n<li><code>node_modules</code> directories are skipped unless explicitly provided by the\nuser.</li>\n<li>If a directory named <code>test</code> is encountered, the test runner will search it\nrecursively for all all <code>.js</code>, <code>.cjs</code>, and <code>.mjs</code> files. All of these files\nare treated as test files, and do not need to match the specific naming\nconvention detailed below. This is to accommodate projects that place all of\ntheir tests in a single <code>test</code> directory.</li>\n<li>In all other directories, <code>.js</code>, <code>.cjs</code>, and <code>.mjs</code> files matching the\nfollowing patterns are treated as test files:\n<ul>\n<li><code>^test$</code> - Files whose basename is the string <code>'test'</code>. Examples:\n<code>test.js</code>, <code>test.cjs</code>, <code>test.mjs</code>.</li>\n<li><code>^test-.+</code> - Files whose basename starts with the string <code>'test-'</code>\nfollowed by one or more characters. Examples: <code>test-example.js</code>,\n<code>test-another-example.mjs</code>.</li>\n<li><code>.+[\\.\\-\\_]test$</code> - Files whose basename ends with <code>.test</code>, <code>-test</code>, or\n<code>_test</code>, preceded by one or more characters. Examples: <code>example.test.js</code>,\n<code>example-test.cjs</code>, <code>example_test.mjs</code>.</li>\n<li>Other file types understood by Node.js such as <code>.node</code> and <code>.json</code> are not\nautomatically executed by the test runner, but are supported if explicitly\nprovided on the command line.</li>\n</ul>\n</li>\n</ul>\n<p>Each matching test file is executed in a separate child process. If the child\nprocess finishes with an exit code of 0, the test is considered passing.\nOtherwise, the test is considered to be a failure. Test files must be\nexecutable by Node.js, but are not required to use the <code>node:test</code> module\ninternally.</p>",
+              "type": "module",
+              "displayName": "Test runner execution model"
+            }
+          ],
+          "type": "module",
+          "displayName": "Running tests from the command line"
+        }
+      ],
+      "methods": [
+        {
+          "textRaw": "`run([options])`",
+          "type": "method",
+          "name": "run",
+          "meta": {
+            "added": [
+              "v16.19.0"
+            ],
+            "changes": []
+          },
+          "signatures": [
+            {
+              "return": {
+                "textRaw": "Returns: {TapStream}",
+                "name": "return",
+                "type": "TapStream"
+              },
+              "params": [
+                {
+                  "textRaw": "`options` {Object} Configuration options for running tests. The following properties are supported:",
+                  "name": "options",
+                  "type": "Object",
+                  "desc": "Configuration options for running tests. The following properties are supported:",
+                  "options": [
+                    {
+                      "textRaw": "`concurrency` {number|boolean} If a number is provided, then that many files would run in parallel. If truthy, it would run (number of cpu cores - 1) files in parallel. If falsy, it would only run one file at a time. If unspecified, subtests inherit this value from their parent. **Default:** `true`.",
+                      "name": "concurrency",
+                      "type": "number|boolean",
+                      "default": "`true`",
+                      "desc": "If a number is provided, then that many files would run in parallel. If truthy, it would run (number of cpu cores - 1) files in parallel. If falsy, it would only run one file at a time. If unspecified, subtests inherit this value from their parent."
+                    },
+                    {
+                      "textRaw": "`files`: {Array} An array containing the list of files to run. **Default** matching files from [test runner execution model][].",
+                      "name": "files",
+                      "type": "Array",
+                      "desc": "An array containing the list of files to run. **Default** matching files from [test runner execution model][]."
+                    },
+                    {
+                      "textRaw": "`signal` {AbortSignal} Allows aborting an in-progress test execution.",
+                      "name": "signal",
+                      "type": "AbortSignal",
+                      "desc": "Allows aborting an in-progress test execution."
+                    },
+                    {
+                      "textRaw": "`timeout` {number} A number of milliseconds the test execution will fail after. If unspecified, subtests inherit this value from their parent. **Default:** `Infinity`.",
+                      "name": "timeout",
+                      "type": "number",
+                      "default": "`Infinity`",
+                      "desc": "A number of milliseconds the test execution will fail after. If unspecified, subtests inherit this value from their parent."
+                    },
+                    {
+                      "textRaw": "`inspectPort` {number|Function} Sets inspector port of test child process. This can be a number, or a function that takes no arguments and returns a number. If a nullish value is provided, each process gets its own port, incremented from the primary's `process.debugPort`. **Default:** `undefined`.",
+                      "name": "inspectPort",
+                      "type": "number|Function",
+                      "default": "`undefined`",
+                      "desc": "Sets inspector port of test child process. This can be a number, or a function that takes no arguments and returns a number. If a nullish value is provided, each process gets its own port, incremented from the primary's `process.debugPort`."
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "desc": "<pre><code class=\"language-js\">run({ files: [path.resolve('./tests/test.js')] })\n  .pipe(process.stdout);\n</code></pre>"
+        },
+        {
+          "textRaw": "`test([name][, options][, fn])`",
+          "type": "method",
+          "name": "test",
+          "meta": {
+            "added": [
+              "v16.17.0"
+            ],
+            "changes": [
+              {
+                "version": "v16.18.0",
+                "pr-url": "https://github.com/nodejs/node/pull/43554",
+                "description": "Add a `signal` option."
+              },
+              {
+                "version": "v16.17.0",
+                "pr-url": "https://github.com/nodejs/node/pull/43505",
+                "description": "Add a `timeout` option."
+              }
+            ]
+          },
+          "signatures": [
+            {
+              "return": {
+                "textRaw": "Returns: {Promise} Resolved with `undefined` once the test completes.",
+                "name": "return",
+                "type": "Promise",
+                "desc": "Resolved with `undefined` once the test completes."
+              },
+              "params": [
+                {
+                  "textRaw": "`name` {string} The name of the test, which is displayed when reporting test results. **Default:** The `name` property of `fn`, or `'<anonymous>'` if `fn` does not have a name.",
+                  "name": "name",
+                  "type": "string",
+                  "default": "The `name` property of `fn`, or `'<anonymous>'` if `fn` does not have a name",
+                  "desc": "The name of the test, which is displayed when reporting test results."
+                },
+                {
+                  "textRaw": "`options` {Object} Configuration options for the test. The following properties are supported:",
+                  "name": "options",
+                  "type": "Object",
+                  "desc": "Configuration options for the test. The following properties are supported:",
+                  "options": [
+                    {
+                      "textRaw": "`concurrency` {number|boolean} If a number is provided, then that many tests would run in parallel. If truthy, it would run (number of cpu cores - 1) tests in parallel. For subtests, it will be `Infinity` tests in parallel. If falsy, it would only run one test at a time. If unspecified, subtests inherit this value from their parent. **Default:** `false`.",
+                      "name": "concurrency",
+                      "type": "number|boolean",
+                      "default": "`false`",
+                      "desc": "If a number is provided, then that many tests would run in parallel. If truthy, it would run (number of cpu cores - 1) tests in parallel. For subtests, it will be `Infinity` tests in parallel. If falsy, it would only run one test at a time. If unspecified, subtests inherit this value from their parent."
+                    },
+                    {
+                      "textRaw": "`only` {boolean} If truthy, and the test context is configured to run `only` tests, then this test will be run. Otherwise, the test is skipped. **Default:** `false`.",
+                      "name": "only",
+                      "type": "boolean",
+                      "default": "`false`",
+                      "desc": "If truthy, and the test context is configured to run `only` tests, then this test will be run. Otherwise, the test is skipped."
+                    },
+                    {
+                      "textRaw": "`signal` {AbortSignal} Allows aborting an in-progress test.",
+                      "name": "signal",
+                      "type": "AbortSignal",
+                      "desc": "Allows aborting an in-progress test."
+                    },
+                    {
+                      "textRaw": "`skip` {boolean|string} If truthy, the test is skipped. If a string is provided, that string is displayed in the test results as the reason for skipping the test. **Default:** `false`.",
+                      "name": "skip",
+                      "type": "boolean|string",
+                      "default": "`false`",
+                      "desc": "If truthy, the test is skipped. If a string is provided, that string is displayed in the test results as the reason for skipping the test."
+                    },
+                    {
+                      "textRaw": "`todo` {boolean|string} If truthy, the test marked as `TODO`. If a string is provided, that string is displayed in the test results as the reason why the test is `TODO`. **Default:** `false`.",
+                      "name": "todo",
+                      "type": "boolean|string",
+                      "default": "`false`",
+                      "desc": "If truthy, the test marked as `TODO`. If a string is provided, that string is displayed in the test results as the reason why the test is `TODO`."
+                    },
+                    {
+                      "textRaw": "`timeout` {number} A number of milliseconds the test will fail after. If unspecified, subtests inherit this value from their parent. **Default:** `Infinity`.",
+                      "name": "timeout",
+                      "type": "number",
+                      "default": "`Infinity`",
+                      "desc": "A number of milliseconds the test will fail after. If unspecified, subtests inherit this value from their parent."
+                    }
+                  ]
+                },
+                {
+                  "textRaw": "`fn` {Function|AsyncFunction} The function under test. The first argument to this function is a [`TestContext`][] object. If the test uses callbacks, the callback function is passed as the second argument. **Default:** A no-op function.",
+                  "name": "fn",
+                  "type": "Function|AsyncFunction",
+                  "default": "A no-op function",
+                  "desc": "The function under test. The first argument to this function is a [`TestContext`][] object. If the test uses callbacks, the callback function is passed as the second argument."
+                }
+              ]
+            }
+          ],
+          "desc": "<p>The <code>test()</code> function is the value imported from the <code>test</code> module. Each\ninvocation of this function results in the creation of a test point in the TAP\noutput.</p>\n<p>The <code>TestContext</code> object passed to the <code>fn</code> argument can be used to perform\nactions related to the current test. Examples include skipping the test, adding\nadditional TAP diagnostic information, or creating subtests.</p>\n<p><code>test()</code> returns a <code>Promise</code> that resolves once the test completes. The return\nvalue can usually be discarded for top level tests. However, the return value\nfrom subtests should be used to prevent the parent test from finishing first\nand cancelling the subtest as shown in the following example.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  // The setTimeout() in the following subtest would cause it to outlive its\n  // parent test if 'await' is removed on the next line. Once the parent test\n  // completes, it will cancel any outstanding subtests.\n  await t.test('longer running subtest', async (t) => {\n    return new Promise((resolve, reject) => {\n      setTimeout(resolve, 1000);\n    });\n  });\n});\n</code></pre>\n<p>The <code>timeout</code> option can be used to fail the test if it takes longer than\n<code>timeout</code> milliseconds to complete. However, it is not a reliable mechanism for\ncanceling tests because a running test might block the application thread and\nthus prevent the scheduled cancellation.</p>"
+        },
+        {
+          "textRaw": "`describe([name][, options][, fn])`",
+          "type": "method",
+          "name": "describe",
+          "signatures": [
+            {
+              "return": {
+                "textRaw": "Returns: `undefined`.",
+                "name": "return",
+                "desc": "`undefined`."
+              },
+              "params": [
+                {
+                  "textRaw": "`name` {string} The name of the suite, which is displayed when reporting test results. **Default:** The `name` property of `fn`, or `'<anonymous>'` if `fn` does not have a name.",
+                  "name": "name",
+                  "type": "string",
+                  "default": "The `name` property of `fn`, or `'<anonymous>'` if `fn` does not have a name",
+                  "desc": "The name of the suite, which is displayed when reporting test results."
+                },
+                {
+                  "textRaw": "`options` {Object} Configuration options for the suite. supports the same options as `test([name][, options][, fn])`.",
+                  "name": "options",
+                  "type": "Object",
+                  "desc": "Configuration options for the suite. supports the same options as `test([name][, options][, fn])`."
+                },
+                {
+                  "textRaw": "`fn` {Function|AsyncFunction} The function under suite declaring all subtests and subsuites. The first argument to this function is a [`SuiteContext`][] object. **Default:** A no-op function.",
+                  "name": "fn",
+                  "type": "Function|AsyncFunction",
+                  "default": "A no-op function",
+                  "desc": "The function under suite declaring all subtests and subsuites. The first argument to this function is a [`SuiteContext`][] object."
+                }
+              ]
+            }
+          ],
+          "desc": "<p>The <code>describe()</code> function imported from the <code>node:test</code> module. Each\ninvocation of this function results in the creation of a Subtest\nand a test point in the TAP output.\nAfter invocation of top level <code>describe</code> functions,\nall top level tests and suites will execute.</p>"
+        },
+        {
+          "textRaw": "`describe.skip([name][, options][, fn])`",
+          "type": "method",
+          "name": "skip",
+          "signatures": [
+            {
+              "params": []
+            }
+          ],
+          "desc": "<p>Shorthand for skipping a suite, same as <a href=\"#describename-options-fn\"><code>describe([name], { skip: true }[, fn])</code></a>.</p>"
+        },
+        {
+          "textRaw": "`describe.todo([name][, options][, fn])`",
+          "type": "method",
+          "name": "todo",
+          "signatures": [
+            {
+              "params": []
+            }
+          ],
+          "desc": "<p>Shorthand for marking a suite as <code>TODO</code>, same as\n<a href=\"#describename-options-fn\"><code>describe([name], { todo: true }[, fn])</code></a>.</p>"
+        },
+        {
+          "textRaw": "`it([name][, options][, fn])`",
+          "type": "method",
+          "name": "it",
+          "signatures": [
+            {
+              "return": {
+                "textRaw": "Returns: `undefined`.",
+                "name": "return",
+                "desc": "`undefined`."
+              },
+              "params": [
+                {
+                  "textRaw": "`name` {string} The name of the test, which is displayed when reporting test results. **Default:** The `name` property of `fn`, or `'<anonymous>'` if `fn` does not have a name.",
+                  "name": "name",
+                  "type": "string",
+                  "default": "The `name` property of `fn`, or `'<anonymous>'` if `fn` does not have a name",
+                  "desc": "The name of the test, which is displayed when reporting test results."
+                },
+                {
+                  "textRaw": "`options` {Object} Configuration options for the suite. supports the same options as `test([name][, options][, fn])`.",
+                  "name": "options",
+                  "type": "Object",
+                  "desc": "Configuration options for the suite. supports the same options as `test([name][, options][, fn])`."
+                },
+                {
+                  "textRaw": "`fn` {Function|AsyncFunction} The function under test. If the test uses callbacks, the callback function is passed as an argument. **Default:** A no-op function.",
+                  "name": "fn",
+                  "type": "Function|AsyncFunction",
+                  "default": "A no-op function",
+                  "desc": "The function under test. If the test uses callbacks, the callback function is passed as an argument."
+                }
+              ]
+            }
+          ],
+          "desc": "<p>The <code>it()</code> function is the value imported from the <code>node:test</code> module.\nEach invocation of this function results in the creation of a test point in the\nTAP output.</p>"
+        },
+        {
+          "textRaw": "`it.skip([name][, options][, fn])`",
+          "type": "method",
+          "name": "skip",
+          "signatures": [
+            {
+              "params": []
+            }
+          ],
+          "desc": "<p>Shorthand for skipping a test,\nsame as <a href=\"#testname-options-fn\"><code>it([name], { skip: true }[, fn])</code></a>.</p>"
+        },
+        {
+          "textRaw": "`it.todo([name][, options][, fn])`",
+          "type": "method",
+          "name": "todo",
+          "signatures": [
+            {
+              "params": []
+            }
+          ],
+          "desc": "<p>Shorthand for marking a test as <code>TODO</code>,\nsame as <a href=\"#testname-options-fn\"><code>it([name], { todo: true }[, fn])</code></a>.</p>"
+        },
+        {
+          "textRaw": "`before([, fn][, options])`",
+          "type": "method",
+          "name": "before",
+          "meta": {
+            "added": [
+              "v16.18.0"
+            ],
+            "changes": []
+          },
+          "signatures": [
+            {
+              "params": [
+                {
+                  "textRaw": "`fn` {Function|AsyncFunction} The hook function. If the hook uses callbacks, the callback function is passed as the second argument. **Default:** A no-op function.",
+                  "name": "fn",
+                  "type": "Function|AsyncFunction",
+                  "default": "A no-op function",
+                  "desc": "The hook function. If the hook uses callbacks, the callback function is passed as the second argument."
+                },
+                {
+                  "textRaw": "`options` {Object} Configuration options for the hook. The following properties are supported:",
+                  "name": "options",
+                  "type": "Object",
+                  "desc": "Configuration options for the hook. The following properties are supported:",
+                  "options": [
+                    {
+                      "textRaw": "`signal` {AbortSignal} Allows aborting an in-progress hook.",
+                      "name": "signal",
+                      "type": "AbortSignal",
+                      "desc": "Allows aborting an in-progress hook."
+                    },
+                    {
+                      "textRaw": "`timeout` {number} A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent. **Default:** `Infinity`.",
+                      "name": "timeout",
+                      "type": "number",
+                      "default": "`Infinity`",
+                      "desc": "A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent."
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "desc": "<p>This function is used to create a hook running before running a suite.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  before(() => console.log('about to run some test'));\n  it('is a subtest', () => {\n    assert.ok('some relevant assertion here');\n  });\n});\n</code></pre>"
+        },
+        {
+          "textRaw": "`after([, fn][, options])`",
+          "type": "method",
+          "name": "after",
+          "meta": {
+            "added": [
+              "v16.18.0"
+            ],
+            "changes": []
+          },
+          "signatures": [
+            {
+              "params": [
+                {
+                  "textRaw": "`fn` {Function|AsyncFunction} The hook function. If the hook uses callbacks, the callback function is passed as the second argument. **Default:** A no-op function.",
+                  "name": "fn",
+                  "type": "Function|AsyncFunction",
+                  "default": "A no-op function",
+                  "desc": "The hook function. If the hook uses callbacks, the callback function is passed as the second argument."
+                },
+                {
+                  "textRaw": "`options` {Object} Configuration options for the hook. The following properties are supported:",
+                  "name": "options",
+                  "type": "Object",
+                  "desc": "Configuration options for the hook. The following properties are supported:",
+                  "options": [
+                    {
+                      "textRaw": "`signal` {AbortSignal} Allows aborting an in-progress hook.",
+                      "name": "signal",
+                      "type": "AbortSignal",
+                      "desc": "Allows aborting an in-progress hook."
+                    },
+                    {
+                      "textRaw": "`timeout` {number} A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent. **Default:** `Infinity`.",
+                      "name": "timeout",
+                      "type": "number",
+                      "default": "`Infinity`",
+                      "desc": "A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent."
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "desc": "<p>This function is used to create a hook running after  running a suite.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  after(() => console.log('finished running tests'));\n  it('is a subtest', () => {\n    assert.ok('some relevant assertion here');\n  });\n});\n</code></pre>"
+        },
+        {
+          "textRaw": "`beforeEach([, fn][, options])`",
+          "type": "method",
+          "name": "beforeEach",
+          "meta": {
+            "added": [
+              "v16.18.0"
+            ],
+            "changes": []
+          },
+          "signatures": [
+            {
+              "params": [
+                {
+                  "textRaw": "`fn` {Function|AsyncFunction} The hook function. If the hook uses callbacks, the callback function is passed as the second argument. **Default:** A no-op function.",
+                  "name": "fn",
+                  "type": "Function|AsyncFunction",
+                  "default": "A no-op function",
+                  "desc": "The hook function. If the hook uses callbacks, the callback function is passed as the second argument."
+                },
+                {
+                  "textRaw": "`options` {Object} Configuration options for the hook. The following properties are supported:",
+                  "name": "options",
+                  "type": "Object",
+                  "desc": "Configuration options for the hook. The following properties are supported:",
+                  "options": [
+                    {
+                      "textRaw": "`signal` {AbortSignal} Allows aborting an in-progress hook.",
+                      "name": "signal",
+                      "type": "AbortSignal",
+                      "desc": "Allows aborting an in-progress hook."
+                    },
+                    {
+                      "textRaw": "`timeout` {number} A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent. **Default:** `Infinity`.",
+                      "name": "timeout",
+                      "type": "number",
+                      "default": "`Infinity`",
+                      "desc": "A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent."
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "desc": "<p>This function is used to create a hook running\nbefore each subtest of the current suite.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  beforeEach(() => t.diagnostic('about to run a test'));\n  it('is a subtest', () => {\n    assert.ok('some relevant assertion here');\n  });\n});\n</code></pre>"
+        },
+        {
+          "textRaw": "`afterEach([, fn][, options])`",
+          "type": "method",
+          "name": "afterEach",
+          "meta": {
+            "added": [
+              "v16.18.0"
+            ],
+            "changes": []
+          },
+          "signatures": [
+            {
+              "params": [
+                {
+                  "textRaw": "`fn` {Function|AsyncFunction} The hook function. If the hook uses callbacks, the callback function is passed as the second argument. **Default:** A no-op function.",
+                  "name": "fn",
+                  "type": "Function|AsyncFunction",
+                  "default": "A no-op function",
+                  "desc": "The hook function. If the hook uses callbacks, the callback function is passed as the second argument."
+                },
+                {
+                  "textRaw": "`options` {Object} Configuration options for the hook. The following properties are supported:",
+                  "name": "options",
+                  "type": "Object",
+                  "desc": "Configuration options for the hook. The following properties are supported:",
+                  "options": [
+                    {
+                      "textRaw": "`signal` {AbortSignal} Allows aborting an in-progress hook.",
+                      "name": "signal",
+                      "type": "AbortSignal",
+                      "desc": "Allows aborting an in-progress hook."
+                    },
+                    {
+                      "textRaw": "`timeout` {number} A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent. **Default:** `Infinity`.",
+                      "name": "timeout",
+                      "type": "number",
+                      "default": "`Infinity`",
+                      "desc": "A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent."
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "desc": "<p>This function is used to create a hook running\nafter each subtest of the current test.</p>\n<pre><code class=\"language-js\">describe('tests', async () => {\n  afterEach(() => t.diagnostic('about to run a test'));\n  it('is a subtest', () => {\n    assert.ok('some relevant assertion here');\n  });\n});\n</code></pre>"
+        }
+      ],
+      "classes": [
+        {
+          "textRaw": "Class: `TapStream`",
+          "type": "class",
+          "name": "TapStream",
+          "meta": {
+            "added": [
+              "v16.19.0"
+            ],
+            "changes": []
+          },
+          "desc": "<ul>\n<li>Extends <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a></li>\n</ul>\n<p>A successful call to <a href=\"#runoptions\"><code>run()</code></a> method will return a new <a href=\"test.html#class-tapstream\" class=\"type\">&lt;TapStream&gt;</a>\nobject, streaming a <a href=\"https://testanything.org/\">TAP</a> output\n<code>TapStream</code> will emit events, in the order of the tests definition</p>",
+          "events": [
+            {
+              "textRaw": "Event: `'test:diagnostic'`",
+              "type": "event",
+              "name": "test:diagnostic",
+              "params": [
+                {
+                  "textRaw": "`message` {string} The diagnostic message.",
+                  "name": "message",
+                  "type": "string",
+                  "desc": "The diagnostic message."
+                }
+              ],
+              "desc": "<p>Emitted when <a href=\"#contextdiagnosticmessage\"><code>context.diagnostic</code></a> is called.</p>"
+            },
+            {
+              "textRaw": "Event: `'test:fail'`",
+              "type": "event",
+              "name": "test:fail",
+              "params": [
+                {
+                  "textRaw": "`data` {Object}",
+                  "name": "data",
+                  "type": "Object",
+                  "options": [
+                    {
+                      "textRaw": "`duration` {number} The test duration.",
+                      "name": "duration",
+                      "type": "number",
+                      "desc": "The test duration."
+                    },
+                    {
+                      "textRaw": "`error` {Error} The failure casing test to fail.",
+                      "name": "error",
+                      "type": "Error",
+                      "desc": "The failure casing test to fail."
+                    },
+                    {
+                      "textRaw": "`name` {string} The test name.",
+                      "name": "name",
+                      "type": "string",
+                      "desc": "The test name."
+                    },
+                    {
+                      "textRaw": "`testNumber` {number} The ordinal number of the test.",
+                      "name": "testNumber",
+                      "type": "number",
+                      "desc": "The ordinal number of the test."
+                    },
+                    {
+                      "textRaw": "`todo` {string|undefined} Present if [`context.todo`][] is called",
+                      "name": "todo",
+                      "type": "string|undefined",
+                      "desc": "Present if [`context.todo`][] is called"
+                    },
+                    {
+                      "textRaw": "`skip` {string|undefined} Present if [`context.skip`][] is called",
+                      "name": "skip",
+                      "type": "string|undefined",
+                      "desc": "Present if [`context.skip`][] is called"
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Emitted when a test fails.</p>"
+            },
+            {
+              "textRaw": "Event: `'test:pass'`",
+              "type": "event",
+              "name": "test:pass",
+              "params": [
+                {
+                  "textRaw": "`data` {Object}",
+                  "name": "data",
+                  "type": "Object",
+                  "options": [
+                    {
+                      "textRaw": "`duration` {number} The test duration.",
+                      "name": "duration",
+                      "type": "number",
+                      "desc": "The test duration."
+                    },
+                    {
+                      "textRaw": "`name` {string} The test name.",
+                      "name": "name",
+                      "type": "string",
+                      "desc": "The test name."
+                    },
+                    {
+                      "textRaw": "`testNumber` {number} The ordinal number of the test.",
+                      "name": "testNumber",
+                      "type": "number",
+                      "desc": "The ordinal number of the test."
+                    },
+                    {
+                      "textRaw": "`todo` {string|undefined} Present if [`context.todo`][] is called",
+                      "name": "todo",
+                      "type": "string|undefined",
+                      "desc": "Present if [`context.todo`][] is called"
+                    },
+                    {
+                      "textRaw": "`skip` {string|undefined} Present if [`context.skip`][] is called",
+                      "name": "skip",
+                      "type": "string|undefined",
+                      "desc": "Present if [`context.skip`][] is called"
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Emitted when a test passes.</p>"
+            }
+          ]
+        },
+        {
+          "textRaw": "Class: `TestContext`",
+          "type": "class",
+          "name": "TestContext",
+          "meta": {
+            "added": [
+              "v16.17.0"
+            ],
+            "changes": []
+          },
+          "desc": "<p>An instance of <code>TestContext</code> is passed to each test function in order to\ninteract with the test runner. However, the <code>TestContext</code> constructor is not\nexposed as part of the API.</p>",
+          "methods": [
+            {
+              "textRaw": "`context.beforeEach([, fn][, options])`",
+              "type": "method",
+              "name": "beforeEach",
+              "meta": {
+                "added": [
+                  "v16.18.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`fn` {Function|AsyncFunction} The hook function. The first argument to this function is a [`TestContext`][] object. If the hook uses callbacks, the callback function is passed as the second argument. **Default:** A no-op function.",
+                      "name": "fn",
+                      "type": "Function|AsyncFunction",
+                      "default": "A no-op function",
+                      "desc": "The hook function. The first argument to this function is a [`TestContext`][] object. If the hook uses callbacks, the callback function is passed as the second argument."
+                    },
+                    {
+                      "textRaw": "`options` {Object} Configuration options for the hook. The following properties are supported:",
+                      "name": "options",
+                      "type": "Object",
+                      "desc": "Configuration options for the hook. The following properties are supported:",
+                      "options": [
+                        {
+                          "textRaw": "`signal` {AbortSignal} Allows aborting an in-progress hook.",
+                          "name": "signal",
+                          "type": "AbortSignal",
+                          "desc": "Allows aborting an in-progress hook."
+                        },
+                        {
+                          "textRaw": "`timeout` {number} A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent. **Default:** `Infinity`.",
+                          "name": "timeout",
+                          "type": "number",
+                          "default": "`Infinity`",
+                          "desc": "A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>This function is used to create a hook running\nbefore each subtest of the current test.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  t.beforeEach((t) => t.diagnostic(`about to run ${t.name}`));\n  await t.test(\n    'This is a subtest',\n    (t) => {\n      assert.ok('some relevant assertion here');\n    }\n  );\n});\n</code></pre>"
+            },
+            {
+              "textRaw": "`context.afterEach([, fn][, options])`",
+              "type": "method",
+              "name": "afterEach",
+              "meta": {
+                "added": [
+                  "v16.18.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`fn` {Function|AsyncFunction} The hook function. The first argument to this function is a [`TestContext`][] object. If the hook uses callbacks, the callback function is passed as the second argument. **Default:** A no-op function.",
+                      "name": "fn",
+                      "type": "Function|AsyncFunction",
+                      "default": "A no-op function",
+                      "desc": "The hook function. The first argument to this function is a [`TestContext`][] object. If the hook uses callbacks, the callback function is passed as the second argument."
+                    },
+                    {
+                      "textRaw": "`options` {Object} Configuration options for the hook. The following properties are supported:",
+                      "name": "options",
+                      "type": "Object",
+                      "desc": "Configuration options for the hook. The following properties are supported:",
+                      "options": [
+                        {
+                          "textRaw": "`signal` {AbortSignal} Allows aborting an in-progress hook.",
+                          "name": "signal",
+                          "type": "AbortSignal",
+                          "desc": "Allows aborting an in-progress hook."
+                        },
+                        {
+                          "textRaw": "`timeout` {number} A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent. **Default:** `Infinity`.",
+                          "name": "timeout",
+                          "type": "number",
+                          "default": "`Infinity`",
+                          "desc": "A number of milliseconds the hook will fail after. If unspecified, subtests inherit this value from their parent."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>This function is used to create a hook running\nafter each subtest of the current test.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  t.afterEach((t) => t.diagnostic(`finished running ${t.name}`));\n  await t.test(\n    'This is a subtest',\n    (t) => {\n      assert.ok('some relevant assertion here');\n    }\n  );\n});\n</code></pre>"
+            },
+            {
+              "textRaw": "`context.diagnostic(message)`",
+              "type": "method",
+              "name": "diagnostic",
+              "meta": {
+                "added": [
+                  "v16.17.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`message` {string} Message to be displayed as a TAP diagnostic.",
+                      "name": "message",
+                      "type": "string",
+                      "desc": "Message to be displayed as a TAP diagnostic."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>This function is used to write TAP diagnostics to the output. Any diagnostic\ninformation is included at the end of the test's results. This function does\nnot return a value.</p>\n<pre><code class=\"language-js\">test('top level test', (t) => {\n  t.diagnostic('A diagnostic message');\n});\n</code></pre>"
+            },
+            {
+              "textRaw": "`context.runOnly(shouldRunOnlyTests)`",
+              "type": "method",
+              "name": "runOnly",
+              "meta": {
+                "added": [
+                  "v16.17.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`shouldRunOnlyTests` {boolean} Whether or not to run `only` tests.",
+                      "name": "shouldRunOnlyTests",
+                      "type": "boolean",
+                      "desc": "Whether or not to run `only` tests."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>If <code>shouldRunOnlyTests</code> is truthy, the test context will only run tests that\nhave the <code>only</code> option set. Otherwise, all tests are run. If Node.js was not\nstarted with the <a href=\"cli.html#--test-only\"><code>--test-only</code></a> command-line option, this function is a\nno-op.</p>\n<pre><code class=\"language-js\">test('top level test', (t) => {\n  // The test context can be set to run subtests with the 'only' option.\n  t.runOnly(true);\n  return Promise.all([\n    t.test('this subtest is now skipped'),\n    t.test('this subtest is run', { only: true }),\n  ]);\n});\n</code></pre>"
+            },
+            {
+              "textRaw": "`context.skip([message])`",
+              "type": "method",
+              "name": "skip",
+              "meta": {
+                "added": [
+                  "v16.17.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`message` {string} Optional skip message to be displayed in TAP output.",
+                      "name": "message",
+                      "type": "string",
+                      "desc": "Optional skip message to be displayed in TAP output."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>This function causes the test's output to indicate the test as skipped. If\n<code>message</code> is provided, it is included in the TAP output. Calling <code>skip()</code> does\nnot terminate execution of the test function. This function does not return a\nvalue.</p>\n<pre><code class=\"language-js\">test('top level test', (t) => {\n  // Make sure to return here as well if the test contains additional logic.\n  t.skip('this is skipped');\n});\n</code></pre>"
+            },
+            {
+              "textRaw": "`context.todo([message])`",
+              "type": "method",
+              "name": "todo",
+              "meta": {
+                "added": [
+                  "v16.17.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`message` {string} Optional `TODO` message to be displayed in TAP output.",
+                      "name": "message",
+                      "type": "string",
+                      "desc": "Optional `TODO` message to be displayed in TAP output."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>This function adds a <code>TODO</code> directive to the test's output. If <code>message</code> is\nprovided, it is included in the TAP output. Calling <code>todo()</code> does not terminate\nexecution of the test function. This function does not return a value.</p>\n<pre><code class=\"language-js\">test('top level test', (t) => {\n  // This test is marked as `TODO`\n  t.todo('this is a todo');\n});\n</code></pre>"
+            },
+            {
+              "textRaw": "`context.test([name][, options][, fn])`",
+              "type": "method",
+              "name": "test",
+              "meta": {
+                "added": [
+                  "v16.17.0"
+                ],
+                "changes": [
+                  {
+                    "version": "v16.18.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/43554",
+                    "description": "Add a `signal` option."
+                  },
+                  {
+                    "version": "v16.17.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/43505",
+                    "description": "Add a `timeout` option."
+                  }
+                ]
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Promise} Resolved with `undefined` once the test completes.",
+                    "name": "return",
+                    "type": "Promise",
+                    "desc": "Resolved with `undefined` once the test completes."
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`name` {string} The name of the subtest, which is displayed when reporting test results. **Default:** The `name` property of `fn`, or `'<anonymous>'` if `fn` does not have a name.",
+                      "name": "name",
+                      "type": "string",
+                      "default": "The `name` property of `fn`, or `'<anonymous>'` if `fn` does not have a name",
+                      "desc": "The name of the subtest, which is displayed when reporting test results."
+                    },
+                    {
+                      "textRaw": "`options` {Object} Configuration options for the subtest. The following properties are supported:",
+                      "name": "options",
+                      "type": "Object",
+                      "desc": "Configuration options for the subtest. The following properties are supported:",
+                      "options": [
+                        {
+                          "textRaw": "`concurrency` {number} The number of tests that can be run at the same time. If unspecified, subtests inherit this value from their parent. **Default:** `1`.",
+                          "name": "concurrency",
+                          "type": "number",
+                          "default": "`1`",
+                          "desc": "The number of tests that can be run at the same time. If unspecified, subtests inherit this value from their parent."
+                        },
+                        {
+                          "textRaw": "`only` {boolean} If truthy, and the test context is configured to run `only` tests, then this test will be run. Otherwise, the test is skipped. **Default:** `false`.",
+                          "name": "only",
+                          "type": "boolean",
+                          "default": "`false`",
+                          "desc": "If truthy, and the test context is configured to run `only` tests, then this test will be run. Otherwise, the test is skipped."
+                        },
+                        {
+                          "textRaw": "`signal` {AbortSignal} Allows aborting an in-progress test.",
+                          "name": "signal",
+                          "type": "AbortSignal",
+                          "desc": "Allows aborting an in-progress test."
+                        },
+                        {
+                          "textRaw": "`skip` {boolean|string} If truthy, the test is skipped. If a string is provided, that string is displayed in the test results as the reason for skipping the test. **Default:** `false`.",
+                          "name": "skip",
+                          "type": "boolean|string",
+                          "default": "`false`",
+                          "desc": "If truthy, the test is skipped. If a string is provided, that string is displayed in the test results as the reason for skipping the test."
+                        },
+                        {
+                          "textRaw": "`todo` {boolean|string} If truthy, the test marked as `TODO`. If a string is provided, that string is displayed in the test results as the reason why the test is `TODO`. **Default:** `false`.",
+                          "name": "todo",
+                          "type": "boolean|string",
+                          "default": "`false`",
+                          "desc": "If truthy, the test marked as `TODO`. If a string is provided, that string is displayed in the test results as the reason why the test is `TODO`."
+                        },
+                        {
+                          "textRaw": "`timeout` {number} A number of milliseconds the test will fail after. If unspecified, subtests inherit this value from their parent. **Default:** `Infinity`.",
+                          "name": "timeout",
+                          "type": "number",
+                          "default": "`Infinity`",
+                          "desc": "A number of milliseconds the test will fail after. If unspecified, subtests inherit this value from their parent."
+                        }
+                      ]
+                    },
+                    {
+                      "textRaw": "`fn` {Function|AsyncFunction} The function under test. The first argument to this function is a [`TestContext`][] object. If the test uses callbacks, the callback function is passed as the second argument. **Default:** A no-op function.",
+                      "name": "fn",
+                      "type": "Function|AsyncFunction",
+                      "default": "A no-op function",
+                      "desc": "The function under test. The first argument to this function is a [`TestContext`][] object. If the test uses callbacks, the callback function is passed as the second argument."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>This function is used to create subtests under the current test. This function\nbehaves in the same fashion as the top level <a href=\"#testname-options-fn\"><code>test()</code></a> function.</p>\n<pre><code class=\"language-js\">test('top level test', async (t) => {\n  await t.test(\n    'This is a subtest',\n    { only: false, skip: false, concurrency: 1, todo: false },\n    (t) => {\n      assert.ok('some relevant assertion here');\n    }\n  );\n});\n</code></pre>"
+            }
+          ],
+          "properties": [
+            {
+              "textRaw": "`context.name`",
+              "name": "name",
+              "meta": {
+                "added": [
+                  "v16.18.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The name of the test.</p>"
+            },
+            {
+              "textRaw": "`signal` {AbortSignal} Can be used to abort test subtasks when the test has been aborted.",
+              "type": "AbortSignal",
+              "name": "signal",
+              "meta": {
+                "added": [
+                  "v16.17.0"
+                ],
+                "changes": []
+              },
+              "desc": "<pre><code class=\"language-js\">test('top level test', async (t) => {\n  await fetch('some/uri', { signal: t.signal });\n});\n</code></pre>",
+              "shortDesc": "Can be used to abort test subtasks when the test has been aborted."
+            }
+          ]
+        },
+        {
+          "textRaw": "Class: `SuiteContext`",
+          "type": "class",
+          "name": "SuiteContext",
+          "meta": {
+            "added": [
+              "v16.17.0"
+            ],
+            "changes": []
+          },
+          "desc": "<p>An instance of <code>SuiteContext</code> is passed to each suite function in order to\ninteract with the test runner. However, the <code>SuiteContext</code> constructor is not\nexposed as part of the API.</p>",
+          "properties": [
+            {
+              "textRaw": "`context.name`",
+              "name": "name",
+              "meta": {
+                "added": [
+                  "v16.18.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The name of the suite.</p>"
+            },
+            {
+              "textRaw": "`signal` {AbortSignal} Can be used to abort test subtasks when the test has been aborted.",
+              "type": "AbortSignal",
+              "name": "signal",
+              "meta": {
+                "added": [
+                  "v16.17.0"
+                ],
+                "changes": []
+              },
+              "shortDesc": "Can be used to abort test subtasks when the test has been aborted."
+            }
+          ]
+        }
+      ],
+      "type": "module",
+      "displayName": "Test runner"
+    }
+  ]
+}

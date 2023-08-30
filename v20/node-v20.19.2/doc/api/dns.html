@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v20.19.2">
+  <title>DNS | Node.js v20.19.2 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/dns.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  <script>
+      const storedTheme = localStorage.getItem('theme');
+
+      // Follow operating system theme preference
+      if (storedTheme === null && window.matchMedia) {
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        if (mq.matches) {
+          document.documentElement.classList.add('dark-mode');
+        }
+      } else if (storedTheme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      }
+  </script>
+  <style>@media(max-width:478px){.with-32-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:550px){.with-41-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:734px){.with-64-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:622px){.with-50-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:486px){.with-33-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
+</head>
+<body class="alt apidoc" id="api-section-dns">
+  <a href="#apicontent" class="skip-to-content">Skip to content</a>
+  <div id="content" class="clearfix">
+    <div role="navigation" id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns active">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="dns" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v20.19.2 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v20.19.2</li>
+            
+    <li class="picker-header">
+      <a href="#toc-picker" aria-controls="toc-picker">
+        <span class="picker-arrow"></span>
+        Table of contents
+      </a>
+
+      <div class="picker" tabindex="-1"><div class="toc"><ul id="toc-picker">
+<li><span class="stability_2"><a href="#dns">DNS</a></span>
+<ul>
+<li><a href="#class-dnsresolver">Class: <code>dns.Resolver</code></a>
+<ul>
+<li><a href="#resolveroptions"><code>Resolver([options])</code></a></li>
+<li><a href="#resolvercancel"><code>resolver.cancel()</code></a></li>
+<li><a href="#resolversetlocaladdressipv4-ipv6"><code>resolver.setLocalAddress([ipv4][, ipv6])</code></a></li>
+</ul>
+</li>
+<li><a href="#dnsgetservers"><code>dns.getServers()</code></a></li>
+<li><a href="#dnslookuphostname-options-callback"><code>dns.lookup(hostname[, options], callback)</code></a>
+<ul>
+<li><a href="#supported-getaddrinfo-flags">Supported getaddrinfo flags</a></li>
+</ul>
+</li>
+<li><a href="#dnslookupserviceaddress-port-callback"><code>dns.lookupService(address, port, callback)</code></a></li>
+<li><a href="#dnsresolvehostname-rrtype-callback"><code>dns.resolve(hostname[, rrtype], callback)</code></a></li>
+<li><a href="#dnsresolve4hostname-options-callback"><code>dns.resolve4(hostname[, options], callback)</code></a></li>
+<li><a href="#dnsresolve6hostname-options-callback"><code>dns.resolve6(hostname[, options], callback)</code></a></li>
+<li><a href="#dnsresolveanyhostname-callback"><code>dns.resolveAny(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvecnamehostname-callback"><code>dns.resolveCname(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvecaahostname-callback"><code>dns.resolveCaa(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvemxhostname-callback"><code>dns.resolveMx(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvenaptrhostname-callback"><code>dns.resolveNaptr(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvenshostname-callback"><code>dns.resolveNs(hostname, callback)</code></a></li>
+<li><a href="#dnsresolveptrhostname-callback"><code>dns.resolvePtr(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvesoahostname-callback"><code>dns.resolveSoa(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvesrvhostname-callback"><code>dns.resolveSrv(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvetxthostname-callback"><code>dns.resolveTxt(hostname, callback)</code></a></li>
+<li><a href="#dnsreverseip-callback"><code>dns.reverse(ip, callback)</code></a></li>
+<li><a href="#dnssetdefaultresultorderorder"><code>dns.setDefaultResultOrder(order)</code></a></li>
+<li><a href="#dnsgetdefaultresultorder"><code>dns.getDefaultResultOrder()</code></a></li>
+<li><a href="#dnssetserversservers"><code>dns.setServers(servers)</code></a></li>
+<li><a href="#dns-promises-api">DNS promises API</a>
+<ul>
+<li><a href="#class-dnspromisesresolver">Class: <code>dnsPromises.Resolver</code></a></li>
+<li><a href="#resolvercancel_1"><code>resolver.cancel()</code></a></li>
+<li><a href="#dnspromisesgetservers"><code>dnsPromises.getServers()</code></a></li>
+<li><a href="#dnspromiseslookuphostname-options"><code>dnsPromises.lookup(hostname[, options])</code></a></li>
+<li><a href="#dnspromiseslookupserviceaddress-port"><code>dnsPromises.lookupService(address, port)</code></a></li>
+<li><a href="#dnspromisesresolvehostname-rrtype"><code>dnsPromises.resolve(hostname[, rrtype])</code></a></li>
+<li><a href="#dnspromisesresolve4hostname-options"><code>dnsPromises.resolve4(hostname[, options])</code></a></li>
+<li><a href="#dnspromisesresolve6hostname-options"><code>dnsPromises.resolve6(hostname[, options])</code></a></li>
+<li><a href="#dnspromisesresolveanyhostname"><code>dnsPromises.resolveAny(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvecaahostname"><code>dnsPromises.resolveCaa(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvecnamehostname"><code>dnsPromises.resolveCname(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvemxhostname"><code>dnsPromises.resolveMx(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvenaptrhostname"><code>dnsPromises.resolveNaptr(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvenshostname"><code>dnsPromises.resolveNs(hostname)</code></a></li>
+<li><a href="#dnspromisesresolveptrhostname"><code>dnsPromises.resolvePtr(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvesoahostname"><code>dnsPromises.resolveSoa(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvesrvhostname"><code>dnsPromises.resolveSrv(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvetxthostname"><code>dnsPromises.resolveTxt(hostname)</code></a></li>
+<li><a href="#dnspromisesreverseip"><code>dnsPromises.reverse(ip)</code></a></li>
+<li><a href="#dnspromisessetdefaultresultorderorder"><code>dnsPromises.setDefaultResultOrder(order)</code></a></li>
+<li><a href="#dnspromisesgetdefaultresultorder"><code>dnsPromises.getDefaultResultOrder()</code></a></li>
+<li><a href="#dnspromisessetserversservers"><code>dnsPromises.setServers(servers)</code></a></li>
+</ul>
+</li>
+<li><a href="#error-codes">Error codes</a></li>
+<li><a href="#implementation-considerations">Implementation considerations</a>
+<ul>
+<li><a href="#dnslookup"><code>dns.lookup()</code></a></li>
+<li><a href="#dnsresolve-dnsresolve-and-dnsreverse"><code>dns.resolve()</code>, <code>dns.resolve*()</code>, and <code>dns.reverse()</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#gtoc-picker" aria-controls="gtoc-picker">
+        <span class="picker-arrow"></span>
+        Index
+      </a>
+
+      <div class="picker" tabindex="-1" id="gtoc-picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns active">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#alt-docs" aria-controls="alt-docs">
+        <span class="picker-arrow"></span>
+        Other versions
+      </a>
+      <div class="picker" tabindex="-1"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v24.x/api/dns.html">24.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v23.x/api/dns.html">23.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v22.x/api/dns.html">22.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v21.x/api/dns.html">21.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v20.x/api/dns.html">20.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v19.x/api/dns.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/dns.html">18.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/dns.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/dns.html">16.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/dns.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/dns.html">14.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/dns.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/dns.html">12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/dns.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/dns.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/dns.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/dns.html">8.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v7.x/api/dns.html">7.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v6.x/api/dns.html">6.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v5.x/api/dns.html">5.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v4.x/api/dns.html">4.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.12.x/api/dns.html">0.12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.10.x/api/dns.html">0.10.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#options-picker" aria-controls="options-picker">
+                <span class="picker-arrow"></span>
+                Options
+              </a>
+        
+              <div class="picker" tabindex="-1">
+                <ul id="options-picker">
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="dns.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/dns.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details role="navigation" id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_2"><a href="#dns">DNS</a></span>
+<ul>
+<li><a href="#class-dnsresolver">Class: <code>dns.Resolver</code></a>
+<ul>
+<li><a href="#resolveroptions"><code>Resolver([options])</code></a></li>
+<li><a href="#resolvercancel"><code>resolver.cancel()</code></a></li>
+<li><a href="#resolversetlocaladdressipv4-ipv6"><code>resolver.setLocalAddress([ipv4][, ipv6])</code></a></li>
+</ul>
+</li>
+<li><a href="#dnsgetservers"><code>dns.getServers()</code></a></li>
+<li><a href="#dnslookuphostname-options-callback"><code>dns.lookup(hostname[, options], callback)</code></a>
+<ul>
+<li><a href="#supported-getaddrinfo-flags">Supported getaddrinfo flags</a></li>
+</ul>
+</li>
+<li><a href="#dnslookupserviceaddress-port-callback"><code>dns.lookupService(address, port, callback)</code></a></li>
+<li><a href="#dnsresolvehostname-rrtype-callback"><code>dns.resolve(hostname[, rrtype], callback)</code></a></li>
+<li><a href="#dnsresolve4hostname-options-callback"><code>dns.resolve4(hostname[, options], callback)</code></a></li>
+<li><a href="#dnsresolve6hostname-options-callback"><code>dns.resolve6(hostname[, options], callback)</code></a></li>
+<li><a href="#dnsresolveanyhostname-callback"><code>dns.resolveAny(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvecnamehostname-callback"><code>dns.resolveCname(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvecaahostname-callback"><code>dns.resolveCaa(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvemxhostname-callback"><code>dns.resolveMx(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvenaptrhostname-callback"><code>dns.resolveNaptr(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvenshostname-callback"><code>dns.resolveNs(hostname, callback)</code></a></li>
+<li><a href="#dnsresolveptrhostname-callback"><code>dns.resolvePtr(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvesoahostname-callback"><code>dns.resolveSoa(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvesrvhostname-callback"><code>dns.resolveSrv(hostname, callback)</code></a></li>
+<li><a href="#dnsresolvetxthostname-callback"><code>dns.resolveTxt(hostname, callback)</code></a></li>
+<li><a href="#dnsreverseip-callback"><code>dns.reverse(ip, callback)</code></a></li>
+<li><a href="#dnssetdefaultresultorderorder"><code>dns.setDefaultResultOrder(order)</code></a></li>
+<li><a href="#dnsgetdefaultresultorder"><code>dns.getDefaultResultOrder()</code></a></li>
+<li><a href="#dnssetserversservers"><code>dns.setServers(servers)</code></a></li>
+<li><a href="#dns-promises-api">DNS promises API</a>
+<ul>
+<li><a href="#class-dnspromisesresolver">Class: <code>dnsPromises.Resolver</code></a></li>
+<li><a href="#resolvercancel_1"><code>resolver.cancel()</code></a></li>
+<li><a href="#dnspromisesgetservers"><code>dnsPromises.getServers()</code></a></li>
+<li><a href="#dnspromiseslookuphostname-options"><code>dnsPromises.lookup(hostname[, options])</code></a></li>
+<li><a href="#dnspromiseslookupserviceaddress-port"><code>dnsPromises.lookupService(address, port)</code></a></li>
+<li><a href="#dnspromisesresolvehostname-rrtype"><code>dnsPromises.resolve(hostname[, rrtype])</code></a></li>
+<li><a href="#dnspromisesresolve4hostname-options"><code>dnsPromises.resolve4(hostname[, options])</code></a></li>
+<li><a href="#dnspromisesresolve6hostname-options"><code>dnsPromises.resolve6(hostname[, options])</code></a></li>
+<li><a href="#dnspromisesresolveanyhostname"><code>dnsPromises.resolveAny(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvecaahostname"><code>dnsPromises.resolveCaa(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvecnamehostname"><code>dnsPromises.resolveCname(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvemxhostname"><code>dnsPromises.resolveMx(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvenaptrhostname"><code>dnsPromises.resolveNaptr(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvenshostname"><code>dnsPromises.resolveNs(hostname)</code></a></li>
+<li><a href="#dnspromisesresolveptrhostname"><code>dnsPromises.resolvePtr(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvesoahostname"><code>dnsPromises.resolveSoa(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvesrvhostname"><code>dnsPromises.resolveSrv(hostname)</code></a></li>
+<li><a href="#dnspromisesresolvetxthostname"><code>dnsPromises.resolveTxt(hostname)</code></a></li>
+<li><a href="#dnspromisesreverseip"><code>dnsPromises.reverse(ip)</code></a></li>
+<li><a href="#dnspromisessetdefaultresultorderorder"><code>dnsPromises.setDefaultResultOrder(order)</code></a></li>
+<li><a href="#dnspromisesgetdefaultresultorder"><code>dnsPromises.getDefaultResultOrder()</code></a></li>
+<li><a href="#dnspromisessetserversservers"><code>dnsPromises.setServers(servers)</code></a></li>
+</ul>
+</li>
+<li><a href="#error-codes">Error codes</a></li>
+<li><a href="#implementation-considerations">Implementation considerations</a>
+<ul>
+<li><a href="#dnslookup"><code>dns.lookup()</code></a></li>
+<li><a href="#dnsresolve-dnsresolve-and-dnsreverse"><code>dns.resolve()</code>, <code>dns.resolve*()</code>, and <code>dns.reverse()</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div role="main" id="apicontent">
+        <h2>DNS<span><a class="mark" href="#dns" id="dns">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns"></a></h2>
+
+<p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v20.19.2/lib/dns.js">lib/dns.js</a></p>
+<p>The <code>node:dns</code> module enables name resolution. For example, use it to look up IP
+addresses of host names.</p>
+<p>Although named for the <a href="https://en.wikipedia.org/wiki/Domain_Name_System">Domain Name System (DNS)</a>, it does not always use the
+DNS protocol for lookups. <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a> uses the operating system
+facilities to perform name resolution. It may not need to perform any network
+communication. To perform name resolution the way other applications on the same
+system do, use <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a>.</p>
+
+<pre class="with-32-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> dns <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dns'</span>;
+
+dns.<span class="hljs-title function_">lookup</span>(<span class="hljs-string">'example.org'</span>, <span class="hljs-function">(<span class="hljs-params">err, address, family</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'address: %j family: IPv%s'</span>, address, family);
+});
+<span class="hljs-comment">// address: "2606:2800:21f:cb07:6820:80da:af6b:8b2c" family: IPv6</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> dns = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dns'</span>);
+
+dns.<span class="hljs-title function_">lookup</span>(<span class="hljs-string">'example.org'</span>, <span class="hljs-function">(<span class="hljs-params">err, address, family</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'address: %j family: IPv%s'</span>, address, family);
+});
+<span class="hljs-comment">// address: "2606:2800:21f:cb07:6820:80da:af6b:8b2c" family: IPv6</span></code><button class="copy-button">copy</button></pre>
+<p>All other functions in the <code>node:dns</code> module connect to an actual DNS server to
+perform name resolution. They will always use the network to perform DNS
+queries. These functions do not use the same set of configuration files used by
+<a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a> (e.g. <code>/etc/hosts</code>). Use these functions to always perform
+DNS queries, bypassing other name-resolution facilities.</p>
+
+<pre class="with-32-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> dns <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dns'</span>;
+
+dns.<span class="hljs-title function_">resolve4</span>(<span class="hljs-string">'archive.org'</span>, <span class="hljs-function">(<span class="hljs-params">err, addresses</span>) =></span> {
+  <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
+
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`addresses: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(addresses)}</span>`</span>);
+
+  addresses.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">a</span>) =></span> {
+    dns.<span class="hljs-title function_">reverse</span>(a, <span class="hljs-function">(<span class="hljs-params">err, hostnames</span>) =></span> {
+      <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-keyword">throw</span> err;
+      }
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`reverse for <span class="hljs-subst">${a}</span>: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(hostnames)}</span>`</span>);
+    });
+  });
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> dns = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dns'</span>);
+
+dns.<span class="hljs-title function_">resolve4</span>(<span class="hljs-string">'archive.org'</span>, <span class="hljs-function">(<span class="hljs-params">err, addresses</span>) =></span> {
+  <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err;
+
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`addresses: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(addresses)}</span>`</span>);
+
+  addresses.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">a</span>) =></span> {
+    dns.<span class="hljs-title function_">reverse</span>(a, <span class="hljs-function">(<span class="hljs-params">err, hostnames</span>) =></span> {
+      <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-keyword">throw</span> err;
+      }
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`reverse for <span class="hljs-subst">${a}</span>: <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(hostnames)}</span>`</span>);
+    });
+  });
+});</code><button class="copy-button">copy</button></pre>
+<p>See the <a href="#implementation-considerations">Implementation considerations section</a> for more information.</p>
+<section><h3>Class: <code>dns.Resolver</code><span><a class="mark" href="#class-dnsresolver" id="class-dnsresolver">#</a></span><a aria-hidden="true" class="legacy" id="dns_class_dns_resolver"></a></h3>
+<div class="api_metadata">
+<span>Added in: v8.3.0</span>
+</div>
+<p>An independent resolver for DNS requests.</p>
+<p>Creating a new resolver uses the default server settings. Setting
+the servers used for a resolver using
+<a href="#dnssetserversservers"><code>resolver.setServers()</code></a> does not affect
+other resolvers:</p>
+
+<pre class="with-41-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Resolver</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dns'</span>;
+<span class="hljs-keyword">const</span> resolver = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Resolver</span>();
+resolver.<span class="hljs-title function_">setServers</span>([<span class="hljs-string">'4.4.4.4'</span>]);
+
+<span class="hljs-comment">// This request will use the server at 4.4.4.4, independent of global settings.</span>
+resolver.<span class="hljs-title function_">resolve4</span>(<span class="hljs-string">'example.org'</span>, <span class="hljs-function">(<span class="hljs-params">err, addresses</span>) =></span> {
+  <span class="hljs-comment">// ...</span>
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Resolver</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dns'</span>);
+<span class="hljs-keyword">const</span> resolver = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Resolver</span>();
+resolver.<span class="hljs-title function_">setServers</span>([<span class="hljs-string">'4.4.4.4'</span>]);
+
+<span class="hljs-comment">// This request will use the server at 4.4.4.4, independent of global settings.</span>
+resolver.<span class="hljs-title function_">resolve4</span>(<span class="hljs-string">'example.org'</span>, <span class="hljs-function">(<span class="hljs-params">err, addresses</span>) =></span> {
+  <span class="hljs-comment">// ...</span>
+});</code><button class="copy-button">copy</button></pre>
+<p>The following methods from the <code>node:dns</code> module are available:</p>
+<ul>
+<li><a href="#dnsgetservers"><code>resolver.getServers()</code></a></li>
+<li><a href="#dnsresolvehostname-rrtype-callback"><code>resolver.resolve()</code></a></li>
+<li><a href="#dnsresolve4hostname-options-callback"><code>resolver.resolve4()</code></a></li>
+<li><a href="#dnsresolve6hostname-options-callback"><code>resolver.resolve6()</code></a></li>
+<li><a href="#dnsresolveanyhostname-callback"><code>resolver.resolveAny()</code></a></li>
+<li><a href="#dnsresolvecaahostname-callback"><code>resolver.resolveCaa()</code></a></li>
+<li><a href="#dnsresolvecnamehostname-callback"><code>resolver.resolveCname()</code></a></li>
+<li><a href="#dnsresolvemxhostname-callback"><code>resolver.resolveMx()</code></a></li>
+<li><a href="#dnsresolvenaptrhostname-callback"><code>resolver.resolveNaptr()</code></a></li>
+<li><a href="#dnsresolvenshostname-callback"><code>resolver.resolveNs()</code></a></li>
+<li><a href="#dnsresolveptrhostname-callback"><code>resolver.resolvePtr()</code></a></li>
+<li><a href="#dnsresolvesoahostname-callback"><code>resolver.resolveSoa()</code></a></li>
+<li><a href="#dnsresolvesrvhostname-callback"><code>resolver.resolveSrv()</code></a></li>
+<li><a href="#dnsresolvetxthostname-callback"><code>resolver.resolveTxt()</code></a></li>
+<li><a href="#dnsreverseip-callback"><code>resolver.reverse()</code></a></li>
+<li><a href="#dnssetserversservers"><code>resolver.setServers()</code></a></li>
+</ul>
+<h4><code>Resolver([options])</code><span><a class="mark" href="#resolveroptions" id="resolveroptions">#</a></span><a aria-hidden="true" class="legacy" id="dns_resolver_options"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.7.0, v14.18.0</td>
+<td><p>The <code>options</code> object now accepts a <code>tries</code> option.</p></td></tr>
+<tr><td>v12.18.3</td>
+<td><p>The constructor now accepts an <code>options</code> object. The single supported option is <code>timeout</code>.</p></td></tr>
+<tr><td>v8.3.0</td>
+<td><p><span>Added in: v8.3.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Create a new resolver.</p>
+<ul>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>timeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a> Query timeout in milliseconds, or <code>-1</code> to use the
+default timeout.</li>
+<li><code>tries</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a> The number of tries the resolver will try contacting
+each name server before giving up. <strong>Default:</strong> <code>4</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>resolver.cancel()</code><span><a class="mark" href="#resolvercancel" id="resolvercancel">#</a></span><a aria-hidden="true" class="legacy" id="dns_resolver_cancel"></a></h4>
+<div class="api_metadata">
+<span>Added in: v8.3.0</span>
+</div>
+<p>Cancel all outstanding DNS queries made by this resolver. The corresponding
+callbacks will be called with an error with code <code>ECANCELLED</code>.</p>
+<h4><code>resolver.setLocalAddress([ipv4][, ipv6])</code><span><a class="mark" href="#resolversetlocaladdressipv4-ipv6" id="resolversetlocaladdressipv4-ipv6">#</a></span><a aria-hidden="true" class="legacy" id="dns_resolver_setlocaladdress_ipv4_ipv6"></a></h4>
+<div class="api_metadata">
+<span>Added in: v15.1.0, v14.17.0</span>
+</div>
+<ul>
+<li><code>ipv4</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> A string representation of an IPv4 address.
+<strong>Default:</strong> <code>'0.0.0.0'</code></li>
+<li><code>ipv6</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> A string representation of an IPv6 address.
+<strong>Default:</strong> <code>'::0'</code></li>
+</ul>
+<p>The resolver instance will send its requests from the specified IP address.
+This allows programs to specify outbound interfaces when used on multi-homed
+systems.</p>
+<p>If a v4 or v6 address is not specified, it is set to the default and the
+operating system will choose a local address automatically.</p>
+<p>The resolver will use the v4 local address when making requests to IPv4 DNS
+servers, and the v6 local address when making requests to IPv6 DNS servers.
+The <code>rrtype</code> of resolution requests has no impact on the local address used.</p>
+</section><section><h3><code>dns.getServers()</code><span><a class="mark" href="#dnsgetservers" id="dnsgetservers">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_getservers"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.11.3</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></li>
+</ul>
+<p>Returns an array of IP address strings, formatted according to <a href="https://tools.ietf.org/html/rfc5952#section-6">RFC 5952</a>,
+that are currently configured for DNS resolution. A string will include a port
+section if a custom port is used.</p>
+<!-- eslint-disable @stylistic/js/semi-->
+<pre><code class="language-js">[
+  <span class="hljs-string">'8.8.8.8'</span>,
+  <span class="hljs-string">'2001:4860:4860::8888'</span>,
+  <span class="hljs-string">'8.8.8.8:1053'</span>,
+  <span class="hljs-string">'[2001:4860:4860::8888]:1053'</span>,
+]</code> <button class="copy-button">copy</button></pre>
+</section><section><h3><code>dns.lookup(hostname[, options], callback)</code><span><a class="mark" href="#dnslookuphostname-options-callback" id="dnslookuphostname-options-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_lookup_hostname_options_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v20.13.0</td>
+<td><p>The <code>verbatim</code> option is now deprecated in favor of the new <code>order</code> option.</p></td></tr>
+<tr><td>v18.4.0</td>
+<td><p>For compatibility with <code>node:net</code>, when passing an option object the <code>family</code> option can be the string <code>'IPv4'</code> or the string <code>'IPv6'</code>.</p></td></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v17.0.0</td>
+<td><p>The <code>verbatim</code> options defaults to <code>true</code> now.</p></td></tr>
+<tr><td>v8.5.0</td>
+<td><p>The <code>verbatim</code> option is supported now.</p></td></tr>
+<tr><td>v1.2.0</td>
+<td><p>The <code>all</code> option is supported now.</p></td></tr>
+<tr><td>v0.1.90</td>
+<td><p><span>Added in: v0.1.90</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>family</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The record family. Must be <code>4</code>, <code>6</code>, or <code>0</code>. For
+backward compatibility reasons,<code>'IPv4'</code> and <code>'IPv6'</code> are interpreted as <code>4</code>
+and <code>6</code> respectively. The value <code>0</code> indicates that either an IPv4 or IPv6
+address is returned. If the value <code>0</code> is used with <code>{ all: true }</code> (see
+below), either one of or both IPv4 and IPv6 addresses are returned,
+depending on the system's DNS resolver. <strong>Default:</strong> <code>0</code>.</li>
+<li><code>hints</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> One or more <a href="#supported-getaddrinfo-flags">supported <code>getaddrinfo</code> flags</a>. Multiple
+flags may be passed by bitwise <code>OR</code>ing their values.</li>
+<li><code>all</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, the callback returns all resolved addresses in
+an array. Otherwise, returns a single address. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>order</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> When <code>verbatim</code>, the resolved addresses are return
+unsorted. When <code>ipv4first</code>, the resolved addresses are sorted by placing
+IPv4 addresses before IPv6 addresses. When <code>ipv6first</code>, the resolved
+addresses are sorted by placing IPv6 addresses before IPv4 addresses.
+<strong>Default:</strong> <code>verbatim</code> (addresses are not reordered).
+Default value is configurable using <a href="#dnssetdefaultresultorderorder"><code>dns.setDefaultResultOrder()</code></a> or
+<a href="cli.html#--dns-result-orderorder"><code>--dns-result-order</code></a>.</li>
+<li><code>verbatim</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, the callback receives IPv4 and IPv6
+addresses in the order the DNS resolver returned them. When <code>false</code>,
+IPv4 addresses are placed before IPv6 addresses.
+This option will be deprecated in favor of <code>order</code>. When both are specified,
+<code>order</code> has higher precedence. New code should only use <code>order</code>.
+<strong>Default:</strong> <code>true</code> (addresses are not reordered). Default value is
+configurable using <a href="#dnssetdefaultresultorderorder"><code>dns.setDefaultResultOrder()</code></a> or
+<a href="cli.html#--dns-result-orderorder"><code>--dns-result-order</code></a>.</li>
+</ul>
+</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> A string representation of an IPv4 or IPv6 address.</li>
+<li><code>family</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a> <code>4</code> or <code>6</code>, denoting the family of <code>address</code>, or <code>0</code> if
+the address is not an IPv4 or IPv6 address. <code>0</code> is a likely indicator of a
+bug in the name resolution service used by the operating system.</li>
+</ul>
+</li>
+</ul>
+<p>Resolves a host name (e.g. <code>'nodejs.org'</code>) into the first found A (IPv4) or
+AAAA (IPv6) record. All <code>option</code> properties are optional. If <code>options</code> is an
+integer, then it must be <code>4</code> or <code>6</code> – if <code>options</code> is not provided, then
+either IPv4 or IPv6 addresses, or both, are returned if found.</p>
+<p>With the <code>all</code> option set to <code>true</code>, the arguments for <code>callback</code> change to
+<code>(err, addresses)</code>, with <code>addresses</code> being an array of objects with the
+properties <code>address</code> and <code>family</code>.</p>
+<p>On error, <code>err</code> is an <a href="errors.html#class-error"><code>Error</code></a> object, where <code>err.code</code> is the error code.
+Keep in mind that <code>err.code</code> will be set to <code>'ENOTFOUND'</code> not only when
+the host name does not exist but also when the lookup fails in other ways
+such as no available file descriptors.</p>
+<p><code>dns.lookup()</code> does not necessarily have anything to do with the DNS protocol.
+The implementation uses an operating system facility that can associate names
+with addresses and vice versa. This implementation can have subtle but
+important consequences on the behavior of any Node.js program. Please take some
+time to consult the <a href="#implementation-considerations">Implementation considerations section</a> before using
+<code>dns.lookup()</code>.</p>
+<p>Example usage:</p>
+
+<pre class="with-32-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> dns <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dns'</span>;
+<span class="hljs-keyword">const</span> options = {
+  <span class="hljs-attr">family</span>: <span class="hljs-number">6</span>,
+  <span class="hljs-attr">hints</span>: dns.<span class="hljs-property">ADDRCONFIG</span> | dns.<span class="hljs-property">V4MAPPED</span>,
+};
+dns.<span class="hljs-title function_">lookup</span>(<span class="hljs-string">'example.org'</span>, options, <span class="hljs-function">(<span class="hljs-params">err, address, family</span>) =></span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'address: %j family: IPv%s'</span>, address, family));
+<span class="hljs-comment">// address: "2606:2800:21f:cb07:6820:80da:af6b:8b2c" family: IPv6</span>
+
+<span class="hljs-comment">// When options.all is true, the result will be an Array.</span>
+options.<span class="hljs-property">all</span> = <span class="hljs-literal">true</span>;
+dns.<span class="hljs-title function_">lookup</span>(<span class="hljs-string">'example.org'</span>, options, <span class="hljs-function">(<span class="hljs-params">err, addresses</span>) =></span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'addresses: %j'</span>, addresses));
+<span class="hljs-comment">// addresses: [{"address":"2606:2800:21f:cb07:6820:80da:af6b:8b2c","family":6}]</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> dns = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dns'</span>);
+<span class="hljs-keyword">const</span> options = {
+  <span class="hljs-attr">family</span>: <span class="hljs-number">6</span>,
+  <span class="hljs-attr">hints</span>: dns.<span class="hljs-property">ADDRCONFIG</span> | dns.<span class="hljs-property">V4MAPPED</span>,
+};
+dns.<span class="hljs-title function_">lookup</span>(<span class="hljs-string">'example.org'</span>, options, <span class="hljs-function">(<span class="hljs-params">err, address, family</span>) =></span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'address: %j family: IPv%s'</span>, address, family));
+<span class="hljs-comment">// address: "2606:2800:21f:cb07:6820:80da:af6b:8b2c" family: IPv6</span>
+
+<span class="hljs-comment">// When options.all is true, the result will be an Array.</span>
+options.<span class="hljs-property">all</span> = <span class="hljs-literal">true</span>;
+dns.<span class="hljs-title function_">lookup</span>(<span class="hljs-string">'example.org'</span>, options, <span class="hljs-function">(<span class="hljs-params">err, addresses</span>) =></span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'addresses: %j'</span>, addresses));
+<span class="hljs-comment">// addresses: [{"address":"2606:2800:21f:cb07:6820:80da:af6b:8b2c","family":6}]</span></code><button class="copy-button">copy</button></pre>
+<p>If this method is invoked as its <a href="util.html#utilpromisifyoriginal"><code>util.promisify()</code></a>ed version, and <code>all</code>
+is not set to <code>true</code>, it returns a <code>Promise</code> for an <code>Object</code> with <code>address</code> and
+<code>family</code> properties.</p>
+<h4>Supported getaddrinfo flags<span><a class="mark" href="#supported-getaddrinfo-flags" id="supported-getaddrinfo-flags">#</a></span><a aria-hidden="true" class="legacy" id="dns_supported_getaddrinfo_flags"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v13.13.0, v12.17.0</td>
+<td><p>Added support for the <code>dns.ALL</code> flag.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>The following flags can be passed as hints to <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a>.</p>
+<ul>
+<li><code>dns.ADDRCONFIG</code>: Limits returned address types to the types of non-loopback
+addresses configured on the system. For example, IPv4 addresses are only
+returned if the current system has at least one IPv4 address configured.</li>
+<li><code>dns.V4MAPPED</code>: If the IPv6 family was specified, but no IPv6 addresses were
+found, then return IPv4 mapped IPv6 addresses. It is not supported
+on some operating systems (e.g. FreeBSD 10.1).</li>
+<li><code>dns.ALL</code>: If <code>dns.V4MAPPED</code> is specified, return resolved IPv6 addresses as
+well as IPv4 mapped IPv6 addresses.</li>
+</ul>
+</section><section><h3><code>dns.lookupService(address, port, callback)</code><span><a class="mark" href="#dnslookupserviceaddress-port-callback" id="dnslookupserviceaddress-port-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_lookupservice_address_port_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v0.11.14</td>
+<td><p><span>Added in: v0.11.14</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>port</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> e.g. <code>example.com</code></li>
+<li><code>service</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> e.g. <code>http</code></li>
+</ul>
+</li>
+</ul>
+<p>Resolves the given <code>address</code> and <code>port</code> into a host name and service using
+the operating system's underlying <code>getnameinfo</code> implementation.</p>
+<p>If <code>address</code> is not a valid IP address, a <code>TypeError</code> will be thrown.
+The <code>port</code> will be coerced to a number. If it is not a legal port, a <code>TypeError</code>
+will be thrown.</p>
+<p>On an error, <code>err</code> is an <a href="errors.html#class-error"><code>Error</code></a> object, where <code>err.code</code> is the error code.</p>
+
+<pre class="with-64-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> dns <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dns'</span>;
+dns.<span class="hljs-title function_">lookupService</span>(<span class="hljs-string">'127.0.0.1'</span>, <span class="hljs-number">22</span>, <span class="hljs-function">(<span class="hljs-params">err, hostname, service</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(hostname, service);
+  <span class="hljs-comment">// Prints: localhost ssh</span>
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> dns = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dns'</span>);
+dns.<span class="hljs-title function_">lookupService</span>(<span class="hljs-string">'127.0.0.1'</span>, <span class="hljs-number">22</span>, <span class="hljs-function">(<span class="hljs-params">err, hostname, service</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(hostname, service);
+  <span class="hljs-comment">// Prints: localhost ssh</span>
+});</code><button class="copy-button">copy</button></pre>
+<p>If this method is invoked as its <a href="util.html#utilpromisifyoriginal"><code>util.promisify()</code></a>ed version, it returns a
+<code>Promise</code> for an <code>Object</code> with <code>hostname</code> and <code>service</code> properties.</p>
+</section><section><h3><code>dns.resolve(hostname[, rrtype], callback)</code><span><a class="mark" href="#dnsresolvehostname-rrtype-callback" id="dnsresolvehostname-rrtype-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolve_hostname_rrtype_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v0.1.27</td>
+<td><p><span>Added in: v0.1.27</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Host name to resolve.</li>
+<li><code>rrtype</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Resource record type. <strong>Default:</strong> <code>'A'</code>.</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>records</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve a host name (e.g. <code>'nodejs.org'</code>) into an array
+of the resource records. The <code>callback</code> function has arguments
+<code>(err, records)</code>. When successful, <code>records</code> will be an array of resource
+records. The type and structure of individual results varies based on <code>rrtype</code>:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><code>rrtype</code></th><th><code>records</code> contains</th><th>Result type</th><th>Shorthand method</th></tr></thead><tbody><tr><td><code>'A'</code></td><td>IPv4 addresses (default)</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></td><td><a href="#dnsresolve4hostname-options-callback"><code>dns.resolve4()</code></a></td></tr><tr><td><code>'AAAA'</code></td><td>IPv6 addresses</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></td><td><a href="#dnsresolve6hostname-options-callback"><code>dns.resolve6()</code></a></td></tr><tr><td><code>'ANY'</code></td><td>any records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnsresolveanyhostname-callback"><code>dns.resolveAny()</code></a></td></tr><tr><td><code>'CAA'</code></td><td>CA authorization records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnsresolvecaahostname-callback"><code>dns.resolveCaa()</code></a></td></tr><tr><td><code>'CNAME'</code></td><td>canonical name records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></td><td><a href="#dnsresolvecnamehostname-callback"><code>dns.resolveCname()</code></a></td></tr><tr><td><code>'MX'</code></td><td>mail exchange records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnsresolvemxhostname-callback"><code>dns.resolveMx()</code></a></td></tr><tr><td><code>'NAPTR'</code></td><td>name authority pointer records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnsresolvenaptrhostname-callback"><code>dns.resolveNaptr()</code></a></td></tr><tr><td><code>'NS'</code></td><td>name server records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></td><td><a href="#dnsresolvenshostname-callback"><code>dns.resolveNs()</code></a></td></tr><tr><td><code>'PTR'</code></td><td>pointer records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></td><td><a href="#dnsresolveptrhostname-callback"><code>dns.resolvePtr()</code></a></td></tr><tr><td><code>'SOA'</code></td><td>start of authority records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnsresolvesoahostname-callback"><code>dns.resolveSoa()</code></a></td></tr><tr><td><code>'SRV'</code></td><td>service records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnsresolvesrvhostname-callback"><code>dns.resolveSrv()</code></a></td></tr><tr><td><code>'TXT'</code></td><td>text records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></td><td><a href="#dnsresolvetxthostname-callback"><code>dns.resolveTxt()</code></a></td></tr></tbody></table>
+<p>On error, <code>err</code> is an <a href="errors.html#class-error"><code>Error</code></a> object, where <code>err.code</code> is one of the
+<a href="#error-codes">DNS error codes</a>.</p>
+</section><section><h3><code>dns.resolve4(hostname[, options], callback)</code><span><a class="mark" href="#dnsresolve4hostname-options-callback" id="dnsresolve4hostname-options-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolve4_hostname_options_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v7.2.0</td>
+<td><p>This method now supports passing <code>options</code>, specifically <code>options.ttl</code>.</p></td></tr>
+<tr><td>v0.1.16</td>
+<td><p><span>Added in: v0.1.16</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Host name to resolve.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>ttl</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> Retrieves the Time-To-Live value (TTL) of each record.
+When <code>true</code>, the callback receives an array of
+<code>{ address: '1.2.3.4', ttl: 60 }</code> objects rather than an array of strings,
+with the TTL expressed in seconds.</li>
+</ul>
+</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>addresses</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object[]></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve a IPv4 addresses (<code>A</code> records) for the
+<code>hostname</code>. The <code>addresses</code> argument passed to the <code>callback</code> function
+will contain an array of IPv4 addresses (e.g.
+<code>['74.125.79.104', '74.125.79.105', '74.125.79.106']</code>).</p>
+</section><section><h3><code>dns.resolve6(hostname[, options], callback)</code><span><a class="mark" href="#dnsresolve6hostname-options-callback" id="dnsresolve6hostname-options-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolve6_hostname_options_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v7.2.0</td>
+<td><p>This method now supports passing <code>options</code>, specifically <code>options.ttl</code>.</p></td></tr>
+<tr><td>v0.1.16</td>
+<td><p><span>Added in: v0.1.16</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Host name to resolve.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>ttl</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> Retrieve the Time-To-Live value (TTL) of each record.
+When <code>true</code>, the callback receives an array of
+<code>{ address: '0:1:2:3:4:5:6:7', ttl: 60 }</code> objects rather than an array of
+strings, with the TTL expressed in seconds.</li>
+</ul>
+</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>addresses</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object[]></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve IPv6 addresses (<code>AAAA</code> records) for the
+<code>hostname</code>. The <code>addresses</code> argument passed to the <code>callback</code> function
+will contain an array of IPv6 addresses.</p>
+</section><section><h3><code>dns.resolveAny(hostname, callback)</code><span><a class="mark" href="#dnsresolveanyhostname-callback" id="dnsresolveanyhostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolveany_hostname_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>ret</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object[]></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve all records (also known as <code>ANY</code> or <code>*</code> query).
+The <code>ret</code> argument passed to the <code>callback</code> function will be an array containing
+various types of records. Each object has a property <code>type</code> that indicates the
+type of the current record. And depending on the <code>type</code>, additional properties
+will be present on the object:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Type</th><th>Properties</th></tr></thead><tbody><tr><td><code>'A'</code></td><td><code>address</code>/<code>ttl</code></td></tr><tr><td><code>'AAAA'</code></td><td><code>address</code>/<code>ttl</code></td></tr><tr><td><code>'CNAME'</code></td><td><code>value</code></td></tr><tr><td><code>'MX'</code></td><td>Refer to <a href="#dnsresolvemxhostname-callback"><code>dns.resolveMx()</code></a></td></tr><tr><td><code>'NAPTR'</code></td><td>Refer to <a href="#dnsresolvenaptrhostname-callback"><code>dns.resolveNaptr()</code></a></td></tr><tr><td><code>'NS'</code></td><td><code>value</code></td></tr><tr><td><code>'PTR'</code></td><td><code>value</code></td></tr><tr><td><code>'SOA'</code></td><td>Refer to <a href="#dnsresolvesoahostname-callback"><code>dns.resolveSoa()</code></a></td></tr><tr><td><code>'SRV'</code></td><td>Refer to <a href="#dnsresolvesrvhostname-callback"><code>dns.resolveSrv()</code></a></td></tr><tr><td><code>'TXT'</code></td><td>This type of record contains an array property called <code>entries</code> which refers to <a href="#dnsresolvetxthostname-callback"><code>dns.resolveTxt()</code></a>, e.g. <code>{ entries: ['...'], type: 'TXT' }</code></td></tr></tbody></table>
+<p>Here is an example of the <code>ret</code> object passed to the callback:</p>
+<!-- eslint-disable @stylistic/js/semi -->
+<pre><code class="language-js">[ { <span class="hljs-attr">type</span>: <span class="hljs-string">'A'</span>, <span class="hljs-attr">address</span>: <span class="hljs-string">'127.0.0.1'</span>, <span class="hljs-attr">ttl</span>: <span class="hljs-number">299</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">'CNAME'</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">'example.com'</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">'MX'</span>, <span class="hljs-attr">exchange</span>: <span class="hljs-string">'alt4.aspmx.l.example.com'</span>, <span class="hljs-attr">priority</span>: <span class="hljs-number">50</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">'NS'</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">'ns1.example.com'</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">'TXT'</span>, <span class="hljs-attr">entries</span>: [ <span class="hljs-string">'v=spf1 include:_spf.example.com ~all'</span> ] },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">'SOA'</span>,
+    <span class="hljs-attr">nsname</span>: <span class="hljs-string">'ns1.example.com'</span>,
+    <span class="hljs-attr">hostmaster</span>: <span class="hljs-string">'admin.example.com'</span>,
+    <span class="hljs-attr">serial</span>: <span class="hljs-number">156696742</span>,
+    <span class="hljs-attr">refresh</span>: <span class="hljs-number">900</span>,
+    <span class="hljs-attr">retry</span>: <span class="hljs-number">900</span>,
+    <span class="hljs-attr">expire</span>: <span class="hljs-number">1800</span>,
+    <span class="hljs-attr">minttl</span>: <span class="hljs-number">60</span> } ]</code> <button class="copy-button">copy</button></pre>
+<p>DNS server operators may choose not to respond to <code>ANY</code>
+queries. It may be better to call individual methods like <a href="#dnsresolve4hostname-options-callback"><code>dns.resolve4()</code></a>,
+<a href="#dnsresolvemxhostname-callback"><code>dns.resolveMx()</code></a>, and so on. For more details, see <a href="https://tools.ietf.org/html/rfc8482">RFC 8482</a>.</p>
+</section><section><h3><code>dns.resolveCname(hostname, callback)</code><span><a class="mark" href="#dnsresolvecnamehostname-callback" id="dnsresolvecnamehostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvecname_hostname_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v0.3.2</td>
+<td><p><span>Added in: v0.3.2</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>addresses</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve <code>CNAME</code> records for the <code>hostname</code>. The
+<code>addresses</code> argument passed to the <code>callback</code> function
+will contain an array of canonical name records available for the <code>hostname</code>
+(e.g. <code>['bar.example.com']</code>).</p>
+</section><section><h3><code>dns.resolveCaa(hostname, callback)</code><span><a class="mark" href="#dnsresolvecaahostname-callback" id="dnsresolvecaahostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvecaa_hostname_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v15.0.0, v14.17.0</td>
+<td><p><span>Added in: v15.0.0, v14.17.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>records</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object[]></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve <code>CAA</code> records for the <code>hostname</code>. The
+<code>addresses</code> argument passed to the <code>callback</code> function
+will contain an array of certification authority authorization records
+available for the <code>hostname</code> (e.g. <code>[{critical: 0, iodef: 'mailto:pki@example.com'}, {critical: 128, issue: 'pki.example.com'}]</code>).</p>
+</section><section><h3><code>dns.resolveMx(hostname, callback)</code><span><a class="mark" href="#dnsresolvemxhostname-callback" id="dnsresolvemxhostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvemx_hostname_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v0.1.27</td>
+<td><p><span>Added in: v0.1.27</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>addresses</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object[]></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve mail exchange records (<code>MX</code> records) for the
+<code>hostname</code>. The <code>addresses</code> argument passed to the <code>callback</code> function will
+contain an array of objects containing both a <code>priority</code> and <code>exchange</code>
+property (e.g. <code>[{priority: 10, exchange: 'mx.example.com'}, ...]</code>).</p>
+</section><section><h3><code>dns.resolveNaptr(hostname, callback)</code><span><a class="mark" href="#dnsresolvenaptrhostname-callback" id="dnsresolvenaptrhostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvenaptr_hostname_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v0.9.12</td>
+<td><p><span>Added in: v0.9.12</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>addresses</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object[]></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve regular expression-based records (<code>NAPTR</code>
+records) for the <code>hostname</code>. The <code>addresses</code> argument passed to the <code>callback</code>
+function will contain an array of objects with the following properties:</p>
+<ul>
+<li><code>flags</code></li>
+<li><code>service</code></li>
+<li><code>regexp</code></li>
+<li><code>replacement</code></li>
+<li><code>order</code></li>
+<li><code>preference</code></li>
+</ul>
+<!-- eslint-skip -->
+<pre><code class="language-js">{
+  <span class="hljs-attr">flags</span>: <span class="hljs-string">'s'</span>,
+  <span class="hljs-attr">service</span>: <span class="hljs-string">'SIP+D2U'</span>,
+  <span class="hljs-attr">regexp</span>: <span class="hljs-string">''</span>,
+  <span class="hljs-attr">replacement</span>: <span class="hljs-string">'_sip._udp.example.com'</span>,
+  <span class="hljs-attr">order</span>: <span class="hljs-number">30</span>,
+  <span class="hljs-attr">preference</span>: <span class="hljs-number">100</span>
+}</code> <button class="copy-button">copy</button></pre>
+</section><section><h3><code>dns.resolveNs(hostname, callback)</code><span><a class="mark" href="#dnsresolvenshostname-callback" id="dnsresolvenshostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvens_hostname_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v0.1.90</td>
+<td><p><span>Added in: v0.1.90</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>addresses</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve name server records (<code>NS</code> records) for the
+<code>hostname</code>. The <code>addresses</code> argument passed to the <code>callback</code> function will
+contain an array of name server records available for <code>hostname</code>
+(e.g. <code>['ns1.example.com', 'ns2.example.com']</code>).</p>
+</section><section><h3><code>dns.resolvePtr(hostname, callback)</code><span><a class="mark" href="#dnsresolveptrhostname-callback" id="dnsresolveptrhostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolveptr_hostname_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p><span>Added in: v6.0.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>addresses</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve pointer records (<code>PTR</code> records) for the
+<code>hostname</code>. The <code>addresses</code> argument passed to the <code>callback</code> function will
+be an array of strings containing the reply records.</p>
+</section><section><h3><code>dns.resolveSoa(hostname, callback)</code><span><a class="mark" href="#dnsresolvesoahostname-callback" id="dnsresolvesoahostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvesoa_hostname_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v0.11.10</td>
+<td><p><span>Added in: v0.11.10</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve a start of authority record (<code>SOA</code> record) for
+the <code>hostname</code>. The <code>address</code> argument passed to the <code>callback</code> function will
+be an object with the following properties:</p>
+<ul>
+<li><code>nsname</code></li>
+<li><code>hostmaster</code></li>
+<li><code>serial</code></li>
+<li><code>refresh</code></li>
+<li><code>retry</code></li>
+<li><code>expire</code></li>
+<li><code>minttl</code></li>
+</ul>
+<!-- eslint-skip -->
+<pre><code class="language-js">{
+  <span class="hljs-attr">nsname</span>: <span class="hljs-string">'ns.example.com'</span>,
+  <span class="hljs-attr">hostmaster</span>: <span class="hljs-string">'root.example.com'</span>,
+  <span class="hljs-attr">serial</span>: <span class="hljs-number">2013101809</span>,
+  <span class="hljs-attr">refresh</span>: <span class="hljs-number">10000</span>,
+  <span class="hljs-attr">retry</span>: <span class="hljs-number">2400</span>,
+  <span class="hljs-attr">expire</span>: <span class="hljs-number">604800</span>,
+  <span class="hljs-attr">minttl</span>: <span class="hljs-number">3600</span>
+}</code> <button class="copy-button">copy</button></pre>
+</section><section><h3><code>dns.resolveSrv(hostname, callback)</code><span><a class="mark" href="#dnsresolvesrvhostname-callback" id="dnsresolvesrvhostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvesrv_hostname_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v0.1.27</td>
+<td><p><span>Added in: v0.1.27</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>addresses</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object[]></a></li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve service records (<code>SRV</code> records) for the
+<code>hostname</code>. The <code>addresses</code> argument passed to the <code>callback</code> function will
+be an array of objects with the following properties:</p>
+<ul>
+<li><code>priority</code></li>
+<li><code>weight</code></li>
+<li><code>port</code></li>
+<li><code>name</code></li>
+</ul>
+<!-- eslint-skip -->
+<pre><code class="language-js">{
+  <span class="hljs-attr">priority</span>: <span class="hljs-number">10</span>,
+  <span class="hljs-attr">weight</span>: <span class="hljs-number">5</span>,
+  <span class="hljs-attr">port</span>: <span class="hljs-number">21223</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'service.example.com'</span>
+}</code> <button class="copy-button">copy</button></pre>
+</section><section><h3><code>dns.resolveTxt(hostname, callback)</code><span><a class="mark" href="#dnsresolvetxthostname-callback" id="dnsresolvetxthostname-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolvetxt_hostname_callback"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v0.1.27</td>
+<td><p><span>Added in: v0.1.27</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<!--lint disable no-undefined-references list-item-bullet-indent-->
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>records</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[][]></a></li>
+</ul>
+</li>
+</ul>
+<!--lint enable no-undefined-references list-item-bullet-indent-->
+<p>Uses the DNS protocol to resolve text queries (<code>TXT</code> records) for the
+<code>hostname</code>. The <code>records</code> argument passed to the <code>callback</code> function is a
+two-dimensional array of the text records available for <code>hostname</code> (e.g.
+<code>[ ['v=spf1 ip4:0.0.0.0 ', '~all' ] ]</code>). Each sub-array contains TXT chunks of
+one record. Depending on the use case, these could be either joined together or
+treated separately.</p>
+</section><section><h3><code>dns.reverse(ip, callback)</code><span><a class="mark" href="#dnsreverseip-callback" id="dnsreverseip-callback">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_reverse_ip_callback"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.16</span>
+</div>
+<ul>
+<li><code>ip</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>err</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+<li><code>hostnames</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></li>
+</ul>
+</li>
+</ul>
+<p>Performs a reverse DNS query that resolves an IPv4 or IPv6 address to an
+array of host names.</p>
+<p>On error, <code>err</code> is an <a href="errors.html#class-error"><code>Error</code></a> object, where <code>err.code</code> is
+one of the <a href="#error-codes">DNS error codes</a>.</p>
+</section><section><h3><code>dns.setDefaultResultOrder(order)</code><span><a class="mark" href="#dnssetdefaultresultorderorder" id="dnssetdefaultresultorderorder">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_setdefaultresultorder_order"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v20.13.0</td>
+<td><p>The <code>ipv6first</code> value is supported now.</p></td></tr>
+<tr><td>v17.0.0</td>
+<td><p>Changed default value to <code>verbatim</code>.</p></td></tr>
+<tr><td>v16.4.0, v14.18.0</td>
+<td><p><span>Added in: v16.4.0, v14.18.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>order</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> must be <code>'ipv4first'</code>, <code>'ipv6first'</code> or <code>'verbatim'</code>.</li>
+</ul>
+<p>Set the default value of <code>order</code> in <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a> and
+<a href="#dnspromiseslookuphostname-options"><code>dnsPromises.lookup()</code></a>. The value could be:</p>
+<ul>
+<li><code>ipv4first</code>: sets default <code>order</code> to <code>ipv4first</code>.</li>
+<li><code>ipv6first</code>: sets default <code>order</code> to <code>ipv6first</code>.</li>
+<li><code>verbatim</code>: sets default <code>order</code> to <code>verbatim</code>.</li>
+</ul>
+<p>The default is <code>verbatim</code> and <a href="#dnssetdefaultresultorderorder"><code>dns.setDefaultResultOrder()</code></a> have higher
+priority than <a href="cli.html#--dns-result-orderorder"><code>--dns-result-order</code></a>. When using <a href="worker_threads.html">worker threads</a>,
+<a href="#dnssetdefaultresultorderorder"><code>dns.setDefaultResultOrder()</code></a> from the main thread won't affect the default
+dns orders in workers.</p>
+</section><section><h3><code>dns.getDefaultResultOrder()</code><span><a class="mark" href="#dnsgetdefaultresultorder" id="dnsgetdefaultresultorder">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_getdefaultresultorder"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v20.13.0</td>
+<td><p>The <code>ipv6first</code> value is supported now.</p></td></tr>
+<tr><td>v20.1.0, v18.17.0</td>
+<td><p><span>Added in: v20.1.0, v18.17.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Get the default value for <code>order</code> in <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a> and
+<a href="#dnspromiseslookuphostname-options"><code>dnsPromises.lookup()</code></a>. The value could be:</p>
+<ul>
+<li><code>ipv4first</code>: for <code>order</code> defaulting to <code>ipv4first</code>.</li>
+<li><code>ipv6first</code>: for <code>order</code> defaulting to <code>ipv6first</code>.</li>
+<li><code>verbatim</code>: for <code>order</code> defaulting to <code>verbatim</code>.</li>
+</ul>
+</section><section><h3><code>dns.setServers(servers)</code><span><a class="mark" href="#dnssetserversservers" id="dnssetserversservers">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_setservers_servers"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.11.3</span>
+</div>
+<ul>
+<li><code>servers</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a> array of <a href="https://tools.ietf.org/html/rfc5952#section-6">RFC 5952</a> formatted addresses</li>
+</ul>
+<p>Sets the IP address and port of servers to be used when performing DNS
+resolution. The <code>servers</code> argument is an array of <a href="https://tools.ietf.org/html/rfc5952#section-6">RFC 5952</a> formatted
+addresses. If the port is the IANA default DNS port (53) it can be omitted.</p>
+<pre><code class="language-js">dns.<span class="hljs-title function_">setServers</span>([
+  <span class="hljs-string">'8.8.8.8'</span>,
+  <span class="hljs-string">'[2001:4860:4860::8888]'</span>,
+  <span class="hljs-string">'8.8.8.8:1053'</span>,
+  <span class="hljs-string">'[2001:4860:4860::8888]:1053'</span>,
+]);</code> <button class="copy-button">copy</button></pre>
+<p>An error will be thrown if an invalid address is provided.</p>
+<p>The <code>dns.setServers()</code> method must not be called while a DNS query is in
+progress.</p>
+<p>The <a href="#dnssetserversservers"><code>dns.setServers()</code></a> method affects only <a href="#dnsresolvehostname-rrtype-callback"><code>dns.resolve()</code></a>,
+<code>dns.resolve*()</code> and <a href="#dnsreverseip-callback"><code>dns.reverse()</code></a> (and specifically <em>not</em>
+<a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a>).</p>
+<p>This method works much like
+<a href="https://man7.org/linux/man-pages/man5/resolv.conf.5.html">resolve.conf</a>.
+That is, if attempting to resolve with the first server provided results in a
+<code>NOTFOUND</code> error, the <code>resolve()</code> method will <em>not</em> attempt to resolve with
+subsequent servers provided. Fallback DNS servers will only be used if the
+earlier ones time out or result in some other error.</p>
+</section><section><h3>DNS promises API<span><a class="mark" href="#dns-promises-api" id="dns-promises-api">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_promises_api"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.0.0</td>
+<td><p>Exposed as <code>require('dns/promises')</code>.</p></td></tr>
+<tr><td>v11.14.0, v10.17.0</td>
+<td><p>This API is no longer experimental.</p></td></tr>
+<tr><td>v10.6.0</td>
+<td><p><span>Added in: v10.6.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>The <code>dns.promises</code> API provides an alternative set of asynchronous DNS methods
+that return <code>Promise</code> objects rather than using callbacks. The API is accessible
+via <code>require('node:dns').promises</code> or <code>require('node:dns/promises')</code>.</p>
+<h4>Class: <code>dnsPromises.Resolver</code><span><a class="mark" href="#class-dnspromisesresolver" id="class-dnspromisesresolver">#</a></span><a aria-hidden="true" class="legacy" id="dns_class_dnspromises_resolver"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<p>An independent resolver for DNS requests.</p>
+<p>Creating a new resolver uses the default server settings. Setting
+the servers used for a resolver using
+<a href="#dnspromisessetserversservers"><code>resolver.setServers()</code></a> does not affect
+other resolvers:</p>
+
+<pre class="with-50-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Resolver</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dns/promises'</span>;
+<span class="hljs-keyword">const</span> resolver = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Resolver</span>();
+resolver.<span class="hljs-title function_">setServers</span>([<span class="hljs-string">'4.4.4.4'</span>]);
+
+<span class="hljs-comment">// This request will use the server at 4.4.4.4, independent of global settings.</span>
+<span class="hljs-keyword">const</span> addresses = <span class="hljs-keyword">await</span> resolver.<span class="hljs-title function_">resolve4</span>(<span class="hljs-string">'example.org'</span>);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Resolver</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dns'</span>).<span class="hljs-property">promises</span>;
+<span class="hljs-keyword">const</span> resolver = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Resolver</span>();
+resolver.<span class="hljs-title function_">setServers</span>([<span class="hljs-string">'4.4.4.4'</span>]);
+
+<span class="hljs-comment">// This request will use the server at 4.4.4.4, independent of global settings.</span>
+resolver.<span class="hljs-title function_">resolve4</span>(<span class="hljs-string">'example.org'</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">addresses</span>) =></span> {
+  <span class="hljs-comment">// ...</span>
+});
+
+<span class="hljs-comment">// Alternatively, the same code can be written using async-await style.</span>
+(<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> addresses = <span class="hljs-keyword">await</span> resolver.<span class="hljs-title function_">resolve4</span>(<span class="hljs-string">'example.org'</span>);
+})();</code><button class="copy-button">copy</button></pre>
+<p>The following methods from the <code>dnsPromises</code> API are available:</p>
+<ul>
+<li><a href="#dnspromisesgetservers"><code>resolver.getServers()</code></a></li>
+<li><a href="#dnspromisesresolvehostname-rrtype"><code>resolver.resolve()</code></a></li>
+<li><a href="#dnspromisesresolve4hostname-options"><code>resolver.resolve4()</code></a></li>
+<li><a href="#dnspromisesresolve6hostname-options"><code>resolver.resolve6()</code></a></li>
+<li><a href="#dnspromisesresolveanyhostname"><code>resolver.resolveAny()</code></a></li>
+<li><a href="#dnspromisesresolvecaahostname"><code>resolver.resolveCaa()</code></a></li>
+<li><a href="#dnspromisesresolvecnamehostname"><code>resolver.resolveCname()</code></a></li>
+<li><a href="#dnspromisesresolvemxhostname"><code>resolver.resolveMx()</code></a></li>
+<li><a href="#dnspromisesresolvenaptrhostname"><code>resolver.resolveNaptr()</code></a></li>
+<li><a href="#dnspromisesresolvenshostname"><code>resolver.resolveNs()</code></a></li>
+<li><a href="#dnspromisesresolveptrhostname"><code>resolver.resolvePtr()</code></a></li>
+<li><a href="#dnspromisesresolvesoahostname"><code>resolver.resolveSoa()</code></a></li>
+<li><a href="#dnspromisesresolvesrvhostname"><code>resolver.resolveSrv()</code></a></li>
+<li><a href="#dnspromisesresolvetxthostname"><code>resolver.resolveTxt()</code></a></li>
+<li><a href="#dnspromisesreverseip"><code>resolver.reverse()</code></a></li>
+<li><a href="#dnspromisessetserversservers"><code>resolver.setServers()</code></a></li>
+</ul>
+<h4><code>resolver.cancel()</code><span><a class="mark" href="#resolvercancel_1" id="resolvercancel_1">#</a></span><a aria-hidden="true" class="legacy" id="dns_resolver_cancel_1"></a></h4>
+<div class="api_metadata">
+<span>Added in: v15.3.0, v14.17.0</span>
+</div>
+<p>Cancel all outstanding DNS queries made by this resolver. The corresponding
+promises will be rejected with an error with the code <code>ECANCELLED</code>.</p>
+<h4><code>dnsPromises.getServers()</code><span><a class="mark" href="#dnspromisesgetservers" id="dnspromisesgetservers">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_getservers"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></li>
+</ul>
+<p>Returns an array of IP address strings, formatted according to <a href="https://tools.ietf.org/html/rfc5952#section-6">RFC 5952</a>,
+that are currently configured for DNS resolution. A string will include a port
+section if a custom port is used.</p>
+<!-- eslint-disable @stylistic/js/semi-->
+<pre><code class="language-js">[
+  <span class="hljs-string">'8.8.8.8'</span>,
+  <span class="hljs-string">'2001:4860:4860::8888'</span>,
+  <span class="hljs-string">'8.8.8.8:1053'</span>,
+  <span class="hljs-string">'[2001:4860:4860::8888]:1053'</span>,
+]</code> <button class="copy-button">copy</button></pre>
+<h4><code>dnsPromises.lookup(hostname[, options])</code><span><a class="mark" href="#dnspromiseslookuphostname-options" id="dnspromiseslookuphostname-options">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_lookup_hostname_options"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v20.13.0</td>
+<td><p>The <code>verbatim</code> option is now deprecated in favor of the new <code>order</code> option.</p></td></tr>
+<tr><td>v10.6.0</td>
+<td><p><span>Added in: v10.6.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>family</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a> The record family. Must be <code>4</code>, <code>6</code>, or <code>0</code>. The value
+<code>0</code> indicates that either an IPv4 or IPv6 address is returned. If the
+value <code>0</code> is used with <code>{ all: true }</code> (see below), either one of or both
+IPv4 and IPv6 addresses are returned, depending on the system's DNS
+resolver. <strong>Default:</strong> <code>0</code>.</li>
+<li><code>hints</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> One or more <a href="#supported-getaddrinfo-flags">supported <code>getaddrinfo</code> flags</a>. Multiple
+flags may be passed by bitwise <code>OR</code>ing their values.</li>
+<li><code>all</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, the <code>Promise</code> is resolved with all addresses in
+an array. Otherwise, returns a single address. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>order</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> When <code>verbatim</code>, the <code>Promise</code> is resolved with IPv4 and
+IPv6 addresses in the order the DNS resolver returned them. When <code>ipv4first</code>,
+IPv4 addresses are placed before IPv6 addresses. When <code>ipv6first</code>,
+IPv6 addresses are placed before IPv4 addresses.
+<strong>Default:</strong> <code>verbatim</code> (addresses are not reordered).
+Default value is configurable using <a href="#dnssetdefaultresultorderorder"><code>dns.setDefaultResultOrder()</code></a> or
+<a href="cli.html#--dns-result-orderorder"><code>--dns-result-order</code></a>. New code should use <code>{ order: 'verbatim' }</code>.</li>
+<li><code>verbatim</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, the <code>Promise</code> is resolved with IPv4 and
+IPv6 addresses in the order the DNS resolver returned them. When <code>false</code>,
+IPv4 addresses are placed before IPv6 addresses.
+This option will be deprecated in favor of <code>order</code>. When both are specified,
+<code>order</code> has higher precedence. New code should only use <code>order</code>.
+<strong>Default:</strong> currently <code>false</code> (addresses are reordered) but this is
+expected to change in the not too distant future. Default value is
+configurable using <a href="#dnssetdefaultresultorderorder"><code>dns.setDefaultResultOrder()</code></a> or
+<a href="cli.html#--dns-result-orderorder"><code>--dns-result-order</code></a>.</li>
+</ul>
+</li>
+</ul>
+<p>Resolves a host name (e.g. <code>'nodejs.org'</code>) into the first found A (IPv4) or
+AAAA (IPv6) record. All <code>option</code> properties are optional. If <code>options</code> is an
+integer, then it must be <code>4</code> or <code>6</code> – if <code>options</code> is not provided, then
+either IPv4 or IPv6 addresses, or both, are returned if found.</p>
+<p>With the <code>all</code> option set to <code>true</code>, the <code>Promise</code> is resolved with <code>addresses</code>
+being an array of objects with the properties <code>address</code> and <code>family</code>.</p>
+<p>On error, the <code>Promise</code> is rejected with an <a href="errors.html#class-error"><code>Error</code></a> object, where <code>err.code</code>
+is the error code.
+Keep in mind that <code>err.code</code> will be set to <code>'ENOTFOUND'</code> not only when
+the host name does not exist but also when the lookup fails in other ways
+such as no available file descriptors.</p>
+<p><a href="#dnspromiseslookuphostname-options"><code>dnsPromises.lookup()</code></a> does not necessarily have anything to do with the DNS
+protocol. The implementation uses an operating system facility that can
+associate names with addresses and vice versa. This implementation can have
+subtle but important consequences on the behavior of any Node.js program. Please
+take some time to consult the <a href="#implementation-considerations">Implementation considerations section</a> before
+using <code>dnsPromises.lookup()</code>.</p>
+<p>Example usage:</p>
+
+<pre class="with-33-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> dns <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dns'</span>;
+<span class="hljs-keyword">const</span> dnsPromises = dns.<span class="hljs-property">promises</span>;
+<span class="hljs-keyword">const</span> options = {
+  <span class="hljs-attr">family</span>: <span class="hljs-number">6</span>,
+  <span class="hljs-attr">hints</span>: dns.<span class="hljs-property">ADDRCONFIG</span> | dns.<span class="hljs-property">V4MAPPED</span>,
+};
+
+<span class="hljs-keyword">await</span> dnsPromises.<span class="hljs-title function_">lookup</span>(<span class="hljs-string">'example.org'</span>, options).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">result</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'address: %j family: IPv%s'</span>, result.<span class="hljs-property">address</span>, result.<span class="hljs-property">family</span>);
+  <span class="hljs-comment">// address: "2606:2800:21f:cb07:6820:80da:af6b:8b2c" family: IPv6</span>
+});
+
+<span class="hljs-comment">// When options.all is true, the result will be an Array.</span>
+options.<span class="hljs-property">all</span> = <span class="hljs-literal">true</span>;
+<span class="hljs-keyword">await</span> dnsPromises.<span class="hljs-title function_">lookup</span>(<span class="hljs-string">'example.org'</span>, options).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">result</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'addresses: %j'</span>, result);
+  <span class="hljs-comment">// addresses: [{"address":"2606:2800:21f:cb07:6820:80da:af6b:8b2c","family":6}]</span>
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> dns = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dns'</span>);
+<span class="hljs-keyword">const</span> dnsPromises = dns.<span class="hljs-property">promises</span>;
+<span class="hljs-keyword">const</span> options = {
+  <span class="hljs-attr">family</span>: <span class="hljs-number">6</span>,
+  <span class="hljs-attr">hints</span>: dns.<span class="hljs-property">ADDRCONFIG</span> | dns.<span class="hljs-property">V4MAPPED</span>,
+};
+
+dnsPromises.<span class="hljs-title function_">lookup</span>(<span class="hljs-string">'example.org'</span>, options).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">result</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'address: %j family: IPv%s'</span>, result.<span class="hljs-property">address</span>, result.<span class="hljs-property">family</span>);
+  <span class="hljs-comment">// address: "2606:2800:21f:cb07:6820:80da:af6b:8b2c" family: IPv6</span>
+});
+
+<span class="hljs-comment">// When options.all is true, the result will be an Array.</span>
+options.<span class="hljs-property">all</span> = <span class="hljs-literal">true</span>;
+dnsPromises.<span class="hljs-title function_">lookup</span>(<span class="hljs-string">'example.org'</span>, options).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">result</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'addresses: %j'</span>, result);
+  <span class="hljs-comment">// addresses: [{"address":"2606:2800:21f:cb07:6820:80da:af6b:8b2c","family":6}]</span>
+});</code><button class="copy-button">copy</button></pre>
+<h4><code>dnsPromises.lookupService(address, port)</code><span><a class="mark" href="#dnspromiseslookupserviceaddress-port" id="dnspromiseslookupserviceaddress-port">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_lookupservice_address_port"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>port</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+<p>Resolves the given <code>address</code> and <code>port</code> into a host name and service using
+the operating system's underlying <code>getnameinfo</code> implementation.</p>
+<p>If <code>address</code> is not a valid IP address, a <code>TypeError</code> will be thrown.
+The <code>port</code> will be coerced to a number. If it is not a legal port, a <code>TypeError</code>
+will be thrown.</p>
+<p>On error, the <code>Promise</code> is rejected with an <a href="errors.html#class-error"><code>Error</code></a> object, where <code>err.code</code>
+is the error code.</p>
+
+<pre class="with-64-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> dnsPromises <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dns/promises'</span>;
+<span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> dnsPromises.<span class="hljs-title function_">lookupService</span>(<span class="hljs-string">'127.0.0.1'</span>, <span class="hljs-number">22</span>);
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">hostname</span>, result.<span class="hljs-property">service</span>); <span class="hljs-comment">// Prints: localhost ssh</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> dnsPromises = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dns'</span>).<span class="hljs-property">promises</span>;
+dnsPromises.<span class="hljs-title function_">lookupService</span>(<span class="hljs-string">'127.0.0.1'</span>, <span class="hljs-number">22</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">result</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">hostname</span>, result.<span class="hljs-property">service</span>);
+  <span class="hljs-comment">// Prints: localhost ssh</span>
+});</code><button class="copy-button">copy</button></pre>
+<h4><code>dnsPromises.resolve(hostname[, rrtype])</code><span><a class="mark" href="#dnspromisesresolvehostname-rrtype" id="dnspromisesresolvehostname-rrtype">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolve_hostname_rrtype"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Host name to resolve.</li>
+<li><code>rrtype</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Resource record type. <strong>Default:</strong> <code>'A'</code>.</li>
+</ul>
+<p>Uses the DNS protocol to resolve a host name (e.g. <code>'nodejs.org'</code>) into an array
+of the resource records. When successful, the <code>Promise</code> is resolved with an
+array of resource records. The type and structure of individual results vary
+based on <code>rrtype</code>:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><code>rrtype</code></th><th><code>records</code> contains</th><th>Result type</th><th>Shorthand method</th></tr></thead><tbody><tr><td><code>'A'</code></td><td>IPv4 addresses (default)</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></td><td><a href="#dnspromisesresolve4hostname-options"><code>dnsPromises.resolve4()</code></a></td></tr><tr><td><code>'AAAA'</code></td><td>IPv6 addresses</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></td><td><a href="#dnspromisesresolve6hostname-options"><code>dnsPromises.resolve6()</code></a></td></tr><tr><td><code>'ANY'</code></td><td>any records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnspromisesresolveanyhostname"><code>dnsPromises.resolveAny()</code></a></td></tr><tr><td><code>'CAA'</code></td><td>CA authorization records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnspromisesresolvecaahostname"><code>dnsPromises.resolveCaa()</code></a></td></tr><tr><td><code>'CNAME'</code></td><td>canonical name records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></td><td><a href="#dnspromisesresolvecnamehostname"><code>dnsPromises.resolveCname()</code></a></td></tr><tr><td><code>'MX'</code></td><td>mail exchange records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnspromisesresolvemxhostname"><code>dnsPromises.resolveMx()</code></a></td></tr><tr><td><code>'NAPTR'</code></td><td>name authority pointer records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnspromisesresolvenaptrhostname"><code>dnsPromises.resolveNaptr()</code></a></td></tr><tr><td><code>'NS'</code></td><td>name server records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></td><td><a href="#dnspromisesresolvenshostname"><code>dnsPromises.resolveNs()</code></a></td></tr><tr><td><code>'PTR'</code></td><td>pointer records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></td><td><a href="#dnspromisesresolveptrhostname"><code>dnsPromises.resolvePtr()</code></a></td></tr><tr><td><code>'SOA'</code></td><td>start of authority records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnspromisesresolvesoahostname"><code>dnsPromises.resolveSoa()</code></a></td></tr><tr><td><code>'SRV'</code></td><td>service records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></td><td><a href="#dnspromisesresolvesrvhostname"><code>dnsPromises.resolveSrv()</code></a></td></tr><tr><td><code>'TXT'</code></td><td>text records</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a></td><td><a href="#dnspromisesresolvetxthostname"><code>dnsPromises.resolveTxt()</code></a></td></tr></tbody></table>
+<p>On error, the <code>Promise</code> is rejected with an <a href="errors.html#class-error"><code>Error</code></a> object, where <code>err.code</code>
+is one of the <a href="#error-codes">DNS error codes</a>.</p>
+<h4><code>dnsPromises.resolve4(hostname[, options])</code><span><a class="mark" href="#dnspromisesresolve4hostname-options" id="dnspromisesresolve4hostname-options">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolve4_hostname_options"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Host name to resolve.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>ttl</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> Retrieve the Time-To-Live value (TTL) of each record.
+When <code>true</code>, the <code>Promise</code> is resolved with an array of
+<code>{ address: '1.2.3.4', ttl: 60 }</code> objects rather than an array of strings,
+with the TTL expressed in seconds.</li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve IPv4 addresses (<code>A</code> records) for the
+<code>hostname</code>. On success, the <code>Promise</code> is resolved with an array of IPv4
+addresses (e.g. <code>['74.125.79.104', '74.125.79.105', '74.125.79.106']</code>).</p>
+<h4><code>dnsPromises.resolve6(hostname[, options])</code><span><a class="mark" href="#dnspromisesresolve6hostname-options" id="dnspromisesresolve6hostname-options">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolve6_hostname_options"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Host name to resolve.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>ttl</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> Retrieve the Time-To-Live value (TTL) of each record.
+When <code>true</code>, the <code>Promise</code> is resolved with an array of
+<code>{ address: '0:1:2:3:4:5:6:7', ttl: 60 }</code> objects rather than an array of
+strings, with the TTL expressed in seconds.</li>
+</ul>
+</li>
+</ul>
+<p>Uses the DNS protocol to resolve IPv6 addresses (<code>AAAA</code> records) for the
+<code>hostname</code>. On success, the <code>Promise</code> is resolved with an array of IPv6
+addresses.</p>
+<h4><code>dnsPromises.resolveAny(hostname)</code><span><a class="mark" href="#dnspromisesresolveanyhostname" id="dnspromisesresolveanyhostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolveany_hostname"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Uses the DNS protocol to resolve all records (also known as <code>ANY</code> or <code>*</code> query).
+On success, the <code>Promise</code> is resolved with an array containing various types of
+records. Each object has a property <code>type</code> that indicates the type of the
+current record. And depending on the <code>type</code>, additional properties will be
+present on the object:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Type</th><th>Properties</th></tr></thead><tbody><tr><td><code>'A'</code></td><td><code>address</code>/<code>ttl</code></td></tr><tr><td><code>'AAAA'</code></td><td><code>address</code>/<code>ttl</code></td></tr><tr><td><code>'CNAME'</code></td><td><code>value</code></td></tr><tr><td><code>'MX'</code></td><td>Refer to <a href="#dnspromisesresolvemxhostname"><code>dnsPromises.resolveMx()</code></a></td></tr><tr><td><code>'NAPTR'</code></td><td>Refer to <a href="#dnspromisesresolvenaptrhostname"><code>dnsPromises.resolveNaptr()</code></a></td></tr><tr><td><code>'NS'</code></td><td><code>value</code></td></tr><tr><td><code>'PTR'</code></td><td><code>value</code></td></tr><tr><td><code>'SOA'</code></td><td>Refer to <a href="#dnspromisesresolvesoahostname"><code>dnsPromises.resolveSoa()</code></a></td></tr><tr><td><code>'SRV'</code></td><td>Refer to <a href="#dnspromisesresolvesrvhostname"><code>dnsPromises.resolveSrv()</code></a></td></tr><tr><td><code>'TXT'</code></td><td>This type of record contains an array property called <code>entries</code> which refers to <a href="#dnspromisesresolvetxthostname"><code>dnsPromises.resolveTxt()</code></a>, e.g. <code>{ entries: ['...'], type: 'TXT' }</code></td></tr></tbody></table>
+<p>Here is an example of the result object:</p>
+<!-- eslint-disable @stylistic/js/semi -->
+<pre><code class="language-js">[ { <span class="hljs-attr">type</span>: <span class="hljs-string">'A'</span>, <span class="hljs-attr">address</span>: <span class="hljs-string">'127.0.0.1'</span>, <span class="hljs-attr">ttl</span>: <span class="hljs-number">299</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">'CNAME'</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">'example.com'</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">'MX'</span>, <span class="hljs-attr">exchange</span>: <span class="hljs-string">'alt4.aspmx.l.example.com'</span>, <span class="hljs-attr">priority</span>: <span class="hljs-number">50</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">'NS'</span>, <span class="hljs-attr">value</span>: <span class="hljs-string">'ns1.example.com'</span> },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">'TXT'</span>, <span class="hljs-attr">entries</span>: [ <span class="hljs-string">'v=spf1 include:_spf.example.com ~all'</span> ] },
+  { <span class="hljs-attr">type</span>: <span class="hljs-string">'SOA'</span>,
+    <span class="hljs-attr">nsname</span>: <span class="hljs-string">'ns1.example.com'</span>,
+    <span class="hljs-attr">hostmaster</span>: <span class="hljs-string">'admin.example.com'</span>,
+    <span class="hljs-attr">serial</span>: <span class="hljs-number">156696742</span>,
+    <span class="hljs-attr">refresh</span>: <span class="hljs-number">900</span>,
+    <span class="hljs-attr">retry</span>: <span class="hljs-number">900</span>,
+    <span class="hljs-attr">expire</span>: <span class="hljs-number">1800</span>,
+    <span class="hljs-attr">minttl</span>: <span class="hljs-number">60</span> } ]</code> <button class="copy-button">copy</button></pre>
+<h4><code>dnsPromises.resolveCaa(hostname)</code><span><a class="mark" href="#dnspromisesresolvecaahostname" id="dnspromisesresolvecaahostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvecaa_hostname"></a></h4>
+<div class="api_metadata">
+<span>Added in: v15.0.0, v14.17.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Uses the DNS protocol to resolve <code>CAA</code> records for the <code>hostname</code>. On success,
+the <code>Promise</code> is resolved with an array of objects containing available
+certification authority authorization records available for the <code>hostname</code>
+(e.g. <code>[{critical: 0, iodef: 'mailto:pki@example.com'},{critical: 128, issue: 'pki.example.com'}]</code>).</p>
+<h4><code>dnsPromises.resolveCname(hostname)</code><span><a class="mark" href="#dnspromisesresolvecnamehostname" id="dnspromisesresolvecnamehostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvecname_hostname"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Uses the DNS protocol to resolve <code>CNAME</code> records for the <code>hostname</code>. On success,
+the <code>Promise</code> is resolved with an array of canonical name records available for
+the <code>hostname</code> (e.g. <code>['bar.example.com']</code>).</p>
+<h4><code>dnsPromises.resolveMx(hostname)</code><span><a class="mark" href="#dnspromisesresolvemxhostname" id="dnspromisesresolvemxhostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvemx_hostname"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Uses the DNS protocol to resolve mail exchange records (<code>MX</code> records) for the
+<code>hostname</code>. On success, the <code>Promise</code> is resolved with an array of objects
+containing both a <code>priority</code> and <code>exchange</code> property (e.g.
+<code>[{priority: 10, exchange: 'mx.example.com'}, ...]</code>).</p>
+<h4><code>dnsPromises.resolveNaptr(hostname)</code><span><a class="mark" href="#dnspromisesresolvenaptrhostname" id="dnspromisesresolvenaptrhostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvenaptr_hostname"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Uses the DNS protocol to resolve regular expression-based records (<code>NAPTR</code>
+records) for the <code>hostname</code>. On success, the <code>Promise</code> is resolved with an array
+of objects with the following properties:</p>
+<ul>
+<li><code>flags</code></li>
+<li><code>service</code></li>
+<li><code>regexp</code></li>
+<li><code>replacement</code></li>
+<li><code>order</code></li>
+<li><code>preference</code></li>
+</ul>
+<!-- eslint-skip -->
+<pre><code class="language-js">{
+  <span class="hljs-attr">flags</span>: <span class="hljs-string">'s'</span>,
+  <span class="hljs-attr">service</span>: <span class="hljs-string">'SIP+D2U'</span>,
+  <span class="hljs-attr">regexp</span>: <span class="hljs-string">''</span>,
+  <span class="hljs-attr">replacement</span>: <span class="hljs-string">'_sip._udp.example.com'</span>,
+  <span class="hljs-attr">order</span>: <span class="hljs-number">30</span>,
+  <span class="hljs-attr">preference</span>: <span class="hljs-number">100</span>
+}</code> <button class="copy-button">copy</button></pre>
+<h4><code>dnsPromises.resolveNs(hostname)</code><span><a class="mark" href="#dnspromisesresolvenshostname" id="dnspromisesresolvenshostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvens_hostname"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Uses the DNS protocol to resolve name server records (<code>NS</code> records) for the
+<code>hostname</code>. On success, the <code>Promise</code> is resolved with an array of name server
+records available for <code>hostname</code> (e.g.
+<code>['ns1.example.com', 'ns2.example.com']</code>).</p>
+<h4><code>dnsPromises.resolvePtr(hostname)</code><span><a class="mark" href="#dnspromisesresolveptrhostname" id="dnspromisesresolveptrhostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolveptr_hostname"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Uses the DNS protocol to resolve pointer records (<code>PTR</code> records) for the
+<code>hostname</code>. On success, the <code>Promise</code> is resolved with an array of strings
+containing the reply records.</p>
+<h4><code>dnsPromises.resolveSoa(hostname)</code><span><a class="mark" href="#dnspromisesresolvesoahostname" id="dnspromisesresolvesoahostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvesoa_hostname"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Uses the DNS protocol to resolve a start of authority record (<code>SOA</code> record) for
+the <code>hostname</code>. On success, the <code>Promise</code> is resolved with an object with the
+following properties:</p>
+<ul>
+<li><code>nsname</code></li>
+<li><code>hostmaster</code></li>
+<li><code>serial</code></li>
+<li><code>refresh</code></li>
+<li><code>retry</code></li>
+<li><code>expire</code></li>
+<li><code>minttl</code></li>
+</ul>
+<!-- eslint-skip -->
+<pre><code class="language-js">{
+  <span class="hljs-attr">nsname</span>: <span class="hljs-string">'ns.example.com'</span>,
+  <span class="hljs-attr">hostmaster</span>: <span class="hljs-string">'root.example.com'</span>,
+  <span class="hljs-attr">serial</span>: <span class="hljs-number">2013101809</span>,
+  <span class="hljs-attr">refresh</span>: <span class="hljs-number">10000</span>,
+  <span class="hljs-attr">retry</span>: <span class="hljs-number">2400</span>,
+  <span class="hljs-attr">expire</span>: <span class="hljs-number">604800</span>,
+  <span class="hljs-attr">minttl</span>: <span class="hljs-number">3600</span>
+}</code> <button class="copy-button">copy</button></pre>
+<h4><code>dnsPromises.resolveSrv(hostname)</code><span><a class="mark" href="#dnspromisesresolvesrvhostname" id="dnspromisesresolvesrvhostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvesrv_hostname"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Uses the DNS protocol to resolve service records (<code>SRV</code> records) for the
+<code>hostname</code>. On success, the <code>Promise</code> is resolved with an array of objects with
+the following properties:</p>
+<ul>
+<li><code>priority</code></li>
+<li><code>weight</code></li>
+<li><code>port</code></li>
+<li><code>name</code></li>
+</ul>
+<!-- eslint-skip -->
+<pre><code class="language-js">{
+  <span class="hljs-attr">priority</span>: <span class="hljs-number">10</span>,
+  <span class="hljs-attr">weight</span>: <span class="hljs-number">5</span>,
+  <span class="hljs-attr">port</span>: <span class="hljs-number">21223</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'service.example.com'</span>
+}</code> <button class="copy-button">copy</button></pre>
+<h4><code>dnsPromises.resolveTxt(hostname)</code><span><a class="mark" href="#dnspromisesresolvetxthostname" id="dnspromisesresolvetxthostname">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_resolvetxt_hostname"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>hostname</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Uses the DNS protocol to resolve text queries (<code>TXT</code> records) for the
+<code>hostname</code>. On success, the <code>Promise</code> is resolved with a two-dimensional array
+of the text records available for <code>hostname</code> (e.g.
+<code>[ ['v=spf1 ip4:0.0.0.0 ', '~all' ] ]</code>). Each sub-array contains TXT chunks of
+one record. Depending on the use case, these could be either joined together or
+treated separately.</p>
+<h4><code>dnsPromises.reverse(ip)</code><span><a class="mark" href="#dnspromisesreverseip" id="dnspromisesreverseip">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_reverse_ip"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>ip</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Performs a reverse DNS query that resolves an IPv4 or IPv6 address to an
+array of host names.</p>
+<p>On error, the <code>Promise</code> is rejected with an <a href="errors.html#class-error"><code>Error</code></a> object, where <code>err.code</code>
+is one of the <a href="#error-codes">DNS error codes</a>.</p>
+<h4><code>dnsPromises.setDefaultResultOrder(order)</code><span><a class="mark" href="#dnspromisessetdefaultresultorderorder" id="dnspromisessetdefaultresultorderorder">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_setdefaultresultorder_order"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v20.13.0</td>
+<td><p>The <code>ipv6first</code> value is supported now.</p></td></tr>
+<tr><td>v17.0.0</td>
+<td><p>Changed default value to <code>verbatim</code>.</p></td></tr>
+<tr><td>v16.4.0, v14.18.0</td>
+<td><p><span>Added in: v16.4.0, v14.18.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>order</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> must be <code>'ipv4first'</code>, <code>'ipv6first'</code> or <code>'verbatim'</code>.</li>
+</ul>
+<p>Set the default value of <code>order</code> in <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a> and
+<a href="#dnspromiseslookuphostname-options"><code>dnsPromises.lookup()</code></a>. The value could be:</p>
+<ul>
+<li><code>ipv4first</code>: sets default <code>order</code> to <code>ipv4first</code>.</li>
+<li><code>ipv6first</code>: sets default <code>order</code> to <code>ipv6first</code>.</li>
+<li><code>verbatim</code>: sets default <code>order</code> to <code>verbatim</code>.</li>
+</ul>
+<p>The default is <code>verbatim</code> and <a href="#dnspromisessetdefaultresultorderorder"><code>dnsPromises.setDefaultResultOrder()</code></a> have
+higher priority than <a href="cli.html#--dns-result-orderorder"><code>--dns-result-order</code></a>. When using <a href="worker_threads.html">worker threads</a>,
+<a href="#dnspromisessetdefaultresultorderorder"><code>dnsPromises.setDefaultResultOrder()</code></a> from the main thread won't affect the
+default dns orders in workers.</p>
+<h4><code>dnsPromises.getDefaultResultOrder()</code><span><a class="mark" href="#dnspromisesgetdefaultresultorder" id="dnspromisesgetdefaultresultorder">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_getdefaultresultorder"></a></h4>
+<div class="api_metadata">
+<span>Added in: v20.1.0</span>
+</div>
+<p>Get the value of <code>dnsOrder</code>.</p>
+<h4><code>dnsPromises.setServers(servers)</code><span><a class="mark" href="#dnspromisessetserversservers" id="dnspromisessetserversservers">#</a></span><a aria-hidden="true" class="legacy" id="dns_dnspromises_setservers_servers"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.6.0</span>
+</div>
+<ul>
+<li><code>servers</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a> array of <a href="https://tools.ietf.org/html/rfc5952#section-6">RFC 5952</a> formatted addresses</li>
+</ul>
+<p>Sets the IP address and port of servers to be used when performing DNS
+resolution. The <code>servers</code> argument is an array of <a href="https://tools.ietf.org/html/rfc5952#section-6">RFC 5952</a> formatted
+addresses. If the port is the IANA default DNS port (53) it can be omitted.</p>
+<pre><code class="language-js">dnsPromises.<span class="hljs-title function_">setServers</span>([
+  <span class="hljs-string">'8.8.8.8'</span>,
+  <span class="hljs-string">'[2001:4860:4860::8888]'</span>,
+  <span class="hljs-string">'8.8.8.8:1053'</span>,
+  <span class="hljs-string">'[2001:4860:4860::8888]:1053'</span>,
+]);</code> <button class="copy-button">copy</button></pre>
+<p>An error will be thrown if an invalid address is provided.</p>
+<p>The <code>dnsPromises.setServers()</code> method must not be called while a DNS query is in
+progress.</p>
+<p>This method works much like
+<a href="https://man7.org/linux/man-pages/man5/resolv.conf.5.html">resolve.conf</a>.
+That is, if attempting to resolve with the first server provided results in a
+<code>NOTFOUND</code> error, the <code>resolve()</code> method will <em>not</em> attempt to resolve with
+subsequent servers provided. Fallback DNS servers will only be used if the
+earlier ones time out or result in some other error.</p>
+</section><section><h3>Error codes<span><a class="mark" href="#error-codes" id="error-codes">#</a></span><a aria-hidden="true" class="legacy" id="dns_error_codes"></a></h3>
+<p>Each DNS query can return one of the following error codes:</p>
+<ul>
+<li><code>dns.NODATA</code>: DNS server returned an answer with no data.</li>
+<li><code>dns.FORMERR</code>: DNS server claims query was misformatted.</li>
+<li><code>dns.SERVFAIL</code>: DNS server returned general failure.</li>
+<li><code>dns.NOTFOUND</code>: Domain name not found.</li>
+<li><code>dns.NOTIMP</code>: DNS server does not implement the requested operation.</li>
+<li><code>dns.REFUSED</code>: DNS server refused query.</li>
+<li><code>dns.BADQUERY</code>: Misformatted DNS query.</li>
+<li><code>dns.BADNAME</code>: Misformatted host name.</li>
+<li><code>dns.BADFAMILY</code>: Unsupported address family.</li>
+<li><code>dns.BADRESP</code>: Misformatted DNS reply.</li>
+<li><code>dns.CONNREFUSED</code>: Could not contact DNS servers.</li>
+<li><code>dns.TIMEOUT</code>: Timeout while contacting DNS servers.</li>
+<li><code>dns.EOF</code>: End of file.</li>
+<li><code>dns.FILE</code>: Error reading file.</li>
+<li><code>dns.NOMEM</code>: Out of memory.</li>
+<li><code>dns.DESTRUCTION</code>: Channel is being destroyed.</li>
+<li><code>dns.BADSTR</code>: Misformatted string.</li>
+<li><code>dns.BADFLAGS</code>: Illegal flags specified.</li>
+<li><code>dns.NONAME</code>: Given host name is not numeric.</li>
+<li><code>dns.BADHINTS</code>: Illegal hints flags specified.</li>
+<li><code>dns.NOTINITIALIZED</code>: c-ares library initialization not yet performed.</li>
+<li><code>dns.LOADIPHLPAPI</code>: Error loading <code>iphlpapi.dll</code>.</li>
+<li><code>dns.ADDRGETNETWORKPARAMS</code>: Could not find <code>GetNetworkParams</code> function.</li>
+<li><code>dns.CANCELLED</code>: DNS query cancelled.</li>
+</ul>
+<p>The <code>dnsPromises</code> API also exports the above error codes, e.g., <code>dnsPromises.NODATA</code>.</p>
+</section><section><h3>Implementation considerations<span><a class="mark" href="#implementation-considerations" id="implementation-considerations">#</a></span><a aria-hidden="true" class="legacy" id="dns_implementation_considerations"></a></h3>
+<p>Although <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a> and the various <code>dns.resolve*()/dns.reverse()</code>
+functions have the same goal of associating a network name with a network
+address (or vice versa), their behavior is quite different. These differences
+can have subtle but significant consequences on the behavior of Node.js
+programs.</p>
+<h4><code>dns.lookup()</code><span><a class="mark" href="#dnslookup" id="dnslookup">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_lookup"></a></h4>
+<p>Under the hood, <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a> uses the same operating system facilities
+as most other programs. For instance, <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a> will almost always
+resolve a given name the same way as the <code>ping</code> command. On most POSIX-like
+operating systems, the behavior of the <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a> function can be
+modified by changing settings in <a href="http://man7.org/linux/man-pages/man5/nsswitch.conf.5.html"><code>nsswitch.conf(5)</code></a> and/or <a href="http://man7.org/linux/man-pages/man5/resolv.conf.5.html"><code>resolv.conf(5)</code></a>,
+but changing these files will change the behavior of all other
+programs running on the same operating system.</p>
+<p>Though the call to <code>dns.lookup()</code> will be asynchronous from JavaScript's
+perspective, it is implemented as a synchronous call to <a href="http://man7.org/linux/man-pages/man3/getaddrinfo.3.html"><code>getaddrinfo(3)</code></a> that runs
+on libuv's threadpool. This can have surprising negative performance
+implications for some applications, see the <a href="cli.html#uv_threadpool_sizesize"><code>UV_THREADPOOL_SIZE</code></a>
+documentation for more information.</p>
+<p>Various networking APIs will call <code>dns.lookup()</code> internally to resolve
+host names. If that is an issue, consider resolving the host name to an address
+using <code>dns.resolve()</code> and using the address instead of a host name. Also, some
+networking APIs (such as <a href="net.html#socketconnectoptions-connectlistener"><code>socket.connect()</code></a> and <a href="dgram.html#dgramcreatesocketoptions-callback"><code>dgram.createSocket()</code></a>)
+allow the default resolver, <code>dns.lookup()</code>, to be replaced.</p>
+<h4><code>dns.resolve()</code>, <code>dns.resolve*()</code>, and <code>dns.reverse()</code><span><a class="mark" href="#dnsresolve-dnsresolve-and-dnsreverse" id="dnsresolve-dnsresolve-and-dnsreverse">#</a></span><a aria-hidden="true" class="legacy" id="dns_dns_resolve_dns_resolve_and_dns_reverse"></a></h4>
+<p>These functions are implemented quite differently than <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a>. They
+do not use <a href="http://man7.org/linux/man-pages/man3/getaddrinfo.3.html"><code>getaddrinfo(3)</code></a> and they <em>always</em> perform a DNS query on the
+network. This network communication is always done asynchronously and does not
+use libuv's threadpool.</p>
+<p>As a result, these functions cannot have the same negative impact on other
+processing that happens on libuv's threadpool that <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a> can have.</p>
+<p>They do not use the same set of configuration files that <a href="#dnslookuphostname-options-callback"><code>dns.lookup()</code></a>
+uses. For instance, they do not use the configuration from <code>/etc/hosts</code>.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

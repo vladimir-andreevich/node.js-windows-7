@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v20.19.2">
+  <title>Path | Node.js v20.19.2 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/path.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  <script>
+      const storedTheme = localStorage.getItem('theme');
+
+      // Follow operating system theme preference
+      if (storedTheme === null && window.matchMedia) {
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        if (mq.matches) {
+          document.documentElement.classList.add('dark-mode');
+        }
+      } else if (storedTheme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      }
+  </script>
+  <style>@media(max-width:494px){.with-34-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
+</head>
+<body class="alt apidoc" id="api-section-path">
+  <a href="#apicontent" class="skip-to-content">Skip to content</a>
+  <div id="content" class="clearfix">
+    <div role="navigation" id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path active">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="path" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v20.19.2 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v20.19.2</li>
+            
+    <li class="picker-header">
+      <a href="#toc-picker" aria-controls="toc-picker">
+        <span class="picker-arrow"></span>
+        Table of contents
+      </a>
+
+      <div class="picker" tabindex="-1"><div class="toc"><ul id="toc-picker">
+<li><span class="stability_2"><a href="#path">Path</a></span>
+<ul>
+<li><a href="#windows-vs-posix">Windows vs. POSIX</a></li>
+<li><a href="#pathbasenamepath-suffix"><code>path.basename(path[, suffix])</code></a></li>
+<li><a href="#pathdelimiter"><code>path.delimiter</code></a></li>
+<li><a href="#pathdirnamepath"><code>path.dirname(path)</code></a></li>
+<li><a href="#pathextnamepath"><code>path.extname(path)</code></a></li>
+<li><a href="#pathformatpathobject"><code>path.format(pathObject)</code></a></li>
+<li><span class="stability_1"><a href="#pathmatchesglobpath-pattern"><code>path.matchesGlob(path, pattern)</code></a></span></li>
+<li><a href="#pathisabsolutepath"><code>path.isAbsolute(path)</code></a></li>
+<li><a href="#pathjoinpaths"><code>path.join([...paths])</code></a></li>
+<li><a href="#pathnormalizepath"><code>path.normalize(path)</code></a></li>
+<li><a href="#pathparsepath"><code>path.parse(path)</code></a></li>
+<li><a href="#pathposix"><code>path.posix</code></a></li>
+<li><a href="#pathrelativefrom-to"><code>path.relative(from, to)</code></a></li>
+<li><a href="#pathresolvepaths"><code>path.resolve([...paths])</code></a></li>
+<li><a href="#pathsep"><code>path.sep</code></a></li>
+<li><a href="#pathtonamespacedpathpath"><code>path.toNamespacedPath(path)</code></a></li>
+<li><a href="#pathwin32"><code>path.win32</code></a></li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#gtoc-picker" aria-controls="gtoc-picker">
+        <span class="picker-arrow"></span>
+        Index
+      </a>
+
+      <div class="picker" tabindex="-1" id="gtoc-picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path active">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#alt-docs" aria-controls="alt-docs">
+        <span class="picker-arrow"></span>
+        Other versions
+      </a>
+      <div class="picker" tabindex="-1"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v24.x/api/path.html">24.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v23.x/api/path.html">23.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v22.x/api/path.html">22.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v21.x/api/path.html">21.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v20.x/api/path.html">20.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v19.x/api/path.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/path.html">18.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/path.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/path.html">16.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/path.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/path.html">14.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/path.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/path.html">12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/path.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/path.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/path.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/path.html">8.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v7.x/api/path.html">7.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v6.x/api/path.html">6.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v5.x/api/path.html">5.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v4.x/api/path.html">4.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.12.x/api/path.html">0.12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.10.x/api/path.html">0.10.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#options-picker" aria-controls="options-picker">
+                <span class="picker-arrow"></span>
+                Options
+              </a>
+        
+              <div class="picker" tabindex="-1">
+                <ul id="options-picker">
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="path.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/path.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details role="navigation" id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_2"><a href="#path">Path</a></span>
+<ul>
+<li><a href="#windows-vs-posix">Windows vs. POSIX</a></li>
+<li><a href="#pathbasenamepath-suffix"><code>path.basename(path[, suffix])</code></a></li>
+<li><a href="#pathdelimiter"><code>path.delimiter</code></a></li>
+<li><a href="#pathdirnamepath"><code>path.dirname(path)</code></a></li>
+<li><a href="#pathextnamepath"><code>path.extname(path)</code></a></li>
+<li><a href="#pathformatpathobject"><code>path.format(pathObject)</code></a></li>
+<li><span class="stability_1"><a href="#pathmatchesglobpath-pattern"><code>path.matchesGlob(path, pattern)</code></a></span></li>
+<li><a href="#pathisabsolutepath"><code>path.isAbsolute(path)</code></a></li>
+<li><a href="#pathjoinpaths"><code>path.join([...paths])</code></a></li>
+<li><a href="#pathnormalizepath"><code>path.normalize(path)</code></a></li>
+<li><a href="#pathparsepath"><code>path.parse(path)</code></a></li>
+<li><a href="#pathposix"><code>path.posix</code></a></li>
+<li><a href="#pathrelativefrom-to"><code>path.relative(from, to)</code></a></li>
+<li><a href="#pathresolvepaths"><code>path.resolve([...paths])</code></a></li>
+<li><a href="#pathsep"><code>path.sep</code></a></li>
+<li><a href="#pathtonamespacedpathpath"><code>path.toNamespacedPath(path)</code></a></li>
+<li><a href="#pathwin32"><code>path.win32</code></a></li>
+</ul>
+</li>
+</ul></details>
+
+      <div role="main" id="apicontent">
+        <h2>Path<span><a class="mark" href="#path" id="path">#</a></span><a aria-hidden="true" class="legacy" id="path_path"></a></h2>
+
+<p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v20.19.2/lib/path.js">lib/path.js</a></p>
+<p>The <code>node:path</code> module provides utilities for working with file and directory
+paths. It can be accessed using:</p>
+
+<pre class="with-34-chars"><input class="js-flavor-toggle" type="checkbox" aria-label="Show modern ES modules syntax"><code class="language-js cjs"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:path'</span>);</code><code class="language-js mjs"><span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">'node:path'</span>;</code><button class="copy-button">copy</button></pre>
+<section><h3>Windows vs. POSIX<span><a class="mark" href="#windows-vs-posix" id="windows-vs-posix">#</a></span><a aria-hidden="true" class="legacy" id="path_windows_vs_posix"></a></h3>
+<p>The default operation of the <code>node:path</code> module varies based on the operating
+system on which a Node.js application is running. Specifically, when running on
+a Windows operating system, the <code>node:path</code> module will assume that
+Windows-style paths are being used.</p>
+<p>So using <code>path.basename()</code> might yield different results on POSIX and Windows:</p>
+<p>On POSIX:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">basename</span>(<span class="hljs-string">'C:\\temp\\myfile.html'</span>);
+<span class="hljs-comment">// Returns: 'C:\\temp\\myfile.html'</span></code> <button class="copy-button">copy</button></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">basename</span>(<span class="hljs-string">'C:\\temp\\myfile.html'</span>);
+<span class="hljs-comment">// Returns: 'myfile.html'</span></code> <button class="copy-button">copy</button></pre>
+<p>To achieve consistent results when working with Windows file paths on any
+operating system, use <a href="#pathwin32"><code>path.win32</code></a>:</p>
+<p>On POSIX and Windows:</p>
+<pre><code class="language-js">path.<span class="hljs-property">win32</span>.<span class="hljs-title function_">basename</span>(<span class="hljs-string">'C:\\temp\\myfile.html'</span>);
+<span class="hljs-comment">// Returns: 'myfile.html'</span></code> <button class="copy-button">copy</button></pre>
+<p>To achieve consistent results when working with POSIX file paths on any
+operating system, use <a href="#pathposix"><code>path.posix</code></a>:</p>
+<p>On POSIX and Windows:</p>
+<pre><code class="language-js">path.<span class="hljs-property">posix</span>.<span class="hljs-title function_">basename</span>(<span class="hljs-string">'/tmp/myfile.html'</span>);
+<span class="hljs-comment">// Returns: 'myfile.html'</span></code> <button class="copy-button">copy</button></pre>
+<p>On Windows Node.js follows the concept of per-drive working directory.
+This behavior can be observed when using a drive path without a backslash. For
+example, <code>path.resolve('C:\\')</code> can potentially return a different result than
+<code>path.resolve('C:')</code>. For more information, see
+<a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#fully-qualified-vs-relative-paths">this MSDN page</a>.</p>
+</section><section><h3><code>path.basename(path[, suffix])</code><span><a class="mark" href="#pathbasenamepath-suffix" id="pathbasenamepath-suffix">#</a></span><a aria-hidden="true" class="legacy" id="path_path_basename_path_suffix"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.0.0</td>
+<td><p>Passing a non-string as the <code>path</code> argument will throw now.</p></td></tr>
+<tr><td>v0.1.25</td>
+<td><p><span>Added in: v0.1.25</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>suffix</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> An optional suffix to remove</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The <code>path.basename()</code> method returns the last portion of a <code>path</code>, similar to
+the Unix <code>basename</code> command. Trailing <a href="#pathsep">directory separators</a> are
+ignored.</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">basename</span>(<span class="hljs-string">'/foo/bar/baz/asdf/quux.html'</span>);
+<span class="hljs-comment">// Returns: 'quux.html'</span>
+
+path.<span class="hljs-title function_">basename</span>(<span class="hljs-string">'/foo/bar/baz/asdf/quux.html'</span>, <span class="hljs-string">'.html'</span>);
+<span class="hljs-comment">// Returns: 'quux'</span></code> <button class="copy-button">copy</button></pre>
+<p>Although Windows usually treats file names, including file extensions, in a
+case-insensitive manner, this function does not. For example, <code>C:\\foo.html</code> and
+<code>C:\\foo.HTML</code> refer to the same file, but <code>basename</code> treats the extension as a
+case-sensitive string:</p>
+<pre><code class="language-js">path.<span class="hljs-property">win32</span>.<span class="hljs-title function_">basename</span>(<span class="hljs-string">'C:\\foo.html'</span>, <span class="hljs-string">'.html'</span>);
+<span class="hljs-comment">// Returns: 'foo'</span>
+
+path.<span class="hljs-property">win32</span>.<span class="hljs-title function_">basename</span>(<span class="hljs-string">'C:\\foo.HTML'</span>, <span class="hljs-string">'.html'</span>);
+<span class="hljs-comment">// Returns: 'foo.HTML'</span></code> <button class="copy-button">copy</button></pre>
+<p>A <a href="errors.html#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string or if <code>suffix</code> is given
+and is not a string.</p>
+</section><section><h3><code>path.delimiter</code><span><a class="mark" href="#pathdelimiter" id="pathdelimiter">#</a></span><a aria-hidden="true" class="legacy" id="path_path_delimiter"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.9.3</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Provides the platform-specific path delimiter:</p>
+<ul>
+<li><code>;</code> for Windows</li>
+<li><code>:</code> for POSIX</li>
+</ul>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js"><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">PATH</span>);
+<span class="hljs-comment">// Prints: '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin'</span>
+
+process.<span class="hljs-property">env</span>.<span class="hljs-property">PATH</span>.<span class="hljs-title function_">split</span>(path.<span class="hljs-property">delimiter</span>);
+<span class="hljs-comment">// Returns: ['/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin']</span></code> <button class="copy-button">copy</button></pre>
+<p>On Windows:</p>
+<pre><code class="language-js"><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">PATH</span>);
+<span class="hljs-comment">// Prints: 'C:\Windows\system32;C:\Windows;C:\Program Files\node\'</span>
+
+process.<span class="hljs-property">env</span>.<span class="hljs-property">PATH</span>.<span class="hljs-title function_">split</span>(path.<span class="hljs-property">delimiter</span>);
+<span class="hljs-comment">// Returns ['C:\\Windows\\system32', 'C:\\Windows', 'C:\\Program Files\\node\\']</span></code> <button class="copy-button">copy</button></pre>
+</section><section><h3><code>path.dirname(path)</code><span><a class="mark" href="#pathdirnamepath" id="pathdirnamepath">#</a></span><a aria-hidden="true" class="legacy" id="path_path_dirname_path"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.0.0</td>
+<td><p>Passing a non-string as the <code>path</code> argument will throw now.</p></td></tr>
+<tr><td>v0.1.16</td>
+<td><p><span>Added in: v0.1.16</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The <code>path.dirname()</code> method returns the directory name of a <code>path</code>, similar to
+the Unix <code>dirname</code> command. Trailing directory separators are ignored, see
+<a href="#pathsep"><code>path.sep</code></a>.</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">dirname</span>(<span class="hljs-string">'/foo/bar/baz/asdf/quux'</span>);
+<span class="hljs-comment">// Returns: '/foo/bar/baz/asdf'</span></code> <button class="copy-button">copy</button></pre>
+<p>A <a href="errors.html#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string.</p>
+</section><section><h3><code>path.extname(path)</code><span><a class="mark" href="#pathextnamepath" id="pathextnamepath">#</a></span><a aria-hidden="true" class="legacy" id="path_path_extname_path"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.0.0</td>
+<td><p>Passing a non-string as the <code>path</code> argument will throw now.</p></td></tr>
+<tr><td>v0.1.25</td>
+<td><p><span>Added in: v0.1.25</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The <code>path.extname()</code> method returns the extension of the <code>path</code>, from the last
+occurrence of the <code>.</code> (period) character to end of string in the last portion of
+the <code>path</code>. If there is no <code>.</code> in the last portion of the <code>path</code>, or if
+there are no <code>.</code> characters other than the first character of
+the basename of <code>path</code> (see <code>path.basename()</code>) , an empty string is returned.</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">extname</span>(<span class="hljs-string">'index.html'</span>);
+<span class="hljs-comment">// Returns: '.html'</span>
+
+path.<span class="hljs-title function_">extname</span>(<span class="hljs-string">'index.coffee.md'</span>);
+<span class="hljs-comment">// Returns: '.md'</span>
+
+path.<span class="hljs-title function_">extname</span>(<span class="hljs-string">'index.'</span>);
+<span class="hljs-comment">// Returns: '.'</span>
+
+path.<span class="hljs-title function_">extname</span>(<span class="hljs-string">'index'</span>);
+<span class="hljs-comment">// Returns: ''</span>
+
+path.<span class="hljs-title function_">extname</span>(<span class="hljs-string">'.index'</span>);
+<span class="hljs-comment">// Returns: ''</span>
+
+path.<span class="hljs-title function_">extname</span>(<span class="hljs-string">'.index.md'</span>);
+<span class="hljs-comment">// Returns: '.md'</span></code> <button class="copy-button">copy</button></pre>
+<p>A <a href="errors.html#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string.</p>
+</section><section><h3><code>path.format(pathObject)</code><span><a class="mark" href="#pathformatpathobject" id="pathformatpathobject">#</a></span><a aria-hidden="true" class="legacy" id="path_path_format_pathobject"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v19.0.0</td>
+<td><p>The dot will be added if it is not specified in <code>ext</code>.</p></td></tr>
+<tr><td>v0.11.15</td>
+<td><p><span>Added in: v0.11.15</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>pathObject</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Any JavaScript object having the following properties:
+<ul>
+<li><code>dir</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>root</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>base</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>ext</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The <code>path.format()</code> method returns a path string from an object. This is the
+opposite of <a href="#pathparsepath"><code>path.parse()</code></a>.</p>
+<p>When providing properties to the <code>pathObject</code> remember that there are
+combinations where one property has priority over another:</p>
+<ul>
+<li><code>pathObject.root</code> is ignored if <code>pathObject.dir</code> is provided</li>
+<li><code>pathObject.ext</code> and <code>pathObject.name</code> are ignored if <code>pathObject.base</code> exists</li>
+</ul>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js"><span class="hljs-comment">// If `dir`, `root` and `base` are provided,</span>
+<span class="hljs-comment">// `${dir}${path.sep}${base}`</span>
+<span class="hljs-comment">// will be returned. `root` is ignored.</span>
+path.<span class="hljs-title function_">format</span>({
+  <span class="hljs-attr">root</span>: <span class="hljs-string">'/ignored'</span>,
+  <span class="hljs-attr">dir</span>: <span class="hljs-string">'/home/user/dir'</span>,
+  <span class="hljs-attr">base</span>: <span class="hljs-string">'file.txt'</span>,
+});
+<span class="hljs-comment">// Returns: '/home/user/dir/file.txt'</span>
+
+<span class="hljs-comment">// `root` will be used if `dir` is not specified.</span>
+<span class="hljs-comment">// If only `root` is provided or `dir` is equal to `root` then the</span>
+<span class="hljs-comment">// platform separator will not be included. `ext` will be ignored.</span>
+path.<span class="hljs-title function_">format</span>({
+  <span class="hljs-attr">root</span>: <span class="hljs-string">'/'</span>,
+  <span class="hljs-attr">base</span>: <span class="hljs-string">'file.txt'</span>,
+  <span class="hljs-attr">ext</span>: <span class="hljs-string">'ignored'</span>,
+});
+<span class="hljs-comment">// Returns: '/file.txt'</span>
+
+<span class="hljs-comment">// `name` + `ext` will be used if `base` is not specified.</span>
+path.<span class="hljs-title function_">format</span>({
+  <span class="hljs-attr">root</span>: <span class="hljs-string">'/'</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'file'</span>,
+  <span class="hljs-attr">ext</span>: <span class="hljs-string">'.txt'</span>,
+});
+<span class="hljs-comment">// Returns: '/file.txt'</span>
+
+<span class="hljs-comment">// The dot will be added if it is not specified in `ext`.</span>
+path.<span class="hljs-title function_">format</span>({
+  <span class="hljs-attr">root</span>: <span class="hljs-string">'/'</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'file'</span>,
+  <span class="hljs-attr">ext</span>: <span class="hljs-string">'txt'</span>,
+});
+<span class="hljs-comment">// Returns: '/file.txt'</span></code> <button class="copy-button">copy</button></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">format</span>({
+  <span class="hljs-attr">dir</span>: <span class="hljs-string">'C:\\path\\dir'</span>,
+  <span class="hljs-attr">base</span>: <span class="hljs-string">'file.txt'</span>,
+});
+<span class="hljs-comment">// Returns: 'C:\\path\\dir\\file.txt'</span></code> <button class="copy-button">copy</button></pre>
+</section><section><h3><code>path.matchesGlob(path, pattern)</code><span><a class="mark" href="#pathmatchesglobpath-pattern" id="pathmatchesglobpath-pattern">#</a></span><a aria-hidden="true" class="legacy" id="path_path_matchesglob_path_pattern"></a></h3>
+<div class="api_metadata">
+<span>Added in: v20.17.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<ul>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The path to glob-match against.</li>
+<li><code>pattern</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The glob to check the path against.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> Whether or not the <code>path</code> matched the <code>pattern</code>.</li>
+</ul>
+<p>The <code>path.matchesGlob()</code> method determines if <code>path</code> matches the <code>pattern</code>.</p>
+<p>For example:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">matchesGlob</span>(<span class="hljs-string">'/foo/bar'</span>, <span class="hljs-string">'/foo/*'</span>); <span class="hljs-comment">// true</span>
+path.<span class="hljs-title function_">matchesGlob</span>(<span class="hljs-string">'/foo/bar*'</span>, <span class="hljs-string">'foo/bird'</span>); <span class="hljs-comment">// false</span></code> <button class="copy-button">copy</button></pre>
+<p>A <a href="errors.html#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> or <code>pattern</code> are not strings.</p>
+</section><section><h3><code>path.isAbsolute(path)</code><span><a class="mark" href="#pathisabsolutepath" id="pathisabsolutepath">#</a></span><a aria-hidden="true" class="legacy" id="path_path_isabsolute_path"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.11.2</span>
+</div>
+<ul>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>The <code>path.isAbsolute()</code> method determines if <code>path</code> is an absolute path.</p>
+<p>If the given <code>path</code> is a zero-length string, <code>false</code> will be returned.</p>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">isAbsolute</span>(<span class="hljs-string">'/foo/bar'</span>); <span class="hljs-comment">// true</span>
+path.<span class="hljs-title function_">isAbsolute</span>(<span class="hljs-string">'/baz/..'</span>);  <span class="hljs-comment">// true</span>
+path.<span class="hljs-title function_">isAbsolute</span>(<span class="hljs-string">'qux/'</span>);     <span class="hljs-comment">// false</span>
+path.<span class="hljs-title function_">isAbsolute</span>(<span class="hljs-string">'.'</span>);        <span class="hljs-comment">// false</span></code> <button class="copy-button">copy</button></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">isAbsolute</span>(<span class="hljs-string">'//server'</span>);    <span class="hljs-comment">// true</span>
+path.<span class="hljs-title function_">isAbsolute</span>(<span class="hljs-string">'\\\\server'</span>);  <span class="hljs-comment">// true</span>
+path.<span class="hljs-title function_">isAbsolute</span>(<span class="hljs-string">'C:/foo/..'</span>);   <span class="hljs-comment">// true</span>
+path.<span class="hljs-title function_">isAbsolute</span>(<span class="hljs-string">'C:\\foo\\..'</span>); <span class="hljs-comment">// true</span>
+path.<span class="hljs-title function_">isAbsolute</span>(<span class="hljs-string">'bar\\baz'</span>);    <span class="hljs-comment">// false</span>
+path.<span class="hljs-title function_">isAbsolute</span>(<span class="hljs-string">'bar/baz'</span>);     <span class="hljs-comment">// false</span>
+path.<span class="hljs-title function_">isAbsolute</span>(<span class="hljs-string">'.'</span>);           <span class="hljs-comment">// false</span></code> <button class="copy-button">copy</button></pre>
+<p>A <a href="errors.html#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string.</p>
+</section><section><h3><code>path.join([...paths])</code><span><a class="mark" href="#pathjoinpaths" id="pathjoinpaths">#</a></span><a aria-hidden="true" class="legacy" id="path_path_join_paths"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.16</span>
+</div>
+<ul>
+<li><code>...paths</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> A sequence of path segments</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The <code>path.join()</code> method joins all given <code>path</code> segments together using the
+platform-specific separator as a delimiter, then normalizes the resulting path.</p>
+<p>Zero-length <code>path</code> segments are ignored. If the joined path string is a
+zero-length string then <code>'.'</code> will be returned, representing the current
+working directory.</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">join</span>(<span class="hljs-string">'/foo'</span>, <span class="hljs-string">'bar'</span>, <span class="hljs-string">'baz/asdf'</span>, <span class="hljs-string">'quux'</span>, <span class="hljs-string">'..'</span>);
+<span class="hljs-comment">// Returns: '/foo/bar/baz/asdf'</span>
+
+path.<span class="hljs-title function_">join</span>(<span class="hljs-string">'foo'</span>, {}, <span class="hljs-string">'bar'</span>);
+<span class="hljs-comment">// Throws 'TypeError: Path must be a string. Received {}'</span></code> <button class="copy-button">copy</button></pre>
+<p>A <a href="errors.html#class-typeerror"><code>TypeError</code></a> is thrown if any of the path segments is not a string.</p>
+</section><section><h3><code>path.normalize(path)</code><span><a class="mark" href="#pathnormalizepath" id="pathnormalizepath">#</a></span><a aria-hidden="true" class="legacy" id="path_path_normalize_path"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.23</span>
+</div>
+<ul>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The <code>path.normalize()</code> method normalizes the given <code>path</code>, resolving <code>'..'</code> and
+<code>'.'</code> segments.</p>
+<p>When multiple, sequential path segment separation characters are found (e.g.
+<code>/</code> on POSIX and either <code>\</code> or <code>/</code> on Windows), they are replaced by a single
+instance of the platform-specific path segment separator (<code>/</code> on POSIX and
+<code>\</code> on Windows). Trailing separators are preserved.</p>
+<p>If the <code>path</code> is a zero-length string, <code>'.'</code> is returned, representing the
+current working directory.</p>
+<p>On POSIX, the types of normalization applied by this function do not strictly
+adhere to the POSIX specification. For example, this function will replace two
+leading forward slashes with a single slash as if it was a regular absolute
+path, whereas a few POSIX systems assign special meaning to paths beginning with
+exactly two forward slashes. Similarly, other substitutions performed by this
+function, such as removing <code>..</code> segments, may change how the underlying system
+resolves the path.</p>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">normalize</span>(<span class="hljs-string">'/foo/bar//baz/asdf/quux/..'</span>);
+<span class="hljs-comment">// Returns: '/foo/bar/baz/asdf'</span></code> <button class="copy-button">copy</button></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">normalize</span>(<span class="hljs-string">'C:\\temp\\\\foo\\bar\\..\\'</span>);
+<span class="hljs-comment">// Returns: 'C:\\temp\\foo\\'</span></code> <button class="copy-button">copy</button></pre>
+<p>Since Windows recognizes multiple path separators, both separators will be
+replaced by instances of the Windows preferred separator (<code>\</code>):</p>
+<pre><code class="language-js">path.<span class="hljs-property">win32</span>.<span class="hljs-title function_">normalize</span>(<span class="hljs-string">'C:////temp\\\\/\\/\\/foo/bar'</span>);
+<span class="hljs-comment">// Returns: 'C:\\temp\\foo\\bar'</span></code> <button class="copy-button">copy</button></pre>
+<p>A <a href="errors.html#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string.</p>
+</section><section><h3><code>path.parse(path)</code><span><a class="mark" href="#pathparsepath" id="pathparsepath">#</a></span><a aria-hidden="true" class="legacy" id="path_path_parse_path"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.11.15</span>
+</div>
+<ul>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>The <code>path.parse()</code> method returns an object whose properties represent
+significant elements of the <code>path</code>. Trailing directory separators are ignored,
+see <a href="#pathsep"><code>path.sep</code></a>.</p>
+<p>The returned object will have the following properties:</p>
+<ul>
+<li><code>dir</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>root</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>base</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>ext</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">parse</span>(<span class="hljs-string">'/home/user/dir/file.txt'</span>);
+<span class="hljs-comment">// Returns:</span>
+<span class="hljs-comment">// { root: '/',</span>
+<span class="hljs-comment">//   dir: '/home/user/dir',</span>
+<span class="hljs-comment">//   base: 'file.txt',</span>
+<span class="hljs-comment">//   ext: '.txt',</span>
+<span class="hljs-comment">//   name: 'file' }</span></code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-text">┌─────────────────────┬────────────┐
+│          dir        │    base    │
+├──────┬              ├──────┬─────┤
+│ root │              │ name │ ext │
+"  /    home/user/dir / file  .txt "
+└──────┴──────────────┴──────┴─────┘
+(All spaces in the "" line should be ignored. They are purely for formatting.)</code> <button class="copy-button">copy</button></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">parse</span>(<span class="hljs-string">'C:\\path\\dir\\file.txt'</span>);
+<span class="hljs-comment">// Returns:</span>
+<span class="hljs-comment">// { root: 'C:\\',</span>
+<span class="hljs-comment">//   dir: 'C:\\path\\dir',</span>
+<span class="hljs-comment">//   base: 'file.txt',</span>
+<span class="hljs-comment">//   ext: '.txt',</span>
+<span class="hljs-comment">//   name: 'file' }</span></code> <button class="copy-button">copy</button></pre>
+<pre><code class="language-text">┌─────────────────────┬────────────┐
+│          dir        │    base    │
+├──────┬              ├──────┬─────┤
+│ root │              │ name │ ext │
+" C:\      path\dir   \ file  .txt "
+└──────┴──────────────┴──────┴─────┘
+(All spaces in the "" line should be ignored. They are purely for formatting.)</code> <button class="copy-button">copy</button></pre>
+<p>A <a href="errors.html#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string.</p>
+</section><section><h3><code>path.posix</code><span><a class="mark" href="#pathposix" id="pathposix">#</a></span><a aria-hidden="true" class="legacy" id="path_path_posix"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.3.0</td>
+<td><p>Exposed as <code>require('path/posix')</code>.</p></td></tr>
+<tr><td>v0.11.15</td>
+<td><p><span>Added in: v0.11.15</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>The <code>path.posix</code> property provides access to POSIX specific implementations
+of the <code>path</code> methods.</p>
+<p>The API is accessible via <code>require('node:path').posix</code> or <code>require('node:path/posix')</code>.</p>
+</section><section><h3><code>path.relative(from, to)</code><span><a class="mark" href="#pathrelativefrom-to" id="pathrelativefrom-to">#</a></span><a aria-hidden="true" class="legacy" id="path_path_relative_from_to"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.8.0</td>
+<td><p>On Windows, the leading slashes for UNC paths are now included in the return value.</p></td></tr>
+<tr><td>v0.5.0</td>
+<td><p><span>Added in: v0.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>from</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>to</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The <code>path.relative()</code> method returns the relative path from <code>from</code> to <code>to</code> based
+on the current working directory. If <code>from</code> and <code>to</code> each resolve to the same
+path (after calling <code>path.resolve()</code> on each), a zero-length string is returned.</p>
+<p>If a zero-length string is passed as <code>from</code> or <code>to</code>, the current working
+directory will be used instead of the zero-length strings.</p>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">relative</span>(<span class="hljs-string">'/data/orandea/test/aaa'</span>, <span class="hljs-string">'/data/orandea/impl/bbb'</span>);
+<span class="hljs-comment">// Returns: '../../impl/bbb'</span></code> <button class="copy-button">copy</button></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">relative</span>(<span class="hljs-string">'C:\\orandea\\test\\aaa'</span>, <span class="hljs-string">'C:\\orandea\\impl\\bbb'</span>);
+<span class="hljs-comment">// Returns: '..\\..\\impl\\bbb'</span></code> <button class="copy-button">copy</button></pre>
+<p>A <a href="errors.html#class-typeerror"><code>TypeError</code></a> is thrown if either <code>from</code> or <code>to</code> is not a string.</p>
+</section><section><h3><code>path.resolve([...paths])</code><span><a class="mark" href="#pathresolvepaths" id="pathresolvepaths">#</a></span><a aria-hidden="true" class="legacy" id="path_path_resolve_paths"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.3.4</span>
+</div>
+<ul>
+<li><code>...paths</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> A sequence of paths or path segments</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The <code>path.resolve()</code> method resolves a sequence of paths or path segments into
+an absolute path.</p>
+<p>The given sequence of paths is processed from right to left, with each
+subsequent <code>path</code> prepended until an absolute path is constructed.
+For instance, given the sequence of path segments: <code>/foo</code>, <code>/bar</code>, <code>baz</code>,
+calling <code>path.resolve('/foo', '/bar', 'baz')</code> would return <code>/bar/baz</code>
+because <code>'baz'</code> is not an absolute path but <code>'/bar' + '/' + 'baz'</code> is.</p>
+<p>If, after processing all given <code>path</code> segments, an absolute path has not yet
+been generated, the current working directory is used.</p>
+<p>The resulting path is normalized and trailing slashes are removed unless the
+path is resolved to the root directory.</p>
+<p>Zero-length <code>path</code> segments are ignored.</p>
+<p>If no <code>path</code> segments are passed, <code>path.resolve()</code> will return the absolute path
+of the current working directory.</p>
+<pre><code class="language-js">path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">'/foo/bar'</span>, <span class="hljs-string">'./baz'</span>);
+<span class="hljs-comment">// Returns: '/foo/bar/baz'</span>
+
+path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">'/foo/bar'</span>, <span class="hljs-string">'/tmp/file/'</span>);
+<span class="hljs-comment">// Returns: '/tmp/file'</span>
+
+path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">'wwwroot'</span>, <span class="hljs-string">'static_files/png/'</span>, <span class="hljs-string">'../gif/image.gif'</span>);
+<span class="hljs-comment">// If the current working directory is /home/myself/node,</span>
+<span class="hljs-comment">// this returns '/home/myself/node/wwwroot/static_files/gif/image.gif'</span></code> <button class="copy-button">copy</button></pre>
+<p>A <a href="errors.html#class-typeerror"><code>TypeError</code></a> is thrown if any of the arguments is not a string.</p>
+</section><section><h3><code>path.sep</code><span><a class="mark" href="#pathsep" id="pathsep">#</a></span><a aria-hidden="true" class="legacy" id="path_path_sep"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.9</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Provides the platform-specific path segment separator:</p>
+<ul>
+<li><code>\</code> on Windows</li>
+<li><code>/</code> on POSIX</li>
+</ul>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js"><span class="hljs-string">'foo/bar/baz'</span>.<span class="hljs-title function_">split</span>(path.<span class="hljs-property">sep</span>);
+<span class="hljs-comment">// Returns: ['foo', 'bar', 'baz']</span></code> <button class="copy-button">copy</button></pre>
+<p>On Windows:</p>
+<pre><code class="language-js"><span class="hljs-string">'foo\\bar\\baz'</span>.<span class="hljs-title function_">split</span>(path.<span class="hljs-property">sep</span>);
+<span class="hljs-comment">// Returns: ['foo', 'bar', 'baz']</span></code> <button class="copy-button">copy</button></pre>
+<p>On Windows, both the forward slash (<code>/</code>) and backward slash (<code>\</code>) are accepted
+as path segment separators; however, the <code>path</code> methods only add backward
+slashes (<code>\</code>).</p>
+</section><section><h3><code>path.toNamespacedPath(path)</code><span><a class="mark" href="#pathtonamespacedpathpath" id="pathtonamespacedpathpath">#</a></span><a aria-hidden="true" class="legacy" id="path_path_tonamespacedpath_path"></a></h3>
+<div class="api_metadata">
+<span>Added in: v9.0.0</span>
+</div>
+<ul>
+<li><code>path</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>On Windows systems only, returns an equivalent <a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#namespaces">namespace-prefixed path</a> for
+the given <code>path</code>. If <code>path</code> is not a string, <code>path</code> will be returned without
+modifications.</p>
+<p>This method is meaningful only on Windows systems. On POSIX systems, the
+method is non-operational and always returns <code>path</code> without modifications.</p>
+</section><section><h3><code>path.win32</code><span><a class="mark" href="#pathwin32" id="pathwin32">#</a></span><a aria-hidden="true" class="legacy" id="path_path_win32"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.3.0</td>
+<td><p>Exposed as <code>require('path/win32')</code>.</p></td></tr>
+<tr><td>v0.11.15</td>
+<td><p><span>Added in: v0.11.15</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>The <code>path.win32</code> property provides access to Windows-specific implementations
+of the <code>path</code> methods.</p>
+<p>The API is accessible via <code>require('node:path').win32</code> or <code>require('node:path/win32')</code>.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

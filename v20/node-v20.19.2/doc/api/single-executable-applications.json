@@ -1,0 +1,201 @@
+{
+  "type": "module",
+  "source": "doc/api/single-executable-applications.md",
+  "modules": [
+    {
+      "textRaw": "Single executable applications",
+      "name": "single_executable_applications",
+      "introduced_in": "v19.7.0",
+      "meta": {
+        "added": [
+          "v19.7.0",
+          "v18.16.0"
+        ],
+        "changes": [
+          {
+            "version": "v20.6.0",
+            "pr-url": "https://github.com/nodejs/node/pull/46824",
+            "description": "Added support for \"useSnapshot\"."
+          },
+          {
+            "version": "v20.6.0",
+            "pr-url": "https://github.com/nodejs/node/pull/48191",
+            "description": "Added support for \"useCodeCache\"."
+          }
+        ]
+      },
+      "stability": 1,
+      "stabilityText": ".1 - Active development",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v20.19.2/src/node_sea.cc\">src/node_sea.cc</a></p>\n<p>This feature allows the distribution of a Node.js application conveniently to a\nsystem that does not have Node.js installed.</p>\n<p>Node.js supports the creation of <a href=\"https://github.com/nodejs/single-executable\">single executable applications</a> by allowing\nthe injection of a blob prepared by Node.js, which can contain a bundled script,\ninto the <code>node</code> binary. During start up, the program checks if anything has been\ninjected. If the blob is found, it executes the script in the blob. Otherwise\nNode.js operates as it normally does.</p>\n<p>The single executable application feature currently only supports running a\nsingle embedded script using the <a href=\"modules.html#modules-commonjs-modules\">CommonJS</a> module system.</p>\n<p>Users can create a single executable application from their bundled script\nwith the <code>node</code> binary itself and any tool which can inject resources into the\nbinary.</p>\n<p>Here are the steps for creating a single executable application using one such\ntool, <a href=\"https://github.com/nodejs/postject\">postject</a>:</p>\n<ol>\n<li>\n<p>Create a JavaScript file:</p>\n<pre><code class=\"language-bash\">echo 'console.log(`Hello, ${process.argv[2]}!`);' > hello.js\n</code></pre>\n</li>\n<li>\n<p>Create a configuration file building a blob that can be injected into the\nsingle executable application (see\n<a href=\"#generating-single-executable-preparation-blobs\">Generating single executable preparation blobs</a> for details):</p>\n<pre><code class=\"language-bash\">echo '{ \"main\": \"hello.js\", \"output\": \"sea-prep.blob\" }' > sea-config.json\n</code></pre>\n</li>\n<li>\n<p>Generate the blob to be injected:</p>\n<pre><code class=\"language-bash\">node --experimental-sea-config sea-config.json\n</code></pre>\n</li>\n<li>\n<p>Create a copy of the <code>node</code> executable and name it according to your needs:</p>\n<ul>\n<li>On systems other than Windows:</li>\n</ul>\n<pre><code class=\"language-bash\">cp $(command -v node) hello\n</code></pre>\n<ul>\n<li>On Windows:</li>\n</ul>\n<pre><code class=\"language-text\">node -e \"require('fs').copyFileSync(process.execPath, 'hello.exe')\"\n</code></pre>\n<p>The <code>.exe</code> extension is necessary.</p>\n</li>\n<li>\n<p>Remove the signature of the binary (macOS and Windows only):</p>\n<ul>\n<li>On macOS:</li>\n</ul>\n<pre><code class=\"language-bash\">codesign --remove-signature hello\n</code></pre>\n<ul>\n<li>On Windows (optional):</li>\n</ul>\n<p><a href=\"https://learn.microsoft.com/en-us/windows/win32/seccrypto/signtool\">signtool</a> can be used from the installed <a href=\"https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/\">Windows SDK</a>. If this step is\nskipped, ignore any signature-related warning from postject.</p>\n<pre><code class=\"language-powershell\">signtool remove /s hello.exe\n</code></pre>\n</li>\n<li>\n<p>Inject the blob into the copied binary by running <code>postject</code> with\nthe following options:</p>\n<ul>\n<li><code>hello</code> / <code>hello.exe</code> - The name of the copy of the <code>node</code> executable\ncreated in step 4.</li>\n<li><code>NODE_SEA_BLOB</code> - The name of the resource / note / section in the binary\nwhere the contents of the blob will be stored.</li>\n<li><code>sea-prep.blob</code> - The name of the blob created in step 1.</li>\n<li><code>--sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2</code> - The\n<a href=\"https://www.electronjs.org/docs/latest/tutorial/fuses\">fuse</a> used by the Node.js project to detect if a file has been injected.</li>\n<li><code>--macho-segment-name NODE_SEA</code> (only needed on macOS) - The name of the\nsegment in the binary where the contents of the blob will be\nstored.</li>\n</ul>\n<p>To summarize, here is the required command for each platform:</p>\n<ul>\n<li>\n<p>On Linux:</p>\n<pre><code class=\"language-bash\">npx postject hello NODE_SEA_BLOB sea-prep.blob \\\n    --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2\n</code></pre>\n</li>\n<li>\n<p>On Windows - PowerShell:</p>\n<pre><code class=\"language-powershell\">npx postject hello.exe NODE_SEA_BLOB sea-prep.blob `\n    --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2\n</code></pre>\n</li>\n<li>\n<p>On Windows - Command Prompt:</p>\n<pre><code class=\"language-text\">npx postject hello.exe NODE_SEA_BLOB sea-prep.blob ^\n    --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2\n</code></pre>\n</li>\n<li>\n<p>On macOS:</p>\n<pre><code class=\"language-bash\">npx postject hello NODE_SEA_BLOB sea-prep.blob \\\n    --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2 \\\n    --macho-segment-name NODE_SEA\n</code></pre>\n</li>\n</ul>\n</li>\n<li>\n<p>Sign the binary (macOS and Windows only):</p>\n<ul>\n<li>On macOS:</li>\n</ul>\n<pre><code class=\"language-bash\">codesign --sign - hello\n</code></pre>\n<ul>\n<li>On Windows (optional):</li>\n</ul>\n<p>A certificate needs to be present for this to work. However, the unsigned\nbinary would still be runnable.</p>\n<pre><code class=\"language-powershell\">signtool sign /fd SHA256 hello.exe\n</code></pre>\n</li>\n<li>\n<p>Run the binary:</p>\n<ul>\n<li>On systems other than Windows</li>\n</ul>\n<pre><code class=\"language-console\">$ ./hello world\nHello, world!\n</code></pre>\n<ul>\n<li>On Windows</li>\n</ul>\n<pre><code class=\"language-console\">$ .\\hello.exe world\nHello, world!\n</code></pre>\n</li>\n</ol>",
+      "modules": [
+        {
+          "textRaw": "Generating single executable preparation blobs",
+          "name": "generating_single_executable_preparation_blobs",
+          "desc": "<p>Single executable preparation blobs that are injected into the application can\nbe generated using the <code>--experimental-sea-config</code> flag of the Node.js binary\nthat will be used to build the single executable. It takes a path to a\nconfiguration file in JSON format. If the path passed to it isn't absolute,\nNode.js will use the path relative to the current working directory.</p>\n<p>The configuration currently reads the following top-level fields:</p>\n<pre><code class=\"language-json\">{\n  \"main\": \"/path/to/bundled/script.js\",\n  \"output\": \"/path/to/write/the/generated/blob.blob\",\n  \"disableExperimentalSEAWarning\": true, // Default: false\n  \"useSnapshot\": false,  // Default: false\n  \"useCodeCache\": true, // Default: false\n  \"assets\": {  // Optional\n    \"a.dat\": \"/path/to/a.dat\",\n    \"b.txt\": \"/path/to/b.txt\"\n  }\n}\n</code></pre>\n<p>If the paths are not absolute, Node.js will use the path relative to the\ncurrent working directory. The version of the Node.js binary used to produce\nthe blob must be the same as the one to which the blob will be injected.</p>\n<p>Note: When generating cross-platform SEAs (e.g., generating a SEA\nfor <code>linux-x64</code> on <code>darwin-arm64</code>), <code>useCodeCache</code> and <code>useSnapshot</code>\nmust be set to false to avoid generating incompatible executables.\nSince code cache and snapshots can only be loaded on the same platform\nwhere they are compiled, the generated executable might crash on startup when\ntrying to load code cache or snapshots built on a different platform.</p>",
+          "modules": [
+            {
+              "textRaw": "Assets",
+              "name": "assets",
+              "desc": "<p>Users can include assets by adding a key-path dictionary to the configuration\nas the <code>assets</code> field. At build time, Node.js would read the assets from the\nspecified paths and bundle them into the preparation blob. In the generated\nexecutable, users can retrieve the assets using the <a href=\"#seagetassetkey-encoding\"><code>sea.getAsset()</code></a> and\n<a href=\"#seagetassetasblobkey-options\"><code>sea.getAssetAsBlob()</code></a> APIs.</p>\n<pre><code class=\"language-json\">{\n  \"main\": \"/path/to/bundled/script.js\",\n  \"output\": \"/path/to/write/the/generated/blob.blob\",\n  \"assets\": {\n    \"a.jpg\": \"/path/to/a.jpg\",\n    \"b.txt\": \"/path/to/b.txt\"\n  }\n}\n</code></pre>\n<p>The single-executable application can access the assets as follows:</p>\n<pre><code class=\"language-cjs\">const { getAsset, getAssetAsBlob, getRawAsset } = require('node:sea');\n// Returns a copy of the data in an ArrayBuffer.\nconst image = getAsset('a.jpg');\n// Returns a string decoded from the asset as UTF8.\nconst text = getAsset('b.txt', 'utf8');\n// Returns a Blob containing the asset.\nconst blob = getAssetAsBlob('a.jpg');\n// Returns an ArrayBuffer containing the raw asset without copying.\nconst raw = getRawAsset('a.jpg');\n</code></pre>\n<p>See documentation of the <a href=\"#seagetassetkey-encoding\"><code>sea.getAsset()</code></a>, <a href=\"#seagetassetasblobkey-options\"><code>sea.getAssetAsBlob()</code></a> and <a href=\"#seagetrawassetkey\"><code>sea.getRawAsset()</code></a>\nAPIs for more information.</p>",
+              "type": "module",
+              "displayName": "Assets"
+            },
+            {
+              "textRaw": "Startup snapshot support",
+              "name": "startup_snapshot_support",
+              "desc": "<p>The <code>useSnapshot</code> field can be used to enable startup snapshot support. In this\ncase the <code>main</code> script would not be when the final executable is launched.\nInstead, it would be run when the single executable application preparation\nblob is generated on the building machine. The generated preparation blob would\nthen include a snapshot capturing the states initialized by the <code>main</code> script.\nThe final executable with the preparation blob injected would deserialize\nthe snapshot at run time.</p>\n<p>When <code>useSnapshot</code> is true, the main script must invoke the\n<a href=\"v8.html#v8startupsnapshotsetdeserializemainfunctioncallback-data\"><code>v8.startupSnapshot.setDeserializeMainFunction()</code></a> API to configure code\nthat needs to be run when the final executable is launched by the users.</p>\n<p>The typical pattern for an application to use snapshot in a single executable\napplication is:</p>\n<ol>\n<li>At build time, on the building machine, the main script is run to\ninitialize the heap to a state that's ready to take user input. The script\nshould also configure a main function with\n<a href=\"v8.html#v8startupsnapshotsetdeserializemainfunctioncallback-data\"><code>v8.startupSnapshot.setDeserializeMainFunction()</code></a>. This function will be\ncompiled and serialized into the snapshot, but not invoked at build time.</li>\n<li>At run time, the main function will be run on top of the deserialized heap\non the user machine to process user input and generate output.</li>\n</ol>\n<p>The general constraints of the startup snapshot scripts also apply to the main\nscript when it's used to build snapshot for the single executable application,\nand the main script can use the <a href=\"v8.html#startup-snapshot-api\"><code>v8.startupSnapshot</code> API</a> to adapt to\nthese constraints. See\n<a href=\"cli.html#--build-snapshot\">documentation about startup snapshot support in Node.js</a>.</p>",
+              "type": "module",
+              "displayName": "Startup snapshot support"
+            },
+            {
+              "textRaw": "V8 code cache support",
+              "name": "v8_code_cache_support",
+              "desc": "<p>When <code>useCodeCache</code> is set to <code>true</code> in the configuration, during the generation\nof the single executable preparation blob, Node.js will compile the <code>main</code>\nscript to generate the V8 code cache. The generated code cache would be part of\nthe preparation blob and get injected into the final executable. When the single\nexecutable application is launched, instead of compiling the <code>main</code> script from\nscratch, Node.js would use the code cache to speed up the compilation, then\nexecute the script, which would improve the startup performance.</p>\n<p><strong>Note:</strong> <code>import()</code> does not work when <code>useCodeCache</code> is <code>true</code>.</p>",
+              "type": "module",
+              "displayName": "V8 code cache support"
+            }
+          ],
+          "type": "module",
+          "displayName": "Generating single executable preparation blobs"
+        },
+        {
+          "textRaw": "In the injected main script",
+          "name": "in_the_injected_main_script",
+          "modules": [
+            {
+              "textRaw": "Single-executable application API",
+              "name": "single-executable_application_api",
+              "desc": "<p>The <code>node:sea</code> builtin allows interaction with the single-executable application\nfrom the JavaScript main script embedded into the executable.</p>",
+              "methods": [
+                {
+                  "textRaw": "`sea.isSea()`",
+                  "type": "method",
+                  "name": "isSea",
+                  "meta": {
+                    "added": [
+                      "v20.12.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {boolean} Whether this script is running inside a single-executable application.",
+                        "name": "return",
+                        "type": "boolean",
+                        "desc": "Whether this script is running inside a single-executable application."
+                      },
+                      "params": []
+                    }
+                  ]
+                }
+              ],
+              "type": "module",
+              "displayName": "Single-executable application API"
+            },
+            {
+              "textRaw": "`require(id)` in the injected main script is not file based",
+              "name": "`require(id)`_in_the_injected_main_script_is_not_file_based",
+              "desc": "<p><code>require()</code> in the injected main script is not the same as the <a href=\"modules.html#requireid\"><code>require()</code></a>\navailable to modules that are not injected. It also does not have any of the\nproperties that non-injected <a href=\"modules.html#requireid\"><code>require()</code></a> has except <a href=\"modules.html#accessing-the-main-module\"><code>require.main</code></a>. It\ncan only be used to load built-in modules. Attempting to load a module that can\nonly be found in the file system will throw an error.</p>\n<p>Instead of relying on a file based <code>require()</code>, users can bundle their\napplication into a standalone JavaScript file to inject into the executable.\nThis also ensures a more deterministic dependency graph.</p>\n<p>However, if a file based <code>require()</code> is still needed, that can also be achieved:</p>\n<pre><code class=\"language-js\">const { createRequire } = require('node:module');\nrequire = createRequire(__filename);\n</code></pre>",
+              "type": "module",
+              "displayName": "`require(id)` in the injected main script is not file based"
+            },
+            {
+              "textRaw": "`__filename` and `module.filename` in the injected main script",
+              "name": "`__filename`_and_`module.filename`_in_the_injected_main_script",
+              "desc": "<p>The values of <code>__filename</code> and <code>module.filename</code> in the injected main script\nare equal to <a href=\"process.html#processexecpath\"><code>process.execPath</code></a>.</p>",
+              "type": "module",
+              "displayName": "`__filename` and `module.filename` in the injected main script"
+            },
+            {
+              "textRaw": "`__dirname` in the injected main script",
+              "name": "`__dirname`_in_the_injected_main_script",
+              "desc": "<p>The value of <code>__dirname</code> in the injected main script is equal to the directory\nname of <a href=\"process.html#processexecpath\"><code>process.execPath</code></a>.</p>",
+              "type": "module",
+              "displayName": "`__dirname` in the injected main script"
+            }
+          ],
+          "methods": [
+            {
+              "textRaw": "`sea.getAsset(key[, encoding])`",
+              "type": "method",
+              "name": "getAsset",
+              "meta": {
+                "added": [
+                  "v20.12.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>This method can be used to retrieve the assets configured to be bundled into the\nsingle-executable application at build time.\nAn error is thrown when no matching asset can be found.</p>\n<ul>\n<li><code>key</code>  <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a> the key for the asset in the dictionary specified by the\n<code>assets</code> field in the single-executable application configuration.</li>\n<li><code>encoding</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a> If specified, the asset will be decoded as\na string. Any encoding supported by the <code>TextDecoder</code> is accepted.\nIf unspecified, an <code>ArrayBuffer</code> containing a copy of the asset would be\nreturned instead.</li>\n<li>Returns: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a> | <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer\" class=\"type\">&lt;ArrayBuffer&gt;</a></li>\n</ul>"
+            },
+            {
+              "textRaw": "`sea.getAssetAsBlob(key[, options])`",
+              "type": "method",
+              "name": "getAssetAsBlob",
+              "meta": {
+                "added": [
+                  "v20.12.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Similar to <a href=\"#seagetassetkey-encoding\"><code>sea.getAsset()</code></a>, but returns the result in a <a href=\"https://developer.mozilla.org/en-US/docs/Web/API/Blob\"><code>Blob</code></a>.\nAn error is thrown when no matching asset can be found.</p>\n<ul>\n<li><code>key</code>  <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a> the key for the asset in the dictionary specified by the\n<code>assets</code> field in the single-executable application configuration.</li>\n<li><code>options</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a>\n<ul>\n<li><code>type</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a> An optional mime type for the blob.</li>\n</ul>\n</li>\n<li>Returns: <a href=\"buffer.html#class-blob\" class=\"type\">&lt;Blob&gt;</a></li>\n</ul>"
+            },
+            {
+              "textRaw": "`sea.getRawAsset(key)`",
+              "type": "method",
+              "name": "getRawAsset",
+              "meta": {
+                "added": [
+                  "v20.12.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>This method can be used to retrieve the assets configured to be bundled into the\nsingle-executable application at build time.\nAn error is thrown when no matching asset can be found.</p>\n<p>Unlike <code>sea.getAsset()</code> or <code>sea.getAssetAsBlob()</code>, this method does not\nreturn a copy. Instead, it returns the raw asset bundled inside the executable.</p>\n<p>For now, users should avoid writing to the returned array buffer. If the\ninjected section is not marked as writable or not aligned properly,\nwrites to the returned array buffer is likely to result in a crash.</p>\n<ul>\n<li><code>key</code>  <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a> the key for the asset in the dictionary specified by the\n<code>assets</code> field in the single-executable application configuration.</li>\n<li>Returns: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer\" class=\"type\">&lt;ArrayBuffer&gt;</a></li>\n</ul>"
+            }
+          ],
+          "type": "module",
+          "displayName": "In the injected main script"
+        },
+        {
+          "textRaw": "Notes",
+          "name": "notes",
+          "modules": [
+            {
+              "textRaw": "Single executable application creation process",
+              "name": "single_executable_application_creation_process",
+              "desc": "<p>A tool aiming to create a single executable Node.js application must\ninject the contents of the blob prepared with <code>--experimental-sea-config\"</code>\ninto:</p>\n<ul>\n<li>a resource named <code>NODE_SEA_BLOB</code> if the <code>node</code> binary is a <a href=\"https://en.wikipedia.org/wiki/Portable_Executable\">PE</a> file</li>\n<li>a section named <code>NODE_SEA_BLOB</code> in the <code>NODE_SEA</code> segment if the <code>node</code> binary\nis a <a href=\"https://en.wikipedia.org/wiki/Mach-O\">Mach-O</a> file</li>\n<li>a note named <code>NODE_SEA_BLOB</code> if the <code>node</code> binary is an <a href=\"https://en.wikipedia.org/wiki/Executable_and_Linkable_Format\">ELF</a> file</li>\n</ul>\n<p>Search the binary for the\n<code>NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2:0</code> <a href=\"https://www.electronjs.org/docs/latest/tutorial/fuses\">fuse</a> string and flip the\nlast character to <code>1</code> to indicate that a resource has been injected.</p>",
+              "type": "module",
+              "displayName": "Single executable application creation process"
+            },
+            {
+              "textRaw": "Platform support",
+              "name": "platform_support",
+              "desc": "<p>Single-executable support is tested regularly on CI only on the following\nplatforms:</p>\n<ul>\n<li>Windows</li>\n<li>macOS</li>\n<li>Linux (all distributions <a href=\"https://github.com/nodejs/node/blob/main/BUILDING.md#platform-list\">supported by Node.js</a> except Alpine and all\narchitectures <a href=\"https://github.com/nodejs/node/blob/main/BUILDING.md#platform-list\">supported by Node.js</a> except s390x)</li>\n</ul>\n<p>This is due to a lack of better tools to generate single-executables that can be\nused to test this feature on other platforms.</p>\n<p>Suggestions for other resource injection tools/workflows are welcomed. Please\nstart a discussion at <a href=\"https://github.com/nodejs/single-executable/discussions\">https://github.com/nodejs/single-executable/discussions</a>\nto help us document them.</p>",
+              "type": "module",
+              "displayName": "Platform support"
+            }
+          ],
+          "type": "module",
+          "displayName": "Notes"
+        }
+      ],
+      "type": "module",
+      "displayName": "Single executable applications"
+    }
+  ]
+}

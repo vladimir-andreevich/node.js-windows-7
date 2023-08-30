@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v20.19.2">
+  <title>Inspector | Node.js v20.19.2 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/inspector.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  <script>
+      const storedTheme = localStorage.getItem('theme');
+
+      // Follow operating system theme preference
+      if (storedTheme === null && window.matchMedia) {
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        if (mq.matches) {
+          document.documentElement.classList.add('dark-mode');
+        }
+      } else if (storedTheme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      }
+  </script>
+  <style>@media(max-width:646px){.with-53-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:574px){.with-44-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
+</head>
+<body class="alt apidoc" id="api-section-inspector">
+  <a href="#apicontent" class="skip-to-content">Skip to content</a>
+  <div id="content" class="clearfix">
+    <div role="navigation" id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector active">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="inspector" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v20.19.2 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v20.19.2</li>
+            
+    <li class="picker-header">
+      <a href="#toc-picker" aria-controls="toc-picker">
+        <span class="picker-arrow"></span>
+        Table of contents
+      </a>
+
+      <div class="picker" tabindex="-1"><div class="toc"><ul id="toc-picker">
+<li><span class="stability_2"><a href="#inspector">Inspector</a></span>
+<ul>
+<li><span class="stability_1"><a href="#promises-api">Promises API</a></span>
+<ul>
+<li><a href="#class-inspectorsession">Class: <code>inspector.Session</code></a>
+<ul>
+<li><a href="#new-inspectorsession"><code>new inspector.Session()</code></a></li>
+<li><a href="#event-inspectornotification">Event: <code>'inspectorNotification'</code></a></li>
+<li><a href="#event-inspector-protocol-method">Event: <code>&#x3C;inspector-protocol-method></code>;</a></li>
+<li><a href="#sessionconnect"><code>session.connect()</code></a></li>
+<li><a href="#sessionconnecttomainthread"><code>session.connectToMainThread()</code></a></li>
+<li><a href="#sessiondisconnect"><code>session.disconnect()</code></a></li>
+<li><a href="#sessionpostmethod-params"><code>session.post(method[, params])</code></a></li>
+<li><a href="#example-usage">Example usage</a>
+<ul>
+<li><a href="#cpu-profiler">CPU profiler</a></li>
+<li><a href="#heap-profiler">Heap profiler</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#callback-api">Callback API</a>
+<ul>
+<li><a href="#class-inspectorsession_1">Class: <code>inspector.Session</code></a>
+<ul>
+<li><a href="#new-inspectorsession_1"><code>new inspector.Session()</code></a></li>
+<li><a href="#event-inspectornotification_1">Event: <code>'inspectorNotification'</code></a></li>
+<li><a href="#event-inspector-protocol-method_1">Event: <code>&#x3C;inspector-protocol-method></code>;</a></li>
+<li><a href="#sessionconnect_1"><code>session.connect()</code></a></li>
+<li><a href="#sessionconnecttomainthread_1"><code>session.connectToMainThread()</code></a></li>
+<li><a href="#sessiondisconnect_1"><code>session.disconnect()</code></a></li>
+<li><a href="#sessionpostmethod-params-callback"><code>session.post(method[, params][, callback])</code></a></li>
+<li><a href="#example-usage_1">Example usage</a>
+<ul>
+<li><a href="#cpu-profiler_1">CPU profiler</a></li>
+<li><a href="#heap-profiler_1">Heap profiler</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#common-objects">Common Objects</a>
+<ul>
+<li><a href="#inspectorclose"><code>inspector.close()</code></a></li>
+<li><a href="#inspectorconsole"><code>inspector.console</code></a></li>
+<li><a href="#inspectoropenport-host-wait"><code>inspector.open([port[, host[, wait]]])</code></a></li>
+<li><a href="#inspectorurl"><code>inspector.url()</code></a></li>
+<li><a href="#inspectorwaitfordebugger"><code>inspector.waitForDebugger()</code></a></li>
+</ul>
+</li>
+<li><a href="#integration-with-devtools">Integration with DevTools</a>
+<ul>
+<li><span class="stability_1"><a href="#inspectornetworkrequestwillbesentparams"><code>inspector.Network.requestWillBeSent([params])</code></a></span></li>
+<li><span class="stability_1"><a href="#inspectornetworkresponsereceivedparams"><code>inspector.Network.responseReceived([params])</code></a></span></li>
+<li><span class="stability_1"><a href="#inspectornetworkloadingfinishedparams"><code>inspector.Network.loadingFinished([params])</code></a></span></li>
+<li><span class="stability_1"><a href="#inspectornetworkloadingfailedparams"><code>inspector.Network.loadingFailed([params])</code></a></span></li>
+</ul>
+</li>
+<li><a href="#support-of-breakpoints">Support of breakpoints</a></li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#gtoc-picker" aria-controls="gtoc-picker">
+        <span class="picker-arrow"></span>
+        Index
+      </a>
+
+      <div class="picker" tabindex="-1" id="gtoc-picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector active">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#alt-docs" aria-controls="alt-docs">
+        <span class="picker-arrow"></span>
+        Other versions
+      </a>
+      <div class="picker" tabindex="-1"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v24.x/api/inspector.html">24.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v23.x/api/inspector.html">23.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v22.x/api/inspector.html">22.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v21.x/api/inspector.html">21.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v20.x/api/inspector.html">20.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v19.x/api/inspector.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/inspector.html">18.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/inspector.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/inspector.html">16.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/inspector.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/inspector.html">14.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/inspector.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/inspector.html">12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/inspector.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/inspector.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/inspector.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/inspector.html">8.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#options-picker" aria-controls="options-picker">
+                <span class="picker-arrow"></span>
+                Options
+              </a>
+        
+              <div class="picker" tabindex="-1">
+                <ul id="options-picker">
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="inspector.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/inspector.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details role="navigation" id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_2"><a href="#inspector">Inspector</a></span>
+<ul>
+<li><span class="stability_1"><a href="#promises-api">Promises API</a></span>
+<ul>
+<li><a href="#class-inspectorsession">Class: <code>inspector.Session</code></a>
+<ul>
+<li><a href="#new-inspectorsession"><code>new inspector.Session()</code></a></li>
+<li><a href="#event-inspectornotification">Event: <code>'inspectorNotification'</code></a></li>
+<li><a href="#event-inspector-protocol-method">Event: <code>&#x3C;inspector-protocol-method></code>;</a></li>
+<li><a href="#sessionconnect"><code>session.connect()</code></a></li>
+<li><a href="#sessionconnecttomainthread"><code>session.connectToMainThread()</code></a></li>
+<li><a href="#sessiondisconnect"><code>session.disconnect()</code></a></li>
+<li><a href="#sessionpostmethod-params"><code>session.post(method[, params])</code></a></li>
+<li><a href="#example-usage">Example usage</a>
+<ul>
+<li><a href="#cpu-profiler">CPU profiler</a></li>
+<li><a href="#heap-profiler">Heap profiler</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#callback-api">Callback API</a>
+<ul>
+<li><a href="#class-inspectorsession_1">Class: <code>inspector.Session</code></a>
+<ul>
+<li><a href="#new-inspectorsession_1"><code>new inspector.Session()</code></a></li>
+<li><a href="#event-inspectornotification_1">Event: <code>'inspectorNotification'</code></a></li>
+<li><a href="#event-inspector-protocol-method_1">Event: <code>&#x3C;inspector-protocol-method></code>;</a></li>
+<li><a href="#sessionconnect_1"><code>session.connect()</code></a></li>
+<li><a href="#sessionconnecttomainthread_1"><code>session.connectToMainThread()</code></a></li>
+<li><a href="#sessiondisconnect_1"><code>session.disconnect()</code></a></li>
+<li><a href="#sessionpostmethod-params-callback"><code>session.post(method[, params][, callback])</code></a></li>
+<li><a href="#example-usage_1">Example usage</a>
+<ul>
+<li><a href="#cpu-profiler_1">CPU profiler</a></li>
+<li><a href="#heap-profiler_1">Heap profiler</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#common-objects">Common Objects</a>
+<ul>
+<li><a href="#inspectorclose"><code>inspector.close()</code></a></li>
+<li><a href="#inspectorconsole"><code>inspector.console</code></a></li>
+<li><a href="#inspectoropenport-host-wait"><code>inspector.open([port[, host[, wait]]])</code></a></li>
+<li><a href="#inspectorurl"><code>inspector.url()</code></a></li>
+<li><a href="#inspectorwaitfordebugger"><code>inspector.waitForDebugger()</code></a></li>
+</ul>
+</li>
+<li><a href="#integration-with-devtools">Integration with DevTools</a>
+<ul>
+<li><span class="stability_1"><a href="#inspectornetworkrequestwillbesentparams"><code>inspector.Network.requestWillBeSent([params])</code></a></span></li>
+<li><span class="stability_1"><a href="#inspectornetworkresponsereceivedparams"><code>inspector.Network.responseReceived([params])</code></a></span></li>
+<li><span class="stability_1"><a href="#inspectornetworkloadingfinishedparams"><code>inspector.Network.loadingFinished([params])</code></a></span></li>
+<li><span class="stability_1"><a href="#inspectornetworkloadingfailedparams"><code>inspector.Network.loadingFailed([params])</code></a></span></li>
+</ul>
+</li>
+<li><a href="#support-of-breakpoints">Support of breakpoints</a></li>
+</ul>
+</li>
+</ul></details>
+
+      <div role="main" id="apicontent">
+        <h2>Inspector<span><a class="mark" href="#inspector" id="inspector">#</a></span><a aria-hidden="true" class="legacy" id="inspector_inspector"></a></h2>
+
+<p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v20.19.2/lib/inspector.js">lib/inspector.js</a></p>
+<p>The <code>node:inspector</code> module provides an API for interacting with the V8
+inspector.</p>
+<p>It can be accessed using:</p>
+
+<pre class="with-53-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> inspector <span class="hljs-keyword">from</span> <span class="hljs-string">'node:inspector/promises'</span>;</code><code class="language-js cjs"><span class="hljs-keyword">const</span> inspector = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:inspector/promises'</span>);</code><button class="copy-button">copy</button></pre>
+<p>or</p>
+
+<pre class="with-44-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> inspector <span class="hljs-keyword">from</span> <span class="hljs-string">'node:inspector'</span>;</code><code class="language-js cjs"><span class="hljs-keyword">const</span> inspector = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:inspector'</span>);</code><button class="copy-button">copy</button></pre>
+<section><h3>Promises API<span><a class="mark" href="#promises-api" id="promises-api">#</a></span><a aria-hidden="true" class="legacy" id="inspector_promises_api"></a></h3>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<div class="api_metadata">
+<span>Added in: v19.0.0</span>
+</div>
+<h4>Class: <code>inspector.Session</code><span><a class="mark" href="#class-inspectorsession" id="class-inspectorsession">#</a></span><a aria-hidden="true" class="legacy" id="inspector_class_inspector_session"></a></h4>
+<ul>
+<li>Extends: <a href="events.html#class-eventemitter" class="type">&#x3C;EventEmitter></a></li>
+</ul>
+<p>The <code>inspector.Session</code> is used for dispatching messages to the V8 inspector
+back-end and receiving message responses and notifications.</p>
+<h5><code>new inspector.Session()</code><span><a class="mark" href="#new-inspectorsession" id="new-inspectorsession">#</a></span><a aria-hidden="true" class="legacy" id="inspector_new_inspector_session"></a></h5>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+<p>Create a new instance of the <code>inspector.Session</code> class. The inspector session
+needs to be connected through <a href="#sessionconnect"><code>session.connect()</code></a> before the messages
+can be dispatched to the inspector backend.</p>
+<p>When using <code>Session</code>, the object outputted by the console API will not be
+released, unless we performed manually <code>Runtime.DiscardConsoleEntries</code>
+command.</p>
+<h5>Event: <code>'inspectorNotification'</code><span><a class="mark" href="#event-inspectornotification" id="event-inspectornotification">#</a></span><a aria-hidden="true" class="legacy" id="inspector_event_inspectornotification"></a></h5>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The notification message object</li>
+</ul>
+<p>Emitted when any notification from the V8 Inspector is received.</p>
+<pre><code class="language-js">session.<span class="hljs-title function_">on</span>(<span class="hljs-string">'inspectorNotification'</span>, <span class="hljs-function">(<span class="hljs-params">message</span>) =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(message.<span class="hljs-property">method</span>));
+<span class="hljs-comment">// Debugger.paused</span>
+<span class="hljs-comment">// Debugger.resumed</span></code> <button class="copy-button">copy</button></pre>
+<blockquote>
+<p><strong>Caveat</strong> Breakpoints with same-thread session is not recommended, see
+<a href="#support-of-breakpoints">support of breakpoints</a>.</p>
+</blockquote>
+<p>It is also possible to subscribe only to notifications with specific method:</p>
+<h5>Event: <code>&#x3C;inspector-protocol-method></code>;<span><a class="mark" href="#event-inspector-protocol-method" id="event-inspector-protocol-method">#</a></span><a aria-hidden="true" class="legacy" id="inspector_event_inspector_protocol_method"></a></h5>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The notification message object</li>
+</ul>
+<p>Emitted when an inspector notification is received that has its method field set
+to the <code>&#x3C;inspector-protocol-method></code> value.</p>
+<p>The following snippet installs a listener on the <a href="https://chromedevtools.github.io/devtools-protocol/v8/Debugger#event-paused"><code>'Debugger.paused'</code></a>
+event, and prints the reason for program suspension whenever program
+execution is suspended (through breakpoints, for example):</p>
+<pre><code class="language-js">session.<span class="hljs-title function_">on</span>(<span class="hljs-string">'Debugger.paused'</span>, <span class="hljs-function">(<span class="hljs-params">{ params }</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(params.<span class="hljs-property">hitBreakpoints</span>);
+});
+<span class="hljs-comment">// [ '/the/file/that/has/the/breakpoint.js:11:0' ]</span></code> <button class="copy-button">copy</button></pre>
+<blockquote>
+<p><strong>Caveat</strong> Breakpoints with same-thread session is not recommended, see
+<a href="#support-of-breakpoints">support of breakpoints</a>.</p>
+</blockquote>
+<h5><code>session.connect()</code><span><a class="mark" href="#sessionconnect" id="sessionconnect">#</a></span><a aria-hidden="true" class="legacy" id="inspector_session_connect"></a></h5>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+<p>Connects a session to the inspector back-end.</p>
+<h5><code>session.connectToMainThread()</code><span><a class="mark" href="#sessionconnecttomainthread" id="sessionconnecttomainthread">#</a></span><a aria-hidden="true" class="legacy" id="inspector_session_connecttomainthread"></a></h5>
+<div class="api_metadata">
+<span>Added in: v12.11.0</span>
+</div>
+<p>Connects a session to the main thread inspector back-end. An exception will
+be thrown if this API was not called on a Worker thread.</p>
+<h5><code>session.disconnect()</code><span><a class="mark" href="#sessiondisconnect" id="sessiondisconnect">#</a></span><a aria-hidden="true" class="legacy" id="inspector_session_disconnect"></a></h5>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+<p>Immediately close the session. All pending message callbacks will be called
+with an error. <a href="#sessionconnect"><code>session.connect()</code></a> will need to be called to be able to send
+messages again. Reconnected session will lose all inspector state, such as
+enabled agents or configured breakpoints.</p>
+<h5><code>session.post(method[, params])</code><span><a class="mark" href="#sessionpostmethod-params" id="sessionpostmethod-params">#</a></span><a aria-hidden="true" class="legacy" id="inspector_session_post_method_params"></a></h5>
+<div class="api_metadata">
+<span>Added in: v19.0.0</span>
+</div>
+<ul>
+<li><code>method</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>params</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a></li>
+</ul>
+<p>Posts a message to the inspector back-end.</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Session</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:inspector/promises'</span>;
+<span class="hljs-keyword">try</span> {
+  <span class="hljs-keyword">const</span> session = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Session</span>();
+  session.<span class="hljs-title function_">connect</span>();
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> session.<span class="hljs-title function_">post</span>(<span class="hljs-string">'Runtime.evaluate'</span>, { <span class="hljs-attr">expression</span>: <span class="hljs-string">'2 + 2'</span> });
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result);
+} <span class="hljs-keyword">catch</span> (error) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(error);
+}
+<span class="hljs-comment">// Output: { result: { type: 'number', value: 4, description: '4' } }</span></code> <button class="copy-button">copy</button></pre>
+<p>The latest version of the V8 inspector protocol is published on the
+<a href="https://chromedevtools.github.io/devtools-protocol/v8/">Chrome DevTools Protocol Viewer</a>.</p>
+<p>Node.js inspector supports all the Chrome DevTools Protocol domains declared
+by V8. Chrome DevTools Protocol domain provides an interface for interacting
+with one of the runtime agents used to inspect the application state and listen
+to the run-time events.</p>
+<h5>Example usage<span><a class="mark" href="#example-usage" id="example-usage">#</a></span><a aria-hidden="true" class="legacy" id="inspector_example_usage"></a></h5>
+<p>Apart from the debugger, various V8 Profilers are available through the DevTools
+protocol.</p>
+<h6>CPU profiler<span><a class="mark" href="#cpu-profiler" id="cpu-profiler">#</a></span><a aria-hidden="true" class="legacy" id="inspector_cpu_profiler"></a></h6>
+<p>Here's an example showing how to use the <a href="https://chromedevtools.github.io/devtools-protocol/v8/Profiler">CPU Profiler</a>:</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Session</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:inspector/promises'</span>;
+<span class="hljs-keyword">import</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
+<span class="hljs-keyword">const</span> session = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Session</span>();
+session.<span class="hljs-title function_">connect</span>();
+
+<span class="hljs-keyword">await</span> session.<span class="hljs-title function_">post</span>(<span class="hljs-string">'Profiler.enable'</span>);
+<span class="hljs-keyword">await</span> session.<span class="hljs-title function_">post</span>(<span class="hljs-string">'Profiler.start'</span>);
+<span class="hljs-comment">// Invoke business logic under measurement here...</span>
+
+<span class="hljs-comment">// some time later...</span>
+<span class="hljs-keyword">const</span> { profile } = <span class="hljs-keyword">await</span> session.<span class="hljs-title function_">post</span>(<span class="hljs-string">'Profiler.stop'</span>);
+
+<span class="hljs-comment">// Write profile to disk, upload, etc.</span>
+fs.<span class="hljs-title function_">writeFileSync</span>(<span class="hljs-string">'./profile.cpuprofile'</span>, <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(profile));</code> <button class="copy-button">copy</button></pre>
+<h6>Heap profiler<span><a class="mark" href="#heap-profiler" id="heap-profiler">#</a></span><a aria-hidden="true" class="legacy" id="inspector_heap_profiler"></a></h6>
+<p>Here's an example showing how to use the <a href="https://chromedevtools.github.io/devtools-protocol/v8/HeapProfiler">Heap Profiler</a>:</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Session</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:inspector/promises'</span>;
+<span class="hljs-keyword">import</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs'</span>;
+<span class="hljs-keyword">const</span> session = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Session</span>();
+
+<span class="hljs-keyword">const</span> fd = fs.<span class="hljs-title function_">openSync</span>(<span class="hljs-string">'profile.heapsnapshot'</span>, <span class="hljs-string">'w'</span>);
+
+session.<span class="hljs-title function_">connect</span>();
+
+session.<span class="hljs-title function_">on</span>(<span class="hljs-string">'HeapProfiler.addHeapSnapshotChunk'</span>, <span class="hljs-function">(<span class="hljs-params">m</span>) =></span> {
+  fs.<span class="hljs-title function_">writeSync</span>(fd, m.<span class="hljs-property">params</span>.<span class="hljs-property">chunk</span>);
+});
+
+<span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> session.<span class="hljs-title function_">post</span>(<span class="hljs-string">'HeapProfiler.takeHeapSnapshot'</span>, <span class="hljs-literal">null</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'HeapProfiler.takeHeapSnapshot done:'</span>, result);
+session.<span class="hljs-title function_">disconnect</span>();
+fs.<span class="hljs-title function_">closeSync</span>(fd);</code> <button class="copy-button">copy</button></pre>
+</section><section><h3>Callback API<span><a class="mark" href="#callback-api" id="callback-api">#</a></span><a aria-hidden="true" class="legacy" id="inspector_callback_api"></a></h3>
+<h4>Class: <code>inspector.Session</code><span><a class="mark" href="#class-inspectorsession_1" id="class-inspectorsession_1">#</a></span><a aria-hidden="true" class="legacy" id="inspector_class_inspector_session_1"></a></h4>
+<ul>
+<li>Extends: <a href="events.html#class-eventemitter" class="type">&#x3C;EventEmitter></a></li>
+</ul>
+<p>The <code>inspector.Session</code> is used for dispatching messages to the V8 inspector
+back-end and receiving message responses and notifications.</p>
+<h5><code>new inspector.Session()</code><span><a class="mark" href="#new-inspectorsession_1" id="new-inspectorsession_1">#</a></span><a aria-hidden="true" class="legacy" id="inspector_new_inspector_session_1"></a></h5>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+<p>Create a new instance of the <code>inspector.Session</code> class. The inspector session
+needs to be connected through <a href="#sessionconnect"><code>session.connect()</code></a> before the messages
+can be dispatched to the inspector backend.</p>
+<p>When using <code>Session</code>, the object outputted by the console API will not be
+released, unless we performed manually <code>Runtime.DiscardConsoleEntries</code>
+command.</p>
+<h5>Event: <code>'inspectorNotification'</code><span><a class="mark" href="#event-inspectornotification_1" id="event-inspectornotification_1">#</a></span><a aria-hidden="true" class="legacy" id="inspector_event_inspectornotification_1"></a></h5>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The notification message object</li>
+</ul>
+<p>Emitted when any notification from the V8 Inspector is received.</p>
+<pre><code class="language-js">session.<span class="hljs-title function_">on</span>(<span class="hljs-string">'inspectorNotification'</span>, <span class="hljs-function">(<span class="hljs-params">message</span>) =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(message.<span class="hljs-property">method</span>));
+<span class="hljs-comment">// Debugger.paused</span>
+<span class="hljs-comment">// Debugger.resumed</span></code> <button class="copy-button">copy</button></pre>
+<blockquote>
+<p><strong>Caveat</strong> Breakpoints with same-thread session is not recommended, see
+<a href="#support-of-breakpoints">support of breakpoints</a>.</p>
+</blockquote>
+<p>It is also possible to subscribe only to notifications with specific method:</p>
+<h5>Event: <code>&#x3C;inspector-protocol-method></code>;<span><a class="mark" href="#event-inspector-protocol-method_1" id="event-inspector-protocol-method_1">#</a></span><a aria-hidden="true" class="legacy" id="inspector_event_inspector_protocol_method_1"></a></h5>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The notification message object</li>
+</ul>
+<p>Emitted when an inspector notification is received that has its method field set
+to the <code>&#x3C;inspector-protocol-method></code> value.</p>
+<p>The following snippet installs a listener on the <a href="https://chromedevtools.github.io/devtools-protocol/v8/Debugger#event-paused"><code>'Debugger.paused'</code></a>
+event, and prints the reason for program suspension whenever program
+execution is suspended (through breakpoints, for example):</p>
+<pre><code class="language-js">session.<span class="hljs-title function_">on</span>(<span class="hljs-string">'Debugger.paused'</span>, <span class="hljs-function">(<span class="hljs-params">{ params }</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(params.<span class="hljs-property">hitBreakpoints</span>);
+});
+<span class="hljs-comment">// [ '/the/file/that/has/the/breakpoint.js:11:0' ]</span></code> <button class="copy-button">copy</button></pre>
+<blockquote>
+<p><strong>Caveat</strong> Breakpoints with same-thread session is not recommended, see
+<a href="#support-of-breakpoints">support of breakpoints</a>.</p>
+</blockquote>
+<h5><code>session.connect()</code><span><a class="mark" href="#sessionconnect_1" id="sessionconnect_1">#</a></span><a aria-hidden="true" class="legacy" id="inspector_session_connect_1"></a></h5>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+<p>Connects a session to the inspector back-end.</p>
+<h5><code>session.connectToMainThread()</code><span><a class="mark" href="#sessionconnecttomainthread_1" id="sessionconnecttomainthread_1">#</a></span><a aria-hidden="true" class="legacy" id="inspector_session_connecttomainthread_1"></a></h5>
+<div class="api_metadata">
+<span>Added in: v12.11.0</span>
+</div>
+<p>Connects a session to the main thread inspector back-end. An exception will
+be thrown if this API was not called on a Worker thread.</p>
+<h5><code>session.disconnect()</code><span><a class="mark" href="#sessiondisconnect_1" id="sessiondisconnect_1">#</a></span><a aria-hidden="true" class="legacy" id="inspector_session_disconnect_1"></a></h5>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+<p>Immediately close the session. All pending message callbacks will be called
+with an error. <a href="#sessionconnect"><code>session.connect()</code></a> will need to be called to be able to send
+messages again. Reconnected session will lose all inspector state, such as
+enabled agents or configured breakpoints.</p>
+<h5><code>session.post(method[, params][, callback])</code><span><a class="mark" href="#sessionpostmethod-params-callback" id="sessionpostmethod-params-callback">#</a></span><a aria-hidden="true" class="legacy" id="inspector_session_post_method_params_callback"></a></h5>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Passing an invalid callback to the <code>callback</code> argument now throws <code>ERR_INVALID_ARG_TYPE</code> instead of <code>ERR_INVALID_CALLBACK</code>.</p></td></tr>
+<tr><td>v8.0.0</td>
+<td><p><span>Added in: v8.0.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>method</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>params</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
+</ul>
+<p>Posts a message to the inspector back-end. <code>callback</code> will be notified when
+a response is received. <code>callback</code> is a function that accepts two optional
+arguments: error and message-specific result.</p>
+<pre><code class="language-js">session.<span class="hljs-title function_">post</span>(<span class="hljs-string">'Runtime.evaluate'</span>, { <span class="hljs-attr">expression</span>: <span class="hljs-string">'2 + 2'</span> },
+             <span class="hljs-function">(<span class="hljs-params">error, { result }</span>) =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result));
+<span class="hljs-comment">// Output: { type: 'number', value: 4, description: '4' }</span></code> <button class="copy-button">copy</button></pre>
+<p>The latest version of the V8 inspector protocol is published on the
+<a href="https://chromedevtools.github.io/devtools-protocol/v8/">Chrome DevTools Protocol Viewer</a>.</p>
+<p>Node.js inspector supports all the Chrome DevTools Protocol domains declared
+by V8. Chrome DevTools Protocol domain provides an interface for interacting
+with one of the runtime agents used to inspect the application state and listen
+to the run-time events.</p>
+<p>You can not set <code>reportProgress</code> to <code>true</code> when sending a
+<code>HeapProfiler.takeHeapSnapshot</code> or <code>HeapProfiler.stopTrackingHeapObjects</code>
+command to V8.</p>
+<h5>Example usage<span><a class="mark" href="#example-usage_1" id="example-usage_1">#</a></span><a aria-hidden="true" class="legacy" id="inspector_example_usage_1"></a></h5>
+<p>Apart from the debugger, various V8 Profilers are available through the DevTools
+protocol.</p>
+<h6>CPU profiler<span><a class="mark" href="#cpu-profiler_1" id="cpu-profiler_1">#</a></span><a aria-hidden="true" class="legacy" id="inspector_cpu_profiler_1"></a></h6>
+<p>Here's an example showing how to use the <a href="https://chromedevtools.github.io/devtools-protocol/v8/Profiler">CPU Profiler</a>:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> inspector = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:inspector'</span>);
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs'</span>);
+<span class="hljs-keyword">const</span> session = <span class="hljs-keyword">new</span> inspector.<span class="hljs-title class_">Session</span>();
+session.<span class="hljs-title function_">connect</span>();
+
+session.<span class="hljs-title function_">post</span>(<span class="hljs-string">'Profiler.enable'</span>, <span class="hljs-function">() =></span> {
+  session.<span class="hljs-title function_">post</span>(<span class="hljs-string">'Profiler.start'</span>, <span class="hljs-function">() =></span> {
+    <span class="hljs-comment">// Invoke business logic under measurement here...</span>
+
+    <span class="hljs-comment">// some time later...</span>
+    session.<span class="hljs-title function_">post</span>(<span class="hljs-string">'Profiler.stop'</span>, <span class="hljs-function">(<span class="hljs-params">err, { profile }</span>) =></span> {
+      <span class="hljs-comment">// Write profile to disk, upload, etc.</span>
+      <span class="hljs-keyword">if</span> (!err) {
+        fs.<span class="hljs-title function_">writeFileSync</span>(<span class="hljs-string">'./profile.cpuprofile'</span>, <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(profile));
+      }
+    });
+  });
+});</code> <button class="copy-button">copy</button></pre>
+<h6>Heap profiler<span><a class="mark" href="#heap-profiler_1" id="heap-profiler_1">#</a></span><a aria-hidden="true" class="legacy" id="inspector_heap_profiler_1"></a></h6>
+<p>Here's an example showing how to use the <a href="https://chromedevtools.github.io/devtools-protocol/v8/HeapProfiler">Heap Profiler</a>:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> inspector = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:inspector'</span>);
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs'</span>);
+<span class="hljs-keyword">const</span> session = <span class="hljs-keyword">new</span> inspector.<span class="hljs-title class_">Session</span>();
+
+<span class="hljs-keyword">const</span> fd = fs.<span class="hljs-title function_">openSync</span>(<span class="hljs-string">'profile.heapsnapshot'</span>, <span class="hljs-string">'w'</span>);
+
+session.<span class="hljs-title function_">connect</span>();
+
+session.<span class="hljs-title function_">on</span>(<span class="hljs-string">'HeapProfiler.addHeapSnapshotChunk'</span>, <span class="hljs-function">(<span class="hljs-params">m</span>) =></span> {
+  fs.<span class="hljs-title function_">writeSync</span>(fd, m.<span class="hljs-property">params</span>.<span class="hljs-property">chunk</span>);
+});
+
+session.<span class="hljs-title function_">post</span>(<span class="hljs-string">'HeapProfiler.takeHeapSnapshot'</span>, <span class="hljs-literal">null</span>, <span class="hljs-function">(<span class="hljs-params">err, r</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'HeapProfiler.takeHeapSnapshot done:'</span>, err, r);
+  session.<span class="hljs-title function_">disconnect</span>();
+  fs.<span class="hljs-title function_">closeSync</span>(fd);
+});</code> <button class="copy-button">copy</button></pre>
+</section><section><h3>Common Objects<span><a class="mark" href="#common-objects" id="common-objects">#</a></span><a aria-hidden="true" class="legacy" id="inspector_common_objects"></a></h3>
+<h4><code>inspector.close()</code><span><a class="mark" href="#inspectorclose" id="inspectorclose">#</a></span><a aria-hidden="true" class="legacy" id="inspector_inspector_close"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.10.0</td>
+<td><p>The API is exposed in the worker threads.</p></td></tr>
+<tr><td>v9.0.0</td>
+<td><p><span>Added in: v9.0.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Attempts to close all remaining connections, blocking the event loop until all
+are closed. Once all connections are closed, deactivates the inspector.</p>
+<h4><code>inspector.console</code><span><a class="mark" href="#inspectorconsole" id="inspectorconsole">#</a></span><a aria-hidden="true" class="legacy" id="inspector_inspector_console"></a></h4>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> An object to send messages to the remote inspector console.</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-built_in">require</span>(<span class="hljs-string">'node:inspector'</span>).<span class="hljs-property">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'a message'</span>);</code> <button class="copy-button">copy</button></pre>
+<p>The inspector console does not have API parity with Node.js
+console.</p>
+<h4><code>inspector.open([port[, host[, wait]]])</code><span><a class="mark" href="#inspectoropenport-host-wait" id="inspectoropenport-host-wait">#</a></span><a aria-hidden="true" class="legacy" id="inspector_inspector_open_port_host_wait"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v20.6.0</td>
+<td><p>inspector.open() now returns a <code>Disposable</code> object.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>port</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> Port to listen on for inspector connections. Optional.
+<strong>Default:</strong> what was specified on the CLI.</li>
+<li><code>host</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Host to listen on for inspector connections. Optional.
+<strong>Default:</strong> what was specified on the CLI.</li>
+<li><code>wait</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> Block until a client has connected. Optional.
+<strong>Default:</strong> <code>false</code>.</li>
+<li>Returns: <a href="https://tc39.es/proposal-explicit-resource-management/#sec-disposable-interface" class="type">&#x3C;Disposable></a> A Disposable that calls <a href="#inspectorclose"><code>inspector.close()</code></a>.</li>
+</ul>
+<p>Activate inspector on host and port. Equivalent to
+<code>node --inspect=[[host:]port]</code>, but can be done programmatically after node has
+started.</p>
+<p>If wait is <code>true</code>, will block until a client has connected to the inspect port
+and flow control has been passed to the debugger client.</p>
+<p>See the <a href="cli.html#warning-binding-inspector-to-a-public-ipport-combination-is-insecure">security warning</a> regarding the <code>host</code>
+parameter usage.</p>
+<h4><code>inspector.url()</code><span><a class="mark" href="#inspectorurl" id="inspectorurl">#</a></span><a aria-hidden="true" class="legacy" id="inspector_inspector_url"></a></h4>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Undefined_type" class="type">&#x3C;undefined></a></li>
+</ul>
+<p>Return the URL of the active inspector, or <code>undefined</code> if there is none.</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">node --inspect -p <span class="hljs-string">'inspector.url()'</span></span>
+Debugger listening on ws://127.0.0.1:9229/166e272e-7a30-4d09-97ce-f1c012b43c34
+For help, see: https://nodejs.org/en/docs/inspector
+ws://127.0.0.1:9229/166e272e-7a30-4d09-97ce-f1c012b43c34
+<span class="hljs-meta prompt_">
+$ </span><span class="language-bash">node --inspect=localhost:3000 -p <span class="hljs-string">'inspector.url()'</span></span>
+Debugger listening on ws://localhost:3000/51cf8d0e-3c36-4c59-8efd-54519839e56a
+For help, see: https://nodejs.org/en/docs/inspector
+ws://localhost:3000/51cf8d0e-3c36-4c59-8efd-54519839e56a
+<span class="hljs-meta prompt_">
+$ </span><span class="language-bash">node -p <span class="hljs-string">'inspector.url()'</span></span>
+undefined</code> <button class="copy-button">copy</button></pre>
+<h4><code>inspector.waitForDebugger()</code><span><a class="mark" href="#inspectorwaitfordebugger" id="inspectorwaitfordebugger">#</a></span><a aria-hidden="true" class="legacy" id="inspector_inspector_waitfordebugger"></a></h4>
+<div class="api_metadata">
+<span>Added in: v12.7.0</span>
+</div>
+<p>Blocks until a client (existing or connected later) has sent
+<code>Runtime.runIfWaitingForDebugger</code> command.</p>
+<p>An exception will be thrown if there is no active inspector.</p>
+</section><section><h3>Integration with DevTools<span><a class="mark" href="#integration-with-devtools" id="integration-with-devtools">#</a></span><a aria-hidden="true" class="legacy" id="inspector_integration_with_devtools"></a></h3>
+<p>The <code>node:inspector</code> module provides an API for integrating with devtools that support Chrome DevTools Protocol.
+DevTools frontends connected to a running Node.js instance can capture protocol events emitted from the instance
+and display them accordingly to facilitate debugging.
+The following methods broadcast a protocol event to all connected frontends.
+The <code>params</code> passed to the methods can be optional, depending on the protocol.</p>
+<pre><code class="language-js"><span class="hljs-comment">// The `Network.requestWillBeSent` event will be fired.</span>
+inspector.<span class="hljs-property">Network</span>.<span class="hljs-title function_">requestWillBeSent</span>({
+  <span class="hljs-attr">requestId</span>: <span class="hljs-string">'request-id-1'</span>,
+  <span class="hljs-attr">timestamp</span>: <span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>() / <span class="hljs-number">1000</span>,
+  <span class="hljs-attr">wallTime</span>: <span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>(),
+  <span class="hljs-attr">request</span>: {
+    <span class="hljs-attr">url</span>: <span class="hljs-string">'https://nodejs.org/en'</span>,
+    <span class="hljs-attr">method</span>: <span class="hljs-string">'GET'</span>,
+  },
+});</code> <button class="copy-button">copy</button></pre>
+<h4><code>inspector.Network.requestWillBeSent([params])</code><span><a class="mark" href="#inspectornetworkrequestwillbesentparams" id="inspectornetworkrequestwillbesentparams">#</a></span><a aria-hidden="true" class="legacy" id="inspector_inspector_network_requestwillbesent_params"></a></h4>
+<div class="api_metadata">
+<span>Added in: v20.18.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<ul>
+<li><code>params</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>This feature is only available with the <code>--experimental-network-inspection</code> flag enabled.</p>
+<p>Broadcasts the <code>Network.requestWillBeSent</code> event to connected frontends. This event indicates that
+the application is about to send an HTTP request.</p>
+<h4><code>inspector.Network.responseReceived([params])</code><span><a class="mark" href="#inspectornetworkresponsereceivedparams" id="inspectornetworkresponsereceivedparams">#</a></span><a aria-hidden="true" class="legacy" id="inspector_inspector_network_responsereceived_params"></a></h4>
+<div class="api_metadata">
+<span>Added in: v20.18.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<ul>
+<li><code>params</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>This feature is only available with the <code>--experimental-network-inspection</code> flag enabled.</p>
+<p>Broadcasts the <code>Network.responseReceived</code> event to connected frontends. This event indicates that
+HTTP response is available.</p>
+<h4><code>inspector.Network.loadingFinished([params])</code><span><a class="mark" href="#inspectornetworkloadingfinishedparams" id="inspectornetworkloadingfinishedparams">#</a></span><a aria-hidden="true" class="legacy" id="inspector_inspector_network_loadingfinished_params"></a></h4>
+<div class="api_metadata">
+<span>Added in: v20.18.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<ul>
+<li><code>params</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>This feature is only available with the <code>--experimental-network-inspection</code> flag enabled.</p>
+<p>Broadcasts the <code>Network.loadingFinished</code> event to connected frontends. This event indicates that
+HTTP request has finished loading.</p>
+<h4><code>inspector.Network.loadingFailed([params])</code><span><a class="mark" href="#inspectornetworkloadingfailedparams" id="inspectornetworkloadingfailedparams">#</a></span><a aria-hidden="true" class="legacy" id="inspector_inspector_network_loadingfailed_params"></a></h4>
+<div class="api_metadata">
+<span>Added in: v20.18.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<ul>
+<li><code>params</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>This feature is only available with the <code>--experimental-network-inspection</code> flag enabled.</p>
+<p>Broadcasts the <code>Network.loadingFailed</code> event to connected frontends. This event indicates that
+HTTP request has failed to load.</p>
+</section><section><h3>Support of breakpoints<span><a class="mark" href="#support-of-breakpoints" id="support-of-breakpoints">#</a></span><a aria-hidden="true" class="legacy" id="inspector_support_of_breakpoints"></a></h3>
+<p>The Chrome DevTools Protocol <a href="https://chromedevtools.github.io/devtools-protocol/v8/Debugger"><code>Debugger</code> domain</a> allows an
+<code>inspector.Session</code> to attach to a program and set breakpoints to step through
+the codes.</p>
+<p>However, setting breakpoints with a same-thread <code>inspector.Session</code>, which is
+connected by <a href="#sessionconnect"><code>session.connect()</code></a>, should be avoided as the program being
+attached and paused is exactly the debugger itself. Instead, try connect to the
+main thread by <a href="#sessionconnecttomainthread"><code>session.connectToMainThread()</code></a> and set breakpoints in a
+worker thread, or connect with a <a href="debugger.html">Debugger</a> program over WebSocket
+connection.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

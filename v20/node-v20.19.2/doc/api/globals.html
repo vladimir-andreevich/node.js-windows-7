@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v20.19.2">
+  <title>Global objects | Node.js v20.19.2 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/globals.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  <script>
+      const storedTheme = localStorage.getItem('theme');
+
+      // Follow operating system theme preference
+      if (storedTheme === null && window.matchMedia) {
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        if (mq.matches) {
+          document.documentElement.classList.add('dark-mode');
+        }
+      } else if (storedTheme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      }
+  </script>
+  
+</head>
+<body class="alt apidoc" id="api-section-globals">
+  <a href="#apicontent" class="skip-to-content">Skip to content</a>
+  <div id="content" class="clearfix">
+    <div role="navigation" id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals active">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="globals" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v20.19.2 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v20.19.2</li>
+            
+    <li class="picker-header">
+      <a href="#toc-picker" aria-controls="toc-picker">
+        <span class="picker-arrow"></span>
+        Table of contents
+      </a>
+
+      <div class="picker" tabindex="-1"><div class="toc"><ul id="toc-picker">
+<li><a href="#global-objects">Global objects</a>
+<ul>
+<li><a href="#class-abortcontroller">Class: <code>AbortController</code></a>
+<ul>
+<li><a href="#abortcontrollerabortreason"><code>abortController.abort([reason])</code></a></li>
+<li><a href="#abortcontrollersignal"><code>abortController.signal</code></a></li>
+<li><a href="#class-abortsignal">Class: <code>AbortSignal</code></a>
+<ul>
+<li><a href="#static-method-abortsignalabortreason">Static method: <code>AbortSignal.abort([reason])</code></a></li>
+<li><a href="#static-method-abortsignaltimeoutdelay">Static method: <code>AbortSignal.timeout(delay)</code></a></li>
+<li><a href="#static-method-abortsignalanysignals">Static method: <code>AbortSignal.any(signals)</code></a></li>
+<li><a href="#event-abort">Event: <code>'abort'</code></a></li>
+<li><a href="#abortsignalaborted"><code>abortSignal.aborted</code></a></li>
+<li><a href="#abortsignalonabort"><code>abortSignal.onabort</code></a></li>
+<li><a href="#abortsignalreason"><code>abortSignal.reason</code></a></li>
+<li><a href="#abortsignalthrowifaborted"><code>abortSignal.throwIfAborted()</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#class-blob">Class: <code>Blob</code></a></li>
+<li><a href="#class-buffer">Class: <code>Buffer</code></a></li>
+<li><span class="stability_1"><a href="#class-bytelengthqueuingstrategy">Class: <code>ByteLengthQueuingStrategy</code></a></span></li>
+<li><a href="#__dirname"><code>__dirname</code></a></li>
+<li><a href="#__filename"><code>__filename</code></a></li>
+<li><span class="stability_3"><a href="#atobdata"><code>atob(data)</code></a></span></li>
+<li><a href="#broadcastchannel"><code>BroadcastChannel</code></a></li>
+<li><span class="stability_3"><a href="#btoadata"><code>btoa(data)</code></a></span></li>
+<li><a href="#clearimmediateimmediateobject"><code>clearImmediate(immediateObject)</code></a></li>
+<li><a href="#clearintervalintervalobject"><code>clearInterval(intervalObject)</code></a></li>
+<li><a href="#cleartimeouttimeoutobject"><code>clearTimeout(timeoutObject)</code></a></li>
+<li><span class="stability_1"><a href="#class-compressionstream">Class: <code>CompressionStream</code></a></span></li>
+<li><a href="#console"><code>console</code></a></li>
+<li><span class="stability_1"><a href="#class-countqueuingstrategy">Class: <code>CountQueuingStrategy</code></a></span></li>
+<li><span class="stability_1"><a href="#crypto"><code>Crypto</code></a></span></li>
+<li><span class="stability_1"><a href="#crypto_1"><code>crypto</code></a></span></li>
+<li><span class="stability_1"><a href="#cryptokey"><code>CryptoKey</code></a></span></li>
+<li><span class="stability_1"><a href="#customevent"><code>CustomEvent</code></a></span></li>
+<li><span class="stability_1"><a href="#class-decompressionstream">Class: <code>DecompressionStream</code></a></span></li>
+<li><a href="#event"><code>Event</code></a></li>
+<li><span class="stability_1"><a href="#eventsource"><code>EventSource</code></a></span></li>
+<li><a href="#eventtarget"><code>EventTarget</code></a></li>
+<li><a href="#exports"><code>exports</code></a></li>
+<li><span class="stability_1"><a href="#fetch"><code>fetch</code></a></span></li>
+<li><a href="#class-file">Class: <code>File</code></a></li>
+<li><span class="stability_1"><a href="#class-formdata">Class <code>FormData</code></a></span></li>
+<li><span class="stability_3"><a href="#global"><code>global</code></a></span></li>
+<li><span class="stability_1"><a href="#class-headers">Class <code>Headers</code></a></span></li>
+<li><a href="#messagechannel"><code>MessageChannel</code></a></li>
+<li><a href="#messageevent"><code>MessageEvent</code></a></li>
+<li><a href="#messageport"><code>MessagePort</code></a></li>
+<li><a href="#module"><code>module</code></a></li>
+<li><a href="#performanceentry"><code>PerformanceEntry</code></a></li>
+<li><a href="#performancemark"><code>PerformanceMark</code></a></li>
+<li><a href="#performancemeasure"><code>PerformanceMeasure</code></a></li>
+<li><a href="#performanceobserver"><code>PerformanceObserver</code></a></li>
+<li><a href="#performanceobserverentrylist"><code>PerformanceObserverEntryList</code></a></li>
+<li><a href="#performanceresourcetiming"><code>PerformanceResourceTiming</code></a></li>
+<li><a href="#performance"><code>performance</code></a></li>
+<li><a href="#process"><code>process</code></a></li>
+<li><a href="#queuemicrotaskcallback"><code>queueMicrotask(callback)</code></a></li>
+<li><span class="stability_1"><a href="#class-readablebytestreamcontroller">Class: <code>ReadableByteStreamController</code></a></span></li>
+<li><span class="stability_1"><a href="#class-readablestream">Class: <code>ReadableStream</code></a></span></li>
+<li><span class="stability_1"><a href="#class-readablestreambyobreader">Class: <code>ReadableStreamBYOBReader</code></a></span></li>
+<li><span class="stability_1"><a href="#class-readablestreambyobrequest">Class: <code>ReadableStreamBYOBRequest</code></a></span></li>
+<li><span class="stability_1"><a href="#class-readablestreamdefaultcontroller">Class: <code>ReadableStreamDefaultController</code></a></span></li>
+<li><span class="stability_1"><a href="#class-readablestreamdefaultreader">Class: <code>ReadableStreamDefaultReader</code></a></span></li>
+<li><a href="#require"><code>require()</code></a></li>
+<li><span class="stability_1"><a href="#response"><code>Response</code></a></span></li>
+<li><span class="stability_1"><a href="#request"><code>Request</code></a></span></li>
+<li><a href="#setimmediatecallback-args"><code>setImmediate(callback[, ...args])</code></a></li>
+<li><a href="#setintervalcallback-delay-args"><code>setInterval(callback, delay[, ...args])</code></a></li>
+<li><a href="#settimeoutcallback-delay-args"><code>setTimeout(callback, delay[, ...args])</code></a></li>
+<li><a href="#structuredclonevalue-options"><code>structuredClone(value[, options])</code></a></li>
+<li><span class="stability_1"><a href="#subtlecrypto"><code>SubtleCrypto</code></a></span></li>
+<li><a href="#domexception"><code>DOMException</code></a></li>
+<li><a href="#textdecoder"><code>TextDecoder</code></a></li>
+<li><span class="stability_1"><a href="#class-textdecoderstream">Class: <code>TextDecoderStream</code></a></span></li>
+<li><a href="#textencoder"><code>TextEncoder</code></a></li>
+<li><span class="stability_1"><a href="#class-textencoderstream">Class: <code>TextEncoderStream</code></a></span></li>
+<li><span class="stability_1"><a href="#class-transformstream">Class: <code>TransformStream</code></a></span></li>
+<li><span class="stability_1"><a href="#class-transformstreamdefaultcontroller">Class: <code>TransformStreamDefaultController</code></a></span></li>
+<li><a href="#url"><code>URL</code></a></li>
+<li><a href="#urlsearchparams"><code>URLSearchParams</code></a></li>
+<li><a href="#webassembly"><code>WebAssembly</code></a></li>
+<li><span class="stability_1"><a href="#websocket"><code>WebSocket</code></a></span></li>
+<li><span class="stability_1"><a href="#class-writablestream">Class: <code>WritableStream</code></a></span></li>
+<li><span class="stability_1"><a href="#class-writablestreamdefaultcontroller">Class: <code>WritableStreamDefaultController</code></a></span></li>
+<li><span class="stability_1"><a href="#class-writablestreamdefaultwriter">Class: <code>WritableStreamDefaultWriter</code></a></span></li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#gtoc-picker" aria-controls="gtoc-picker">
+        <span class="picker-arrow"></span>
+        Index
+      </a>
+
+      <div class="picker" tabindex="-1" id="gtoc-picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals active">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#alt-docs" aria-controls="alt-docs">
+        <span class="picker-arrow"></span>
+        Other versions
+      </a>
+      <div class="picker" tabindex="-1"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v24.x/api/globals.html">24.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v23.x/api/globals.html">23.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v22.x/api/globals.html">22.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v21.x/api/globals.html">21.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v20.x/api/globals.html">20.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v19.x/api/globals.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/globals.html">18.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/globals.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/globals.html">16.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/globals.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/globals.html">14.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/globals.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/globals.html">12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/globals.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/globals.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/globals.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/globals.html">8.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v7.x/api/globals.html">7.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v6.x/api/globals.html">6.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v5.x/api/globals.html">5.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v4.x/api/globals.html">4.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.12.x/api/globals.html">0.12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.10.x/api/globals.html">0.10.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#options-picker" aria-controls="options-picker">
+                <span class="picker-arrow"></span>
+                Options
+              </a>
+        
+              <div class="picker" tabindex="-1">
+                <ul id="options-picker">
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="globals.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/globals.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details role="navigation" id="toc" open><summary>Table of contents</summary><ul>
+<li><a href="#global-objects">Global objects</a>
+<ul>
+<li><a href="#class-abortcontroller">Class: <code>AbortController</code></a>
+<ul>
+<li><a href="#abortcontrollerabortreason"><code>abortController.abort([reason])</code></a></li>
+<li><a href="#abortcontrollersignal"><code>abortController.signal</code></a></li>
+<li><a href="#class-abortsignal">Class: <code>AbortSignal</code></a>
+<ul>
+<li><a href="#static-method-abortsignalabortreason">Static method: <code>AbortSignal.abort([reason])</code></a></li>
+<li><a href="#static-method-abortsignaltimeoutdelay">Static method: <code>AbortSignal.timeout(delay)</code></a></li>
+<li><a href="#static-method-abortsignalanysignals">Static method: <code>AbortSignal.any(signals)</code></a></li>
+<li><a href="#event-abort">Event: <code>'abort'</code></a></li>
+<li><a href="#abortsignalaborted"><code>abortSignal.aborted</code></a></li>
+<li><a href="#abortsignalonabort"><code>abortSignal.onabort</code></a></li>
+<li><a href="#abortsignalreason"><code>abortSignal.reason</code></a></li>
+<li><a href="#abortsignalthrowifaborted"><code>abortSignal.throwIfAborted()</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#class-blob">Class: <code>Blob</code></a></li>
+<li><a href="#class-buffer">Class: <code>Buffer</code></a></li>
+<li><span class="stability_1"><a href="#class-bytelengthqueuingstrategy">Class: <code>ByteLengthQueuingStrategy</code></a></span></li>
+<li><a href="#__dirname"><code>__dirname</code></a></li>
+<li><a href="#__filename"><code>__filename</code></a></li>
+<li><span class="stability_3"><a href="#atobdata"><code>atob(data)</code></a></span></li>
+<li><a href="#broadcastchannel"><code>BroadcastChannel</code></a></li>
+<li><span class="stability_3"><a href="#btoadata"><code>btoa(data)</code></a></span></li>
+<li><a href="#clearimmediateimmediateobject"><code>clearImmediate(immediateObject)</code></a></li>
+<li><a href="#clearintervalintervalobject"><code>clearInterval(intervalObject)</code></a></li>
+<li><a href="#cleartimeouttimeoutobject"><code>clearTimeout(timeoutObject)</code></a></li>
+<li><span class="stability_1"><a href="#class-compressionstream">Class: <code>CompressionStream</code></a></span></li>
+<li><a href="#console"><code>console</code></a></li>
+<li><span class="stability_1"><a href="#class-countqueuingstrategy">Class: <code>CountQueuingStrategy</code></a></span></li>
+<li><span class="stability_1"><a href="#crypto"><code>Crypto</code></a></span></li>
+<li><span class="stability_1"><a href="#crypto_1"><code>crypto</code></a></span></li>
+<li><span class="stability_1"><a href="#cryptokey"><code>CryptoKey</code></a></span></li>
+<li><span class="stability_1"><a href="#customevent"><code>CustomEvent</code></a></span></li>
+<li><span class="stability_1"><a href="#class-decompressionstream">Class: <code>DecompressionStream</code></a></span></li>
+<li><a href="#event"><code>Event</code></a></li>
+<li><span class="stability_1"><a href="#eventsource"><code>EventSource</code></a></span></li>
+<li><a href="#eventtarget"><code>EventTarget</code></a></li>
+<li><a href="#exports"><code>exports</code></a></li>
+<li><span class="stability_1"><a href="#fetch"><code>fetch</code></a></span></li>
+<li><a href="#class-file">Class: <code>File</code></a></li>
+<li><span class="stability_1"><a href="#class-formdata">Class <code>FormData</code></a></span></li>
+<li><span class="stability_3"><a href="#global"><code>global</code></a></span></li>
+<li><span class="stability_1"><a href="#class-headers">Class <code>Headers</code></a></span></li>
+<li><a href="#messagechannel"><code>MessageChannel</code></a></li>
+<li><a href="#messageevent"><code>MessageEvent</code></a></li>
+<li><a href="#messageport"><code>MessagePort</code></a></li>
+<li><a href="#module"><code>module</code></a></li>
+<li><a href="#performanceentry"><code>PerformanceEntry</code></a></li>
+<li><a href="#performancemark"><code>PerformanceMark</code></a></li>
+<li><a href="#performancemeasure"><code>PerformanceMeasure</code></a></li>
+<li><a href="#performanceobserver"><code>PerformanceObserver</code></a></li>
+<li><a href="#performanceobserverentrylist"><code>PerformanceObserverEntryList</code></a></li>
+<li><a href="#performanceresourcetiming"><code>PerformanceResourceTiming</code></a></li>
+<li><a href="#performance"><code>performance</code></a></li>
+<li><a href="#process"><code>process</code></a></li>
+<li><a href="#queuemicrotaskcallback"><code>queueMicrotask(callback)</code></a></li>
+<li><span class="stability_1"><a href="#class-readablebytestreamcontroller">Class: <code>ReadableByteStreamController</code></a></span></li>
+<li><span class="stability_1"><a href="#class-readablestream">Class: <code>ReadableStream</code></a></span></li>
+<li><span class="stability_1"><a href="#class-readablestreambyobreader">Class: <code>ReadableStreamBYOBReader</code></a></span></li>
+<li><span class="stability_1"><a href="#class-readablestreambyobrequest">Class: <code>ReadableStreamBYOBRequest</code></a></span></li>
+<li><span class="stability_1"><a href="#class-readablestreamdefaultcontroller">Class: <code>ReadableStreamDefaultController</code></a></span></li>
+<li><span class="stability_1"><a href="#class-readablestreamdefaultreader">Class: <code>ReadableStreamDefaultReader</code></a></span></li>
+<li><a href="#require"><code>require()</code></a></li>
+<li><span class="stability_1"><a href="#response"><code>Response</code></a></span></li>
+<li><span class="stability_1"><a href="#request"><code>Request</code></a></span></li>
+<li><a href="#setimmediatecallback-args"><code>setImmediate(callback[, ...args])</code></a></li>
+<li><a href="#setintervalcallback-delay-args"><code>setInterval(callback, delay[, ...args])</code></a></li>
+<li><a href="#settimeoutcallback-delay-args"><code>setTimeout(callback, delay[, ...args])</code></a></li>
+<li><a href="#structuredclonevalue-options"><code>structuredClone(value[, options])</code></a></li>
+<li><span class="stability_1"><a href="#subtlecrypto"><code>SubtleCrypto</code></a></span></li>
+<li><a href="#domexception"><code>DOMException</code></a></li>
+<li><a href="#textdecoder"><code>TextDecoder</code></a></li>
+<li><span class="stability_1"><a href="#class-textdecoderstream">Class: <code>TextDecoderStream</code></a></span></li>
+<li><a href="#textencoder"><code>TextEncoder</code></a></li>
+<li><span class="stability_1"><a href="#class-textencoderstream">Class: <code>TextEncoderStream</code></a></span></li>
+<li><span class="stability_1"><a href="#class-transformstream">Class: <code>TransformStream</code></a></span></li>
+<li><span class="stability_1"><a href="#class-transformstreamdefaultcontroller">Class: <code>TransformStreamDefaultController</code></a></span></li>
+<li><a href="#url"><code>URL</code></a></li>
+<li><a href="#urlsearchparams"><code>URLSearchParams</code></a></li>
+<li><a href="#webassembly"><code>WebAssembly</code></a></li>
+<li><span class="stability_1"><a href="#websocket"><code>WebSocket</code></a></span></li>
+<li><span class="stability_1"><a href="#class-writablestream">Class: <code>WritableStream</code></a></span></li>
+<li><span class="stability_1"><a href="#class-writablestreamdefaultcontroller">Class: <code>WritableStreamDefaultController</code></a></span></li>
+<li><span class="stability_1"><a href="#class-writablestreamdefaultwriter">Class: <code>WritableStreamDefaultWriter</code></a></span></li>
+</ul>
+</li>
+</ul></details>
+
+      <div role="main" id="apicontent">
+        <h2>Global objects<span><a class="mark" href="#global-objects" id="global-objects">#</a></span><a aria-hidden="true" class="legacy" id="globals_global_objects"></a></h2>
+
+
+<p>These objects are available in all modules.</p>
+<p>The following variables may appear to be global but are not. They exist only in
+the scope of <a href="modules.html">CommonJS modules</a>:</p>
+<ul>
+<li><a href="modules.html#__dirname"><code>__dirname</code></a></li>
+<li><a href="modules.html#__filename"><code>__filename</code></a></li>
+<li><a href="modules.html#exports"><code>exports</code></a></li>
+<li><a href="modules.html#module"><code>module</code></a></li>
+<li><a href="modules.html#requireid"><code>require()</code></a></li>
+</ul>
+<p>The objects listed here are specific to Node.js. There are <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects">built-in objects</a>
+that are part of the JavaScript language itself, which are also globally
+accessible.</p>
+<section><h3>Class: <code>AbortController</code><span><a class="mark" href="#class-abortcontroller" id="class-abortcontroller">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_abortcontroller"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.4.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v15.0.0, v14.17.0</td>
+<td><p><span>Added in: v15.0.0, v14.17.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+
+<p>A utility class used to signal cancelation in selected <code>Promise</code>-based APIs.
+The API is based on the Web API <a href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController"><code>AbortController</code></a>.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> ac = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>();
+
+ac.<span class="hljs-property">signal</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'abort'</span>, <span class="hljs-function">() =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Aborted!'</span>),
+                           { <span class="hljs-attr">once</span>: <span class="hljs-literal">true</span> });
+
+ac.<span class="hljs-title function_">abort</span>();
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ac.<span class="hljs-property">signal</span>.<span class="hljs-property">aborted</span>);  <span class="hljs-comment">// Prints true</span></code> <button class="copy-button">copy</button></pre>
+<h4><code>abortController.abort([reason])</code><span><a class="mark" href="#abortcontrollerabortreason" id="abortcontrollerabortreason">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortcontroller_abort_reason"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v17.2.0, v16.14.0</td>
+<td><p>Added the new optional reason argument.</p></td></tr>
+<tr><td>v15.0.0, v14.17.0</td>
+<td><p><span>Added in: v15.0.0, v14.17.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>reason</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a> An optional reason, retrievable on the <code>AbortSignal</code>'s
+<code>reason</code> property.</li>
+</ul>
+<p>Triggers the abort signal, causing the <code>abortController.signal</code> to emit
+the <code>'abort'</code> event.</p>
+<h4><code>abortController.signal</code><span><a class="mark" href="#abortcontrollersignal" id="abortcontrollersignal">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortcontroller_signal"></a></h4>
+<div class="api_metadata">
+<span>Added in: v15.0.0, v14.17.0</span>
+</div>
+<ul>
+<li>Type: <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a></li>
+</ul>
+<h4>Class: <code>AbortSignal</code><span><a class="mark" href="#class-abortsignal" id="class-abortsignal">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_abortsignal"></a></h4>
+<div class="api_metadata">
+<span>Added in: v15.0.0, v14.17.0</span>
+</div>
+<ul>
+<li>Extends: <a href="events.html#class-eventtarget" class="type">&#x3C;EventTarget></a></li>
+</ul>
+<p>The <code>AbortSignal</code> is used to notify observers when the
+<code>abortController.abort()</code> method is called.</p>
+<h5>Static method: <code>AbortSignal.abort([reason])</code><span><a class="mark" href="#static-method-abortsignalabortreason" id="static-method-abortsignalabortreason">#</a></span><a aria-hidden="true" class="legacy" id="globals_static_method_abortsignal_abort_reason"></a></h5>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v17.2.0, v16.14.0</td>
+<td><p>Added the new optional reason argument.</p></td></tr>
+<tr><td>v15.12.0, v14.17.0</td>
+<td><p><span>Added in: v15.12.0, v14.17.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>reason</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a></li>
+</ul>
+<p>Returns a new already aborted <code>AbortSignal</code>.</p>
+<h5>Static method: <code>AbortSignal.timeout(delay)</code><span><a class="mark" href="#static-method-abortsignaltimeoutdelay" id="static-method-abortsignaltimeoutdelay">#</a></span><a aria-hidden="true" class="legacy" id="globals_static_method_abortsignal_timeout_delay"></a></h5>
+<div class="api_metadata">
+<span>Added in: v17.3.0, v16.14.0</span>
+</div>
+<ul>
+<li><code>delay</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The number of milliseconds to wait before triggering
+the AbortSignal.</li>
+</ul>
+<p>Returns a new <code>AbortSignal</code> which will be aborted in <code>delay</code> milliseconds.</p>
+<h5>Static method: <code>AbortSignal.any(signals)</code><span><a class="mark" href="#static-method-abortsignalanysignals" id="static-method-abortsignalanysignals">#</a></span><a aria-hidden="true" class="legacy" id="globals_static_method_abortsignal_any_signals"></a></h5>
+<div class="api_metadata">
+<span>Added in: v20.3.0</span>
+</div>
+<ul>
+<li><code>signals</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal[]></a> The <code>AbortSignal</code>s of which to compose a new <code>AbortSignal</code>.</li>
+</ul>
+<p>Returns a new <code>AbortSignal</code> which will be aborted if any of the provided
+signals are aborted. Its <a href="#abortsignalreason"><code>abortSignal.reason</code></a> will be set to whichever
+one of the <code>signals</code> caused it to be aborted.</p>
+<h5>Event: <code>'abort'</code><span><a class="mark" href="#event-abort" id="event-abort">#</a></span><a aria-hidden="true" class="legacy" id="globals_event_abort"></a></h5>
+<div class="api_metadata">
+<span>Added in: v15.0.0, v14.17.0</span>
+</div>
+<p>The <code>'abort'</code> event is emitted when the <code>abortController.abort()</code> method
+is called. The callback is invoked with a single object argument with a
+single <code>type</code> property set to <code>'abort'</code>:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> ac = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>();
+
+<span class="hljs-comment">// Use either the onabort property...</span>
+ac.<span class="hljs-property">signal</span>.<span class="hljs-property">onabort</span> = <span class="hljs-function">() =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'aborted!'</span>);
+
+<span class="hljs-comment">// Or the EventTarget API...</span>
+ac.<span class="hljs-property">signal</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'abort'</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(event.<span class="hljs-property">type</span>);  <span class="hljs-comment">// Prints 'abort'</span>
+}, { <span class="hljs-attr">once</span>: <span class="hljs-literal">true</span> });
+
+ac.<span class="hljs-title function_">abort</span>();</code> <button class="copy-button">copy</button></pre>
+<p>The <code>AbortController</code> with which the <code>AbortSignal</code> is associated will only
+ever trigger the <code>'abort'</code> event once. We recommended that code check
+that the <code>abortSignal.aborted</code> attribute is <code>false</code> before adding an <code>'abort'</code>
+event listener.</p>
+<p>Any event listeners attached to the <code>AbortSignal</code> should use the
+<code>{ once: true }</code> option (or, if using the <code>EventEmitter</code> APIs to attach a
+listener, use the <code>once()</code> method) to ensure that the event listener is
+removed as soon as the <code>'abort'</code> event is handled. Failure to do so may
+result in memory leaks.</p>
+<h5><code>abortSignal.aborted</code><span><a class="mark" href="#abortsignalaborted" id="abortsignalaborted">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_aborted"></a></h5>
+<div class="api_metadata">
+<span>Added in: v15.0.0, v14.17.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> True after the <code>AbortController</code> has been aborted.</li>
+</ul>
+<h5><code>abortSignal.onabort</code><span><a class="mark" href="#abortsignalonabort" id="abortsignalonabort">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_onabort"></a></h5>
+<div class="api_metadata">
+<span>Added in: v15.0.0, v14.17.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
+</ul>
+<p>An optional callback function that may be set by user code to be notified
+when the <code>abortController.abort()</code> function has been called.</p>
+<h5><code>abortSignal.reason</code><span><a class="mark" href="#abortsignalreason" id="abortsignalreason">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_reason"></a></h5>
+<div class="api_metadata">
+<span>Added in: v17.2.0, v16.14.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+</ul>
+<p>An optional reason specified when the <code>AbortSignal</code> was triggered.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> ac = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>();
+ac.<span class="hljs-title function_">abort</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">'boom!'</span>));
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ac.<span class="hljs-property">signal</span>.<span class="hljs-property">reason</span>);  <span class="hljs-comment">// Error: boom!</span></code> <button class="copy-button">copy</button></pre>
+<h5><code>abortSignal.throwIfAborted()</code><span><a class="mark" href="#abortsignalthrowifaborted" id="abortsignalthrowifaborted">#</a></span><a aria-hidden="true" class="legacy" id="globals_abortsignal_throwifaborted"></a></h5>
+<div class="api_metadata">
+<span>Added in: v17.3.0, v16.17.0</span>
+</div>
+<p>If <code>abortSignal.aborted</code> is <code>true</code>, throws <code>abortSignal.reason</code>.</p>
+</section><section><h3>Class: <code>Blob</code><span><a class="mark" href="#class-blob" id="class-blob">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_blob"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+
+<p>See <a href="buffer.html#class-blob" class="type">&#x3C;Blob></a>.</p>
+</section><section><h3>Class: <code>Buffer</code><span><a class="mark" href="#class-buffer" id="class-buffer">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_buffer"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.103</span>
+</div>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
+</ul>
+<p>Used to handle binary data. See the <a href="buffer.html">buffer section</a>.</p>
+</section><section><h3>Class: <code>ByteLengthQueuingStrategy</code><span><a class="mark" href="#class-bytelengthqueuingstrategy" id="class-bytelengthqueuingstrategy">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_bytelengthqueuingstrategy"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-bytelengthqueuingstrategy"><code>ByteLengthQueuingStrategy</code></a>.</p>
+</section><section><h3><code>__dirname</code><span><a class="mark" href="#__dirname" id="__dirname">#</a></span><a aria-hidden="true" class="legacy" id="globals_dirname"></a></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#__dirname"><code>__dirname</code></a>.</p>
+</section><section><h3><code>__filename</code><span><a class="mark" href="#__filename" id="__filename">#</a></span><a aria-hidden="true" class="legacy" id="globals_filename"></a></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#__filename"><code>__filename</code></a>.</p>
+</section><section><h3><code>atob(data)</code><span><a class="mark" href="#atobdata" id="atobdata">#</a></span><a aria-hidden="true" class="legacy" id="globals_atob_data"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_3"><a href="documentation.html#stability-index">Stability: 3</a> - Legacy. Use <code>Buffer.from(data, 'base64')</code> instead.</div><p></p>
+<p>Global alias for <a href="buffer.html#bufferatobdata"><code>buffer.atob()</code></a>.</p>
+</section><section><h3><code>BroadcastChannel</code><span><a class="mark" href="#broadcastchannel" id="broadcastchannel">#</a></span><a aria-hidden="true" class="legacy" id="globals_broadcastchannel"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p>See <a href="worker_threads.html#class-broadcastchannel-extends-eventtarget" class="type">&#x3C;BroadcastChannel></a>.</p>
+</section><section><h3><code>btoa(data)</code><span><a class="mark" href="#btoadata" id="btoadata">#</a></span><a aria-hidden="true" class="legacy" id="globals_btoa_data"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_3"><a href="documentation.html#stability-index">Stability: 3</a> - Legacy. Use <code>buf.toString('base64')</code> instead.</div><p></p>
+<p>Global alias for <a href="buffer.html#bufferbtoadata"><code>buffer.btoa()</code></a>.</p>
+</section><section><h3><code>clearImmediate(immediateObject)</code><span><a class="mark" href="#clearimmediateimmediateobject" id="clearimmediateimmediateobject">#</a></span><a aria-hidden="true" class="legacy" id="globals_clearimmediate_immediateobject"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.9.1</span>
+</div>
+
+<p><a href="timers.html#clearimmediateimmediate"><code>clearImmediate</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3><code>clearInterval(intervalObject)</code><span><a class="mark" href="#clearintervalintervalobject" id="clearintervalintervalobject">#</a></span><a aria-hidden="true" class="legacy" id="globals_clearinterval_intervalobject"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.0.1</span>
+</div>
+
+<p><a href="timers.html#clearintervaltimeout"><code>clearInterval</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3><code>clearTimeout(timeoutObject)</code><span><a class="mark" href="#cleartimeouttimeoutobject" id="cleartimeouttimeoutobject">#</a></span><a aria-hidden="true" class="legacy" id="globals_cleartimeout_timeoutobject"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.0.1</span>
+</div>
+
+<p><a href="timers.html#cleartimeouttimeout"><code>clearTimeout</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3>Class: <code>CompressionStream</code><span><a class="mark" href="#class-compressionstream" id="class-compressionstream">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_compressionstream"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-compressionstream"><code>CompressionStream</code></a>.</p>
+</section><section><h3><code>console</code><span><a class="mark" href="#console" id="console">#</a></span><a aria-hidden="true" class="legacy" id="globals_console"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.100</span>
+</div>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Used to print to stdout and stderr. See the <a href="console.html"><code>console</code></a> section.</p>
+</section><section><h3>Class: <code>CountQueuingStrategy</code><span><a class="mark" href="#class-countqueuingstrategy" id="class-countqueuingstrategy">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_countqueuingstrategy"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-countqueuingstrategy"><code>CountQueuingStrategy</code></a>.</p>
+</section><section><h3><code>Crypto</code><span><a class="mark" href="#crypto" id="crypto">#</a></span><a aria-hidden="true" class="legacy" id="globals_crypto"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v19.0.0</td>
+<td><p>No longer behind <code>--experimental-global-webcrypto</code> CLI flag.</p></td></tr>
+<tr><td>v17.6.0, v16.15.0</td>
+<td><p><span>Added in: v17.6.0, v16.15.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the
+<a href="cli.html#--no-experimental-global-webcrypto"><code>--no-experimental-global-webcrypto</code></a> CLI flag.</div><p></p>
+<p>A browser-compatible implementation of <a href="webcrypto.html#class-crypto" class="type">&#x3C;Crypto></a>. This global is available
+only if the Node.js binary was compiled with including support for the
+<code>node:crypto</code> module.</p>
+</section><section><h3><code>crypto</code><span><a class="mark" href="#crypto_1" id="crypto_1">#</a></span><a aria-hidden="true" class="legacy" id="globals_crypto_1"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v19.0.0</td>
+<td><p>No longer behind <code>--experimental-global-webcrypto</code> CLI flag.</p></td></tr>
+<tr><td>v17.6.0, v16.15.0</td>
+<td><p><span>Added in: v17.6.0, v16.15.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the
+<a href="cli.html#--no-experimental-global-webcrypto"><code>--no-experimental-global-webcrypto</code></a> CLI flag.</div><p></p>
+<p>A browser-compatible implementation of the <a href="webcrypto.html">Web Crypto API</a>.</p>
+</section><section><h3><code>CryptoKey</code><span><a class="mark" href="#cryptokey" id="cryptokey">#</a></span><a aria-hidden="true" class="legacy" id="globals_cryptokey"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v19.0.0</td>
+<td><p>No longer behind <code>--experimental-global-webcrypto</code> CLI flag.</p></td></tr>
+<tr><td>v17.6.0, v16.15.0</td>
+<td><p><span>Added in: v17.6.0, v16.15.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the
+<a href="cli.html#--no-experimental-global-webcrypto"><code>--no-experimental-global-webcrypto</code></a> CLI flag.</div><p></p>
+<p>A browser-compatible implementation of <a href="webcrypto.html#class-cryptokey" class="type">&#x3C;CryptoKey></a>. This global is available
+only if the Node.js binary was compiled with including support for the
+<code>node:crypto</code> module.</p>
+</section><section><h3><code>CustomEvent</code><span><a class="mark" href="#customevent" id="customevent">#</a></span><a aria-hidden="true" class="legacy" id="globals_customevent"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v19.0.0</td>
+<td><p>No longer behind <code>--experimental-global-customevent</code> CLI flag.</p></td></tr>
+<tr><td>v18.7.0, v16.17.0</td>
+<td><p><span>Added in: v18.7.0, v16.17.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the
+<a href="cli.html#--no-experimental-global-customevent"><code>--no-experimental-global-customevent</code></a> CLI flag.</div><p></p>
+
+<p>A browser-compatible implementation of the <a href="https://dom.spec.whatwg.org/#customevent"><code>CustomEvent</code> Web API</a>.</p>
+</section><section><h3>Class: <code>DecompressionStream</code><span><a class="mark" href="#class-decompressionstream" id="class-decompressionstream">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_decompressionstream"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-decompressionstream"><code>DecompressionStream</code></a>.</p>
+</section><section><h3><code>Event</code><span><a class="mark" href="#event" id="event">#</a></span><a aria-hidden="true" class="legacy" id="globals_event"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.4.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v15.0.0</td>
+<td><p><span>Added in: v15.0.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+
+<p>A browser-compatible implementation of the <code>Event</code> class. See
+<a href="events.html#eventtarget-and-event-api"><code>EventTarget</code> and <code>Event</code> API</a> for more details.</p>
+</section><section><h3><code>EventSource</code><span><a class="mark" href="#eventsource" id="eventsource">#</a></span><a aria-hidden="true" class="legacy" id="globals_eventsource"></a></h3>
+<div class="api_metadata">
+<span>Added in: v20.18.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Enable this API with the <a href="cli.html#--experimental-eventsource"><code>--experimental-eventsource</code></a>
+CLI flag.</div><p></p>
+<p>A browser-compatible implementation of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource"><code>EventSource</code></a> class.</p>
+</section><section><h3><code>EventTarget</code><span><a class="mark" href="#eventtarget" id="eventtarget">#</a></span><a aria-hidden="true" class="legacy" id="globals_eventtarget"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.4.0</td>
+<td><p>No longer experimental.</p></td></tr>
+<tr><td>v15.0.0</td>
+<td><p><span>Added in: v15.0.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+
+<p>A browser-compatible implementation of the <code>EventTarget</code> class. See
+<a href="events.html#eventtarget-and-event-api"><code>EventTarget</code> and <code>Event</code> API</a> for more details.</p>
+</section><section><h3><code>exports</code><span><a class="mark" href="#exports" id="exports">#</a></span><a aria-hidden="true" class="legacy" id="globals_exports"></a></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#exports"><code>exports</code></a>.</p>
+</section><section><h3><code>fetch</code><span><a class="mark" href="#fetch" id="fetch">#</a></span><a aria-hidden="true" class="legacy" id="globals_fetch"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>No longer behind <code>--experimental-fetch</code> CLI flag.</p></td></tr>
+<tr><td>v17.5.0, v16.15.0</td>
+<td><p><span>Added in: v17.5.0, v16.15.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the <a href="cli.html#--no-experimental-fetch"><code>--no-experimental-fetch</code></a>
+CLI flag.</div><p></p>
+<p>A browser-compatible implementation of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch"><code>fetch()</code></a> function.</p>
+</section><section><h3>Class: <code>File</code><span><a class="mark" href="#class-file" id="class-file">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_file"></a></h3>
+<div class="api_metadata">
+<span>Added in: v20.0.0</span>
+</div>
+
+<p>See <a href="buffer.html#class-file" class="type">&#x3C;File></a>.</p>
+</section><section><h3>Class <code>FormData</code><span><a class="mark" href="#class-formdata" id="class-formdata">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_formdata"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>No longer behind <code>--experimental-fetch</code> CLI flag.</p></td></tr>
+<tr><td>v17.6.0, v16.15.0</td>
+<td><p><span>Added in: v17.6.0, v16.15.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the <a href="cli.html#--no-experimental-fetch"><code>--no-experimental-fetch</code></a>
+CLI flag.</div><p></p>
+<p>A browser-compatible implementation of <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData" class="type">&#x3C;FormData></a>.</p>
+</section><section><h3><code>global</code><span><a class="mark" href="#global" id="global">#</a></span><a aria-hidden="true" class="legacy" id="globals_global"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.27</span>
+</div>
+
+<p></p><div class="api_stability api_stability_3"><a href="documentation.html#stability-index">Stability: 3</a> - Legacy. Use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis"><code>globalThis</code></a> instead.</div><p></p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The global namespace object.</li>
+</ul>
+<p>In browsers, the top-level scope has traditionally been the global scope. This
+means that <code>var something</code> will define a new global variable, except within
+ECMAScript modules. In Node.js, this is different. The top-level scope is not
+the global scope; <code>var something</code> inside a Node.js module will be local to that
+module, regardless of whether it is a <a href="modules.html">CommonJS module</a> or an
+<a href="esm.html">ECMAScript module</a>.</p>
+</section><section><h3>Class <code>Headers</code><span><a class="mark" href="#class-headers" id="class-headers">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_headers"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>No longer behind <code>--experimental-fetch</code> CLI flag.</p></td></tr>
+<tr><td>v17.5.0, v16.15.0</td>
+<td><p><span>Added in: v17.5.0, v16.15.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the <a href="cli.html#--no-experimental-fetch"><code>--no-experimental-fetch</code></a>
+CLI flag.</div><p></p>
+<p>A browser-compatible implementation of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Headers" class="type">&#x3C;Headers></a>.</p>
+</section><section><h3><code>MessageChannel</code><span><a class="mark" href="#messagechannel" id="messagechannel">#</a></span><a aria-hidden="true" class="legacy" id="globals_messagechannel"></a></h3>
+<div class="api_metadata">
+<span>Added in: v15.0.0</span>
+</div>
+
+<p>The <code>MessageChannel</code> class. See <a href="worker_threads.html#class-messagechannel"><code>MessageChannel</code></a> for more details.</p>
+</section><section><h3><code>MessageEvent</code><span><a class="mark" href="#messageevent" id="messageevent">#</a></span><a aria-hidden="true" class="legacy" id="globals_messageevent"></a></h3>
+<div class="api_metadata">
+<span>Added in: v15.0.0</span>
+</div>
+
+<p>The <code>MessageEvent</code> class. See <a href="https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/MessageEvent"><code>MessageEvent</code></a> for more details.</p>
+</section><section><h3><code>MessagePort</code><span><a class="mark" href="#messageport" id="messageport">#</a></span><a aria-hidden="true" class="legacy" id="globals_messageport"></a></h3>
+<div class="api_metadata">
+<span>Added in: v15.0.0</span>
+</div>
+
+<p>The <code>MessagePort</code> class. See <a href="worker_threads.html#class-messageport"><code>MessagePort</code></a> for more details.</p>
+</section><section><h3><code>module</code><span><a class="mark" href="#module" id="module">#</a></span><a aria-hidden="true" class="legacy" id="globals_module"></a></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#module"><code>module</code></a>.</p>
+</section><section><h3><code>PerformanceEntry</code><span><a class="mark" href="#performanceentry" id="performanceentry">#</a></span><a aria-hidden="true" class="legacy" id="globals_performanceentry"></a></h3>
+<div class="api_metadata">
+<span>Added in: v19.0.0</span>
+</div>
+
+<p>The <code>PerformanceEntry</code> class. See <a href="perf_hooks.html#class-performanceentry"><code>PerformanceEntry</code></a> for more details.</p>
+</section><section><h3><code>PerformanceMark</code><span><a class="mark" href="#performancemark" id="performancemark">#</a></span><a aria-hidden="true" class="legacy" id="globals_performancemark"></a></h3>
+<div class="api_metadata">
+<span>Added in: v19.0.0</span>
+</div>
+
+<p>The <code>PerformanceMark</code> class. See <a href="perf_hooks.html#class-performancemark"><code>PerformanceMark</code></a> for more details.</p>
+</section><section><h3><code>PerformanceMeasure</code><span><a class="mark" href="#performancemeasure" id="performancemeasure">#</a></span><a aria-hidden="true" class="legacy" id="globals_performancemeasure"></a></h3>
+<div class="api_metadata">
+<span>Added in: v19.0.0</span>
+</div>
+
+<p>The <code>PerformanceMeasure</code> class. See <a href="perf_hooks.html#class-performancemeasure"><code>PerformanceMeasure</code></a> for more details.</p>
+</section><section><h3><code>PerformanceObserver</code><span><a class="mark" href="#performanceobserver" id="performanceobserver">#</a></span><a aria-hidden="true" class="legacy" id="globals_performanceobserver"></a></h3>
+<div class="api_metadata">
+<span>Added in: v19.0.0</span>
+</div>
+
+<p>The <code>PerformanceObserver</code> class. See <a href="perf_hooks.html#class-performanceobserver"><code>PerformanceObserver</code></a> for more details.</p>
+</section><section><h3><code>PerformanceObserverEntryList</code><span><a class="mark" href="#performanceobserverentrylist" id="performanceobserverentrylist">#</a></span><a aria-hidden="true" class="legacy" id="globals_performanceobserverentrylist"></a></h3>
+<div class="api_metadata">
+<span>Added in: v19.0.0</span>
+</div>
+
+<p>The <code>PerformanceObserverEntryList</code> class. See
+<a href="perf_hooks.html#class-performanceobserverentrylist"><code>PerformanceObserverEntryList</code></a> for more details.</p>
+</section><section><h3><code>PerformanceResourceTiming</code><span><a class="mark" href="#performanceresourcetiming" id="performanceresourcetiming">#</a></span><a aria-hidden="true" class="legacy" id="globals_performanceresourcetiming"></a></h3>
+<div class="api_metadata">
+<span>Added in: v19.0.0</span>
+</div>
+
+<p>The <code>PerformanceResourceTiming</code> class. See <a href="perf_hooks.html#class-performanceresourcetiming"><code>PerformanceResourceTiming</code></a> for
+more details.</p>
+</section><section><h3><code>performance</code><span><a class="mark" href="#performance" id="performance">#</a></span><a aria-hidden="true" class="legacy" id="globals_performance"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.0.0</span>
+</div>
+<p>The <a href="perf_hooks.html#perf_hooksperformance"><code>perf_hooks.performance</code></a> object.</p>
+</section><section><h3><code>process</code><span><a class="mark" href="#process" id="process">#</a></span><a aria-hidden="true" class="legacy" id="globals_process"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.7</span>
+</div>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>The process object. See the <a href="process.html#process"><code>process</code> object</a> section.</p>
+</section><section><h3><code>queueMicrotask(callback)</code><span><a class="mark" href="#queuemicrotaskcallback" id="queuemicrotaskcallback">#</a></span><a aria-hidden="true" class="legacy" id="globals_queuemicrotask_callback"></a></h3>
+<div class="api_metadata">
+<span>Added in: v11.0.0</span>
+</div>
+
+<ul>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Function to be queued.</li>
+</ul>
+<p>The <code>queueMicrotask()</code> method queues a microtask to invoke <code>callback</code>. If
+<code>callback</code> throws an exception, the <a href="process.html#process"><code>process</code> object</a> <code>'uncaughtException'</code>
+event will be emitted.</p>
+<p>The microtask queue is managed by V8 and may be used in a similar manner to
+the <a href="process.html#processnexttickcallback-args"><code>process.nextTick()</code></a> queue, which is managed by Node.js. The
+<code>process.nextTick()</code> queue is always processed before the microtask queue
+within each turn of the Node.js event loop.</p>
+<pre><code class="language-js"><span class="hljs-comment">// Here, `queueMicrotask()` is used to ensure the 'load' event is always</span>
+<span class="hljs-comment">// emitted asynchronously, and therefore consistently. Using</span>
+<span class="hljs-comment">// `process.nextTick()` here would result in the 'load' event always emitting</span>
+<span class="hljs-comment">// before any other promise jobs.</span>
+
+<span class="hljs-title class_">DataHandler</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">load</span> = <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">load</span>(<span class="hljs-params">key</span>) {
+  <span class="hljs-keyword">const</span> hit = <span class="hljs-variable language_">this</span>.<span class="hljs-property">_cache</span>.<span class="hljs-title function_">get</span>(key);
+  <span class="hljs-keyword">if</span> (hit !== <span class="hljs-literal">undefined</span>) {
+    <span class="hljs-title function_">queueMicrotask</span>(<span class="hljs-function">() =></span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'load'</span>, hit);
+    });
+    <span class="hljs-keyword">return</span>;
+  }
+
+  <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetchData</span>(key);
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">_cache</span>.<span class="hljs-title function_">set</span>(key, data);
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'load'</span>, data);
+};</code> <button class="copy-button">copy</button></pre>
+</section><section><h3>Class: <code>ReadableByteStreamController</code><span><a class="mark" href="#class-readablebytestreamcontroller" id="class-readablebytestreamcontroller">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_readablebytestreamcontroller"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-readablebytestreamcontroller"><code>ReadableByteStreamController</code></a>.</p>
+</section><section><h3>Class: <code>ReadableStream</code><span><a class="mark" href="#class-readablestream" id="class-readablestream">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_readablestream"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-readablestream"><code>ReadableStream</code></a>.</p>
+</section><section><h3>Class: <code>ReadableStreamBYOBReader</code><span><a class="mark" href="#class-readablestreambyobreader" id="class-readablestreambyobreader">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_readablestreambyobreader"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-readablestreambyobreader"><code>ReadableStreamBYOBReader</code></a>.</p>
+</section><section><h3>Class: <code>ReadableStreamBYOBRequest</code><span><a class="mark" href="#class-readablestreambyobrequest" id="class-readablestreambyobrequest">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_readablestreambyobrequest"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-readablestreambyobrequest"><code>ReadableStreamBYOBRequest</code></a>.</p>
+</section><section><h3>Class: <code>ReadableStreamDefaultController</code><span><a class="mark" href="#class-readablestreamdefaultcontroller" id="class-readablestreamdefaultcontroller">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_readablestreamdefaultcontroller"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-readablestreamdefaultcontroller"><code>ReadableStreamDefaultController</code></a>.</p>
+</section><section><h3>Class: <code>ReadableStreamDefaultReader</code><span><a class="mark" href="#class-readablestreamdefaultreader" id="class-readablestreamdefaultreader">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_readablestreamdefaultreader"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-readablestreamdefaultreader"><code>ReadableStreamDefaultReader</code></a>.</p>
+</section><section><h3><code>require()</code><span><a class="mark" href="#require" id="require">#</a></span><a aria-hidden="true" class="legacy" id="globals_require"></a></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#requireid"><code>require()</code></a>.</p>
+</section><section><h3><code>Response</code><span><a class="mark" href="#response" id="response">#</a></span><a aria-hidden="true" class="legacy" id="globals_response"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>No longer behind <code>--experimental-fetch</code> CLI flag.</p></td></tr>
+<tr><td>v17.5.0, v16.15.0</td>
+<td><p><span>Added in: v17.5.0, v16.15.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the <a href="cli.html#--no-experimental-fetch"><code>--no-experimental-fetch</code></a>
+CLI flag.</div><p></p>
+<p>A browser-compatible implementation of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response" class="type">&#x3C;Response></a>.</p>
+</section><section><h3><code>Request</code><span><a class="mark" href="#request" id="request">#</a></span><a aria-hidden="true" class="legacy" id="globals_request"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>No longer behind <code>--experimental-fetch</code> CLI flag.</p></td></tr>
+<tr><td>v17.5.0, v16.15.0</td>
+<td><p><span>Added in: v17.5.0, v16.15.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the <a href="cli.html#--no-experimental-fetch"><code>--no-experimental-fetch</code></a>
+CLI flag.</div><p></p>
+<p>A browser-compatible implementation of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request" class="type">&#x3C;Request></a>.</p>
+</section><section><h3><code>setImmediate(callback[, ...args])</code><span><a class="mark" href="#setimmediatecallback-args" id="setimmediatecallback-args">#</a></span><a aria-hidden="true" class="legacy" id="globals_setimmediate_callback_args"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.9.1</span>
+</div>
+
+<p><a href="timers.html#setimmediatecallback-args"><code>setImmediate</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3><code>setInterval(callback, delay[, ...args])</code><span><a class="mark" href="#setintervalcallback-delay-args" id="setintervalcallback-delay-args">#</a></span><a aria-hidden="true" class="legacy" id="globals_setinterval_callback_delay_args"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.0.1</span>
+</div>
+
+<p><a href="timers.html#setintervalcallback-delay-args"><code>setInterval</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3><code>setTimeout(callback, delay[, ...args])</code><span><a class="mark" href="#settimeoutcallback-delay-args" id="settimeoutcallback-delay-args">#</a></span><a aria-hidden="true" class="legacy" id="globals_settimeout_callback_delay_args"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.0.1</span>
+</div>
+
+<p><a href="timers.html#settimeoutcallback-delay-args"><code>setTimeout</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3><code>structuredClone(value[, options])</code><span><a class="mark" href="#structuredclonevalue-options" id="structuredclonevalue-options">#</a></span><a aria-hidden="true" class="legacy" id="globals_structuredclone_value_options"></a></h3>
+<div class="api_metadata">
+<span>Added in: v17.0.0</span>
+</div>
+
+<p>The WHATWG <a href="https://developer.mozilla.org/en-US/docs/Web/API/structuredClone"><code>structuredClone</code></a> method.</p>
+</section><section><h3><code>SubtleCrypto</code><span><a class="mark" href="#subtlecrypto" id="subtlecrypto">#</a></span><a aria-hidden="true" class="legacy" id="globals_subtlecrypto"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v19.0.0</td>
+<td><p>No longer behind <code>--experimental-global-webcrypto</code> CLI flag.</p></td></tr>
+<tr><td>v17.6.0, v16.15.0</td>
+<td><p><span>Added in: v17.6.0, v16.15.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental. Disable this API with the
+<a href="cli.html#--no-experimental-global-webcrypto"><code>--no-experimental-global-webcrypto</code></a> CLI flag.</div><p></p>
+<p>A browser-compatible implementation of <a href="webcrypto.html#class-subtlecrypto" class="type">&#x3C;SubtleCrypto></a>. This global is available
+only if the Node.js binary was compiled with including support for the
+<code>node:crypto</code> module.</p>
+</section><section><h3><code>DOMException</code><span><a class="mark" href="#domexception" id="domexception">#</a></span><a aria-hidden="true" class="legacy" id="globals_domexception"></a></h3>
+<div class="api_metadata">
+<span>Added in: v17.0.0</span>
+</div>
+
+<p>The WHATWG <code>DOMException</code> class. See <a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMException"><code>DOMException</code></a> for more details.</p>
+</section><section><h3><code>TextDecoder</code><span><a class="mark" href="#textdecoder" id="textdecoder">#</a></span><a aria-hidden="true" class="legacy" id="globals_textdecoder"></a></h3>
+<div class="api_metadata">
+<span>Added in: v11.0.0</span>
+</div>
+
+<p>The WHATWG <code>TextDecoder</code> class. See the <a href="util.html#class-utiltextdecoder"><code>TextDecoder</code></a> section.</p>
+</section><section><h3>Class: <code>TextDecoderStream</code><span><a class="mark" href="#class-textdecoderstream" id="class-textdecoderstream">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_textdecoderstream"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-textdecoderstream"><code>TextDecoderStream</code></a>.</p>
+</section><section><h3><code>TextEncoder</code><span><a class="mark" href="#textencoder" id="textencoder">#</a></span><a aria-hidden="true" class="legacy" id="globals_textencoder"></a></h3>
+<div class="api_metadata">
+<span>Added in: v11.0.0</span>
+</div>
+
+<p>The WHATWG <code>TextEncoder</code> class. See the <a href="util.html#class-utiltextencoder"><code>TextEncoder</code></a> section.</p>
+</section><section><h3>Class: <code>TextEncoderStream</code><span><a class="mark" href="#class-textencoderstream" id="class-textencoderstream">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_textencoderstream"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-textencoderstream"><code>TextEncoderStream</code></a>.</p>
+</section><section><h3>Class: <code>TransformStream</code><span><a class="mark" href="#class-transformstream" id="class-transformstream">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_transformstream"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-transformstream"><code>TransformStream</code></a>.</p>
+</section><section><h3>Class: <code>TransformStreamDefaultController</code><span><a class="mark" href="#class-transformstreamdefaultcontroller" id="class-transformstreamdefaultcontroller">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_transformstreamdefaultcontroller"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-transformstreamdefaultcontroller"><code>TransformStreamDefaultController</code></a>.</p>
+</section><section><h3><code>URL</code><span><a class="mark" href="#url" id="url">#</a></span><a aria-hidden="true" class="legacy" id="globals_url"></a></h3>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+
+<p>The WHATWG <code>URL</code> class. See the <a href="url.html#class-url"><code>URL</code></a> section.</p>
+</section><section><h3><code>URLSearchParams</code><span><a class="mark" href="#urlsearchparams" id="urlsearchparams">#</a></span><a aria-hidden="true" class="legacy" id="globals_urlsearchparams"></a></h3>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+
+<p>The WHATWG <code>URLSearchParams</code> class. See the <a href="url.html#class-urlsearchparams"><code>URLSearchParams</code></a> section.</p>
+</section><section><h3><code>WebAssembly</code><span><a class="mark" href="#webassembly" id="webassembly">#</a></span><a aria-hidden="true" class="legacy" id="globals_webassembly"></a></h3>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>The object that acts as the namespace for all W3C
+<a href="https://webassembly.org">WebAssembly</a> related functionality. See the
+<a href="https://developer.mozilla.org/en-US/docs/WebAssembly">Mozilla Developer Network</a> for usage and compatibility.</p>
+</section><section><h3><code>WebSocket</code><span><a class="mark" href="#websocket" id="websocket">#</a></span><a aria-hidden="true" class="legacy" id="globals_websocket"></a></h3>
+<div class="api_metadata">
+<span>Added in: v20.10.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket"><code>WebSocket</code></a>. Enable this API
+with the <a href="cli.html#--experimental-websocket"><code>--experimental-websocket</code></a> CLI flag.</p>
+</section><section><h3>Class: <code>WritableStream</code><span><a class="mark" href="#class-writablestream" id="class-writablestream">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_writablestream"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-writablestream"><code>WritableStream</code></a>.</p>
+</section><section><h3>Class: <code>WritableStreamDefaultController</code><span><a class="mark" href="#class-writablestreamdefaultcontroller" id="class-writablestreamdefaultcontroller">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_writablestreamdefaultcontroller"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-writablestreamdefaultcontroller"><code>WritableStreamDefaultController</code></a>.</p>
+</section><section><h3>Class: <code>WritableStreamDefaultWriter</code><span><a class="mark" href="#class-writablestreamdefaultwriter" id="class-writablestreamdefaultwriter">#</a></span><a aria-hidden="true" class="legacy" id="globals_class_writablestreamdefaultwriter"></a></h3>
+<div class="api_metadata">
+<span>Added in: v18.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>A browser-compatible implementation of <a href="webstreams.html#class-writablestreamdefaultwriter"><code>WritableStreamDefaultWriter</code></a>.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

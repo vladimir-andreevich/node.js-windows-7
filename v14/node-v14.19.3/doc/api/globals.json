@@ -1,0 +1,708 @@
+{
+  "type": "module",
+  "source": "doc/api/globals.md",
+  "introduced_in": "v0.10.0",
+  "globals": [
+    {
+      "textRaw": "Class: `AbortController`",
+      "type": "global",
+      "name": "AbortController",
+      "meta": {
+        "added": [
+          "v14.17.0"
+        ],
+        "changes": []
+      },
+      "stability": 1,
+      "stabilityText": "Experimental",
+      "desc": "<p>A utility class used to signal cancelation in selected <code>Promise</code>-based APIs.\nThe API is based on the Web API <a href=\"https://developer.mozilla.org/en-US/docs/Web/API/AbortController\"><code>AbortController</code></a>.</p>\n<p>To use, launch Node.js using the <code>--experimental-abortcontroller</code> flag.</p>\n<pre><code class=\"language-js\">const ac = new AbortController();\n\nac.signal.addEventListener('abort', () => console.log('Aborted!'),\n                           { once: true });\n\nac.abort();\n\nconsole.log(ac.signal.aborted);  // Prints True\n</code></pre>",
+      "methods": [
+        {
+          "textRaw": "`abortController.abort()`",
+          "type": "method",
+          "name": "abort",
+          "meta": {
+            "added": [
+              "v14.17.0"
+            ],
+            "changes": []
+          },
+          "signatures": [
+            {
+              "params": []
+            }
+          ],
+          "desc": "<p>Triggers the abort signal, causing the <code>abortController.signal</code> to emit\nthe <code>'abort'</code> event.</p>"
+        }
+      ],
+      "properties": [
+        {
+          "textRaw": "`signal` Type: {AbortSignal}",
+          "type": "AbortSignal",
+          "name": "Type",
+          "meta": {
+            "added": [
+              "v14.17.0"
+            ],
+            "changes": []
+          }
+        }
+      ],
+      "classes": [
+        {
+          "textRaw": "Class: `AbortSignal`",
+          "type": "class",
+          "name": "AbortSignal",
+          "meta": {
+            "added": [
+              "v14.17.0"
+            ],
+            "changes": []
+          },
+          "desc": "<ul>\n<li>Extends: <a href=\"events.html#events_class_eventtarget\" class=\"type\">&lt;EventTarget&gt;</a></li>\n</ul>\n<p>The <code>AbortSignal</code> is used to notify observers when the\n<code>abortController.abort()</code> method is called.</p>",
+          "classMethods": [
+            {
+              "textRaw": "Static method: `AbortSignal.abort()`",
+              "type": "classMethod",
+              "name": "abort",
+              "meta": {
+                "added": [
+                  "v14.17.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {AbortSignal}",
+                    "name": "return",
+                    "type": "AbortSignal"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>Returns a new already aborted <code>AbortSignal</code>.</p>"
+            }
+          ],
+          "events": [
+            {
+              "textRaw": "Event: `'abort'`",
+              "type": "event",
+              "name": "abort",
+              "meta": {
+                "added": [
+                  "v14.17.0"
+                ],
+                "changes": []
+              },
+              "params": [],
+              "desc": "<p>The <code>'abort'</code> event is emitted when the <code>abortController.abort()</code> method\nis called. The callback is invoked with a single object argument with a\nsingle <code>type</code> property set to <code>'abort'</code>:</p>\n<pre><code class=\"language-js\">const ac = new AbortController();\n\n// Use either the onabort property...\nac.signal.onabort = () => console.log('aborted!');\n\n// Or the EventTarget API...\nac.signal.addEventListener('abort', (event) => {\n  console.log(event.type);  // Prints 'abort'\n}, { once: true });\n\nac.abort();\n</code></pre>\n<p>The <code>AbortController</code> with which the <code>AbortSignal</code> is associated will only\never trigger the <code>'abort'</code> event once. We recommended that code check\nthat the <code>abortSignal.aborted</code> attribute is <code>false</code> before adding an <code>'abort'</code>\nevent listener.</p>\n<p>Any event listeners attached to the <code>AbortSignal</code> should use the\n<code>{ once: true }</code> option (or, if using the <code>EventEmitter</code> APIs to attach a\nlistener, use the <code>once()</code> method) to ensure that the event listener is\nremoved as soon as the <code>'abort'</code> event is handled. Failure to do so may\nresult in memory leaks.</p>"
+            }
+          ],
+          "properties": [
+            {
+              "textRaw": "`aborted` Type: {boolean} True after the `AbortController` has been aborted.",
+              "type": "boolean",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v14.17.0"
+                ],
+                "changes": []
+              },
+              "desc": "True after the `AbortController` has been aborted."
+            },
+            {
+              "textRaw": "`onabort` Type: {Function}",
+              "type": "Function",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v14.17.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>An optional callback function that may be set by user code to be notified\nwhen the <code>abortController.abort()</code> function has been called.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "textRaw": "Class: `Buffer`",
+      "type": "global",
+      "name": "Buffer",
+      "meta": {
+        "added": [
+          "v0.1.103"
+        ],
+        "changes": []
+      },
+      "desc": "<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\" class=\"type\">&lt;Function&gt;</a></li>\n</ul>\n<p>Used to handle binary data. See the <a href=\"buffer.html\">buffer section</a>.</p>"
+    },
+    {
+      "textRaw": "`clearImmediate(immediateObject)`",
+      "type": "global",
+      "name": "clearImmediate",
+      "meta": {
+        "added": [
+          "v0.9.1"
+        ],
+        "changes": []
+      },
+      "desc": "<p><a href=\"timers.html#timers_clearimmediate_immediate\"><code>clearImmediate</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+    },
+    {
+      "textRaw": "`clearInterval(intervalObject)`",
+      "type": "global",
+      "name": "clearInterval",
+      "meta": {
+        "added": [
+          "v0.0.1"
+        ],
+        "changes": []
+      },
+      "desc": "<p><a href=\"timers.html#timers_clearinterval_timeout\"><code>clearInterval</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+    },
+    {
+      "textRaw": "`clearTimeout(timeoutObject)`",
+      "type": "global",
+      "name": "clearTimeout",
+      "meta": {
+        "added": [
+          "v0.0.1"
+        ],
+        "changes": []
+      },
+      "desc": "<p><a href=\"timers.html#timers_cleartimeout_timeout\"><code>clearTimeout</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+    },
+    {
+      "textRaw": "`console`",
+      "name": "`console`",
+      "meta": {
+        "added": [
+          "v0.1.100"
+        ],
+        "changes": []
+      },
+      "type": "global",
+      "desc": "<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a></li>\n</ul>\n<p>Used to print to stdout and stderr. See the <a href=\"console.html\"><code>console</code></a> section.</p>"
+    },
+    {
+      "textRaw": "`global`",
+      "name": "`global`",
+      "meta": {
+        "added": [
+          "v0.1.27"
+        ],
+        "changes": []
+      },
+      "type": "global",
+      "desc": "<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a> The global namespace object.</li>\n</ul>\n<p>In browsers, the top-level scope is the global scope. This means that\nwithin the browser <code>var something</code> will define a new global variable. In\nNode.js this is different. The top-level scope is not the global scope;\n<code>var something</code> inside a Node.js module will be local to that module.</p>"
+    },
+    {
+      "textRaw": "`process`",
+      "name": "`process`",
+      "meta": {
+        "added": [
+          "v0.1.7"
+        ],
+        "changes": []
+      },
+      "type": "global",
+      "desc": "<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a></li>\n</ul>\n<p>The process object. See the <a href=\"process.html#process_process\"><code>process</code> object</a> section.</p>"
+    },
+    {
+      "textRaw": "`queueMicrotask(callback)`",
+      "type": "global",
+      "name": "queueMicrotask",
+      "meta": {
+        "added": [
+          "v11.0.0"
+        ],
+        "changes": []
+      },
+      "desc": "<ul>\n<li><code>callback</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\" class=\"type\">&lt;Function&gt;</a> Function to be queued.</li>\n</ul>\n<p>The <code>queueMicrotask()</code> method queues a microtask to invoke <code>callback</code>. If\n<code>callback</code> throws an exception, the <a href=\"process.html#process_process\"><code>process</code> object</a> <code>'uncaughtException'</code>\nevent will be emitted.</p>\n<p>The microtask queue is managed by V8 and may be used in a similar manner to\nthe <a href=\"process.html#process_process_nexttick_callback_args\"><code>process.nextTick()</code></a> queue, which is managed by Node.js. The\n<code>process.nextTick()</code> queue is always processed before the microtask queue\nwithin each turn of the Node.js event loop.</p>\n<pre><code class=\"language-js\">// Here, `queueMicrotask()` is used to ensure the 'load' event is always\n// emitted asynchronously, and therefore consistently. Using\n// `process.nextTick()` here would result in the 'load' event always emitting\n// before any other promise jobs.\n\nDataHandler.prototype.load = async function load(key) {\n  const hit = this._cache.get(key);\n  if (hit !== undefined) {\n    queueMicrotask(() => {\n      this.emit('load', hit);\n    });\n    return;\n  }\n\n  const data = await fetchData(key);\n  this._cache.set(key, data);\n  this.emit('load', data);\n};\n</code></pre>"
+    },
+    {
+      "textRaw": "`setImmediate(callback[, ...args])`",
+      "type": "global",
+      "name": "setImmediate",
+      "meta": {
+        "added": [
+          "v0.9.1"
+        ],
+        "changes": []
+      },
+      "desc": "<p><a href=\"timers.html#timers_setimmediate_callback_args\"><code>setImmediate</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+    },
+    {
+      "textRaw": "`setInterval(callback, delay[, ...args])`",
+      "type": "global",
+      "name": "setInterval",
+      "meta": {
+        "added": [
+          "v0.0.1"
+        ],
+        "changes": []
+      },
+      "desc": "<p><a href=\"timers.html#timers_setinterval_callback_delay_args\"><code>setInterval</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+    },
+    {
+      "textRaw": "`setTimeout(callback, delay[, ...args])`",
+      "type": "global",
+      "name": "setTimeout",
+      "meta": {
+        "added": [
+          "v0.0.1"
+        ],
+        "changes": []
+      },
+      "desc": "<p><a href=\"timers.html#timers_settimeout_callback_delay_args\"><code>setTimeout</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+    },
+    {
+      "textRaw": "`TextDecoder`",
+      "name": "`TextDecoder`",
+      "meta": {
+        "added": [
+          "v11.0.0"
+        ],
+        "changes": []
+      },
+      "type": "global",
+      "desc": "<p>The WHATWG <code>TextDecoder</code> class. See the <a href=\"util.html#util_class_util_textdecoder\"><code>TextDecoder</code></a> section.</p>"
+    },
+    {
+      "textRaw": "`TextEncoder`",
+      "name": "`TextEncoder`",
+      "meta": {
+        "added": [
+          "v11.0.0"
+        ],
+        "changes": []
+      },
+      "type": "global",
+      "desc": "<p>The WHATWG <code>TextEncoder</code> class. See the <a href=\"util.html#util_class_util_textencoder\"><code>TextEncoder</code></a> section.</p>"
+    },
+    {
+      "textRaw": "`URL`",
+      "name": "`URL`",
+      "meta": {
+        "added": [
+          "v10.0.0"
+        ],
+        "changes": []
+      },
+      "type": "global",
+      "desc": "<p>The WHATWG <code>URL</code> class. See the <a href=\"url.html#url_class_url\"><code>URL</code></a> section.</p>"
+    },
+    {
+      "textRaw": "`URLSearchParams`",
+      "name": "`URLSearchParams`",
+      "meta": {
+        "added": [
+          "v10.0.0"
+        ],
+        "changes": []
+      },
+      "type": "global",
+      "desc": "<p>The WHATWG <code>URLSearchParams</code> class. See the <a href=\"url.html#url_class_urlsearchparams\"><code>URLSearchParams</code></a> section.</p>"
+    },
+    {
+      "textRaw": "`WebAssembly`",
+      "name": "`WebAssembly`",
+      "meta": {
+        "added": [
+          "v8.0.0"
+        ],
+        "changes": []
+      },
+      "type": "global",
+      "desc": "<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a></li>\n</ul>\n<p>The object that acts as the namespace for all W3C\n<a href=\"https://webassembly.org\">WebAssembly</a> related functionality. See the\n<a href=\"https://developer.mozilla.org/en-US/docs/WebAssembly\">Mozilla Developer Network</a> for usage and compatibility.</p>"
+    }
+  ],
+  "methods": [
+    {
+      "textRaw": "`require()`",
+      "type": "method",
+      "name": "require",
+      "signatures": [
+        {
+          "params": []
+        }
+      ],
+      "desc": "<p>This variable may appear to be global but is not. See <a href=\"modules.html#modules_require_id\"><code>require()</code></a>.</p>"
+    }
+  ],
+  "miscs": [
+    {
+      "textRaw": "Global objects",
+      "name": "Global objects",
+      "introduced_in": "v0.10.0",
+      "type": "misc",
+      "desc": "<p>These objects are available in all modules. The following variables may appear\nto be global but are not. They exist only in the scope of modules, see the\n<a href=\"modules.html\">module system documentation</a>:</p>\n<ul>\n<li><a href=\"modules.html#modules_dirname\"><code>__dirname</code></a></li>\n<li><a href=\"modules.html#modules_filename\"><code>__filename</code></a></li>\n<li><a href=\"modules.html#modules_exports\"><code>exports</code></a></li>\n<li><a href=\"modules.html#modules_module\"><code>module</code></a></li>\n<li><a href=\"modules.html#modules_require_id\"><code>require()</code></a></li>\n</ul>\n<p>The objects listed here are specific to Node.js. There are <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects\">built-in objects</a>\nthat are part of the JavaScript language itself, which are also globally\naccessible.</p>",
+      "globals": [
+        {
+          "textRaw": "Class: `AbortController`",
+          "type": "global",
+          "name": "AbortController",
+          "meta": {
+            "added": [
+              "v14.17.0"
+            ],
+            "changes": []
+          },
+          "stability": 1,
+          "stabilityText": "Experimental",
+          "desc": "<p>A utility class used to signal cancelation in selected <code>Promise</code>-based APIs.\nThe API is based on the Web API <a href=\"https://developer.mozilla.org/en-US/docs/Web/API/AbortController\"><code>AbortController</code></a>.</p>\n<p>To use, launch Node.js using the <code>--experimental-abortcontroller</code> flag.</p>\n<pre><code class=\"language-js\">const ac = new AbortController();\n\nac.signal.addEventListener('abort', () => console.log('Aborted!'),\n                           { once: true });\n\nac.abort();\n\nconsole.log(ac.signal.aborted);  // Prints True\n</code></pre>",
+          "methods": [
+            {
+              "textRaw": "`abortController.abort()`",
+              "type": "method",
+              "name": "abort",
+              "meta": {
+                "added": [
+                  "v14.17.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Triggers the abort signal, causing the <code>abortController.signal</code> to emit\nthe <code>'abort'</code> event.</p>"
+            }
+          ],
+          "properties": [
+            {
+              "textRaw": "`signal` Type: {AbortSignal}",
+              "type": "AbortSignal",
+              "name": "Type",
+              "meta": {
+                "added": [
+                  "v14.17.0"
+                ],
+                "changes": []
+              }
+            }
+          ],
+          "classes": [
+            {
+              "textRaw": "Class: `AbortSignal`",
+              "type": "class",
+              "name": "AbortSignal",
+              "meta": {
+                "added": [
+                  "v14.17.0"
+                ],
+                "changes": []
+              },
+              "desc": "<ul>\n<li>Extends: <a href=\"events.html#events_class_eventtarget\" class=\"type\">&lt;EventTarget&gt;</a></li>\n</ul>\n<p>The <code>AbortSignal</code> is used to notify observers when the\n<code>abortController.abort()</code> method is called.</p>",
+              "classMethods": [
+                {
+                  "textRaw": "Static method: `AbortSignal.abort()`",
+                  "type": "classMethod",
+                  "name": "abort",
+                  "meta": {
+                    "added": [
+                      "v14.17.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {AbortSignal}",
+                        "name": "return",
+                        "type": "AbortSignal"
+                      },
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Returns a new already aborted <code>AbortSignal</code>.</p>"
+                }
+              ],
+              "events": [
+                {
+                  "textRaw": "Event: `'abort'`",
+                  "type": "event",
+                  "name": "abort",
+                  "meta": {
+                    "added": [
+                      "v14.17.0"
+                    ],
+                    "changes": []
+                  },
+                  "params": [],
+                  "desc": "<p>The <code>'abort'</code> event is emitted when the <code>abortController.abort()</code> method\nis called. The callback is invoked with a single object argument with a\nsingle <code>type</code> property set to <code>'abort'</code>:</p>\n<pre><code class=\"language-js\">const ac = new AbortController();\n\n// Use either the onabort property...\nac.signal.onabort = () => console.log('aborted!');\n\n// Or the EventTarget API...\nac.signal.addEventListener('abort', (event) => {\n  console.log(event.type);  // Prints 'abort'\n}, { once: true });\n\nac.abort();\n</code></pre>\n<p>The <code>AbortController</code> with which the <code>AbortSignal</code> is associated will only\never trigger the <code>'abort'</code> event once. We recommended that code check\nthat the <code>abortSignal.aborted</code> attribute is <code>false</code> before adding an <code>'abort'</code>\nevent listener.</p>\n<p>Any event listeners attached to the <code>AbortSignal</code> should use the\n<code>{ once: true }</code> option (or, if using the <code>EventEmitter</code> APIs to attach a\nlistener, use the <code>once()</code> method) to ensure that the event listener is\nremoved as soon as the <code>'abort'</code> event is handled. Failure to do so may\nresult in memory leaks.</p>"
+                }
+              ],
+              "properties": [
+                {
+                  "textRaw": "`aborted` Type: {boolean} True after the `AbortController` has been aborted.",
+                  "type": "boolean",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v14.17.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "True after the `AbortController` has been aborted."
+                },
+                {
+                  "textRaw": "`onabort` Type: {Function}",
+                  "type": "Function",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v14.17.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>An optional callback function that may be set by user code to be notified\nwhen the <code>abortController.abort()</code> function has been called.</p>"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "textRaw": "Class: `Buffer`",
+          "type": "global",
+          "name": "Buffer",
+          "meta": {
+            "added": [
+              "v0.1.103"
+            ],
+            "changes": []
+          },
+          "desc": "<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\" class=\"type\">&lt;Function&gt;</a></li>\n</ul>\n<p>Used to handle binary data. See the <a href=\"buffer.html\">buffer section</a>.</p>"
+        },
+        {
+          "textRaw": "`clearImmediate(immediateObject)`",
+          "type": "global",
+          "name": "clearImmediate",
+          "meta": {
+            "added": [
+              "v0.9.1"
+            ],
+            "changes": []
+          },
+          "desc": "<p><a href=\"timers.html#timers_clearimmediate_immediate\"><code>clearImmediate</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+        },
+        {
+          "textRaw": "`clearInterval(intervalObject)`",
+          "type": "global",
+          "name": "clearInterval",
+          "meta": {
+            "added": [
+              "v0.0.1"
+            ],
+            "changes": []
+          },
+          "desc": "<p><a href=\"timers.html#timers_clearinterval_timeout\"><code>clearInterval</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+        },
+        {
+          "textRaw": "`clearTimeout(timeoutObject)`",
+          "type": "global",
+          "name": "clearTimeout",
+          "meta": {
+            "added": [
+              "v0.0.1"
+            ],
+            "changes": []
+          },
+          "desc": "<p><a href=\"timers.html#timers_cleartimeout_timeout\"><code>clearTimeout</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+        },
+        {
+          "textRaw": "`console`",
+          "name": "`console`",
+          "meta": {
+            "added": [
+              "v0.1.100"
+            ],
+            "changes": []
+          },
+          "type": "global",
+          "desc": "<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a></li>\n</ul>\n<p>Used to print to stdout and stderr. See the <a href=\"console.html\"><code>console</code></a> section.</p>"
+        },
+        {
+          "textRaw": "`global`",
+          "name": "`global`",
+          "meta": {
+            "added": [
+              "v0.1.27"
+            ],
+            "changes": []
+          },
+          "type": "global",
+          "desc": "<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a> The global namespace object.</li>\n</ul>\n<p>In browsers, the top-level scope is the global scope. This means that\nwithin the browser <code>var something</code> will define a new global variable. In\nNode.js this is different. The top-level scope is not the global scope;\n<code>var something</code> inside a Node.js module will be local to that module.</p>"
+        },
+        {
+          "textRaw": "`process`",
+          "name": "`process`",
+          "meta": {
+            "added": [
+              "v0.1.7"
+            ],
+            "changes": []
+          },
+          "type": "global",
+          "desc": "<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a></li>\n</ul>\n<p>The process object. See the <a href=\"process.html#process_process\"><code>process</code> object</a> section.</p>"
+        },
+        {
+          "textRaw": "`queueMicrotask(callback)`",
+          "type": "global",
+          "name": "queueMicrotask",
+          "meta": {
+            "added": [
+              "v11.0.0"
+            ],
+            "changes": []
+          },
+          "desc": "<ul>\n<li><code>callback</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\" class=\"type\">&lt;Function&gt;</a> Function to be queued.</li>\n</ul>\n<p>The <code>queueMicrotask()</code> method queues a microtask to invoke <code>callback</code>. If\n<code>callback</code> throws an exception, the <a href=\"process.html#process_process\"><code>process</code> object</a> <code>'uncaughtException'</code>\nevent will be emitted.</p>\n<p>The microtask queue is managed by V8 and may be used in a similar manner to\nthe <a href=\"process.html#process_process_nexttick_callback_args\"><code>process.nextTick()</code></a> queue, which is managed by Node.js. The\n<code>process.nextTick()</code> queue is always processed before the microtask queue\nwithin each turn of the Node.js event loop.</p>\n<pre><code class=\"language-js\">// Here, `queueMicrotask()` is used to ensure the 'load' event is always\n// emitted asynchronously, and therefore consistently. Using\n// `process.nextTick()` here would result in the 'load' event always emitting\n// before any other promise jobs.\n\nDataHandler.prototype.load = async function load(key) {\n  const hit = this._cache.get(key);\n  if (hit !== undefined) {\n    queueMicrotask(() => {\n      this.emit('load', hit);\n    });\n    return;\n  }\n\n  const data = await fetchData(key);\n  this._cache.set(key, data);\n  this.emit('load', data);\n};\n</code></pre>"
+        },
+        {
+          "textRaw": "`setImmediate(callback[, ...args])`",
+          "type": "global",
+          "name": "setImmediate",
+          "meta": {
+            "added": [
+              "v0.9.1"
+            ],
+            "changes": []
+          },
+          "desc": "<p><a href=\"timers.html#timers_setimmediate_callback_args\"><code>setImmediate</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+        },
+        {
+          "textRaw": "`setInterval(callback, delay[, ...args])`",
+          "type": "global",
+          "name": "setInterval",
+          "meta": {
+            "added": [
+              "v0.0.1"
+            ],
+            "changes": []
+          },
+          "desc": "<p><a href=\"timers.html#timers_setinterval_callback_delay_args\"><code>setInterval</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+        },
+        {
+          "textRaw": "`setTimeout(callback, delay[, ...args])`",
+          "type": "global",
+          "name": "setTimeout",
+          "meta": {
+            "added": [
+              "v0.0.1"
+            ],
+            "changes": []
+          },
+          "desc": "<p><a href=\"timers.html#timers_settimeout_callback_delay_args\"><code>setTimeout</code></a> is described in the <a href=\"timers.html\">timers</a> section.</p>"
+        },
+        {
+          "textRaw": "`TextDecoder`",
+          "name": "`TextDecoder`",
+          "meta": {
+            "added": [
+              "v11.0.0"
+            ],
+            "changes": []
+          },
+          "type": "global",
+          "desc": "<p>The WHATWG <code>TextDecoder</code> class. See the <a href=\"util.html#util_class_util_textdecoder\"><code>TextDecoder</code></a> section.</p>"
+        },
+        {
+          "textRaw": "`TextEncoder`",
+          "name": "`TextEncoder`",
+          "meta": {
+            "added": [
+              "v11.0.0"
+            ],
+            "changes": []
+          },
+          "type": "global",
+          "desc": "<p>The WHATWG <code>TextEncoder</code> class. See the <a href=\"util.html#util_class_util_textencoder\"><code>TextEncoder</code></a> section.</p>"
+        },
+        {
+          "textRaw": "`URL`",
+          "name": "`URL`",
+          "meta": {
+            "added": [
+              "v10.0.0"
+            ],
+            "changes": []
+          },
+          "type": "global",
+          "desc": "<p>The WHATWG <code>URL</code> class. See the <a href=\"url.html#url_class_url\"><code>URL</code></a> section.</p>"
+        },
+        {
+          "textRaw": "`URLSearchParams`",
+          "name": "`URLSearchParams`",
+          "meta": {
+            "added": [
+              "v10.0.0"
+            ],
+            "changes": []
+          },
+          "type": "global",
+          "desc": "<p>The WHATWG <code>URLSearchParams</code> class. See the <a href=\"url.html#url_class_urlsearchparams\"><code>URLSearchParams</code></a> section.</p>"
+        },
+        {
+          "textRaw": "`WebAssembly`",
+          "name": "`WebAssembly`",
+          "meta": {
+            "added": [
+              "v8.0.0"
+            ],
+            "changes": []
+          },
+          "type": "global",
+          "desc": "<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a></li>\n</ul>\n<p>The object that acts as the namespace for all W3C\n<a href=\"https://webassembly.org\">WebAssembly</a> related functionality. See the\n<a href=\"https://developer.mozilla.org/en-US/docs/WebAssembly\">Mozilla Developer Network</a> for usage and compatibility.</p>"
+        }
+      ],
+      "miscs": [
+        {
+          "textRaw": "`__dirname`",
+          "name": "`__dirname`",
+          "desc": "<p>This variable may appear to be global but is not. See <a href=\"modules.html#modules_dirname\"><code>__dirname</code></a>.</p>",
+          "type": "misc",
+          "displayName": "`__dirname`"
+        },
+        {
+          "textRaw": "`__filename`",
+          "name": "`__filename`",
+          "desc": "<p>This variable may appear to be global but is not. See <a href=\"modules.html#modules_filename\"><code>__filename</code></a>.</p>",
+          "type": "misc",
+          "displayName": "`__filename`"
+        },
+        {
+          "textRaw": "`exports`",
+          "name": "`exports`",
+          "desc": "<p>This variable may appear to be global but is not. See <a href=\"modules.html#modules_exports\"><code>exports</code></a>.</p>",
+          "type": "misc",
+          "displayName": "`exports`"
+        },
+        {
+          "textRaw": "`module`",
+          "name": "`module`",
+          "desc": "<p>This variable may appear to be global but is not. See <a href=\"modules.html#modules_module\"><code>module</code></a>.</p>",
+          "type": "misc",
+          "displayName": "`module`"
+        }
+      ],
+      "methods": [
+        {
+          "textRaw": "`require()`",
+          "type": "method",
+          "name": "require",
+          "signatures": [
+            {
+              "params": []
+            }
+          ],
+          "desc": "<p>This variable may appear to be global but is not. See <a href=\"modules.html#modules_require_id\"><code>require()</code></a>.</p>"
+        }
+      ]
+    }
+  ]
+}

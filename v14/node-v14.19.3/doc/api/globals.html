@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v14.19.3">
+  <title>Global objects | Node.js v14.19.3 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/globals.html">
+</head>
+<body class="alt apidoc" id="api-section-globals">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals active">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="policy.html" class="nav-policy">Policies</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="globals" class="interior">
+      <header>
+        <div class="header-container">
+          <h1>Node.js v14.19.3 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li>
+              <a href="index.html">Index</a>
+            </li>
+            <li>
+              <a href="all.html">View on single page</a>
+            </li>
+            <li>
+              <a href="globals.json">View as JSON</a>
+            </li>
+            
+    <li class="version-picker">
+      <a href="#">View another version <span>&#x25bc;</span></a>
+      <ol class="version-picker"><li><a href="https://nodejs.org/docs/latest-v18.x/api/globals.html">18.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/globals.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/globals.html">16.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/globals.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/globals.html">14.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/globals.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/globals.html">12.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/globals.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/globals.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/globals.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/globals.html">8.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v7.x/api/globals.html">7.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v6.x/api/globals.html">6.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v5.x/api/globals.html">5.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v4.x/api/globals.html">4.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.12.x/api/globals.html">0.12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.10.x/api/globals.html">0.10.x</a></li></ol>
+    </li>
+  
+            <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/master/doc/api/globals.md">Edit on GitHub</a></li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><a href="#globals_global_objects">Global objects</a>
+<ul>
+<li><span class="stability_1"><a href="#globals_class_abortcontroller">Class: <code>AbortController</code></a></span>
+<ul>
+<li><a href="#globals_abortcontroller_abort"><code>abortController.abort()</code></a></li>
+<li><a href="#globals_abortcontroller_signal"><code>abortController.signal</code></a></li>
+<li><a href="#globals_class_abortsignal">Class: <code>AbortSignal</code></a>
+<ul>
+<li><a href="#globals_static_method_abortsignal_abort">Static method: <code>AbortSignal.abort()</code></a></li>
+<li><a href="#globals_event_abort">Event: <code>'abort'</code></a></li>
+<li><a href="#globals_abortsignal_aborted"><code>abortSignal.aborted</code></a></li>
+<li><a href="#globals_abortsignal_onabort"><code>abortSignal.onabort</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#globals_class_buffer">Class: <code>Buffer</code></a></li>
+<li><a href="#globals_dirname"><code>__dirname</code></a></li>
+<li><a href="#globals_filename"><code>__filename</code></a></li>
+<li><a href="#globals_clearimmediate_immediateobject"><code>clearImmediate(immediateObject)</code></a></li>
+<li><a href="#globals_clearinterval_intervalobject"><code>clearInterval(intervalObject)</code></a></li>
+<li><a href="#globals_cleartimeout_timeoutobject"><code>clearTimeout(timeoutObject)</code></a></li>
+<li><a href="#globals_console"><code>console</code></a></li>
+<li><a href="#globals_exports"><code>exports</code></a></li>
+<li><a href="#globals_global"><code>global</code></a></li>
+<li><a href="#globals_module"><code>module</code></a></li>
+<li><a href="#globals_process"><code>process</code></a></li>
+<li><a href="#globals_queuemicrotask_callback"><code>queueMicrotask(callback)</code></a></li>
+<li><a href="#globals_require"><code>require()</code></a></li>
+<li><a href="#globals_setimmediate_callback_args"><code>setImmediate(callback[, ...args])</code></a></li>
+<li><a href="#globals_setinterval_callback_delay_args"><code>setInterval(callback, delay[, ...args])</code></a></li>
+<li><a href="#globals_settimeout_callback_delay_args"><code>setTimeout(callback, delay[, ...args])</code></a></li>
+<li><a href="#globals_textdecoder"><code>TextDecoder</code></a></li>
+<li><a href="#globals_textencoder"><code>TextEncoder</code></a></li>
+<li><a href="#globals_url"><code>URL</code></a></li>
+<li><a href="#globals_urlsearchparams"><code>URLSearchParams</code></a></li>
+<li><a href="#globals_webassembly"><code>WebAssembly</code></a></li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Global objects<span><a class="mark" href="#globals_global_objects" id="globals_global_objects">#</a></span></h2>
+
+
+<p>These objects are available in all modules. The following variables may appear
+to be global but are not. They exist only in the scope of modules, see the
+<a href="modules.html">module system documentation</a>:</p>
+<ul>
+<li><a href="modules.html#modules_dirname"><code>__dirname</code></a></li>
+<li><a href="modules.html#modules_filename"><code>__filename</code></a></li>
+<li><a href="modules.html#modules_exports"><code>exports</code></a></li>
+<li><a href="modules.html#modules_module"><code>module</code></a></li>
+<li><a href="modules.html#modules_require_id"><code>require()</code></a></li>
+</ul>
+<p>The objects listed here are specific to Node.js. There are <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects">built-in objects</a>
+that are part of the JavaScript language itself, which are also globally
+accessible.</p>
+<section><h3>Class: <code>AbortController</code><span><a class="mark" href="#globals_class_abortcontroller" id="globals_class_abortcontroller">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v14.17.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#documentation_stability_index">Stability: 1</a> - Experimental</div><p></p>
+
+<p>A utility class used to signal cancelation in selected <code>Promise</code>-based APIs.
+The API is based on the Web API <a href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController"><code>AbortController</code></a>.</p>
+<p>To use, launch Node.js using the <code>--experimental-abortcontroller</code> flag.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> ac = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>();
+
+ac.<span class="hljs-property">signal</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'abort'</span>, <span class="hljs-function">() =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Aborted!'</span>),
+                           { <span class="hljs-attr">once</span>: <span class="hljs-literal">true</span> });
+
+ac.<span class="hljs-title function_">abort</span>();
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ac.<span class="hljs-property">signal</span>.<span class="hljs-property">aborted</span>);  <span class="hljs-comment">// Prints True</span></code></pre>
+<h4><code>abortController.abort()</code><span><a class="mark" href="#globals_abortcontroller_abort" id="globals_abortcontroller_abort">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v14.17.0</span>
+</div>
+<p>Triggers the abort signal, causing the <code>abortController.signal</code> to emit
+the <code>'abort'</code> event.</p>
+<h4><code>abortController.signal</code><span><a class="mark" href="#globals_abortcontroller_signal" id="globals_abortcontroller_signal">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v14.17.0</span>
+</div>
+<ul>
+<li>Type: <a href="globals.html#globals_class_abortsignal" class="type">&#x3C;AbortSignal></a></li>
+</ul>
+<h4>Class: <code>AbortSignal</code><span><a class="mark" href="#globals_class_abortsignal" id="globals_class_abortsignal">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v14.17.0</span>
+</div>
+<ul>
+<li>Extends: <a href="events.html#events_class_eventtarget" class="type">&#x3C;EventTarget></a></li>
+</ul>
+<p>The <code>AbortSignal</code> is used to notify observers when the
+<code>abortController.abort()</code> method is called.</p>
+<h5>Static method: <code>AbortSignal.abort()</code><span><a class="mark" href="#globals_static_method_abortsignal_abort" id="globals_static_method_abortsignal_abort">#</a></span></h5>
+<div class="api_metadata">
+<span>Added in: v14.17.0</span>
+</div>
+<ul>
+<li>Returns: <a href="globals.html#globals_class_abortsignal" class="type">&#x3C;AbortSignal></a></li>
+</ul>
+<p>Returns a new already aborted <code>AbortSignal</code>.</p>
+<h5>Event: <code>'abort'</code><span><a class="mark" href="#globals_event_abort" id="globals_event_abort">#</a></span></h5>
+<div class="api_metadata">
+<span>Added in: v14.17.0</span>
+</div>
+<p>The <code>'abort'</code> event is emitted when the <code>abortController.abort()</code> method
+is called. The callback is invoked with a single object argument with a
+single <code>type</code> property set to <code>'abort'</code>:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> ac = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>();
+
+<span class="hljs-comment">// Use either the onabort property...</span>
+ac.<span class="hljs-property">signal</span>.<span class="hljs-property">onabort</span> = <span class="hljs-function">() =></span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'aborted!'</span>);
+
+<span class="hljs-comment">// Or the EventTarget API...</span>
+ac.<span class="hljs-property">signal</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'abort'</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(event.<span class="hljs-property">type</span>);  <span class="hljs-comment">// Prints 'abort'</span>
+}, { <span class="hljs-attr">once</span>: <span class="hljs-literal">true</span> });
+
+ac.<span class="hljs-title function_">abort</span>();</code></pre>
+<p>The <code>AbortController</code> with which the <code>AbortSignal</code> is associated will only
+ever trigger the <code>'abort'</code> event once. We recommended that code check
+that the <code>abortSignal.aborted</code> attribute is <code>false</code> before adding an <code>'abort'</code>
+event listener.</p>
+<p>Any event listeners attached to the <code>AbortSignal</code> should use the
+<code>{ once: true }</code> option (or, if using the <code>EventEmitter</code> APIs to attach a
+listener, use the <code>once()</code> method) to ensure that the event listener is
+removed as soon as the <code>'abort'</code> event is handled. Failure to do so may
+result in memory leaks.</p>
+<h5><code>abortSignal.aborted</code><span><a class="mark" href="#globals_abortsignal_aborted" id="globals_abortsignal_aborted">#</a></span></h5>
+<div class="api_metadata">
+<span>Added in: v14.17.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> True after the <code>AbortController</code> has been aborted.</li>
+</ul>
+<h5><code>abortSignal.onabort</code><span><a class="mark" href="#globals_abortsignal_onabort" id="globals_abortsignal_onabort">#</a></span></h5>
+<div class="api_metadata">
+<span>Added in: v14.17.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
+</ul>
+<p>An optional callback function that may be set by user code to be notified
+when the <code>abortController.abort()</code> function has been called.</p>
+</section><section><h3>Class: <code>Buffer</code><span><a class="mark" href="#globals_class_buffer" id="globals_class_buffer">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.103</span>
+</div>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
+</ul>
+<p>Used to handle binary data. See the <a href="buffer.html">buffer section</a>.</p>
+</section><section><h3><code>__dirname</code><span><a class="mark" href="#globals_dirname" id="globals_dirname">#</a></span></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#modules_dirname"><code>__dirname</code></a>.</p>
+</section><section><h3><code>__filename</code><span><a class="mark" href="#globals_filename" id="globals_filename">#</a></span></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#modules_filename"><code>__filename</code></a>.</p>
+</section><section><h3><code>clearImmediate(immediateObject)</code><span><a class="mark" href="#globals_clearimmediate_immediateobject" id="globals_clearimmediate_immediateobject">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.9.1</span>
+</div>
+
+<p><a href="timers.html#timers_clearimmediate_immediate"><code>clearImmediate</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3><code>clearInterval(intervalObject)</code><span><a class="mark" href="#globals_clearinterval_intervalobject" id="globals_clearinterval_intervalobject">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.0.1</span>
+</div>
+
+<p><a href="timers.html#timers_clearinterval_timeout"><code>clearInterval</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3><code>clearTimeout(timeoutObject)</code><span><a class="mark" href="#globals_cleartimeout_timeoutobject" id="globals_cleartimeout_timeoutobject">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.0.1</span>
+</div>
+
+<p><a href="timers.html#timers_cleartimeout_timeout"><code>clearTimeout</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3><code>console</code><span><a class="mark" href="#globals_console" id="globals_console">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.100</span>
+</div>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Used to print to stdout and stderr. See the <a href="console.html"><code>console</code></a> section.</p>
+</section><section><h3><code>exports</code><span><a class="mark" href="#globals_exports" id="globals_exports">#</a></span></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#modules_exports"><code>exports</code></a>.</p>
+</section><section><h3><code>global</code><span><a class="mark" href="#globals_global" id="globals_global">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.27</span>
+</div>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The global namespace object.</li>
+</ul>
+<p>In browsers, the top-level scope is the global scope. This means that
+within the browser <code>var something</code> will define a new global variable. In
+Node.js this is different. The top-level scope is not the global scope;
+<code>var something</code> inside a Node.js module will be local to that module.</p>
+</section><section><h3><code>module</code><span><a class="mark" href="#globals_module" id="globals_module">#</a></span></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#modules_module"><code>module</code></a>.</p>
+</section><section><h3><code>process</code><span><a class="mark" href="#globals_process" id="globals_process">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.7</span>
+</div>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>The process object. See the <a href="process.html#process_process"><code>process</code> object</a> section.</p>
+</section><section><h3><code>queueMicrotask(callback)</code><span><a class="mark" href="#globals_queuemicrotask_callback" id="globals_queuemicrotask_callback">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v11.0.0</span>
+</div>
+
+<ul>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Function to be queued.</li>
+</ul>
+<p>The <code>queueMicrotask()</code> method queues a microtask to invoke <code>callback</code>. If
+<code>callback</code> throws an exception, the <a href="process.html#process_process"><code>process</code> object</a> <code>'uncaughtException'</code>
+event will be emitted.</p>
+<p>The microtask queue is managed by V8 and may be used in a similar manner to
+the <a href="process.html#process_process_nexttick_callback_args"><code>process.nextTick()</code></a> queue, which is managed by Node.js. The
+<code>process.nextTick()</code> queue is always processed before the microtask queue
+within each turn of the Node.js event loop.</p>
+<pre><code class="language-js"><span class="hljs-comment">// Here, `queueMicrotask()` is used to ensure the 'load' event is always</span>
+<span class="hljs-comment">// emitted asynchronously, and therefore consistently. Using</span>
+<span class="hljs-comment">// `process.nextTick()` here would result in the 'load' event always emitting</span>
+<span class="hljs-comment">// before any other promise jobs.</span>
+
+<span class="hljs-title class_">DataHandler</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">load</span> = <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">load</span>(<span class="hljs-params">key</span>) {
+  <span class="hljs-keyword">const</span> hit = <span class="hljs-variable language_">this</span>.<span class="hljs-property">_cache</span>.<span class="hljs-title function_">get</span>(key);
+  <span class="hljs-keyword">if</span> (hit !== <span class="hljs-literal">undefined</span>) {
+    <span class="hljs-title function_">queueMicrotask</span>(<span class="hljs-function">() =></span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'load'</span>, hit);
+    });
+    <span class="hljs-keyword">return</span>;
+  }
+
+  <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetchData</span>(key);
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">_cache</span>.<span class="hljs-title function_">set</span>(key, data);
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'load'</span>, data);
+};</code></pre>
+</section><section><h3><code>require()</code><span><a class="mark" href="#globals_require" id="globals_require">#</a></span></h3>
+<p>This variable may appear to be global but is not. See <a href="modules.html#modules_require_id"><code>require()</code></a>.</p>
+</section><section><h3><code>setImmediate(callback[, ...args])</code><span><a class="mark" href="#globals_setimmediate_callback_args" id="globals_setimmediate_callback_args">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.9.1</span>
+</div>
+
+<p><a href="timers.html#timers_setimmediate_callback_args"><code>setImmediate</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3><code>setInterval(callback, delay[, ...args])</code><span><a class="mark" href="#globals_setinterval_callback_delay_args" id="globals_setinterval_callback_delay_args">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.0.1</span>
+</div>
+
+<p><a href="timers.html#timers_setinterval_callback_delay_args"><code>setInterval</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3><code>setTimeout(callback, delay[, ...args])</code><span><a class="mark" href="#globals_settimeout_callback_delay_args" id="globals_settimeout_callback_delay_args">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.0.1</span>
+</div>
+
+<p><a href="timers.html#timers_settimeout_callback_delay_args"><code>setTimeout</code></a> is described in the <a href="timers.html">timers</a> section.</p>
+</section><section><h3><code>TextDecoder</code><span><a class="mark" href="#globals_textdecoder" id="globals_textdecoder">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v11.0.0</span>
+</div>
+
+<p>The WHATWG <code>TextDecoder</code> class. See the <a href="util.html#util_class_util_textdecoder"><code>TextDecoder</code></a> section.</p>
+</section><section><h3><code>TextEncoder</code><span><a class="mark" href="#globals_textencoder" id="globals_textencoder">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v11.0.0</span>
+</div>
+
+<p>The WHATWG <code>TextEncoder</code> class. See the <a href="util.html#util_class_util_textencoder"><code>TextEncoder</code></a> section.</p>
+</section><section><h3><code>URL</code><span><a class="mark" href="#globals_url" id="globals_url">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+
+<p>The WHATWG <code>URL</code> class. See the <a href="url.html#url_class_url"><code>URL</code></a> section.</p>
+</section><section><h3><code>URLSearchParams</code><span><a class="mark" href="#globals_urlsearchparams" id="globals_urlsearchparams">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+
+<p>The WHATWG <code>URLSearchParams</code> class. See the <a href="url.html#url_class_urlsearchparams"><code>URLSearchParams</code></a> section.</p>
+</section><section><h3><code>WebAssembly</code><span><a class="mark" href="#globals_webassembly" id="globals_webassembly">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v8.0.0</span>
+</div>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>The object that acts as the namespace for all W3C
+<a href="https://webassembly.org">WebAssembly</a> related functionality. See the
+<a href="https://developer.mozilla.org/en-US/docs/WebAssembly">Mozilla Developer Network</a> for usage and compatibility.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+  <script>
+    'use strict';
+    {
+      const kCustomPreference = 'customDarkTheme';
+      const userSettings = sessionStorage.getItem(kCustomPreference);
+      const themeToggleButton = document.getElementById('theme-toggle-btn');
+      if (userSettings === null && window.matchMedia) {
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        if ('onchange' in mq) {
+          function mqChangeListener(e) {
+            document.body.classList.toggle('dark-mode', e.matches);
+          }
+          mq.addEventListener('change', mqChangeListener);
+          if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', function() {
+              mq.removeEventListener('change', mqChangeListener);
+            }, { once: true });
+          }
+        }
+        if (mq.matches) {
+          document.body.classList.add('dark-mode');
+        }
+      } else if (userSettings === 'true') {
+        document.body.classList.add('dark-mode');
+      }
+      if (themeToggleButton) {
+        themeToggleButton.hidden = false;
+        themeToggleButton.addEventListener('click', function() {
+          sessionStorage.setItem(
+            kCustomPreference,
+            document.body.classList.toggle('dark-mode')
+          );
+        });
+      }
+    }
+  </script>
+</body>
+</html>

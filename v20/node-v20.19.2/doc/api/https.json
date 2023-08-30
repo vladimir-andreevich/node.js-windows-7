@@ -1,0 +1,625 @@
+{
+  "type": "module",
+  "source": "doc/api/https.md",
+  "modules": [
+    {
+      "textRaw": "HTTPS",
+      "name": "https",
+      "introduced_in": "v0.10.0",
+      "stability": 2,
+      "stabilityText": "Stable",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v20.19.2/lib/https.js\">lib/https.js</a></p>\n<p>HTTPS is the HTTP protocol over TLS/SSL. In Node.js this is implemented as a\nseparate module.</p>",
+      "modules": [
+        {
+          "textRaw": "Determining if crypto support is unavailable",
+          "name": "determining_if_crypto_support_is_unavailable",
+          "desc": "<p>It is possible for Node.js to be built without including support for the\n<code>node:crypto</code> module. In such cases, attempting to <code>import</code> from <code>https</code> or\ncalling <code>require('node:https')</code> will result in an error being thrown.</p>\n<p>When using CommonJS, the error thrown can be caught using try/catch:</p>\n<pre><code class=\"language-cjs\">let https;\ntry {\n  https = require('node:https');\n} catch (err) {\n  console.error('https support is disabled!');\n}\n</code></pre>\n<p>When using the lexical ESM <code>import</code> keyword, the error can only be\ncaught if a handler for <code>process.on('uncaughtException')</code> is registered\n<em>before</em> any attempt to load the module is made (using, for instance,\na preload module).</p>\n<p>When using ESM, if there is a chance that the code may be run on a build\nof Node.js where crypto support is not enabled, consider using the\n<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import\"><code>import()</code></a> function instead of the lexical <code>import</code> keyword:</p>\n<pre><code class=\"language-mjs\">let https;\ntry {\n  https = await import('node:https');\n} catch (err) {\n  console.error('https support is disabled!');\n}\n</code></pre>",
+          "type": "module",
+          "displayName": "Determining if crypto support is unavailable"
+        }
+      ],
+      "classes": [
+        {
+          "textRaw": "Class: `https.Agent`",
+          "type": "class",
+          "name": "https.Agent",
+          "meta": {
+            "added": [
+              "v0.4.5"
+            ],
+            "changes": [
+              {
+                "version": "v5.3.0",
+                "pr-url": "https://github.com/nodejs/node/pull/4252",
+                "description": "support `0` `maxCachedSessions` to disable TLS session caching."
+              },
+              {
+                "version": "v2.5.0",
+                "pr-url": "https://github.com/nodejs/node/pull/2228",
+                "description": "parameter `maxCachedSessions` added to `options` for TLS sessions reuse."
+              }
+            ]
+          },
+          "desc": "<p>An <a href=\"#class-httpsagent\"><code>Agent</code></a> object for HTTPS similar to <a href=\"http.html#class-httpagent\"><code>http.Agent</code></a>. See\n<a href=\"#httpsrequestoptions-callback\"><code>https.request()</code></a> for more information.</p>",
+          "signatures": [
+            {
+              "params": [
+                {
+                  "textRaw": "`options` {Object} Set of configurable options to set on the agent. Can have the same fields as for [`http.Agent(options)`][], and",
+                  "name": "options",
+                  "type": "Object",
+                  "desc": "Set of configurable options to set on the agent. Can have the same fields as for [`http.Agent(options)`][], and",
+                  "options": [
+                    {
+                      "textRaw": "`maxCachedSessions` {number} maximum number of TLS cached sessions. Use `0` to disable TLS session caching. **Default:** `100`.",
+                      "name": "maxCachedSessions",
+                      "type": "number",
+                      "default": "`100`",
+                      "desc": "maximum number of TLS cached sessions. Use `0` to disable TLS session caching."
+                    },
+                    {
+                      "textRaw": "`servername` {string} the value of [Server Name Indication extension][sni wiki] to be sent to the server. Use empty string `''` to disable sending the extension. **Default:** host name of the target server, unless the target server is specified using an IP address, in which case the default is `''` (no extension).See [`Session Resumption`][] for information about TLS session reuse.",
+                      "name": "servername",
+                      "type": "string",
+                      "default": "host name of the target server, unless the target server is specified using an IP address, in which case the default is `''` (no extension).See [`Session Resumption`][] for information about TLS session reuse",
+                      "desc": "the value of [Server Name Indication extension][sni wiki] to be sent to the server. Use empty string `''` to disable sending the extension."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "textRaw": "Class: `https.Server`",
+          "type": "class",
+          "name": "https.Server",
+          "meta": {
+            "added": [
+              "v0.3.4"
+            ],
+            "changes": []
+          },
+          "desc": "<ul>\n<li>Extends: <a href=\"tls.html#class-tlsserver\" class=\"type\">&lt;tls.Server&gt;</a></li>\n</ul>\n<p>See <a href=\"http.html#class-httpserver\"><code>http.Server</code></a> for more information.</p>",
+          "methods": [
+            {
+              "textRaw": "`server.close([callback])`",
+              "type": "method",
+              "name": "close",
+              "meta": {
+                "added": [
+                  "v0.1.90"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {https.Server}",
+                    "name": "return",
+                    "type": "https.Server"
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`callback` {Function}",
+                      "name": "callback",
+                      "type": "Function"
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>See <a href=\"http.html#serverclosecallback\"><code>server.close()</code></a> in the <code>node:http</code> module.</p>"
+            },
+            {
+              "textRaw": "`server[Symbol.asyncDispose]()`",
+              "type": "method",
+              "name": "[Symbol.asyncDispose]",
+              "meta": {
+                "added": [
+                  "v20.4.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": "Experimental",
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Calls <a href=\"#serverclosecallback\"><code>server.close()</code></a> and returns a promise that\nfulfills when the server has closed.</p>"
+            },
+            {
+              "textRaw": "`server.closeAllConnections()`",
+              "type": "method",
+              "name": "closeAllConnections",
+              "meta": {
+                "added": [
+                  "v18.2.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>See <a href=\"http.html#servercloseallconnections\"><code>server.closeAllConnections()</code></a> in the <code>node:http</code> module.</p>"
+            },
+            {
+              "textRaw": "`server.closeIdleConnections()`",
+              "type": "method",
+              "name": "closeIdleConnections",
+              "meta": {
+                "added": [
+                  "v18.2.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>See <a href=\"http.html#servercloseidleconnections\"><code>server.closeIdleConnections()</code></a> in the <code>node:http</code> module.</p>"
+            },
+            {
+              "textRaw": "`server.listen()`",
+              "type": "method",
+              "name": "listen",
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Starts the HTTPS server listening for encrypted connections.\nThis method is identical to <a href=\"net.html#serverlisten\"><code>server.listen()</code></a> from <a href=\"net.html#class-netserver\"><code>net.Server</code></a>.</p>"
+            },
+            {
+              "textRaw": "`server.setTimeout([msecs][, callback])`",
+              "type": "method",
+              "name": "setTimeout",
+              "meta": {
+                "added": [
+                  "v0.11.2"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {https.Server}",
+                    "name": "return",
+                    "type": "https.Server"
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`msecs` {number} **Default:** `120000` (2 minutes)",
+                      "name": "msecs",
+                      "type": "number",
+                      "default": "`120000` (2 minutes)"
+                    },
+                    {
+                      "textRaw": "`callback` {Function}",
+                      "name": "callback",
+                      "type": "Function"
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>See <a href=\"http.html#serversettimeoutmsecs-callback\"><code>server.setTimeout()</code></a> in the <code>node:http</code> module.</p>"
+            }
+          ],
+          "properties": [
+            {
+              "textRaw": "`headersTimeout` {number} **Default:** `60000`",
+              "type": "number",
+              "name": "headersTimeout",
+              "meta": {
+                "added": [
+                  "v11.3.0"
+                ],
+                "changes": []
+              },
+              "default": "`60000`",
+              "desc": "<p>See <a href=\"http.html#serverheaderstimeout\"><code>server.headersTimeout</code></a> in the <code>node:http</code> module.</p>"
+            },
+            {
+              "textRaw": "`maxHeadersCount` {number} **Default:** `2000`",
+              "type": "number",
+              "name": "maxHeadersCount",
+              "default": "`2000`",
+              "desc": "<p>See <a href=\"http.html#servermaxheaderscount\"><code>server.maxHeadersCount</code></a> in the <code>node:http</code> module.</p>"
+            },
+            {
+              "textRaw": "`requestTimeout` {number} **Default:** `300000`",
+              "type": "number",
+              "name": "requestTimeout",
+              "meta": {
+                "added": [
+                  "v14.11.0"
+                ],
+                "changes": [
+                  {
+                    "version": "v18.0.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/41263",
+                    "description": "The default request timeout changed from no timeout to 300s (5 minutes)."
+                  }
+                ]
+              },
+              "default": "`300000`",
+              "desc": "<p>See <a href=\"http.html#serverrequesttimeout\"><code>server.requestTimeout</code></a> in the <code>node:http</code> module.</p>"
+            },
+            {
+              "textRaw": "`timeout` {number} **Default:** 0 (no timeout)",
+              "type": "number",
+              "name": "timeout",
+              "meta": {
+                "added": [
+                  "v0.11.2"
+                ],
+                "changes": [
+                  {
+                    "version": "v13.0.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/27558",
+                    "description": "The default timeout changed from 120s to 0 (no timeout)."
+                  }
+                ]
+              },
+              "default": "0 (no timeout)",
+              "desc": "<p>See <a href=\"http.html#servertimeout\"><code>server.timeout</code></a> in the <code>node:http</code> module.</p>"
+            },
+            {
+              "textRaw": "`keepAliveTimeout` {number} **Default:** `5000` (5 seconds)",
+              "type": "number",
+              "name": "keepAliveTimeout",
+              "meta": {
+                "added": [
+                  "v8.0.0"
+                ],
+                "changes": []
+              },
+              "default": "`5000` (5 seconds)",
+              "desc": "<p>See <a href=\"http.html#serverkeepalivetimeout\"><code>server.keepAliveTimeout</code></a> in the <code>node:http</code> module.</p>"
+            }
+          ]
+        }
+      ],
+      "methods": [
+        {
+          "textRaw": "`https.createServer([options][, requestListener])`",
+          "type": "method",
+          "name": "createServer",
+          "meta": {
+            "added": [
+              "v0.3.4"
+            ],
+            "changes": []
+          },
+          "signatures": [
+            {
+              "return": {
+                "textRaw": "Returns: {https.Server}",
+                "name": "return",
+                "type": "https.Server"
+              },
+              "params": [
+                {
+                  "textRaw": "`options` {Object} Accepts `options` from [`tls.createServer()`][], [`tls.createSecureContext()`][] and [`http.createServer()`][].",
+                  "name": "options",
+                  "type": "Object",
+                  "desc": "Accepts `options` from [`tls.createServer()`][], [`tls.createSecureContext()`][] and [`http.createServer()`][]."
+                },
+                {
+                  "textRaw": "`requestListener` {Function} A listener to be added to the `'request'` event.",
+                  "name": "requestListener",
+                  "type": "Function",
+                  "desc": "A listener to be added to the `'request'` event."
+                }
+              ]
+            }
+          ],
+          "desc": "<pre><code class=\"language-mjs\">// curl -k https://localhost:8000/\nimport { createServer } from 'node:https';\nimport { readFileSync } from 'node:fs';\n\nconst options = {\n  key: readFileSync('private-key.pem'),\n  cert: readFileSync('certificate.pem'),\n};\n\ncreateServer(options, (req, res) => {\n  res.writeHead(200);\n  res.end('hello world\\n');\n}).listen(8000);\n</code></pre>\n<pre><code class=\"language-cjs\">// curl -k https://localhost:8000/\nconst https = require('node:https');\nconst fs = require('node:fs');\n\nconst options = {\n  key: fs.readFileSync('private-key.pem'),\n  cert: fs.readFileSync('certificate.pem'),\n};\n\nhttps.createServer(options, (req, res) => {\n  res.writeHead(200);\n  res.end('hello world\\n');\n}).listen(8000);\n</code></pre>\n<p>Or</p>\n<pre><code class=\"language-mjs\">import { createServer } from 'node:https';\nimport { readFileSync } from 'node:fs';\n\nconst options = {\n  pfx: readFileSync('test_cert.pfx'),\n  passphrase: 'sample',\n};\n\ncreateServer(options, (req, res) => {\n  res.writeHead(200);\n  res.end('hello world\\n');\n}).listen(8000);\n</code></pre>\n<pre><code class=\"language-cjs\">const https = require('node:https');\nconst fs = require('node:fs');\n\nconst options = {\n  pfx: fs.readFileSync('test_cert.pfx'),\n  passphrase: 'sample',\n};\n\nhttps.createServer(options, (req, res) => {\n  res.writeHead(200);\n  res.end('hello world\\n');\n}).listen(8000);\n</code></pre>\n<p>To generate the certificate and key for this example, run:</p>\n<pre><code class=\"language-bash\">openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' \\\n  -keyout private-key.pem -out certificate.pem\n</code></pre>\n<p>Then, to generate the <code>pfx</code> certificate for this example, run:</p>\n<pre><code class=\"language-bash\">openssl pkcs12 -certpbe AES-256-CBC -export -out test_cert.pfx \\\n  -inkey private-key.pem -in certificate.pem -passout pass:sample\n</code></pre>"
+        },
+        {
+          "textRaw": "`https.get(options[, callback])`",
+          "type": "method",
+          "name": "get",
+          "meta": {
+            "added": [
+              "v0.3.6"
+            ],
+            "changes": [
+              {
+                "version": "v10.9.0",
+                "pr-url": "https://github.com/nodejs/node/pull/21616",
+                "description": "The `url` parameter can now be passed along with a separate `options` object."
+              },
+              {
+                "version": "v7.5.0",
+                "pr-url": "https://github.com/nodejs/node/pull/10638",
+                "description": "The `options` parameter can be a WHATWG `URL` object."
+              }
+            ]
+          },
+          "signatures": [
+            {
+              "params": [
+                {
+                  "textRaw": "`url` {string | URL}",
+                  "name": "url",
+                  "type": "string | URL"
+                },
+                {
+                  "textRaw": "`options` {Object | string | URL} Accepts the same `options` as [`https.request()`][], with the method set to GET by default.",
+                  "name": "options",
+                  "type": "Object | string | URL",
+                  "desc": "Accepts the same `options` as [`https.request()`][], with the method set to GET by default."
+                },
+                {
+                  "textRaw": "`callback` {Function}",
+                  "name": "callback",
+                  "type": "Function"
+                }
+              ]
+            }
+          ],
+          "desc": "<p>Like <a href=\"http.html#httpgetoptions-callback\"><code>http.get()</code></a> but for HTTPS.</p>\n<p><code>options</code> can be an object, a string, or a <a href=\"url.html#the-whatwg-url-api\"><code>URL</code></a> object. If <code>options</code> is a\nstring, it is automatically parsed with <a href=\"url.html#new-urlinput-base\"><code>new URL()</code></a>. If it is a <a href=\"url.html#the-whatwg-url-api\"><code>URL</code></a>\nobject, it will be automatically converted to an ordinary <code>options</code> object.</p>\n<pre><code class=\"language-mjs\">import { get } from 'node:https';\nimport process from 'node:process';\n\nget('https://encrypted.google.com/', (res) => {\n  console.log('statusCode:', res.statusCode);\n  console.log('headers:', res.headers);\n\n  res.on('data', (d) => {\n    process.stdout.write(d);\n  });\n\n}).on('error', (e) => {\n  console.error(e);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const https = require('node:https');\n\nhttps.get('https://encrypted.google.com/', (res) => {\n  console.log('statusCode:', res.statusCode);\n  console.log('headers:', res.headers);\n\n  res.on('data', (d) => {\n    process.stdout.write(d);\n  });\n\n}).on('error', (e) => {\n  console.error(e);\n});\n</code></pre>"
+        },
+        {
+          "textRaw": "`https.get(url[, options][, callback])`",
+          "type": "method",
+          "name": "get",
+          "meta": {
+            "added": [
+              "v0.3.6"
+            ],
+            "changes": [
+              {
+                "version": "v10.9.0",
+                "pr-url": "https://github.com/nodejs/node/pull/21616",
+                "description": "The `url` parameter can now be passed along with a separate `options` object."
+              },
+              {
+                "version": "v7.5.0",
+                "pr-url": "https://github.com/nodejs/node/pull/10638",
+                "description": "The `options` parameter can be a WHATWG `URL` object."
+              }
+            ]
+          },
+          "signatures": [
+            {
+              "params": [
+                {
+                  "textRaw": "`url` {string | URL}",
+                  "name": "url",
+                  "type": "string | URL"
+                },
+                {
+                  "textRaw": "`options` {Object | string | URL} Accepts the same `options` as [`https.request()`][], with the method set to GET by default.",
+                  "name": "options",
+                  "type": "Object | string | URL",
+                  "desc": "Accepts the same `options` as [`https.request()`][], with the method set to GET by default."
+                },
+                {
+                  "textRaw": "`callback` {Function}",
+                  "name": "callback",
+                  "type": "Function"
+                }
+              ]
+            }
+          ],
+          "desc": "<p>Like <a href=\"http.html#httpgetoptions-callback\"><code>http.get()</code></a> but for HTTPS.</p>\n<p><code>options</code> can be an object, a string, or a <a href=\"url.html#the-whatwg-url-api\"><code>URL</code></a> object. If <code>options</code> is a\nstring, it is automatically parsed with <a href=\"url.html#new-urlinput-base\"><code>new URL()</code></a>. If it is a <a href=\"url.html#the-whatwg-url-api\"><code>URL</code></a>\nobject, it will be automatically converted to an ordinary <code>options</code> object.</p>\n<pre><code class=\"language-mjs\">import { get } from 'node:https';\nimport process from 'node:process';\n\nget('https://encrypted.google.com/', (res) => {\n  console.log('statusCode:', res.statusCode);\n  console.log('headers:', res.headers);\n\n  res.on('data', (d) => {\n    process.stdout.write(d);\n  });\n\n}).on('error', (e) => {\n  console.error(e);\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const https = require('node:https');\n\nhttps.get('https://encrypted.google.com/', (res) => {\n  console.log('statusCode:', res.statusCode);\n  console.log('headers:', res.headers);\n\n  res.on('data', (d) => {\n    process.stdout.write(d);\n  });\n\n}).on('error', (e) => {\n  console.error(e);\n});\n</code></pre>"
+        },
+        {
+          "textRaw": "`https.request(options[, callback])`",
+          "type": "method",
+          "name": "request",
+          "meta": {
+            "added": [
+              "v0.3.6"
+            ],
+            "changes": [
+              {
+                "version": "v20.16.0",
+                "pr-url": "https://github.com/nodejs/node/pull/53329",
+                "description": "The `clientCertEngine` option depends on custom engine support in OpenSSL which is deprecated in OpenSSL 3."
+              },
+              {
+                "version": [
+                  "v16.7.0",
+                  "v14.18.0"
+                ],
+                "pr-url": "https://github.com/nodejs/node/pull/39310",
+                "description": "When using a `URL` object parsed username and password will now be properly URI decoded."
+              },
+              {
+                "version": [
+                  "v14.1.0",
+                  "v13.14.0"
+                ],
+                "pr-url": "https://github.com/nodejs/node/pull/32786",
+                "description": "The `highWaterMark` option is accepted now."
+              },
+              {
+                "version": "v10.9.0",
+                "pr-url": "https://github.com/nodejs/node/pull/21616",
+                "description": "The `url` parameter can now be passed along with a separate `options` object."
+              },
+              {
+                "version": "v9.3.0",
+                "pr-url": "https://github.com/nodejs/node/pull/14903",
+                "description": "The `options` parameter can now include `clientCertEngine`."
+              },
+              {
+                "version": "v7.5.0",
+                "pr-url": "https://github.com/nodejs/node/pull/10638",
+                "description": "The `options` parameter can be a WHATWG `URL` object."
+              }
+            ]
+          },
+          "signatures": [
+            {
+              "return": {
+                "textRaw": "Returns: {http.ClientRequest}",
+                "name": "return",
+                "type": "http.ClientRequest"
+              },
+              "params": [
+                {
+                  "textRaw": "`url` {string | URL}",
+                  "name": "url",
+                  "type": "string | URL"
+                },
+                {
+                  "textRaw": "`options` {Object | string | URL} Accepts all `options` from [`http.request()`][], with some differences in default values:",
+                  "name": "options",
+                  "type": "Object | string | URL",
+                  "desc": "Accepts all `options` from [`http.request()`][], with some differences in default values:",
+                  "options": [
+                    {
+                      "textRaw": "`protocol` **Default:** `'https:'`",
+                      "name": "protocol",
+                      "default": "`'https:'`"
+                    },
+                    {
+                      "textRaw": "`port` **Default:** `443`",
+                      "name": "port",
+                      "default": "`443`"
+                    },
+                    {
+                      "textRaw": "`agent` **Default:** `https.globalAgent`",
+                      "name": "agent",
+                      "default": "`https.globalAgent`"
+                    }
+                  ]
+                },
+                {
+                  "textRaw": "`callback` {Function}",
+                  "name": "callback",
+                  "type": "Function"
+                }
+              ]
+            }
+          ],
+          "desc": "<p>Makes a request to a secure web server.</p>\n<p>The following additional <code>options</code> from <a href=\"tls.html#tlsconnectoptions-callback\"><code>tls.connect()</code></a> are also accepted:\n<code>ca</code>, <code>cert</code>, <code>ciphers</code>, <code>clientCertEngine</code> (deprecated), <code>crl</code>, <code>dhparam</code>, <code>ecdhCurve</code>,\n<code>honorCipherOrder</code>, <code>key</code>, <code>passphrase</code>, <code>pfx</code>, <code>rejectUnauthorized</code>,\n<code>secureOptions</code>, <code>secureProtocol</code>, <code>servername</code>, <code>sessionIdContext</code>,\n<code>highWaterMark</code>.</p>\n<p><code>options</code> can be an object, a string, or a <a href=\"url.html#the-whatwg-url-api\"><code>URL</code></a> object. If <code>options</code> is a\nstring, it is automatically parsed with <a href=\"url.html#new-urlinput-base\"><code>new URL()</code></a>. If it is a <a href=\"url.html#the-whatwg-url-api\"><code>URL</code></a>\nobject, it will be automatically converted to an ordinary <code>options</code> object.</p>\n<p><code>https.request()</code> returns an instance of the <a href=\"http.html#class-httpclientrequest\"><code>http.ClientRequest</code></a>\nclass. The <code>ClientRequest</code> instance is a writable stream. If one needs to\nupload a file with a POST request, then write to the <code>ClientRequest</code> object.</p>\n<pre><code class=\"language-mjs\">import { request } from 'node:https';\nimport process from 'node:process';\n\nconst options = {\n  hostname: 'encrypted.google.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n};\n\nconst req = request(options, (res) => {\n  console.log('statusCode:', res.statusCode);\n  console.log('headers:', res.headers);\n\n  res.on('data', (d) => {\n    process.stdout.write(d);\n  });\n});\n\nreq.on('error', (e) => {\n  console.error(e);\n});\nreq.end();\n</code></pre>\n<pre><code class=\"language-cjs\">const https = require('node:https');\n\nconst options = {\n  hostname: 'encrypted.google.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n};\n\nconst req = https.request(options, (res) => {\n  console.log('statusCode:', res.statusCode);\n  console.log('headers:', res.headers);\n\n  res.on('data', (d) => {\n    process.stdout.write(d);\n  });\n});\n\nreq.on('error', (e) => {\n  console.error(e);\n});\nreq.end();\n</code></pre>\n<p>Example using options from <a href=\"tls.html#tlsconnectoptions-callback\"><code>tls.connect()</code></a>:</p>\n<pre><code class=\"language-js\">const options = {\n  hostname: 'encrypted.google.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n  key: fs.readFileSync('private-key.pem'),\n  cert: fs.readFileSync('certificate.pem'),\n};\noptions.agent = new https.Agent(options);\n\nconst req = https.request(options, (res) => {\n  // ...\n});\n</code></pre>\n<p>Alternatively, opt out of connection pooling by not using an <a href=\"#class-httpsagent\"><code>Agent</code></a>.</p>\n<pre><code class=\"language-js\">const options = {\n  hostname: 'encrypted.google.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n  key: fs.readFileSync('private-key.pem'),\n  cert: fs.readFileSync('certificate.pem'),\n  agent: false,\n};\n\nconst req = https.request(options, (res) => {\n  // ...\n});\n</code></pre>\n<p>Example using a <a href=\"url.html#the-whatwg-url-api\"><code>URL</code></a> as <code>options</code>:</p>\n<pre><code class=\"language-js\">const options = new URL('https://abc:xyz@example.com');\n\nconst req = https.request(options, (res) => {\n  // ...\n});\n</code></pre>\n<p>Example pinning on certificate fingerprint, or the public key (similar to\n<code>pin-sha256</code>):</p>\n<pre><code class=\"language-mjs\">import { checkServerIdentity } from 'node:tls';\nimport { Agent, request } from 'node:https';\nimport { createHash } from 'node:crypto';\n\nfunction sha256(s) {\n  return createHash('sha256').update(s).digest('base64');\n}\nconst options = {\n  hostname: 'github.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n  checkServerIdentity: function(host, cert) {\n    // Make sure the certificate is issued to the host we are connected to\n    const err = checkServerIdentity(host, cert);\n    if (err) {\n      return err;\n    }\n\n    // Pin the public key, similar to HPKP pin-sha256 pinning\n    const pubkey256 = 'SIXvRyDmBJSgatgTQRGbInBaAK+hZOQ18UmrSwnDlK8=';\n    if (sha256(cert.pubkey) !== pubkey256) {\n      const msg = 'Certificate verification error: ' +\n        `The public key of '${cert.subject.CN}' ` +\n        'does not match our pinned fingerprint';\n      return new Error(msg);\n    }\n\n    // Pin the exact certificate, rather than the pub key\n    const cert256 = 'FD:6E:9B:0E:F3:98:BC:D9:04:C3:B2:EC:16:7A:7B:' +\n      '0F:DA:72:01:C9:03:C5:3A:6A:6A:E5:D0:41:43:63:EF:65';\n    if (cert.fingerprint256 !== cert256) {\n      const msg = 'Certificate verification error: ' +\n        `The certificate of '${cert.subject.CN}' ` +\n        'does not match our pinned fingerprint';\n      return new Error(msg);\n    }\n\n    // This loop is informational only.\n    // Print the certificate and public key fingerprints of all certs in the\n    // chain. Its common to pin the public key of the issuer on the public\n    // internet, while pinning the public key of the service in sensitive\n    // environments.\n    let lastprint256;\n    do {\n      console.log('Subject Common Name:', cert.subject.CN);\n      console.log('  Certificate SHA256 fingerprint:', cert.fingerprint256);\n\n      const hash = createHash('sha256');\n      console.log('  Public key ping-sha256:', sha256(cert.pubkey));\n\n      lastprint256 = cert.fingerprint256;\n      cert = cert.issuerCertificate;\n    } while (cert.fingerprint256 !== lastprint256);\n\n  },\n};\n\noptions.agent = new Agent(options);\nconst req = request(options, (res) => {\n  console.log('All OK. Server matched our pinned cert or public key');\n  console.log('statusCode:', res.statusCode);\n\n  res.on('data', (d) => {});\n});\n\nreq.on('error', (e) => {\n  console.error(e.message);\n});\nreq.end();\n</code></pre>\n<pre><code class=\"language-cjs\">const tls = require('node:tls');\nconst https = require('node:https');\nconst crypto = require('node:crypto');\n\nfunction sha256(s) {\n  return crypto.createHash('sha256').update(s).digest('base64');\n}\nconst options = {\n  hostname: 'github.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n  checkServerIdentity: function(host, cert) {\n    // Make sure the certificate is issued to the host we are connected to\n    const err = tls.checkServerIdentity(host, cert);\n    if (err) {\n      return err;\n    }\n\n    // Pin the public key, similar to HPKP pin-sha256 pinning\n    const pubkey256 = 'SIXvRyDmBJSgatgTQRGbInBaAK+hZOQ18UmrSwnDlK8=';\n    if (sha256(cert.pubkey) !== pubkey256) {\n      const msg = 'Certificate verification error: ' +\n        `The public key of '${cert.subject.CN}' ` +\n        'does not match our pinned fingerprint';\n      return new Error(msg);\n    }\n\n    // Pin the exact certificate, rather than the pub key\n    const cert256 = 'FD:6E:9B:0E:F3:98:BC:D9:04:C3:B2:EC:16:7A:7B:' +\n      '0F:DA:72:01:C9:03:C5:3A:6A:6A:E5:D0:41:43:63:EF:65';\n    if (cert.fingerprint256 !== cert256) {\n      const msg = 'Certificate verification error: ' +\n        `The certificate of '${cert.subject.CN}' ` +\n        'does not match our pinned fingerprint';\n      return new Error(msg);\n    }\n\n    // This loop is informational only.\n    // Print the certificate and public key fingerprints of all certs in the\n    // chain. Its common to pin the public key of the issuer on the public\n    // internet, while pinning the public key of the service in sensitive\n    // environments.\n    do {\n      console.log('Subject Common Name:', cert.subject.CN);\n      console.log('  Certificate SHA256 fingerprint:', cert.fingerprint256);\n\n      hash = crypto.createHash('sha256');\n      console.log('  Public key ping-sha256:', sha256(cert.pubkey));\n\n      lastprint256 = cert.fingerprint256;\n      cert = cert.issuerCertificate;\n    } while (cert.fingerprint256 !== lastprint256);\n\n  },\n};\n\noptions.agent = new https.Agent(options);\nconst req = https.request(options, (res) => {\n  console.log('All OK. Server matched our pinned cert or public key');\n  console.log('statusCode:', res.statusCode);\n\n  res.on('data', (d) => {});\n});\n\nreq.on('error', (e) => {\n  console.error(e.message);\n});\nreq.end();\n</code></pre>\n<p>Outputs for example:</p>\n<pre><code class=\"language-text\">Subject Common Name: github.com\n  Certificate SHA256 fingerprint: FD:6E:9B:0E:F3:98:BC:D9:04:C3:B2:EC:16:7A:7B:0F:DA:72:01:C9:03:C5:3A:6A:6A:E5:D0:41:43:63:EF:65\n  Public key ping-sha256: SIXvRyDmBJSgatgTQRGbInBaAK+hZOQ18UmrSwnDlK8=\nSubject Common Name: Sectigo ECC Domain Validation Secure Server CA\n  Certificate SHA256 fingerprint: 61:E9:73:75:E9:F6:DA:98:2F:F5:C1:9E:2F:94:E6:6C:4E:35:B6:83:7C:E3:B9:14:D2:24:5C:7F:5F:65:82:5F\n  Public key ping-sha256: Eep0p/AsSa9lFUH6KT2UY+9s1Z8v7voAPkQ4fGknZ2g=\nSubject Common Name: USERTrust ECC Certification Authority\n  Certificate SHA256 fingerprint: A6:CF:64:DB:B4:C8:D5:FD:19:CE:48:89:60:68:DB:03:B5:33:A8:D1:33:6C:62:56:A8:7D:00:CB:B3:DE:F3:EA\n  Public key ping-sha256: UJM2FOhG9aTNY0Pg4hgqjNzZ/lQBiMGRxPD5Y2/e0bw=\nSubject Common Name: AAA Certificate Services\n  Certificate SHA256 fingerprint: D7:A7:A0:FB:5D:7E:27:31:D7:71:E9:48:4E:BC:DE:F7:1D:5F:0C:3E:0A:29:48:78:2B:C8:3E:E0:EA:69:9E:F4\n  Public key ping-sha256: vRU+17BDT2iGsXvOi76E7TQMcTLXAqj0+jGPdW7L1vM=\nAll OK. Server matched our pinned cert or public key\nstatusCode: 200\n</code></pre>"
+        },
+        {
+          "textRaw": "`https.request(url[, options][, callback])`",
+          "type": "method",
+          "name": "request",
+          "meta": {
+            "added": [
+              "v0.3.6"
+            ],
+            "changes": [
+              {
+                "version": "v20.16.0",
+                "pr-url": "https://github.com/nodejs/node/pull/53329",
+                "description": "The `clientCertEngine` option depends on custom engine support in OpenSSL which is deprecated in OpenSSL 3."
+              },
+              {
+                "version": [
+                  "v16.7.0",
+                  "v14.18.0"
+                ],
+                "pr-url": "https://github.com/nodejs/node/pull/39310",
+                "description": "When using a `URL` object parsed username and password will now be properly URI decoded."
+              },
+              {
+                "version": [
+                  "v14.1.0",
+                  "v13.14.0"
+                ],
+                "pr-url": "https://github.com/nodejs/node/pull/32786",
+                "description": "The `highWaterMark` option is accepted now."
+              },
+              {
+                "version": "v10.9.0",
+                "pr-url": "https://github.com/nodejs/node/pull/21616",
+                "description": "The `url` parameter can now be passed along with a separate `options` object."
+              },
+              {
+                "version": "v9.3.0",
+                "pr-url": "https://github.com/nodejs/node/pull/14903",
+                "description": "The `options` parameter can now include `clientCertEngine`."
+              },
+              {
+                "version": "v7.5.0",
+                "pr-url": "https://github.com/nodejs/node/pull/10638",
+                "description": "The `options` parameter can be a WHATWG `URL` object."
+              }
+            ]
+          },
+          "signatures": [
+            {
+              "return": {
+                "textRaw": "Returns: {http.ClientRequest}",
+                "name": "return",
+                "type": "http.ClientRequest"
+              },
+              "params": [
+                {
+                  "textRaw": "`url` {string | URL}",
+                  "name": "url",
+                  "type": "string | URL"
+                },
+                {
+                  "textRaw": "`options` {Object | string | URL} Accepts all `options` from [`http.request()`][], with some differences in default values:",
+                  "name": "options",
+                  "type": "Object | string | URL",
+                  "desc": "Accepts all `options` from [`http.request()`][], with some differences in default values:",
+                  "options": [
+                    {
+                      "textRaw": "`protocol` **Default:** `'https:'`",
+                      "name": "protocol",
+                      "default": "`'https:'`"
+                    },
+                    {
+                      "textRaw": "`port` **Default:** `443`",
+                      "name": "port",
+                      "default": "`443`"
+                    },
+                    {
+                      "textRaw": "`agent` **Default:** `https.globalAgent`",
+                      "name": "agent",
+                      "default": "`https.globalAgent`"
+                    }
+                  ]
+                },
+                {
+                  "textRaw": "`callback` {Function}",
+                  "name": "callback",
+                  "type": "Function"
+                }
+              ]
+            }
+          ],
+          "desc": "<p>Makes a request to a secure web server.</p>\n<p>The following additional <code>options</code> from <a href=\"tls.html#tlsconnectoptions-callback\"><code>tls.connect()</code></a> are also accepted:\n<code>ca</code>, <code>cert</code>, <code>ciphers</code>, <code>clientCertEngine</code> (deprecated), <code>crl</code>, <code>dhparam</code>, <code>ecdhCurve</code>,\n<code>honorCipherOrder</code>, <code>key</code>, <code>passphrase</code>, <code>pfx</code>, <code>rejectUnauthorized</code>,\n<code>secureOptions</code>, <code>secureProtocol</code>, <code>servername</code>, <code>sessionIdContext</code>,\n<code>highWaterMark</code>.</p>\n<p><code>options</code> can be an object, a string, or a <a href=\"url.html#the-whatwg-url-api\"><code>URL</code></a> object. If <code>options</code> is a\nstring, it is automatically parsed with <a href=\"url.html#new-urlinput-base\"><code>new URL()</code></a>. If it is a <a href=\"url.html#the-whatwg-url-api\"><code>URL</code></a>\nobject, it will be automatically converted to an ordinary <code>options</code> object.</p>\n<p><code>https.request()</code> returns an instance of the <a href=\"http.html#class-httpclientrequest\"><code>http.ClientRequest</code></a>\nclass. The <code>ClientRequest</code> instance is a writable stream. If one needs to\nupload a file with a POST request, then write to the <code>ClientRequest</code> object.</p>\n<pre><code class=\"language-mjs\">import { request } from 'node:https';\nimport process from 'node:process';\n\nconst options = {\n  hostname: 'encrypted.google.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n};\n\nconst req = request(options, (res) => {\n  console.log('statusCode:', res.statusCode);\n  console.log('headers:', res.headers);\n\n  res.on('data', (d) => {\n    process.stdout.write(d);\n  });\n});\n\nreq.on('error', (e) => {\n  console.error(e);\n});\nreq.end();\n</code></pre>\n<pre><code class=\"language-cjs\">const https = require('node:https');\n\nconst options = {\n  hostname: 'encrypted.google.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n};\n\nconst req = https.request(options, (res) => {\n  console.log('statusCode:', res.statusCode);\n  console.log('headers:', res.headers);\n\n  res.on('data', (d) => {\n    process.stdout.write(d);\n  });\n});\n\nreq.on('error', (e) => {\n  console.error(e);\n});\nreq.end();\n</code></pre>\n<p>Example using options from <a href=\"tls.html#tlsconnectoptions-callback\"><code>tls.connect()</code></a>:</p>\n<pre><code class=\"language-js\">const options = {\n  hostname: 'encrypted.google.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n  key: fs.readFileSync('private-key.pem'),\n  cert: fs.readFileSync('certificate.pem'),\n};\noptions.agent = new https.Agent(options);\n\nconst req = https.request(options, (res) => {\n  // ...\n});\n</code></pre>\n<p>Alternatively, opt out of connection pooling by not using an <a href=\"#class-httpsagent\"><code>Agent</code></a>.</p>\n<pre><code class=\"language-js\">const options = {\n  hostname: 'encrypted.google.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n  key: fs.readFileSync('private-key.pem'),\n  cert: fs.readFileSync('certificate.pem'),\n  agent: false,\n};\n\nconst req = https.request(options, (res) => {\n  // ...\n});\n</code></pre>\n<p>Example using a <a href=\"url.html#the-whatwg-url-api\"><code>URL</code></a> as <code>options</code>:</p>\n<pre><code class=\"language-js\">const options = new URL('https://abc:xyz@example.com');\n\nconst req = https.request(options, (res) => {\n  // ...\n});\n</code></pre>\n<p>Example pinning on certificate fingerprint, or the public key (similar to\n<code>pin-sha256</code>):</p>\n<pre><code class=\"language-mjs\">import { checkServerIdentity } from 'node:tls';\nimport { Agent, request } from 'node:https';\nimport { createHash } from 'node:crypto';\n\nfunction sha256(s) {\n  return createHash('sha256').update(s).digest('base64');\n}\nconst options = {\n  hostname: 'github.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n  checkServerIdentity: function(host, cert) {\n    // Make sure the certificate is issued to the host we are connected to\n    const err = checkServerIdentity(host, cert);\n    if (err) {\n      return err;\n    }\n\n    // Pin the public key, similar to HPKP pin-sha256 pinning\n    const pubkey256 = 'SIXvRyDmBJSgatgTQRGbInBaAK+hZOQ18UmrSwnDlK8=';\n    if (sha256(cert.pubkey) !== pubkey256) {\n      const msg = 'Certificate verification error: ' +\n        `The public key of '${cert.subject.CN}' ` +\n        'does not match our pinned fingerprint';\n      return new Error(msg);\n    }\n\n    // Pin the exact certificate, rather than the pub key\n    const cert256 = 'FD:6E:9B:0E:F3:98:BC:D9:04:C3:B2:EC:16:7A:7B:' +\n      '0F:DA:72:01:C9:03:C5:3A:6A:6A:E5:D0:41:43:63:EF:65';\n    if (cert.fingerprint256 !== cert256) {\n      const msg = 'Certificate verification error: ' +\n        `The certificate of '${cert.subject.CN}' ` +\n        'does not match our pinned fingerprint';\n      return new Error(msg);\n    }\n\n    // This loop is informational only.\n    // Print the certificate and public key fingerprints of all certs in the\n    // chain. Its common to pin the public key of the issuer on the public\n    // internet, while pinning the public key of the service in sensitive\n    // environments.\n    let lastprint256;\n    do {\n      console.log('Subject Common Name:', cert.subject.CN);\n      console.log('  Certificate SHA256 fingerprint:', cert.fingerprint256);\n\n      const hash = createHash('sha256');\n      console.log('  Public key ping-sha256:', sha256(cert.pubkey));\n\n      lastprint256 = cert.fingerprint256;\n      cert = cert.issuerCertificate;\n    } while (cert.fingerprint256 !== lastprint256);\n\n  },\n};\n\noptions.agent = new Agent(options);\nconst req = request(options, (res) => {\n  console.log('All OK. Server matched our pinned cert or public key');\n  console.log('statusCode:', res.statusCode);\n\n  res.on('data', (d) => {});\n});\n\nreq.on('error', (e) => {\n  console.error(e.message);\n});\nreq.end();\n</code></pre>\n<pre><code class=\"language-cjs\">const tls = require('node:tls');\nconst https = require('node:https');\nconst crypto = require('node:crypto');\n\nfunction sha256(s) {\n  return crypto.createHash('sha256').update(s).digest('base64');\n}\nconst options = {\n  hostname: 'github.com',\n  port: 443,\n  path: '/',\n  method: 'GET',\n  checkServerIdentity: function(host, cert) {\n    // Make sure the certificate is issued to the host we are connected to\n    const err = tls.checkServerIdentity(host, cert);\n    if (err) {\n      return err;\n    }\n\n    // Pin the public key, similar to HPKP pin-sha256 pinning\n    const pubkey256 = 'SIXvRyDmBJSgatgTQRGbInBaAK+hZOQ18UmrSwnDlK8=';\n    if (sha256(cert.pubkey) !== pubkey256) {\n      const msg = 'Certificate verification error: ' +\n        `The public key of '${cert.subject.CN}' ` +\n        'does not match our pinned fingerprint';\n      return new Error(msg);\n    }\n\n    // Pin the exact certificate, rather than the pub key\n    const cert256 = 'FD:6E:9B:0E:F3:98:BC:D9:04:C3:B2:EC:16:7A:7B:' +\n      '0F:DA:72:01:C9:03:C5:3A:6A:6A:E5:D0:41:43:63:EF:65';\n    if (cert.fingerprint256 !== cert256) {\n      const msg = 'Certificate verification error: ' +\n        `The certificate of '${cert.subject.CN}' ` +\n        'does not match our pinned fingerprint';\n      return new Error(msg);\n    }\n\n    // This loop is informational only.\n    // Print the certificate and public key fingerprints of all certs in the\n    // chain. Its common to pin the public key of the issuer on the public\n    // internet, while pinning the public key of the service in sensitive\n    // environments.\n    do {\n      console.log('Subject Common Name:', cert.subject.CN);\n      console.log('  Certificate SHA256 fingerprint:', cert.fingerprint256);\n\n      hash = crypto.createHash('sha256');\n      console.log('  Public key ping-sha256:', sha256(cert.pubkey));\n\n      lastprint256 = cert.fingerprint256;\n      cert = cert.issuerCertificate;\n    } while (cert.fingerprint256 !== lastprint256);\n\n  },\n};\n\noptions.agent = new https.Agent(options);\nconst req = https.request(options, (res) => {\n  console.log('All OK. Server matched our pinned cert or public key');\n  console.log('statusCode:', res.statusCode);\n\n  res.on('data', (d) => {});\n});\n\nreq.on('error', (e) => {\n  console.error(e.message);\n});\nreq.end();\n</code></pre>\n<p>Outputs for example:</p>\n<pre><code class=\"language-text\">Subject Common Name: github.com\n  Certificate SHA256 fingerprint: FD:6E:9B:0E:F3:98:BC:D9:04:C3:B2:EC:16:7A:7B:0F:DA:72:01:C9:03:C5:3A:6A:6A:E5:D0:41:43:63:EF:65\n  Public key ping-sha256: SIXvRyDmBJSgatgTQRGbInBaAK+hZOQ18UmrSwnDlK8=\nSubject Common Name: Sectigo ECC Domain Validation Secure Server CA\n  Certificate SHA256 fingerprint: 61:E9:73:75:E9:F6:DA:98:2F:F5:C1:9E:2F:94:E6:6C:4E:35:B6:83:7C:E3:B9:14:D2:24:5C:7F:5F:65:82:5F\n  Public key ping-sha256: Eep0p/AsSa9lFUH6KT2UY+9s1Z8v7voAPkQ4fGknZ2g=\nSubject Common Name: USERTrust ECC Certification Authority\n  Certificate SHA256 fingerprint: A6:CF:64:DB:B4:C8:D5:FD:19:CE:48:89:60:68:DB:03:B5:33:A8:D1:33:6C:62:56:A8:7D:00:CB:B3:DE:F3:EA\n  Public key ping-sha256: UJM2FOhG9aTNY0Pg4hgqjNzZ/lQBiMGRxPD5Y2/e0bw=\nSubject Common Name: AAA Certificate Services\n  Certificate SHA256 fingerprint: D7:A7:A0:FB:5D:7E:27:31:D7:71:E9:48:4E:BC:DE:F7:1D:5F:0C:3E:0A:29:48:78:2B:C8:3E:E0:EA:69:9E:F4\n  Public key ping-sha256: vRU+17BDT2iGsXvOi76E7TQMcTLXAqj0+jGPdW7L1vM=\nAll OK. Server matched our pinned cert or public key\nstatusCode: 200\n</code></pre>"
+        }
+      ],
+      "properties": [
+        {
+          "textRaw": "`https.globalAgent`",
+          "name": "globalAgent",
+          "meta": {
+            "added": [
+              "v0.5.9"
+            ],
+            "changes": [
+              {
+                "version": [
+                  "v19.0.0"
+                ],
+                "pr-url": "https://github.com/nodejs/node/pull/43522",
+                "description": "The agent now uses HTTP Keep-Alive and a 5 second timeout by default."
+              }
+            ]
+          },
+          "desc": "<p>Global instance of <a href=\"#class-httpsagent\"><code>https.Agent</code></a> for all HTTPS client requests. Diverges\nfrom a default <a href=\"#class-httpsagent\"><code>https.Agent</code></a> configuration by having <code>keepAlive</code> enabled and\na <code>timeout</code> of 5 seconds.</p>"
+        }
+      ],
+      "type": "module",
+      "displayName": "HTTPS"
+    }
+  ]
+}

@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v20.19.2">
+  <title>Web Streams API | Node.js v20.19.2 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/webstreams.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  <script>
+      const storedTheme = localStorage.getItem('theme');
+
+      // Follow operating system theme preference
+      if (storedTheme === null && window.matchMedia) {
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        if (mq.matches) {
+          document.documentElement.classList.add('dark-mode');
+        }
+      } else if (storedTheme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      }
+  </script>
+  <style>@media(max-width:358px){.with-17-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:654px){.with-54-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:334px){.with-14-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:678px){.with-57-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:622px){.with-50-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}@media(max-width:638px){.with-52-chars>.js-flavor-toggle{float:none;margin:0 0 1em auto;}}</style>
+</head>
+<body class="alt apidoc" id="api-section-webstreams">
+  <a href="#apicontent" class="skip-to-content">Skip to content</a>
+  <div id="content" class="clearfix">
+    <div role="navigation" id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams active">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="webstreams" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v20.19.2 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v20.19.2</li>
+            
+    <li class="picker-header">
+      <a href="#toc-picker" aria-controls="toc-picker">
+        <span class="picker-arrow"></span>
+        Table of contents
+      </a>
+
+      <div class="picker" tabindex="-1"><div class="toc"><ul id="toc-picker">
+<li><span class="stability_1"><a href="#web-streams-api">Web Streams API</a></span>
+<ul>
+<li><a href="#overview">Overview</a>
+<ul>
+<li><a href="#example-readablestream">Example <code>ReadableStream</code></a></li>
+</ul>
+</li>
+<li><a href="#api">API</a>
+<ul>
+<li><a href="#class-readablestream">Class: <code>ReadableStream</code></a>
+<ul>
+<li><a href="#new-readablestreamunderlyingsource--strategy"><code>new ReadableStream([underlyingSource [, strategy]])</code></a></li>
+<li><a href="#readablestreamlocked"><code>readableStream.locked</code></a></li>
+<li><a href="#readablestreamcancelreason"><code>readableStream.cancel([reason])</code></a></li>
+<li><a href="#readablestreamgetreaderoptions"><code>readableStream.getReader([options])</code></a></li>
+<li><a href="#readablestreampipethroughtransform-options"><code>readableStream.pipeThrough(transform[, options])</code></a></li>
+<li><a href="#readablestreampipetodestination-options"><code>readableStream.pipeTo(destination[, options])</code></a></li>
+<li><a href="#readablestreamtee"><code>readableStream.tee()</code></a></li>
+<li><a href="#readablestreamvaluesoptions"><code>readableStream.values([options])</code></a></li>
+<li><a href="#async-iteration">Async Iteration</a></li>
+<li><a href="#transferring-with-postmessage">Transferring with <code>postMessage()</code></a></li>
+</ul>
+</li>
+<li><a href="#readablestreamfromiterable"><code>ReadableStream.from(iterable)</code></a></li>
+<li><a href="#class-readablestreamdefaultreader">Class: <code>ReadableStreamDefaultReader</code></a>
+<ul>
+<li><a href="#new-readablestreamdefaultreaderstream"><code>new ReadableStreamDefaultReader(stream)</code></a></li>
+<li><a href="#readablestreamdefaultreadercancelreason"><code>readableStreamDefaultReader.cancel([reason])</code></a></li>
+<li><a href="#readablestreamdefaultreaderclosed"><code>readableStreamDefaultReader.closed</code></a></li>
+<li><a href="#readablestreamdefaultreaderread"><code>readableStreamDefaultReader.read()</code></a></li>
+<li><a href="#readablestreamdefaultreaderreleaselock"><code>readableStreamDefaultReader.releaseLock()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-readablestreambyobreader">Class: <code>ReadableStreamBYOBReader</code></a>
+<ul>
+<li><a href="#new-readablestreambyobreaderstream"><code>new ReadableStreamBYOBReader(stream)</code></a></li>
+<li><a href="#readablestreambyobreadercancelreason"><code>readableStreamBYOBReader.cancel([reason])</code></a></li>
+<li><a href="#readablestreambyobreaderclosed"><code>readableStreamBYOBReader.closed</code></a></li>
+<li><a href="#readablestreambyobreaderreadview-options"><code>readableStreamBYOBReader.read(view[, options])</code></a></li>
+<li><a href="#readablestreambyobreaderreleaselock"><code>readableStreamBYOBReader.releaseLock()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-readablestreamdefaultcontroller">Class: <code>ReadableStreamDefaultController</code></a>
+<ul>
+<li><a href="#readablestreamdefaultcontrollerclose"><code>readableStreamDefaultController.close()</code></a></li>
+<li><a href="#readablestreamdefaultcontrollerdesiredsize"><code>readableStreamDefaultController.desiredSize</code></a></li>
+<li><a href="#readablestreamdefaultcontrollerenqueuechunk"><code>readableStreamDefaultController.enqueue([chunk])</code></a></li>
+<li><a href="#readablestreamdefaultcontrollererrorerror"><code>readableStreamDefaultController.error([error])</code></a></li>
+</ul>
+</li>
+<li><a href="#class-readablebytestreamcontroller">Class: <code>ReadableByteStreamController</code></a>
+<ul>
+<li><a href="#readablebytestreamcontrollerbyobrequest"><code>readableByteStreamController.byobRequest</code></a></li>
+<li><a href="#readablebytestreamcontrollerclose"><code>readableByteStreamController.close()</code></a></li>
+<li><a href="#readablebytestreamcontrollerdesiredsize"><code>readableByteStreamController.desiredSize</code></a></li>
+<li><a href="#readablebytestreamcontrollerenqueuechunk"><code>readableByteStreamController.enqueue(chunk)</code></a></li>
+<li><a href="#readablebytestreamcontrollererrorerror"><code>readableByteStreamController.error([error])</code></a></li>
+</ul>
+</li>
+<li><a href="#class-readablestreambyobrequest">Class: <code>ReadableStreamBYOBRequest</code></a>
+<ul>
+<li><a href="#readablestreambyobrequestrespondbyteswritten"><code>readableStreamBYOBRequest.respond(bytesWritten)</code></a></li>
+<li><a href="#readablestreambyobrequestrespondwithnewviewview"><code>readableStreamBYOBRequest.respondWithNewView(view)</code></a></li>
+<li><a href="#readablestreambyobrequestview"><code>readableStreamBYOBRequest.view</code></a></li>
+</ul>
+</li>
+<li><a href="#class-writablestream">Class: <code>WritableStream</code></a>
+<ul>
+<li><a href="#new-writablestreamunderlyingsink-strategy"><code>new WritableStream([underlyingSink[, strategy]])</code></a></li>
+<li><a href="#writablestreamabortreason"><code>writableStream.abort([reason])</code></a></li>
+<li><a href="#writablestreamclose"><code>writableStream.close()</code></a></li>
+<li><a href="#writablestreamgetwriter"><code>writableStream.getWriter()</code></a></li>
+<li><a href="#writablestreamlocked"><code>writableStream.locked</code></a></li>
+<li><a href="#transferring-with-postmessage_1">Transferring with postMessage()</a></li>
+</ul>
+</li>
+<li><a href="#class-writablestreamdefaultwriter">Class: <code>WritableStreamDefaultWriter</code></a>
+<ul>
+<li><a href="#new-writablestreamdefaultwriterstream"><code>new WritableStreamDefaultWriter(stream)</code></a></li>
+<li><a href="#writablestreamdefaultwriterabortreason"><code>writableStreamDefaultWriter.abort([reason])</code></a></li>
+<li><a href="#writablestreamdefaultwriterclose"><code>writableStreamDefaultWriter.close()</code></a></li>
+<li><a href="#writablestreamdefaultwriterclosed"><code>writableStreamDefaultWriter.closed</code></a></li>
+<li><a href="#writablestreamdefaultwriterdesiredsize"><code>writableStreamDefaultWriter.desiredSize</code></a></li>
+<li><a href="#writablestreamdefaultwriterready"><code>writableStreamDefaultWriter.ready</code></a></li>
+<li><a href="#writablestreamdefaultwriterreleaselock"><code>writableStreamDefaultWriter.releaseLock()</code></a></li>
+<li><a href="#writablestreamdefaultwriterwritechunk"><code>writableStreamDefaultWriter.write([chunk])</code></a></li>
+</ul>
+</li>
+<li><a href="#class-writablestreamdefaultcontroller">Class: <code>WritableStreamDefaultController</code></a>
+<ul>
+<li><a href="#writablestreamdefaultcontrollererrorerror"><code>writableStreamDefaultController.error([error])</code></a></li>
+<li><a href="#writablestreamdefaultcontrollersignal"><code>writableStreamDefaultController.signal</code></a></li>
+</ul>
+</li>
+<li><a href="#class-transformstream">Class: <code>TransformStream</code></a>
+<ul>
+<li><a href="#new-transformstreamtransformer-writablestrategy-readablestrategy"><code>new TransformStream([transformer[, writableStrategy[, readableStrategy]]])</code></a></li>
+<li><a href="#transformstreamreadable"><code>transformStream.readable</code></a></li>
+<li><a href="#transformstreamwritable"><code>transformStream.writable</code></a></li>
+<li><a href="#transferring-with-postmessage_2">Transferring with postMessage()</a></li>
+</ul>
+</li>
+<li><a href="#class-transformstreamdefaultcontroller">Class: <code>TransformStreamDefaultController</code></a>
+<ul>
+<li><a href="#transformstreamdefaultcontrollerdesiredsize"><code>transformStreamDefaultController.desiredSize</code></a></li>
+<li><a href="#transformstreamdefaultcontrollerenqueuechunk"><code>transformStreamDefaultController.enqueue([chunk])</code></a></li>
+<li><a href="#transformstreamdefaultcontrollererrorreason"><code>transformStreamDefaultController.error([reason])</code></a></li>
+<li><a href="#transformstreamdefaultcontrollerterminate"><code>transformStreamDefaultController.terminate()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-bytelengthqueuingstrategy">Class: <code>ByteLengthQueuingStrategy</code></a>
+<ul>
+<li><a href="#new-bytelengthqueuingstrategyinit"><code>new ByteLengthQueuingStrategy(init)</code></a></li>
+<li><a href="#bytelengthqueuingstrategyhighwatermark"><code>byteLengthQueuingStrategy.highWaterMark</code></a></li>
+<li><a href="#bytelengthqueuingstrategysize"><code>byteLengthQueuingStrategy.size</code></a></li>
+</ul>
+</li>
+<li><a href="#class-countqueuingstrategy">Class: <code>CountQueuingStrategy</code></a>
+<ul>
+<li><a href="#new-countqueuingstrategyinit"><code>new CountQueuingStrategy(init)</code></a></li>
+<li><a href="#countqueuingstrategyhighwatermark"><code>countQueuingStrategy.highWaterMark</code></a></li>
+<li><a href="#countqueuingstrategysize"><code>countQueuingStrategy.size</code></a></li>
+</ul>
+</li>
+<li><a href="#class-textencoderstream">Class: <code>TextEncoderStream</code></a>
+<ul>
+<li><a href="#new-textencoderstream"><code>new TextEncoderStream()</code></a></li>
+<li><a href="#textencoderstreamencoding"><code>textEncoderStream.encoding</code></a></li>
+<li><a href="#textencoderstreamreadable"><code>textEncoderStream.readable</code></a></li>
+<li><a href="#textencoderstreamwritable"><code>textEncoderStream.writable</code></a></li>
+</ul>
+</li>
+<li><a href="#class-textdecoderstream">Class: <code>TextDecoderStream</code></a>
+<ul>
+<li><a href="#new-textdecoderstreamencoding-options"><code>new TextDecoderStream([encoding[, options]])</code></a></li>
+<li><a href="#textdecoderstreamencoding"><code>textDecoderStream.encoding</code></a></li>
+<li><a href="#textdecoderstreamfatal"><code>textDecoderStream.fatal</code></a></li>
+<li><a href="#textdecoderstreamignorebom"><code>textDecoderStream.ignoreBOM</code></a></li>
+<li><a href="#textdecoderstreamreadable"><code>textDecoderStream.readable</code></a></li>
+<li><a href="#textdecoderstreamwritable"><code>textDecoderStream.writable</code></a></li>
+</ul>
+</li>
+<li><a href="#class-compressionstream">Class: <code>CompressionStream</code></a>
+<ul>
+<li><a href="#new-compressionstreamformat"><code>new CompressionStream(format)</code></a></li>
+<li><a href="#compressionstreamreadable"><code>compressionStream.readable</code></a></li>
+<li><a href="#compressionstreamwritable"><code>compressionStream.writable</code></a></li>
+</ul>
+</li>
+<li><a href="#class-decompressionstream">Class: <code>DecompressionStream</code></a>
+<ul>
+<li><a href="#new-decompressionstreamformat"><code>new DecompressionStream(format)</code></a></li>
+<li><a href="#decompressionstreamreadable"><code>decompressionStream.readable</code></a></li>
+<li><a href="#decompressionstreamwritable"><code>decompressionStream.writable</code></a></li>
+</ul>
+</li>
+<li><a href="#utility-consumers">Utility Consumers</a>
+<ul>
+<li><a href="#streamconsumersarraybufferstream"><code>streamConsumers.arrayBuffer(stream)</code></a></li>
+<li><a href="#streamconsumersblobstream"><code>streamConsumers.blob(stream)</code></a></li>
+<li><a href="#streamconsumersbufferstream"><code>streamConsumers.buffer(stream)</code></a></li>
+<li><a href="#streamconsumersjsonstream"><code>streamConsumers.json(stream)</code></a></li>
+<li><a href="#streamconsumerstextstream"><code>streamConsumers.text(stream)</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#gtoc-picker" aria-controls="gtoc-picker">
+        <span class="picker-arrow"></span>
+        Index
+      </a>
+
+      <div class="picker" tabindex="-1" id="gtoc-picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams active">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#alt-docs" aria-controls="alt-docs">
+        <span class="picker-arrow"></span>
+        Other versions
+      </a>
+      <div class="picker" tabindex="-1"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v24.x/api/webstreams.html">24.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v23.x/api/webstreams.html">23.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v22.x/api/webstreams.html">22.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v21.x/api/webstreams.html">21.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v20.x/api/webstreams.html">20.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v19.x/api/webstreams.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/webstreams.html">18.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/webstreams.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/webstreams.html">16.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#options-picker" aria-controls="options-picker">
+                <span class="picker-arrow"></span>
+                Options
+              </a>
+        
+              <div class="picker" tabindex="-1">
+                <ul id="options-picker">
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="webstreams.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/webstreams.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details role="navigation" id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_1"><a href="#web-streams-api">Web Streams API</a></span>
+<ul>
+<li><a href="#overview">Overview</a>
+<ul>
+<li><a href="#example-readablestream">Example <code>ReadableStream</code></a></li>
+</ul>
+</li>
+<li><a href="#api">API</a>
+<ul>
+<li><a href="#class-readablestream">Class: <code>ReadableStream</code></a>
+<ul>
+<li><a href="#new-readablestreamunderlyingsource--strategy"><code>new ReadableStream([underlyingSource [, strategy]])</code></a></li>
+<li><a href="#readablestreamlocked"><code>readableStream.locked</code></a></li>
+<li><a href="#readablestreamcancelreason"><code>readableStream.cancel([reason])</code></a></li>
+<li><a href="#readablestreamgetreaderoptions"><code>readableStream.getReader([options])</code></a></li>
+<li><a href="#readablestreampipethroughtransform-options"><code>readableStream.pipeThrough(transform[, options])</code></a></li>
+<li><a href="#readablestreampipetodestination-options"><code>readableStream.pipeTo(destination[, options])</code></a></li>
+<li><a href="#readablestreamtee"><code>readableStream.tee()</code></a></li>
+<li><a href="#readablestreamvaluesoptions"><code>readableStream.values([options])</code></a></li>
+<li><a href="#async-iteration">Async Iteration</a></li>
+<li><a href="#transferring-with-postmessage">Transferring with <code>postMessage()</code></a></li>
+</ul>
+</li>
+<li><a href="#readablestreamfromiterable"><code>ReadableStream.from(iterable)</code></a></li>
+<li><a href="#class-readablestreamdefaultreader">Class: <code>ReadableStreamDefaultReader</code></a>
+<ul>
+<li><a href="#new-readablestreamdefaultreaderstream"><code>new ReadableStreamDefaultReader(stream)</code></a></li>
+<li><a href="#readablestreamdefaultreadercancelreason"><code>readableStreamDefaultReader.cancel([reason])</code></a></li>
+<li><a href="#readablestreamdefaultreaderclosed"><code>readableStreamDefaultReader.closed</code></a></li>
+<li><a href="#readablestreamdefaultreaderread"><code>readableStreamDefaultReader.read()</code></a></li>
+<li><a href="#readablestreamdefaultreaderreleaselock"><code>readableStreamDefaultReader.releaseLock()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-readablestreambyobreader">Class: <code>ReadableStreamBYOBReader</code></a>
+<ul>
+<li><a href="#new-readablestreambyobreaderstream"><code>new ReadableStreamBYOBReader(stream)</code></a></li>
+<li><a href="#readablestreambyobreadercancelreason"><code>readableStreamBYOBReader.cancel([reason])</code></a></li>
+<li><a href="#readablestreambyobreaderclosed"><code>readableStreamBYOBReader.closed</code></a></li>
+<li><a href="#readablestreambyobreaderreadview-options"><code>readableStreamBYOBReader.read(view[, options])</code></a></li>
+<li><a href="#readablestreambyobreaderreleaselock"><code>readableStreamBYOBReader.releaseLock()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-readablestreamdefaultcontroller">Class: <code>ReadableStreamDefaultController</code></a>
+<ul>
+<li><a href="#readablestreamdefaultcontrollerclose"><code>readableStreamDefaultController.close()</code></a></li>
+<li><a href="#readablestreamdefaultcontrollerdesiredsize"><code>readableStreamDefaultController.desiredSize</code></a></li>
+<li><a href="#readablestreamdefaultcontrollerenqueuechunk"><code>readableStreamDefaultController.enqueue([chunk])</code></a></li>
+<li><a href="#readablestreamdefaultcontrollererrorerror"><code>readableStreamDefaultController.error([error])</code></a></li>
+</ul>
+</li>
+<li><a href="#class-readablebytestreamcontroller">Class: <code>ReadableByteStreamController</code></a>
+<ul>
+<li><a href="#readablebytestreamcontrollerbyobrequest"><code>readableByteStreamController.byobRequest</code></a></li>
+<li><a href="#readablebytestreamcontrollerclose"><code>readableByteStreamController.close()</code></a></li>
+<li><a href="#readablebytestreamcontrollerdesiredsize"><code>readableByteStreamController.desiredSize</code></a></li>
+<li><a href="#readablebytestreamcontrollerenqueuechunk"><code>readableByteStreamController.enqueue(chunk)</code></a></li>
+<li><a href="#readablebytestreamcontrollererrorerror"><code>readableByteStreamController.error([error])</code></a></li>
+</ul>
+</li>
+<li><a href="#class-readablestreambyobrequest">Class: <code>ReadableStreamBYOBRequest</code></a>
+<ul>
+<li><a href="#readablestreambyobrequestrespondbyteswritten"><code>readableStreamBYOBRequest.respond(bytesWritten)</code></a></li>
+<li><a href="#readablestreambyobrequestrespondwithnewviewview"><code>readableStreamBYOBRequest.respondWithNewView(view)</code></a></li>
+<li><a href="#readablestreambyobrequestview"><code>readableStreamBYOBRequest.view</code></a></li>
+</ul>
+</li>
+<li><a href="#class-writablestream">Class: <code>WritableStream</code></a>
+<ul>
+<li><a href="#new-writablestreamunderlyingsink-strategy"><code>new WritableStream([underlyingSink[, strategy]])</code></a></li>
+<li><a href="#writablestreamabortreason"><code>writableStream.abort([reason])</code></a></li>
+<li><a href="#writablestreamclose"><code>writableStream.close()</code></a></li>
+<li><a href="#writablestreamgetwriter"><code>writableStream.getWriter()</code></a></li>
+<li><a href="#writablestreamlocked"><code>writableStream.locked</code></a></li>
+<li><a href="#transferring-with-postmessage_1">Transferring with postMessage()</a></li>
+</ul>
+</li>
+<li><a href="#class-writablestreamdefaultwriter">Class: <code>WritableStreamDefaultWriter</code></a>
+<ul>
+<li><a href="#new-writablestreamdefaultwriterstream"><code>new WritableStreamDefaultWriter(stream)</code></a></li>
+<li><a href="#writablestreamdefaultwriterabortreason"><code>writableStreamDefaultWriter.abort([reason])</code></a></li>
+<li><a href="#writablestreamdefaultwriterclose"><code>writableStreamDefaultWriter.close()</code></a></li>
+<li><a href="#writablestreamdefaultwriterclosed"><code>writableStreamDefaultWriter.closed</code></a></li>
+<li><a href="#writablestreamdefaultwriterdesiredsize"><code>writableStreamDefaultWriter.desiredSize</code></a></li>
+<li><a href="#writablestreamdefaultwriterready"><code>writableStreamDefaultWriter.ready</code></a></li>
+<li><a href="#writablestreamdefaultwriterreleaselock"><code>writableStreamDefaultWriter.releaseLock()</code></a></li>
+<li><a href="#writablestreamdefaultwriterwritechunk"><code>writableStreamDefaultWriter.write([chunk])</code></a></li>
+</ul>
+</li>
+<li><a href="#class-writablestreamdefaultcontroller">Class: <code>WritableStreamDefaultController</code></a>
+<ul>
+<li><a href="#writablestreamdefaultcontrollererrorerror"><code>writableStreamDefaultController.error([error])</code></a></li>
+<li><a href="#writablestreamdefaultcontrollersignal"><code>writableStreamDefaultController.signal</code></a></li>
+</ul>
+</li>
+<li><a href="#class-transformstream">Class: <code>TransformStream</code></a>
+<ul>
+<li><a href="#new-transformstreamtransformer-writablestrategy-readablestrategy"><code>new TransformStream([transformer[, writableStrategy[, readableStrategy]]])</code></a></li>
+<li><a href="#transformstreamreadable"><code>transformStream.readable</code></a></li>
+<li><a href="#transformstreamwritable"><code>transformStream.writable</code></a></li>
+<li><a href="#transferring-with-postmessage_2">Transferring with postMessage()</a></li>
+</ul>
+</li>
+<li><a href="#class-transformstreamdefaultcontroller">Class: <code>TransformStreamDefaultController</code></a>
+<ul>
+<li><a href="#transformstreamdefaultcontrollerdesiredsize"><code>transformStreamDefaultController.desiredSize</code></a></li>
+<li><a href="#transformstreamdefaultcontrollerenqueuechunk"><code>transformStreamDefaultController.enqueue([chunk])</code></a></li>
+<li><a href="#transformstreamdefaultcontrollererrorreason"><code>transformStreamDefaultController.error([reason])</code></a></li>
+<li><a href="#transformstreamdefaultcontrollerterminate"><code>transformStreamDefaultController.terminate()</code></a></li>
+</ul>
+</li>
+<li><a href="#class-bytelengthqueuingstrategy">Class: <code>ByteLengthQueuingStrategy</code></a>
+<ul>
+<li><a href="#new-bytelengthqueuingstrategyinit"><code>new ByteLengthQueuingStrategy(init)</code></a></li>
+<li><a href="#bytelengthqueuingstrategyhighwatermark"><code>byteLengthQueuingStrategy.highWaterMark</code></a></li>
+<li><a href="#bytelengthqueuingstrategysize"><code>byteLengthQueuingStrategy.size</code></a></li>
+</ul>
+</li>
+<li><a href="#class-countqueuingstrategy">Class: <code>CountQueuingStrategy</code></a>
+<ul>
+<li><a href="#new-countqueuingstrategyinit"><code>new CountQueuingStrategy(init)</code></a></li>
+<li><a href="#countqueuingstrategyhighwatermark"><code>countQueuingStrategy.highWaterMark</code></a></li>
+<li><a href="#countqueuingstrategysize"><code>countQueuingStrategy.size</code></a></li>
+</ul>
+</li>
+<li><a href="#class-textencoderstream">Class: <code>TextEncoderStream</code></a>
+<ul>
+<li><a href="#new-textencoderstream"><code>new TextEncoderStream()</code></a></li>
+<li><a href="#textencoderstreamencoding"><code>textEncoderStream.encoding</code></a></li>
+<li><a href="#textencoderstreamreadable"><code>textEncoderStream.readable</code></a></li>
+<li><a href="#textencoderstreamwritable"><code>textEncoderStream.writable</code></a></li>
+</ul>
+</li>
+<li><a href="#class-textdecoderstream">Class: <code>TextDecoderStream</code></a>
+<ul>
+<li><a href="#new-textdecoderstreamencoding-options"><code>new TextDecoderStream([encoding[, options]])</code></a></li>
+<li><a href="#textdecoderstreamencoding"><code>textDecoderStream.encoding</code></a></li>
+<li><a href="#textdecoderstreamfatal"><code>textDecoderStream.fatal</code></a></li>
+<li><a href="#textdecoderstreamignorebom"><code>textDecoderStream.ignoreBOM</code></a></li>
+<li><a href="#textdecoderstreamreadable"><code>textDecoderStream.readable</code></a></li>
+<li><a href="#textdecoderstreamwritable"><code>textDecoderStream.writable</code></a></li>
+</ul>
+</li>
+<li><a href="#class-compressionstream">Class: <code>CompressionStream</code></a>
+<ul>
+<li><a href="#new-compressionstreamformat"><code>new CompressionStream(format)</code></a></li>
+<li><a href="#compressionstreamreadable"><code>compressionStream.readable</code></a></li>
+<li><a href="#compressionstreamwritable"><code>compressionStream.writable</code></a></li>
+</ul>
+</li>
+<li><a href="#class-decompressionstream">Class: <code>DecompressionStream</code></a>
+<ul>
+<li><a href="#new-decompressionstreamformat"><code>new DecompressionStream(format)</code></a></li>
+<li><a href="#decompressionstreamreadable"><code>decompressionStream.readable</code></a></li>
+<li><a href="#decompressionstreamwritable"><code>decompressionStream.writable</code></a></li>
+</ul>
+</li>
+<li><a href="#utility-consumers">Utility Consumers</a>
+<ul>
+<li><a href="#streamconsumersarraybufferstream"><code>streamConsumers.arrayBuffer(stream)</code></a></li>
+<li><a href="#streamconsumersblobstream"><code>streamConsumers.blob(stream)</code></a></li>
+<li><a href="#streamconsumersbufferstream"><code>streamConsumers.buffer(stream)</code></a></li>
+<li><a href="#streamconsumersjsonstream"><code>streamConsumers.json(stream)</code></a></li>
+<li><a href="#streamconsumerstextstream"><code>streamConsumers.text(stream)</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div role="main" id="apicontent">
+        <h2>Web Streams API<span><a class="mark" href="#web-streams-api" id="web-streams-api">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_web_streams_api"></a></h2>
+
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>Use of this API no longer emit a runtime warning.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental.</div><p></p>
+<p>An implementation of the <a href="https://streams.spec.whatwg.org/">WHATWG Streams Standard</a>.</p>
+<section><h3>Overview<span><a class="mark" href="#overview" id="overview">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_overview"></a></h3>
+<p>The <a href="https://streams.spec.whatwg.org/">WHATWG Streams Standard</a> (or "web streams") defines an API for handling
+streaming data. It is similar to the Node.js <a href="stream.html">Streams</a> API but emerged later
+and has become the "standard" API for streaming data across many JavaScript
+environments.</p>
+<p>There are three primary types of objects:</p>
+<ul>
+<li><code>ReadableStream</code> - Represents a source of streaming data.</li>
+<li><code>WritableStream</code> - Represents a destination for streaming data.</li>
+<li><code>TransformStream</code> - Represents an algorithm for transforming streaming data.</li>
+</ul>
+<h4>Example <code>ReadableStream</code><span><a class="mark" href="#example-readablestream" id="example-readablestream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_example_readablestream"></a></h4>
+<p>This example creates a simple <code>ReadableStream</code> that pushes the current
+<code>performance.now()</code> timestamp once every second forever. An async iterable
+is used to read the data from the stream.</p>
+
+<pre class="with-17-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> {
+  <span class="hljs-title class_">ReadableStream</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/web'</span>;
+
+<span class="hljs-keyword">import</span> {
+  <span class="hljs-built_in">setInterval</span> <span class="hljs-keyword">as</span> every,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'node:timers/promises'</span>;
+
+<span class="hljs-keyword">import</span> {
+  performance,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'node:perf_hooks'</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">SECOND</span> = <span class="hljs-number">1000</span>;
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReadableStream</span>({
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">start</span>(<span class="hljs-params">controller</span>) {
+    <span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span> (<span class="hljs-keyword">const</span> _ <span class="hljs-keyword">of</span> <span class="hljs-title function_">every</span>(<span class="hljs-variable constant_">SECOND</span>))
+      controller.<span class="hljs-title function_">enqueue</span>(performance.<span class="hljs-title function_">now</span>());
+  },
+});
+
+<span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span> (<span class="hljs-keyword">const</span> value <span class="hljs-keyword">of</span> stream)
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(value);</code><code class="language-js cjs"><span class="hljs-keyword">const</span> {
+  <span class="hljs-title class_">ReadableStream</span>,
+} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/web'</span>);
+
+<span class="hljs-keyword">const</span> {
+  <span class="hljs-attr">setInterval</span>: every,
+} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:timers/promises'</span>);
+
+<span class="hljs-keyword">const</span> {
+  performance,
+} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:perf_hooks'</span>);
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">SECOND</span> = <span class="hljs-number">1000</span>;
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReadableStream</span>({
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">start</span>(<span class="hljs-params">controller</span>) {
+    <span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span> (<span class="hljs-keyword">const</span> _ <span class="hljs-keyword">of</span> <span class="hljs-title function_">every</span>(<span class="hljs-variable constant_">SECOND</span>))
+      controller.<span class="hljs-title function_">enqueue</span>(performance.<span class="hljs-title function_">now</span>());
+  },
+});
+
+(<span class="hljs-title function_">async</span> () => {
+  <span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span> (<span class="hljs-keyword">const</span> value <span class="hljs-keyword">of</span> stream)
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(value);
+})();</code><button class="copy-button">copy</button></pre>
+</section><section><h3>API<span><a class="mark" href="#api" id="api">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_api"></a></h3>
+<h4>Class: <code>ReadableStream</code><span><a class="mark" href="#class-readablestream" id="class-readablestream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_readablestream"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<h5><code>new ReadableStream([underlyingSource [, strategy]])</code><span><a class="mark" href="#new-readablestreamunderlyingsource--strategy" id="new-readablestreamunderlyingsource--strategy">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_readablestream_underlyingsource_strategy"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<!--lint disable maximum-line-length remark-lint-->
+<ul>
+<li><code>underlyingSource</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>start</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function that is invoked immediately when
+the <code>ReadableStream</code> is created.
+<ul>
+<li><code>controller</code> <a href="webstreams.html#class-readablestreamdefaultcontroller" class="type">&#x3C;ReadableStreamDefaultController></a> | <a href="webstreams.html#class-readablebytestreamcontroller" class="type">&#x3C;ReadableByteStreamController></a></li>
+<li>Returns: <code>undefined</code> or a promise fulfilled with <code>undefined</code>.</li>
+</ul>
+</li>
+<li><code>pull</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function that is called repeatedly when the
+<code>ReadableStream</code> internal queue is not full. The operation may be sync or
+async. If async, the function will not be called again until the previously
+returned promise is fulfilled.
+<ul>
+<li><code>controller</code> <a href="webstreams.html#class-readablestreamdefaultcontroller" class="type">&#x3C;ReadableStreamDefaultController></a> | <a href="webstreams.html#class-readablebytestreamcontroller" class="type">&#x3C;ReadableByteStreamController></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+</li>
+<li><code>cancel</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function that is called when the
+<code>ReadableStream</code> is canceled.
+<ul>
+<li><code>reason</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+</li>
+<li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Must be <code>'bytes'</code> or <code>undefined</code>.</li>
+<li><code>autoAllocateChunkSize</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> Used only when <code>type</code> is equal to
+<code>'bytes'</code>. When set to a non-zero value a view buffer is automatically
+allocated to <code>ReadableByteStreamController.byobRequest</code>. When not set
+one must use stream's internal queues to transfer data via the default
+reader <code>ReadableStreamDefaultReader</code>.</li>
+</ul>
+</li>
+<li><code>strategy</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>highWaterMark</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The maximum internal queue size before backpressure
+is applied.</li>
+<li><code>size</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function used to identify the size of each
+chunk of data.
+<ul>
+<li><code>chunk</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!--lint enable maximum-line-length remark-lint-->
+<h5><code>readableStream.locked</code><span><a class="mark" href="#readablestreamlocked" id="readablestreamlocked">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestream_locked"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> Set to <code>true</code> if there is an active reader for this
+<a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>.</li>
+</ul>
+<p>The <code>readableStream.locked</code> property is <code>false</code> by default, and is
+switched to <code>true</code> while there is an active reader consuming the
+stream's data.</p>
+<h5><code>readableStream.cancel([reason])</code><span><a class="mark" href="#readablestreamcancelreason" id="readablestreamcancelreason">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestream_cancel_reason"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>reason</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code> once cancelation has
+been completed.</li>
+</ul>
+<h5><code>readableStream.getReader([options])</code><span><a class="mark" href="#readablestreamgetreaderoptions" id="readablestreamgetreaderoptions">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestream_getreader_options"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>mode</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> <code>'byob'</code> or <code>undefined</code></li>
+</ul>
+</li>
+<li>Returns: <a href="webstreams.html#class-readablestreamdefaultreader" class="type">&#x3C;ReadableStreamDefaultReader></a> | <a href="webstreams.html#class-readablestreambyobreader" class="type">&#x3C;ReadableStreamBYOBReader></a></li>
+</ul>
+
+<pre class="with-54-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ReadableStream</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/web'</span>;
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReadableStream</span>();
+
+<span class="hljs-keyword">const</span> reader = stream.<span class="hljs-title function_">getReader</span>();
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-keyword">await</span> reader.<span class="hljs-title function_">read</span>());</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">ReadableStream</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/web'</span>);
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReadableStream</span>();
+
+<span class="hljs-keyword">const</span> reader = stream.<span class="hljs-title function_">getReader</span>();
+
+reader.<span class="hljs-title function_">read</span>().<span class="hljs-title function_">then</span>(<span class="hljs-variable language_">console</span>.<span class="hljs-property">log</span>);</code><button class="copy-button">copy</button></pre>
+<p>Causes the <code>readableStream.locked</code> to be <code>true</code>.</p>
+<h5><code>readableStream.pipeThrough(transform[, options])</code><span><a class="mark" href="#readablestreampipethroughtransform-options" id="readablestreampipethroughtransform-options">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestream_pipethrough_transform_options"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>transform</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>readable</code> <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> The <code>ReadableStream</code> to which
+<code>transform.writable</code> will push the potentially modified data
+it receives from this <code>ReadableStream</code>.</li>
+<li><code>writable</code> <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a> The <code>WritableStream</code> to which this
+<code>ReadableStream</code>'s data will be written.</li>
+</ul>
+</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>preventAbort</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, errors in this <code>ReadableStream</code>
+will not cause <code>transform.writable</code> to be aborted.</li>
+<li><code>preventCancel</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, errors in the destination
+<code>transform.writable</code> do not cause this <code>ReadableStream</code> to be
+canceled.</li>
+<li><code>preventClose</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, closing this <code>ReadableStream</code>
+does not cause <code>transform.writable</code> to be closed.</li>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Allows the transfer of data to be canceled
+using an <a href="globals.html#class-abortcontroller" class="type">&#x3C;AbortController></a>.</li>
+</ul>
+</li>
+<li>Returns: <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> From <code>transform.readable</code>.</li>
+</ul>
+<p>Connects this <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> to the pair of <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> and
+<a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a> provided in the <code>transform</code> argument such that the
+data from this <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> is written in to <code>transform.writable</code>,
+possibly transformed, then pushed to <code>transform.readable</code>. Once the
+pipeline is configured, <code>transform.readable</code> is returned.</p>
+<p>Causes the <code>readableStream.locked</code> to be <code>true</code> while the pipe operation
+is active.</p>
+
+<pre class="with-17-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> {
+  <span class="hljs-title class_">ReadableStream</span>,
+  <span class="hljs-title class_">TransformStream</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/web'</span>;
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReadableStream</span>({
+  <span class="hljs-title function_">start</span>(<span class="hljs-params">controller</span>) {
+    controller.<span class="hljs-title function_">enqueue</span>(<span class="hljs-string">'a'</span>);
+  },
+});
+
+<span class="hljs-keyword">const</span> transform = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformStream</span>({
+  <span class="hljs-title function_">transform</span>(<span class="hljs-params">chunk, controller</span>) {
+    controller.<span class="hljs-title function_">enqueue</span>(chunk.<span class="hljs-title function_">toUpperCase</span>());
+  },
+});
+
+<span class="hljs-keyword">const</span> transformedStream = stream.<span class="hljs-title function_">pipeThrough</span>(transform);
+
+<span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span> (<span class="hljs-keyword">const</span> chunk <span class="hljs-keyword">of</span> transformedStream)
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chunk);
+  <span class="hljs-comment">// Prints: A</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> {
+  <span class="hljs-title class_">ReadableStream</span>,
+  <span class="hljs-title class_">TransformStream</span>,
+} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/web'</span>);
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReadableStream</span>({
+  <span class="hljs-title function_">start</span>(<span class="hljs-params">controller</span>) {
+    controller.<span class="hljs-title function_">enqueue</span>(<span class="hljs-string">'a'</span>);
+  },
+});
+
+<span class="hljs-keyword">const</span> transform = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformStream</span>({
+  <span class="hljs-title function_">transform</span>(<span class="hljs-params">chunk, controller</span>) {
+    controller.<span class="hljs-title function_">enqueue</span>(chunk.<span class="hljs-title function_">toUpperCase</span>());
+  },
+});
+
+<span class="hljs-keyword">const</span> transformedStream = stream.<span class="hljs-title function_">pipeThrough</span>(transform);
+
+(<span class="hljs-title function_">async</span> () => {
+  <span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span> (<span class="hljs-keyword">const</span> chunk <span class="hljs-keyword">of</span> transformedStream)
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chunk);
+    <span class="hljs-comment">// Prints: A</span>
+})();</code><button class="copy-button">copy</button></pre>
+<h5><code>readableStream.pipeTo(destination[, options])</code><span><a class="mark" href="#readablestreampipetodestination-options" id="readablestreampipetodestination-options">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestream_pipeto_destination_options"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>destination</code> <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a> A <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a> to which this
+<code>ReadableStream</code>'s data will be written.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>preventAbort</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, errors in this <code>ReadableStream</code>
+will not cause <code>destination</code> to be aborted.</li>
+<li><code>preventCancel</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, errors in the <code>destination</code>
+will not cause this <code>ReadableStream</code> to be canceled.</li>
+<li><code>preventClose</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, closing this <code>ReadableStream</code>
+does not cause <code>destination</code> to be closed.</li>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> Allows the transfer of data to be canceled
+using an <a href="globals.html#class-abortcontroller" class="type">&#x3C;AbortController></a>.</li>
+</ul>
+</li>
+<li>Returns: A promise fulfilled with <code>undefined</code></li>
+</ul>
+<p>Causes the <code>readableStream.locked</code> to be <code>true</code> while the pipe operation
+is active.</p>
+<h5><code>readableStream.tee()</code><span><a class="mark" href="#readablestreamtee" id="readablestreamtee">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestream_tee"></a></h5>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.10.0, v16.18.0</td>
+<td><p>Support teeing a readable byte stream.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li>Returns: <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream[]></a></li>
+</ul>
+<p>Returns a pair of new <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> instances to which this
+<code>ReadableStream</code>'s data will be forwarded. Each will receive the
+same data.</p>
+<p>Causes the <code>readableStream.locked</code> to be <code>true</code>.</p>
+<h5><code>readableStream.values([options])</code><span><a class="mark" href="#readablestreamvaluesoptions" id="readablestreamvaluesoptions">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestream_values_options"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>preventCancel</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, prevents the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>
+from being closed when the async iterator abruptly terminates.
+<strong>Default</strong>: <code>false</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Creates and returns an async iterator usable for consuming this
+<code>ReadableStream</code>'s data.</p>
+<p>Causes the <code>readableStream.locked</code> to be <code>true</code> while the async iterator
+is active.</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReadableStream</span>(<span class="hljs-title function_">getSomeSource</span>());
+
+<span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span> (<span class="hljs-keyword">const</span> chunk <span class="hljs-keyword">of</span> stream.<span class="hljs-title function_">values</span>({ <span class="hljs-attr">preventCancel</span>: <span class="hljs-literal">true</span> }))
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(chunk).<span class="hljs-title function_">toString</span>());</code> <button class="copy-button">copy</button></pre>
+<h5>Async Iteration<span><a class="mark" href="#async-iteration" id="async-iteration">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_async_iteration"></a></h5>
+<p>The <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> object supports the async iterator protocol using
+<code>for await</code> syntax.</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReadableStream</span>(<span class="hljs-title function_">getSomeSource</span>());
+
+<span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span> (<span class="hljs-keyword">const</span> chunk <span class="hljs-keyword">of</span> stream)
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(chunk).<span class="hljs-title function_">toString</span>());</code> <button class="copy-button">copy</button></pre>
+<p>The async iterator will consume the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> until it terminates.</p>
+<p>By default, if the async iterator exits early (via either a <code>break</code>,
+<code>return</code>, or a <code>throw</code>), the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> will be closed. To prevent
+automatic closing of the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>, use the <code>readableStream.values()</code>
+method to acquire the async iterator and set the <code>preventCancel</code> option to
+<code>true</code>.</p>
+<p>The <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> must not be locked (that is, it must not have an existing
+active reader). During the async iteration, the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> will be locked.</p>
+<h5>Transferring with <code>postMessage()</code><span><a class="mark" href="#transferring-with-postmessage" id="transferring-with-postmessage">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_transferring_with_postmessage"></a></h5>
+<p>A <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> instance can be transferred using a <a href="worker_threads.html#class-messageport" class="type">&#x3C;MessagePort></a>.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReadableStream</span>(<span class="hljs-title function_">getReadableSourceSomehow</span>());
+
+<span class="hljs-keyword">const</span> { port1, port2 } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MessageChannel</span>();
+
+port1.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">{ data }</span>) =></span> {
+  data.<span class="hljs-title function_">getReader</span>().<span class="hljs-title function_">read</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">chunk</span>) =></span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chunk);
+  });
+};
+
+port2.<span class="hljs-title function_">postMessage</span>(stream, [stream]);</code> <button class="copy-button">copy</button></pre>
+<h4><code>ReadableStream.from(iterable)</code><span><a class="mark" href="#readablestreamfromiterable" id="readablestreamfromiterable">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestream_from_iterable"></a></h4>
+<div class="api_metadata">
+<span>Added in: v20.6.0</span>
+</div>
+<ul>
+<li><code>iterable</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol" class="type">&#x3C;Iterable></a> Object implementing the <code>Symbol.asyncIterator</code> or
+<code>Symbol.iterator</code> iterable protocol.</li>
+</ul>
+<p>A utility method that creates a new <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> from an iterable.</p>
+
+<pre class="with-54-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ReadableStream</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/web'</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span>* <span class="hljs-title function_">asyncIterableGenerator</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">yield</span> <span class="hljs-string">'a'</span>;
+  <span class="hljs-keyword">yield</span> <span class="hljs-string">'b'</span>;
+  <span class="hljs-keyword">yield</span> <span class="hljs-string">'c'</span>;
+}
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-title class_">ReadableStream</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title function_">asyncIterableGenerator</span>());
+
+<span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span> (<span class="hljs-keyword">const</span> chunk <span class="hljs-keyword">of</span> stream)
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chunk); <span class="hljs-comment">// Prints: 'a', 'b', 'c'</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">ReadableStream</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/web'</span>);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span>* <span class="hljs-title function_">asyncIterableGenerator</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">yield</span> <span class="hljs-string">'a'</span>;
+  <span class="hljs-keyword">yield</span> <span class="hljs-string">'b'</span>;
+  <span class="hljs-keyword">yield</span> <span class="hljs-string">'c'</span>;
+}
+
+(<span class="hljs-title function_">async</span> () => {
+  <span class="hljs-keyword">const</span> stream = <span class="hljs-title class_">ReadableStream</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title function_">asyncIterableGenerator</span>());
+
+  <span class="hljs-keyword">for</span> <span class="hljs-title function_">await</span> (<span class="hljs-keyword">const</span> chunk <span class="hljs-keyword">of</span> stream)
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chunk); <span class="hljs-comment">// Prints: 'a', 'b', 'c'</span>
+})();</code><button class="copy-button">copy</button></pre>
+<p>To pipe the resulting <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> into a <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a> the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol" class="type">&#x3C;Iterable></a>
+should yield a sequence of <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a>, or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> objects.</p>
+
+<pre class="with-54-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ReadableStream</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/web'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span>* <span class="hljs-title function_">asyncIterableGenerator</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">yield</span> <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'a'</span>);
+  <span class="hljs-keyword">yield</span> <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'b'</span>);
+  <span class="hljs-keyword">yield</span> <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'c'</span>);
+}
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-title class_">ReadableStream</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title function_">asyncIterableGenerator</span>());
+
+<span class="hljs-keyword">await</span> stream.<span class="hljs-title function_">pipeTo</span>(<span class="hljs-title function_">createWritableStreamSomehow</span>());</code><code class="language-js cjs"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">ReadableStream</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/web'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Buffer</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:buffer'</span>);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span>* <span class="hljs-title function_">asyncIterableGenerator</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">yield</span> <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'a'</span>);
+  <span class="hljs-keyword">yield</span> <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'b'</span>);
+  <span class="hljs-keyword">yield</span> <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'c'</span>);
+}
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-title class_">ReadableStream</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title function_">asyncIterableGenerator</span>());
+
+(<span class="hljs-title function_">async</span> () => {
+  <span class="hljs-keyword">await</span> stream.<span class="hljs-title function_">pipeTo</span>(<span class="hljs-title function_">createWritableStreamSomehow</span>());
+})();</code><button class="copy-button">copy</button></pre>
+<h4>Class: <code>ReadableStreamDefaultReader</code><span><a class="mark" href="#class-readablestreamdefaultreader" id="class-readablestreamdefaultreader">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_readablestreamdefaultreader"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>By default, calling <code>readableStream.getReader()</code> with no arguments
+will return an instance of <code>ReadableStreamDefaultReader</code>. The default
+reader treats the chunks of data passed through the stream as opaque
+values, which allows the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> to work with generally any
+JavaScript value.</p>
+<h5><code>new ReadableStreamDefaultReader(stream)</code><span><a class="mark" href="#new-readablestreamdefaultreaderstream" id="new-readablestreamdefaultreaderstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_readablestreamdefaultreader_stream"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>stream</code> <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a></li>
+</ul>
+<p>Creates a new <a href="webstreams.html#class-readablestreamdefaultreader" class="type">&#x3C;ReadableStreamDefaultReader></a> that is locked to the
+given <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>.</p>
+<h5><code>readableStreamDefaultReader.cancel([reason])</code><span><a class="mark" href="#readablestreamdefaultreadercancelreason" id="readablestreamdefaultreadercancelreason">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreamdefaultreader_cancel_reason"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>reason</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+<p>Cancels the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> and returns a promise that is fulfilled
+when the underlying stream has been canceled.</p>
+<h5><code>readableStreamDefaultReader.closed</code><span><a class="mark" href="#readablestreamdefaultreaderclosed" id="readablestreamdefaultreaderclosed">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreamdefaultreader_closed"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfilled with <code>undefined</code> when the associated
+<a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> is closed or rejected if the stream errors or the reader's
+lock is released before the stream finishes closing.</li>
+</ul>
+<h5><code>readableStreamDefaultReader.read()</code><span><a class="mark" href="#readablestreamdefaultreaderread" id="readablestreamdefaultreaderread">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreamdefaultreader_read"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Returns: A promise fulfilled with an object:
+<ul>
+<li><code>value</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li><code>done</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+</li>
+</ul>
+<p>Requests the next chunk of data from the underlying <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>
+and returns a promise that is fulfilled with the data once it is
+available.</p>
+<h5><code>readableStreamDefaultReader.releaseLock()</code><span><a class="mark" href="#readablestreamdefaultreaderreleaselock" id="readablestreamdefaultreaderreleaselock">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreamdefaultreader_releaselock"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<p>Releases this reader's lock on the underlying <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>.</p>
+<h4>Class: <code>ReadableStreamBYOBReader</code><span><a class="mark" href="#class-readablestreambyobreader" id="class-readablestreambyobreader">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_readablestreambyobreader"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>The <code>ReadableStreamBYOBReader</code> is an alternative consumer for
+byte-oriented <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>s (those that are created with
+<code>underlyingSource.type</code> set equal to <code>'bytes'</code> when the
+<code>ReadableStream</code> was created).</p>
+<p>The <code>BYOB</code> is short for "bring your own buffer". This is a
+pattern that allows for more efficient reading of byte-oriented
+data that avoids extraneous copying.</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> {
+  open,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'node:fs/promises'</span>;
+
+<span class="hljs-keyword">import</span> {
+  <span class="hljs-title class_">ReadableStream</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/web'</span>;
+
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Source</span> {
+  type = <span class="hljs-string">'bytes'</span>;
+  autoAllocateChunkSize = <span class="hljs-number">1024</span>;
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">start</span>(<span class="hljs-params">controller</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">file</span> = <span class="hljs-keyword">await</span> <span class="hljs-title function_">open</span>(<span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(<span class="hljs-keyword">import</span>.<span class="hljs-property">meta</span>.<span class="hljs-property">url</span>));
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">controller</span> = controller;
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">pull</span>(<span class="hljs-params">controller</span>) {
+    <span class="hljs-keyword">const</span> view = controller.<span class="hljs-property">byobRequest</span>?.<span class="hljs-property">view</span>;
+    <span class="hljs-keyword">const</span> {
+      bytesRead,
+    } = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">file</span>.<span class="hljs-title function_">read</span>({
+      <span class="hljs-attr">buffer</span>: view,
+      <span class="hljs-attr">offset</span>: view.<span class="hljs-property">byteOffset</span>,
+      <span class="hljs-attr">length</span>: view.<span class="hljs-property">byteLength</span>,
+    });
+
+    <span class="hljs-keyword">if</span> (bytesRead === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">file</span>.<span class="hljs-title function_">close</span>();
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">controller</span>.<span class="hljs-title function_">close</span>();
+    }
+    controller.<span class="hljs-property">byobRequest</span>.<span class="hljs-title function_">respond</span>(bytesRead);
+  }
+}
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReadableStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Source</span>());
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">read</span>(<span class="hljs-params">stream</span>) {
+  <span class="hljs-keyword">const</span> reader = stream.<span class="hljs-title function_">getReader</span>({ <span class="hljs-attr">mode</span>: <span class="hljs-string">'byob'</span> });
+
+  <span class="hljs-keyword">const</span> chunks = [];
+  <span class="hljs-keyword">let</span> result;
+  <span class="hljs-keyword">do</span> {
+    result = <span class="hljs-keyword">await</span> reader.<span class="hljs-title function_">read</span>(<span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">alloc</span>(<span class="hljs-number">100</span>));
+    <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> !== <span class="hljs-literal">undefined</span>)
+      chunks.<span class="hljs-title function_">push</span>(<span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(result.<span class="hljs-property">value</span>));
+  } <span class="hljs-keyword">while</span> (!result.<span class="hljs-property">done</span>);
+
+  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">concat</span>(chunks);
+}
+
+<span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title function_">read</span>(stream);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(data).<span class="hljs-title function_">toString</span>());</code> <button class="copy-button">copy</button></pre>
+<h5><code>new ReadableStreamBYOBReader(stream)</code><span><a class="mark" href="#new-readablestreambyobreaderstream" id="new-readablestreambyobreaderstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_readablestreambyobreader_stream"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>stream</code> <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a></li>
+</ul>
+<p>Creates a new <code>ReadableStreamBYOBReader</code> that is locked to the
+given <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>.</p>
+<h5><code>readableStreamBYOBReader.cancel([reason])</code><span><a class="mark" href="#readablestreambyobreadercancelreason" id="readablestreambyobreadercancelreason">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreambyobreader_cancel_reason"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>reason</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+<p>Cancels the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> and returns a promise that is fulfilled
+when the underlying stream has been canceled.</p>
+<h5><code>readableStreamBYOBReader.closed</code><span><a class="mark" href="#readablestreambyobreaderclosed" id="readablestreambyobreaderclosed">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreambyobreader_closed"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfilled with <code>undefined</code> when the associated
+<a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> is closed or rejected if the stream errors or the reader's
+lock is released before the stream finishes closing.</li>
+</ul>
+<h5><code>readableStreamBYOBReader.read(view[, options])</code><span><a class="mark" href="#readablestreambyobreaderreadview-options" id="readablestreambyobreaderreadview-options">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreambyobreader_read_view_options"></a></h5>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v20.17.0</td>
+<td><p>Added <code>min</code> option.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>view</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a></li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>min</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> When set, the returned promise will only be
+fulfilled as soon as <code>min</code> number of elements are available.
+When not set, the promise fulfills when at least one element
+is available.</li>
+</ul>
+</li>
+<li>Returns: A promise fulfilled with an object:
+<ul>
+<li><code>value</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a></li>
+<li><code>done</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+</li>
+</ul>
+<p>Requests the next chunk of data from the underlying <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>
+and returns a promise that is fulfilled with the data once it is
+available.</p>
+<p>Do not pass a pooled <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> object instance in to this method.
+Pooled <code>Buffer</code> objects are created using <code>Buffer.allocUnsafe()</code>,
+or <code>Buffer.from()</code>, or are often returned by various <code>node:fs</code> module
+callbacks. These types of <code>Buffer</code>s use a shared underlying
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" class="type">&#x3C;ArrayBuffer></a> object that contains all of the data from all of
+the pooled <code>Buffer</code> instances. When a <code>Buffer</code>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a>,
+or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> is passed in to <code>readableStreamBYOBReader.read()</code>,
+the view's underlying <code>ArrayBuffer</code> is <em>detached</em>, invalidating
+all existing views that may exist on that <code>ArrayBuffer</code>. This
+can have disastrous consequences for your application.</p>
+<h5><code>readableStreamBYOBReader.releaseLock()</code><span><a class="mark" href="#readablestreambyobreaderreleaselock" id="readablestreambyobreaderreleaselock">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreambyobreader_releaselock"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<p>Releases this reader's lock on the underlying <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>.</p>
+<h4>Class: <code>ReadableStreamDefaultController</code><span><a class="mark" href="#class-readablestreamdefaultcontroller" id="class-readablestreamdefaultcontroller">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_readablestreamdefaultcontroller"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<p>Every <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> has a controller that is responsible for
+the internal state and management of the stream's queue. The
+<code>ReadableStreamDefaultController</code> is the default controller
+implementation for <code>ReadableStream</code>s that are not byte-oriented.</p>
+<h5><code>readableStreamDefaultController.close()</code><span><a class="mark" href="#readablestreamdefaultcontrollerclose" id="readablestreamdefaultcontrollerclose">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreamdefaultcontroller_close"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<p>Closes the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> to which this controller is associated.</p>
+<h5><code>readableStreamDefaultController.desiredSize</code><span><a class="mark" href="#readablestreamdefaultcontrollerdesiredsize" id="readablestreamdefaultcontrollerdesiredsize">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreamdefaultcontroller_desiredsize"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+<p>Returns the amount of data remaining to fill the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>'s
+queue.</p>
+<h5><code>readableStreamDefaultController.enqueue([chunk])</code><span><a class="mark" href="#readablestreamdefaultcontrollerenqueuechunk" id="readablestreamdefaultcontrollerenqueuechunk">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreamdefaultcontroller_enqueue_chunk"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>chunk</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+</ul>
+<p>Appends a new chunk of data to the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>'s queue.</p>
+<h5><code>readableStreamDefaultController.error([error])</code><span><a class="mark" href="#readablestreamdefaultcontrollererrorerror" id="readablestreamdefaultcontrollererrorerror">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreamdefaultcontroller_error_error"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>error</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+</ul>
+<p>Signals an error that causes the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> to error and close.</p>
+<h4>Class: <code>ReadableByteStreamController</code><span><a class="mark" href="#class-readablebytestreamcontroller" id="class-readablebytestreamcontroller">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_readablebytestreamcontroller"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.10.0</td>
+<td><p>Support handling a BYOB pull request from a released reader.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Every <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> has a controller that is responsible for
+the internal state and management of the stream's queue. The
+<code>ReadableByteStreamController</code> is for byte-oriented <code>ReadableStream</code>s.</p>
+<h5><code>readableByteStreamController.byobRequest</code><span><a class="mark" href="#readablebytestreamcontrollerbyobrequest" id="readablebytestreamcontrollerbyobrequest">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablebytestreamcontroller_byobrequest"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="webstreams.html#class-readablestreambyobrequest" class="type">&#x3C;ReadableStreamBYOBRequest></a></li>
+</ul>
+<h5><code>readableByteStreamController.close()</code><span><a class="mark" href="#readablebytestreamcontrollerclose" id="readablebytestreamcontrollerclose">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablebytestreamcontroller_close"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<p>Closes the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> to which this controller is associated.</p>
+<h5><code>readableByteStreamController.desiredSize</code><span><a class="mark" href="#readablebytestreamcontrollerdesiredsize" id="readablebytestreamcontrollerdesiredsize">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablebytestreamcontroller_desiredsize"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+<p>Returns the amount of data remaining to fill the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>'s
+queue.</p>
+<h5><code>readableByteStreamController.enqueue(chunk)</code><span><a class="mark" href="#readablebytestreamcontrollerenqueuechunk" id="readablebytestreamcontrollerenqueuechunk">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablebytestreamcontroller_enqueue_chunk"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>chunk</code>: <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a></li>
+</ul>
+<p>Appends a new chunk of data to the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>'s queue.</p>
+<h5><code>readableByteStreamController.error([error])</code><span><a class="mark" href="#readablebytestreamcontrollererrorerror" id="readablebytestreamcontrollererrorerror">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablebytestreamcontroller_error_error"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>error</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+</ul>
+<p>Signals an error that causes the <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> to error and close.</p>
+<h4>Class: <code>ReadableStreamBYOBRequest</code><span><a class="mark" href="#class-readablestreambyobrequest" id="class-readablestreambyobrequest">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_readablestreambyobrequest"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>When using <code>ReadableByteStreamController</code> in byte-oriented
+streams, and when using the <code>ReadableStreamBYOBReader</code>,
+the <code>readableByteStreamController.byobRequest</code> property
+provides access to a <code>ReadableStreamBYOBRequest</code> instance
+that represents the current read request. The object
+is used to gain access to the <code>ArrayBuffer</code>/<code>TypedArray</code>
+that has been provided for the read request to fill,
+and provides methods for signaling that the data has
+been provided.</p>
+<h5><code>readableStreamBYOBRequest.respond(bytesWritten)</code><span><a class="mark" href="#readablestreambyobrequestrespondbyteswritten" id="readablestreambyobrequestrespondbyteswritten">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreambyobrequest_respond_byteswritten"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>bytesWritten</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+<p>Signals that a <code>bytesWritten</code> number of bytes have been written
+to <code>readableStreamBYOBRequest.view</code>.</p>
+<h5><code>readableStreamBYOBRequest.respondWithNewView(view)</code><span><a class="mark" href="#readablestreambyobrequestrespondwithnewviewview" id="readablestreambyobrequestrespondwithnewviewview">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreambyobrequest_respondwithnewview_view"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>view</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a></li>
+</ul>
+<p>Signals that the request has been fulfilled with bytes written
+to a new <code>Buffer</code>, <code>TypedArray</code>, or <code>DataView</code>.</p>
+<h5><code>readableStreamBYOBRequest.view</code><span><a class="mark" href="#readablestreambyobrequestview" id="readablestreambyobrequestview">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_readablestreambyobrequest_view"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a></li>
+</ul>
+<h4>Class: <code>WritableStream</code><span><a class="mark" href="#class-writablestream" id="class-writablestream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_writablestream"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>The <code>WritableStream</code> is a destination to which stream data is sent.</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> {
+  <span class="hljs-title class_">WritableStream</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/web'</span>;
+
+<span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WritableStream</span>({
+  <span class="hljs-title function_">write</span>(<span class="hljs-params">chunk</span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chunk);
+  },
+});
+
+<span class="hljs-keyword">await</span> stream.<span class="hljs-title function_">getWriter</span>().<span class="hljs-title function_">write</span>(<span class="hljs-string">'Hello World'</span>);</code> <button class="copy-button">copy</button></pre>
+<h5><code>new WritableStream([underlyingSink[, strategy]])</code><span><a class="mark" href="#new-writablestreamunderlyingsink-strategy" id="new-writablestreamunderlyingsink-strategy">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_writablestream_underlyingsink_strategy"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>underlyingSink</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>start</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function that is invoked immediately when
+the <code>WritableStream</code> is created.
+<ul>
+<li><code>controller</code> <a href="webstreams.html#class-writablestreamdefaultcontroller" class="type">&#x3C;WritableStreamDefaultController></a></li>
+<li>Returns: <code>undefined</code> or a promise fulfilled with <code>undefined</code>.</li>
+</ul>
+</li>
+<li><code>write</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function that is invoked when a chunk of
+data has been written to the <code>WritableStream</code>.
+<ul>
+<li><code>chunk</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li><code>controller</code> <a href="webstreams.html#class-writablestreamdefaultcontroller" class="type">&#x3C;WritableStreamDefaultController></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+</li>
+<li><code>close</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function that is called when the
+<code>WritableStream</code> is closed.
+<ul>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+</li>
+<li><code>abort</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function that is called to abruptly close
+the <code>WritableStream</code>.
+<ul>
+<li><code>reason</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+</li>
+<li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a> The <code>type</code> option is reserved for future use and <em>must</em> be
+undefined.</li>
+</ul>
+</li>
+<li><code>strategy</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>highWaterMark</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The maximum internal queue size before backpressure
+is applied.</li>
+<li><code>size</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function used to identify the size of each
+chunk of data.
+<ul>
+<li><code>chunk</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5><code>writableStream.abort([reason])</code><span><a class="mark" href="#writablestreamabortreason" id="writablestreamabortreason">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestream_abort_reason"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>reason</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+<p>Abruptly terminates the <code>WritableStream</code>. All queued writes will be
+canceled with their associated promises rejected.</p>
+<h5><code>writableStream.close()</code><span><a class="mark" href="#writablestreamclose" id="writablestreamclose">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestream_close"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+<p>Closes the <code>WritableStream</code> when no additional writes are expected.</p>
+<h5><code>writableStream.getWriter()</code><span><a class="mark" href="#writablestreamgetwriter" id="writablestreamgetwriter">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestream_getwriter"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Returns: <a href="webstreams.html#class-writablestreamdefaultwriter" class="type">&#x3C;WritableStreamDefaultWriter></a></li>
+</ul>
+<p>Creates and returns a new writer instance that can be used to write
+data into the <code>WritableStream</code>.</p>
+<h5><code>writableStream.locked</code><span><a class="mark" href="#writablestreamlocked" id="writablestreamlocked">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestream_locked"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>The <code>writableStream.locked</code> property is <code>false</code> by default, and is
+switched to <code>true</code> while there is an active writer attached to this
+<code>WritableStream</code>.</p>
+<h5>Transferring with postMessage()<span><a class="mark" href="#transferring-with-postmessage_1" id="transferring-with-postmessage_1">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_transferring_with_postmessage_1"></a></h5>
+<p>A <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a> instance can be transferred using a <a href="worker_threads.html#class-messageport" class="type">&#x3C;MessagePort></a>.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WritableStream</span>(<span class="hljs-title function_">getWritableSinkSomehow</span>());
+
+<span class="hljs-keyword">const</span> { port1, port2 } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MessageChannel</span>();
+
+port1.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">{ data }</span>) =></span> {
+  data.<span class="hljs-title function_">getWriter</span>().<span class="hljs-title function_">write</span>(<span class="hljs-string">'hello'</span>);
+};
+
+port2.<span class="hljs-title function_">postMessage</span>(stream, [stream]);</code> <button class="copy-button">copy</button></pre>
+<h4>Class: <code>WritableStreamDefaultWriter</code><span><a class="mark" href="#class-writablestreamdefaultwriter" id="class-writablestreamdefaultwriter">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_writablestreamdefaultwriter"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<h5><code>new WritableStreamDefaultWriter(stream)</code><span><a class="mark" href="#new-writablestreamdefaultwriterstream" id="new-writablestreamdefaultwriterstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_writablestreamdefaultwriter_stream"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>stream</code> <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a></li>
+</ul>
+<p>Creates a new <code>WritableStreamDefaultWriter</code> that is locked to the given
+<code>WritableStream</code>.</p>
+<h5><code>writableStreamDefaultWriter.abort([reason])</code><span><a class="mark" href="#writablestreamdefaultwriterabortreason" id="writablestreamdefaultwriterabortreason">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestreamdefaultwriter_abort_reason"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>reason</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+<p>Abruptly terminates the <code>WritableStream</code>. All queued writes will be
+canceled with their associated promises rejected.</p>
+<h5><code>writableStreamDefaultWriter.close()</code><span><a class="mark" href="#writablestreamdefaultwriterclose" id="writablestreamdefaultwriterclose">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestreamdefaultwriter_close"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+<p>Closes the <code>WritableStream</code> when no additional writes are expected.</p>
+<h5><code>writableStreamDefaultWriter.closed</code><span><a class="mark" href="#writablestreamdefaultwriterclosed" id="writablestreamdefaultwriterclosed">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestreamdefaultwriter_closed"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfilled with <code>undefined</code> when the associated
+<a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a> is closed or rejected if the stream errors or the writer's
+lock is released before the stream finishes closing.</li>
+</ul>
+<h5><code>writableStreamDefaultWriter.desiredSize</code><span><a class="mark" href="#writablestreamdefaultwriterdesiredsize" id="writablestreamdefaultwriterdesiredsize">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestreamdefaultwriter_desiredsize"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+<p>The amount of data required to fill the <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a>'s queue.</p>
+<h5><code>writableStreamDefaultWriter.ready</code><span><a class="mark" href="#writablestreamdefaultwriterready" id="writablestreamdefaultwriterready">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestreamdefaultwriter_ready"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfilled with <code>undefined</code> when the writer is ready
+to be used.</li>
+</ul>
+<h5><code>writableStreamDefaultWriter.releaseLock()</code><span><a class="mark" href="#writablestreamdefaultwriterreleaselock" id="writablestreamdefaultwriterreleaselock">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestreamdefaultwriter_releaselock"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<p>Releases this writer's lock on the underlying <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a>.</p>
+<h5><code>writableStreamDefaultWriter.write([chunk])</code><span><a class="mark" href="#writablestreamdefaultwriterwritechunk" id="writablestreamdefaultwriterwritechunk">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestreamdefaultwriter_write_chunk"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>chunk</code>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+<p>Appends a new chunk of data to the <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a>'s queue.</p>
+<h4>Class: <code>WritableStreamDefaultController</code><span><a class="mark" href="#class-writablestreamdefaultcontroller" id="class-writablestreamdefaultcontroller">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_writablestreamdefaultcontroller"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>The <code>WritableStreamDefaultController</code> manages the <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a>'s
+internal state.</p>
+<h5><code>writableStreamDefaultController.error([error])</code><span><a class="mark" href="#writablestreamdefaultcontrollererrorerror" id="writablestreamdefaultcontrollererrorerror">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestreamdefaultcontroller_error_error"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>error</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+</ul>
+<p>Called by user-code to signal that an error has occurred while processing
+the <code>WritableStream</code> data. When called, the <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a> will be aborted,
+with currently pending writes canceled.</p>
+<h5><code>writableStreamDefaultController.signal</code><span><a class="mark" href="#writablestreamdefaultcontrollersignal" id="writablestreamdefaultcontrollersignal">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_writablestreamdefaultcontroller_signal"></a></h5>
+<ul>
+<li>Type: <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> An <code>AbortSignal</code> that can be used to cancel pending
+write or close operations when a <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a> is aborted.</li>
+</ul>
+<h4>Class: <code>TransformStream</code><span><a class="mark" href="#class-transformstream" id="class-transformstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_transformstream"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>A <code>TransformStream</code> consists of a <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> and a <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a> that
+are connected such that the data written to the <code>WritableStream</code> is received,
+and potentially transformed, before being pushed into the <code>ReadableStream</code>'s
+queue.</p>
+<pre><code class="language-js mjs"><span class="hljs-keyword">import</span> {
+  <span class="hljs-title class_">TransformStream</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/web'</span>;
+
+<span class="hljs-keyword">const</span> transform = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformStream</span>({
+  <span class="hljs-title function_">transform</span>(<span class="hljs-params">chunk, controller</span>) {
+    controller.<span class="hljs-title function_">enqueue</span>(chunk.<span class="hljs-title function_">toUpperCase</span>());
+  },
+});
+
+<span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([
+  transform.<span class="hljs-property">writable</span>.<span class="hljs-title function_">getWriter</span>().<span class="hljs-title function_">write</span>(<span class="hljs-string">'A'</span>),
+  transform.<span class="hljs-property">readable</span>.<span class="hljs-title function_">getReader</span>().<span class="hljs-title function_">read</span>(),
+]);</code> <button class="copy-button">copy</button></pre>
+<h5><code>new TransformStream([transformer[, writableStrategy[, readableStrategy]]])</code><span><a class="mark" href="#new-transformstreamtransformer-writablestrategy-readablestrategy" id="new-transformstreamtransformer-writablestrategy-readablestrategy">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_transformstream_transformer_writablestrategy_readablestrategy"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>transformer</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>start</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function that is invoked immediately when
+the <code>TransformStream</code> is created.
+<ul>
+<li><code>controller</code> <a href="webstreams.html#class-transformstreamdefaultcontroller" class="type">&#x3C;TransformStreamDefaultController></a></li>
+<li>Returns: <code>undefined</code> or a promise fulfilled with <code>undefined</code></li>
+</ul>
+</li>
+<li><code>transform</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function that receives, and
+potentially modifies, a chunk of data written to <code>transformStream.writable</code>,
+before forwarding that on to <code>transformStream.readable</code>.
+<ul>
+<li><code>chunk</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li><code>controller</code> <a href="webstreams.html#class-transformstreamdefaultcontroller" class="type">&#x3C;TransformStreamDefaultController></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+</li>
+<li><code>flush</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function that is called immediately before
+the writable side of the <code>TransformStream</code> is closed, signaling the end of
+the transformation process.
+<ul>
+<li><code>controller</code> <a href="webstreams.html#class-transformstreamdefaultcontroller" class="type">&#x3C;TransformStreamDefaultController></a></li>
+<li>Returns: A promise fulfilled with <code>undefined</code>.</li>
+</ul>
+</li>
+<li><code>readableType</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a> the <code>readableType</code> option is reserved for future use
+and <em>must</em> be <code>undefined</code>.</li>
+<li><code>writableType</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a> the <code>writableType</code> option is reserved for future use
+and <em>must</em> be <code>undefined</code>.</li>
+</ul>
+</li>
+<li><code>writableStrategy</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>highWaterMark</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The maximum internal queue size before backpressure
+is applied.</li>
+<li><code>size</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function used to identify the size of each
+chunk of data.
+<ul>
+<li><code>chunk</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>readableStrategy</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>highWaterMark</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The maximum internal queue size before backpressure
+is applied.</li>
+<li><code>size</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A user-defined function used to identify the size of each
+chunk of data.
+<ul>
+<li><code>chunk</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5><code>transformStream.readable</code><span><a class="mark" href="#transformstreamreadable" id="transformstreamreadable">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_transformstream_readable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a></li>
+</ul>
+<h5><code>transformStream.writable</code><span><a class="mark" href="#transformstreamwritable" id="transformstreamwritable">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_transformstream_writable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a></li>
+</ul>
+<h5>Transferring with postMessage()<span><a class="mark" href="#transferring-with-postmessage_2" id="transferring-with-postmessage_2">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_transferring_with_postmessage_2"></a></h5>
+<p>A <a href="webstreams.html#class-transformstream" class="type">&#x3C;TransformStream></a> instance can be transferred using a <a href="worker_threads.html#class-messageport" class="type">&#x3C;MessagePort></a>.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> stream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TransformStream</span>();
+
+<span class="hljs-keyword">const</span> { port1, port2 } = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MessageChannel</span>();
+
+port1.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">{ data }</span>) =></span> {
+  <span class="hljs-keyword">const</span> { writable, readable } = data;
+  <span class="hljs-comment">// ...</span>
+};
+
+port2.<span class="hljs-title function_">postMessage</span>(stream, [stream]);</code> <button class="copy-button">copy</button></pre>
+<h4>Class: <code>TransformStreamDefaultController</code><span><a class="mark" href="#class-transformstreamdefaultcontroller" id="class-transformstreamdefaultcontroller">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_transformstreamdefaultcontroller"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>The <code>TransformStreamDefaultController</code> manages the internal state
+of the <code>TransformStream</code>.</p>
+<h5><code>transformStreamDefaultController.desiredSize</code><span><a class="mark" href="#transformstreamdefaultcontrollerdesiredsize" id="transformstreamdefaultcontrollerdesiredsize">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_transformstreamdefaultcontroller_desiredsize"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+<p>The amount of data required to fill the readable side's queue.</p>
+<h5><code>transformStreamDefaultController.enqueue([chunk])</code><span><a class="mark" href="#transformstreamdefaultcontrollerenqueuechunk" id="transformstreamdefaultcontrollerenqueuechunk">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_transformstreamdefaultcontroller_enqueue_chunk"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>chunk</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+</ul>
+<p>Appends a chunk of data to the readable side's queue.</p>
+<h5><code>transformStreamDefaultController.error([reason])</code><span><a class="mark" href="#transformstreamdefaultcontrollererrorreason" id="transformstreamdefaultcontrollererrorreason">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_transformstreamdefaultcontroller_error_reason"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>reason</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+</ul>
+<p>Signals to both the readable and writable side that an error has occurred
+while processing the transform data, causing both sides to be abruptly
+closed.</p>
+<h5><code>transformStreamDefaultController.terminate()</code><span><a class="mark" href="#transformstreamdefaultcontrollerterminate" id="transformstreamdefaultcontrollerterminate">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_transformstreamdefaultcontroller_terminate"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<p>Closes the readable side of the transport and causes the writable side
+to be abruptly closed with an error.</p>
+<h4>Class: <code>ByteLengthQueuingStrategy</code><span><a class="mark" href="#class-bytelengthqueuingstrategy" id="class-bytelengthqueuingstrategy">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_bytelengthqueuingstrategy"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<h5><code>new ByteLengthQueuingStrategy(init)</code><span><a class="mark" href="#new-bytelengthqueuingstrategyinit" id="new-bytelengthqueuingstrategyinit">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_bytelengthqueuingstrategy_init"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>init</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>highWaterMark</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+</li>
+</ul>
+<h5><code>byteLengthQueuingStrategy.highWaterMark</code><span><a class="mark" href="#bytelengthqueuingstrategyhighwatermark" id="bytelengthqueuingstrategyhighwatermark">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_bytelengthqueuingstrategy_highwatermark"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+<h5><code>byteLengthQueuingStrategy.size</code><span><a class="mark" href="#bytelengthqueuingstrategysize" id="bytelengthqueuingstrategysize">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_bytelengthqueuingstrategy_size"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>chunk</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+</li>
+</ul>
+<h4>Class: <code>CountQueuingStrategy</code><span><a class="mark" href="#class-countqueuingstrategy" id="class-countqueuingstrategy">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_countqueuingstrategy"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.5.0</td>
+<td><p><span>Added in: v16.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<h5><code>new CountQueuingStrategy(init)</code><span><a class="mark" href="#new-countqueuingstrategyinit" id="new-countqueuingstrategyinit">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_countqueuingstrategy_init"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li><code>init</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>highWaterMark</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+</li>
+</ul>
+<h5><code>countQueuingStrategy.highWaterMark</code><span><a class="mark" href="#countqueuingstrategyhighwatermark" id="countqueuingstrategyhighwatermark">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_countqueuingstrategy_highwatermark"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+<h5><code>countQueuingStrategy.size</code><span><a class="mark" href="#countqueuingstrategysize" id="countqueuingstrategysize">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_countqueuingstrategy_size"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.5.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a>
+<ul>
+<li><code>chunk</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types" class="type">&#x3C;any></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+</ul>
+</li>
+</ul>
+<h4>Class: <code>TextEncoderStream</code><span><a class="mark" href="#class-textencoderstream" id="class-textencoderstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_textencoderstream"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.6.0</td>
+<td><p><span>Added in: v16.6.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<h5><code>new TextEncoderStream()</code><span><a class="mark" href="#new-textencoderstream" id="new-textencoderstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_textencoderstream"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.6.0</span>
+</div>
+<p>Creates a new <code>TextEncoderStream</code> instance.</p>
+<h5><code>textEncoderStream.encoding</code><span><a class="mark" href="#textencoderstreamencoding" id="textencoderstreamencoding">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_textencoderstream_encoding"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.6.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The encoding supported by the <code>TextEncoderStream</code> instance.</p>
+<h5><code>textEncoderStream.readable</code><span><a class="mark" href="#textencoderstreamreadable" id="textencoderstreamreadable">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_textencoderstream_readable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.6.0</span>
+</div>
+<ul>
+<li>Type: <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a></li>
+</ul>
+<h5><code>textEncoderStream.writable</code><span><a class="mark" href="#textencoderstreamwritable" id="textencoderstreamwritable">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_textencoderstream_writable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.6.0</span>
+</div>
+<ul>
+<li>Type: <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a></li>
+</ul>
+<h4>Class: <code>TextDecoderStream</code><span><a class="mark" href="#class-textdecoderstream" id="class-textdecoderstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_textdecoderstream"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v16.6.0</td>
+<td><p><span>Added in: v16.6.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<h5><code>new TextDecoderStream([encoding[, options]])</code><span><a class="mark" href="#new-textdecoderstreamencoding-options" id="new-textdecoderstreamencoding-options">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_textdecoderstream_encoding_options"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.6.0</span>
+</div>
+<ul>
+<li><code>encoding</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Identifies the <code>encoding</code> that this <code>TextDecoder</code> instance
+supports. <strong>Default:</strong> <code>'utf-8'</code>.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>fatal</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>true</code> if decoding failures are fatal.</li>
+<li><code>ignoreBOM</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code>, the <code>TextDecoderStream</code> will include the
+byte order mark in the decoded result. When <code>false</code>, the byte order mark
+will be removed from the output. This option is only used when <code>encoding</code> is
+<code>'utf-8'</code>, <code>'utf-16be'</code>, or <code>'utf-16le'</code>. <strong>Default:</strong> <code>false</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Creates a new <code>TextDecoderStream</code> instance.</p>
+<h5><code>textDecoderStream.encoding</code><span><a class="mark" href="#textdecoderstreamencoding" id="textdecoderstreamencoding">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_textdecoderstream_encoding"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.6.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The encoding supported by the <code>TextDecoderStream</code> instance.</p>
+<h5><code>textDecoderStream.fatal</code><span><a class="mark" href="#textdecoderstreamfatal" id="textdecoderstreamfatal">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_textdecoderstream_fatal"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.6.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>The value will be <code>true</code> if decoding errors result in a <code>TypeError</code> being
+thrown.</p>
+<h5><code>textDecoderStream.ignoreBOM</code><span><a class="mark" href="#textdecoderstreamignorebom" id="textdecoderstreamignorebom">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_textdecoderstream_ignorebom"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.6.0</span>
+</div>
+<ul>
+<li>Type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>The value will be <code>true</code> if the decoding result will include the byte order
+mark.</p>
+<h5><code>textDecoderStream.readable</code><span><a class="mark" href="#textdecoderstreamreadable" id="textdecoderstreamreadable">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_textdecoderstream_readable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.6.0</span>
+</div>
+<ul>
+<li>Type: <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a></li>
+</ul>
+<h5><code>textDecoderStream.writable</code><span><a class="mark" href="#textdecoderstreamwritable" id="textdecoderstreamwritable">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_textdecoderstream_writable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.6.0</span>
+</div>
+<ul>
+<li>Type: <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a></li>
+</ul>
+<h4>Class: <code>CompressionStream</code><span><a class="mark" href="#class-compressionstream" id="class-compressionstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_compressionstream"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v17.0.0</td>
+<td><p><span>Added in: v17.0.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<h5><code>new CompressionStream(format)</code><span><a class="mark" href="#new-compressionstreamformat" id="new-compressionstreamformat">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_compressionstream_format"></a></h5>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v20.12.0</td>
+<td><p>format now accepts <code>deflate-raw</code> value.</p></td></tr>
+<tr><td>v17.0.0</td>
+<td><p><span>Added in: v17.0.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>format</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> One of <code>'deflate'</code>, <code>'deflate-raw'</code>, or <code>'gzip'</code>.</li>
+</ul>
+<h5><code>compressionStream.readable</code><span><a class="mark" href="#compressionstreamreadable" id="compressionstreamreadable">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_compressionstream_readable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v17.0.0</span>
+</div>
+<ul>
+<li>Type: <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a></li>
+</ul>
+<h5><code>compressionStream.writable</code><span><a class="mark" href="#compressionstreamwritable" id="compressionstreamwritable">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_compressionstream_writable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v17.0.0</span>
+</div>
+<ul>
+<li>Type: <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a></li>
+</ul>
+<h4>Class: <code>DecompressionStream</code><span><a class="mark" href="#class-decompressionstream" id="class-decompressionstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_class_decompressionstream"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.0.0</td>
+<td><p>This class is now exposed on the global object.</p></td></tr>
+<tr><td>v17.0.0</td>
+<td><p><span>Added in: v17.0.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<h5><code>new DecompressionStream(format)</code><span><a class="mark" href="#new-decompressionstreamformat" id="new-decompressionstreamformat">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_new_decompressionstream_format"></a></h5>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v20.12.0</td>
+<td><p>format now accepts <code>deflate-raw</code> value.</p></td></tr>
+<tr><td>v17.0.0</td>
+<td><p><span>Added in: v17.0.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>format</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> One of <code>'deflate'</code>, <code>'deflate-raw'</code>, or <code>'gzip'</code>.</li>
+</ul>
+<h5><code>decompressionStream.readable</code><span><a class="mark" href="#decompressionstreamreadable" id="decompressionstreamreadable">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_decompressionstream_readable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v17.0.0</span>
+</div>
+<ul>
+<li>Type: <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a></li>
+</ul>
+<h5><code>decompressionStream.writable</code><span><a class="mark" href="#decompressionstreamwritable" id="decompressionstreamwritable">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_decompressionstream_writable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v17.0.0</span>
+</div>
+<ul>
+<li>Type: <a href="webstreams.html#class-writablestream" class="type">&#x3C;WritableStream></a></li>
+</ul>
+<h4>Utility Consumers<span><a class="mark" href="#utility-consumers" id="utility-consumers">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_utility_consumers"></a></h4>
+<div class="api_metadata">
+<span>Added in: v16.7.0</span>
+</div>
+<p>The utility consumer functions provide common options for consuming
+streams.</p>
+<p>They are accessed using:</p>
+
+<pre class="with-14-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> {
+  arrayBuffer,
+  blob,
+  buffer,
+  json,
+  text,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/consumers'</span>;</code><code class="language-js cjs"><span class="hljs-keyword">const</span> {
+  arrayBuffer,
+  blob,
+  buffer,
+  json,
+  text,
+} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/consumers'</span>);</code><button class="copy-button">copy</button></pre>
+<h5><code>streamConsumers.arrayBuffer(stream)</code><span><a class="mark" href="#streamconsumersarraybufferstream" id="streamconsumersarraybufferstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_streamconsumers_arraybuffer_stream"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.7.0</span>
+</div>
+<ul>
+<li><code>stream</code> <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> | <a href="stream.html#class-streamreadable" class="type">&#x3C;stream.Readable></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterator-interface" class="type">&#x3C;AsyncIterator></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfills with an <code>ArrayBuffer</code> containing the full
+contents of the stream.</li>
+</ul>
+
+<pre class="with-57-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { arrayBuffer } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/consumers'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Readable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">TextEncoder</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:util'</span>;
+
+<span class="hljs-keyword">const</span> encoder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TextEncoder</span>();
+<span class="hljs-keyword">const</span> dataArray = encoder.<span class="hljs-title function_">encode</span>(<span class="hljs-string">'hello world from consumers!'</span>);
+
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(dataArray);
+<span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title function_">arrayBuffer</span>(readable);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.byteLength}</span>`</span>);
+<span class="hljs-comment">// Prints: from readable: 76</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { arrayBuffer } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/consumers'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Readable</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">TextEncoder</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:util'</span>);
+
+<span class="hljs-keyword">const</span> encoder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TextEncoder</span>();
+<span class="hljs-keyword">const</span> dataArray = encoder.<span class="hljs-title function_">encode</span>(<span class="hljs-string">'hello world from consumers!'</span>);
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(dataArray);
+<span class="hljs-title function_">arrayBuffer</span>(readable).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.byteLength}</span>`</span>);
+  <span class="hljs-comment">// Prints: from readable: 76</span>
+});</code><button class="copy-button">copy</button></pre>
+<h5><code>streamConsumers.blob(stream)</code><span><a class="mark" href="#streamconsumersblobstream" id="streamconsumersblobstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_streamconsumers_blob_stream"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.7.0</span>
+</div>
+<ul>
+<li><code>stream</code> <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> | <a href="stream.html#class-streamreadable" class="type">&#x3C;stream.Readable></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterator-interface" class="type">&#x3C;AsyncIterator></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfills with a <a href="buffer.html#class-blob" class="type">&#x3C;Blob></a> containing the full contents
+of the stream.</li>
+</ul>
+
+<pre class="with-50-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { blob } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/consumers'</span>;
+
+<span class="hljs-keyword">const</span> dataBlob = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Blob</span>([<span class="hljs-string">'hello world from consumers!'</span>]);
+
+<span class="hljs-keyword">const</span> readable = dataBlob.<span class="hljs-title function_">stream</span>();
+<span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title function_">blob</span>(readable);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.size}</span>`</span>);
+<span class="hljs-comment">// Prints: from readable: 27</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { blob } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/consumers'</span>);
+
+<span class="hljs-keyword">const</span> dataBlob = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Blob</span>([<span class="hljs-string">'hello world from consumers!'</span>]);
+
+<span class="hljs-keyword">const</span> readable = dataBlob.<span class="hljs-title function_">stream</span>();
+<span class="hljs-title function_">blob</span>(readable).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.size}</span>`</span>);
+  <span class="hljs-comment">// Prints: from readable: 27</span>
+});</code><button class="copy-button">copy</button></pre>
+<h5><code>streamConsumers.buffer(stream)</code><span><a class="mark" href="#streamconsumersbufferstream" id="streamconsumersbufferstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_streamconsumers_buffer_stream"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.7.0</span>
+</div>
+<ul>
+<li><code>stream</code> <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> | <a href="stream.html#class-streamreadable" class="type">&#x3C;stream.Readable></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterator-interface" class="type">&#x3C;AsyncIterator></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfills with a <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> containing the full
+contents of the stream.</li>
+</ul>
+
+<pre class="with-52-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { buffer } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/consumers'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Readable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+
+<span class="hljs-keyword">const</span> dataBuffer = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'hello world from consumers!'</span>);
+
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(dataBuffer);
+<span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title function_">buffer</span>(readable);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.length}</span>`</span>);
+<span class="hljs-comment">// Prints: from readable: 27</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { buffer } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/consumers'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Readable</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Buffer</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:buffer'</span>);
+
+<span class="hljs-keyword">const</span> dataBuffer = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'hello world from consumers!'</span>);
+
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(dataBuffer);
+<span class="hljs-title function_">buffer</span>(readable).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.length}</span>`</span>);
+  <span class="hljs-comment">// Prints: from readable: 27</span>
+});</code><button class="copy-button">copy</button></pre>
+<h5><code>streamConsumers.json(stream)</code><span><a class="mark" href="#streamconsumersjsonstream" id="streamconsumersjsonstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_streamconsumers_json_stream"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.7.0</span>
+</div>
+<ul>
+<li><code>stream</code> <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> | <a href="stream.html#class-streamreadable" class="type">&#x3C;stream.Readable></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterator-interface" class="type">&#x3C;AsyncIterator></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfills with the contents of the stream parsed as a
+UTF-8 encoded string that is then passed through <code>JSON.parse()</code>.</li>
+</ul>
+
+<pre class="with-50-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { json } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/consumers'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Readable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream'</span>;
+
+<span class="hljs-keyword">const</span> items = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(
+  {
+    <span class="hljs-attr">length</span>: <span class="hljs-number">100</span>,
+  },
+  <span class="hljs-function">() =></span> ({
+    <span class="hljs-attr">message</span>: <span class="hljs-string">'hello world from consumers!'</span>,
+  }),
+);
+
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(items));
+<span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title function_">json</span>(readable);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.length}</span>`</span>);
+<span class="hljs-comment">// Prints: from readable: 100</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { json } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/consumers'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Readable</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream'</span>);
+
+<span class="hljs-keyword">const</span> items = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">from</span>(
+  {
+    <span class="hljs-attr">length</span>: <span class="hljs-number">100</span>,
+  },
+  <span class="hljs-function">() =></span> ({
+    <span class="hljs-attr">message</span>: <span class="hljs-string">'hello world from consumers!'</span>,
+  }),
+);
+
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(items));
+<span class="hljs-title function_">json</span>(readable).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.length}</span>`</span>);
+  <span class="hljs-comment">// Prints: from readable: 100</span>
+});</code><button class="copy-button">copy</button></pre>
+<h5><code>streamConsumers.text(stream)</code><span><a class="mark" href="#streamconsumerstextstream" id="streamconsumerstextstream">#</a></span><a aria-hidden="true" class="legacy" id="webstreams_streamconsumers_text_stream"></a></h5>
+<div class="api_metadata">
+<span>Added in: v16.7.0</span>
+</div>
+<ul>
+<li><code>stream</code> <a href="webstreams.html#class-readablestream" class="type">&#x3C;ReadableStream></a> | <a href="stream.html#class-streamreadable" class="type">&#x3C;stream.Readable></a> | <a href="https://tc39.github.io/ecma262/#sec-asynciterator-interface" class="type">&#x3C;AsyncIterator></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" class="type">&#x3C;Promise></a> Fulfills with the contents of the stream parsed as a
+UTF-8 encoded string.</li>
+</ul>
+
+<pre class="with-50-chars"><input class="js-flavor-toggle" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> { text } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream/consumers'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Readable</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:stream'</span>;
+
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Hello world from consumers!'</span>);
+<span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> <span class="hljs-title function_">text</span>(readable);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.length}</span>`</span>);
+<span class="hljs-comment">// Prints: from readable: 27</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> { text } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream/consumers'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Readable</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:stream'</span>);
+
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Hello world from consumers!'</span>);
+<span class="hljs-title function_">text</span>(readable).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`from readable: <span class="hljs-subst">${data.length}</span>`</span>);
+  <span class="hljs-comment">// Prints: from readable: 27</span>
+});</code><button class="copy-button">copy</button></pre></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

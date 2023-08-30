@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v16.19.1">
+  <title>Permissions | Node.js v16.19.1 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/permissions.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  
+</head>
+<body class="alt apidoc" id="api-section-permissions">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions active">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="permissions" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v16.19.1 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v16.19.1</li>
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Table of contents
+      </a>
+
+      <div class="picker"><div class="toc"><ul>
+<li><a href="#permissions">Permissions</a>
+<ul>
+<li><a href="#module-based-permissions">Module-based permissions</a>
+<ul>
+<li><span class="stability_1"><a href="#policies">Policies</a></span>
+<ul>
+<li><a href="#enabling">Enabling</a></li>
+<li><a href="#features">Features</a>
+<ul>
+<li><a href="#error-behavior">Error behavior</a></li>
+<li><a href="#integrity-checks">Integrity checks</a></li>
+<li><a href="#dependency-redirection">Dependency redirection</a></li>
+<li><a href="#example-patched-dependency">Example: Patched dependency</a></li>
+</ul>
+</li>
+<li><a href="#scopes">Scopes</a>
+<ul>
+<li><a href="#example">Example</a></li>
+<li><a href="#integrity-using-scopes">Integrity using scopes</a></li>
+<li><a href="#dependency-redirection-using-scopes">Dependency redirection using scopes</a></li>
+<li><a href="#example-import-maps-emulation">Example: [import maps][] emulation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Index
+      </a>
+
+      <div class="picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions active">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Other versions
+      </a>
+      <div class="picker"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v19.x/api/permissions.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/permissions.html">18.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/permissions.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/permissions.html">16.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/permissions.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/permissions.html">14.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/permissions.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/permissions.html">12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/permissions.html">11.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#">
+                <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+                Options
+              </a>
+        
+              <div class="picker">
+                <ul>
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="permissions.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/permissions.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><a href="#permissions">Permissions</a>
+<ul>
+<li><a href="#module-based-permissions">Module-based permissions</a>
+<ul>
+<li><span class="stability_1"><a href="#policies">Policies</a></span>
+<ul>
+<li><a href="#enabling">Enabling</a></li>
+<li><a href="#features">Features</a>
+<ul>
+<li><a href="#error-behavior">Error behavior</a></li>
+<li><a href="#integrity-checks">Integrity checks</a></li>
+<li><a href="#dependency-redirection">Dependency redirection</a></li>
+<li><a href="#example-patched-dependency">Example: Patched dependency</a></li>
+</ul>
+</li>
+<li><a href="#scopes">Scopes</a>
+<ul>
+<li><a href="#example">Example</a></li>
+<li><a href="#integrity-using-scopes">Integrity using scopes</a></li>
+<li><a href="#dependency-redirection-using-scopes">Dependency redirection using scopes</a></li>
+<li><a href="#example-import-maps-emulation">Example: [import maps][] emulation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Permissions<span><a class="mark" href="#permissions" id="permissions">#</a></span><a aria-hidden="true" class="legacy" id="permissions_permissions"></a></h2>
+<p>Permissions can be used to control what system resources the
+Node.js process has access to or what actions the process can take
+with those resources. Permissions can also control what modules can
+be accessed by other modules.</p>
+<ul>
+<li><a href="#module-based-permissions">Module-based permissions</a> control which files
+or URLs are available to other modules during application execution.
+This can be used to control what modules can be accessed by third-party
+dependencies, for example.</li>
+</ul>
+<p>If you find a potential security vulnerability, please refer to our
+<a href="https://github.com/nodejs/node/blob/main/SECURITY.md">Security Policy</a>.</p>
+<section><h3>Module-based permissions<span><a class="mark" href="#module-based-permissions" id="module-based-permissions">#</a></span><a aria-hidden="true" class="legacy" id="permissions_module_based_permissions"></a></h3>
+<h4>Policies<span><a class="mark" href="#policies" id="policies">#</a></span><a aria-hidden="true" class="legacy" id="permissions_policies"></a></h4>
+
+
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+
+<p>Node.js contains experimental support for creating policies on loading code.</p>
+<p>Policies are a security feature intended to allow guarantees
+about what code Node.js is able to load. The use of policies assumes
+safe practices for the policy files such as ensuring that policy
+files cannot be overwritten by the Node.js application by using
+file permissions.</p>
+<p>A best practice would be to ensure that the policy manifest is read-only for
+the running Node.js application and that the file cannot be changed
+by the running Node.js application in any way. A typical setup would be to
+create the policy file as a different user id than the one running Node.js
+and granting read permissions to the user id running Node.js.</p>
+<h5>Enabling<span><a class="mark" href="#enabling" id="enabling">#</a></span><a aria-hidden="true" class="legacy" id="permissions_enabling"></a></h5>
+
+<p>The <code>--experimental-policy</code> flag can be used to enable features for policies
+when loading modules.</p>
+<p>Once this has been set, all modules must conform to a policy manifest file
+passed to the flag:</p>
+<pre><code class="language-bash">node --experimental-policy=policy.json app.js</code></pre>
+<p>The policy manifest will be used to enforce constraints on code loaded by
+Node.js.</p>
+<p>To mitigate tampering with policy files on disk, an integrity for
+the policy file itself may be provided via <code>--policy-integrity</code>.
+This allows running <code>node</code> and asserting the policy file contents
+even if the file is changed on disk.</p>
+<pre><code class="language-bash">node --experimental-policy=policy.json --policy-integrity=<span class="hljs-string">"sha384-SggXRQHwCG8g+DktYYzxkXRIkTiEYWBHqev0xnpCxYlqMBufKZHAHQM3/boDaI/0"</span> app.js</code></pre>
+<h5>Features<span><a class="mark" href="#features" id="features">#</a></span><a aria-hidden="true" class="legacy" id="permissions_features"></a></h5>
+<h6>Error behavior<span><a class="mark" href="#error-behavior" id="error-behavior">#</a></span><a aria-hidden="true" class="legacy" id="permissions_error_behavior"></a></h6>
+<p>When a policy check fails, Node.js by default will throw an error.
+It is possible to change the error behavior to one of a few possibilities
+by defining an "onerror" field in a policy manifest. The following values are
+available to change the behavior:</p>
+<ul>
+<li><code>"exit"</code>: will exit the process immediately.
+No cleanup code will be allowed to run.</li>
+<li><code>"log"</code>: will log the error at the site of the failure.</li>
+<li><code>"throw"</code>: will throw a JS error at the site of the failure. This is the
+default.</li>
+</ul>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"onerror"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"log"</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"resources"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"./app/checked.js"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"integrity"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"sha384-SggXRQHwCG8g+DktYYzxkXRIkTiEYWBHqev0xnpCxYlqMBufKZHAHQM3/boDaI/0"</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h6>Integrity checks<span><a class="mark" href="#integrity-checks" id="integrity-checks">#</a></span><a aria-hidden="true" class="legacy" id="permissions_integrity_checks"></a></h6>
+<p>Policy files must use integrity checks with Subresource Integrity strings
+compatible with the browser
+<a href="https://www.w3.org/TR/SRI/#the-integrity-attribute">integrity attribute</a>
+associated with absolute URLs.</p>
+<p>When using <code>require()</code> or <code>import</code> all resources involved in loading are checked
+for integrity if a policy manifest has been specified. If a resource does not
+match the integrity listed in the manifest, an error will be thrown.</p>
+<p>An example policy file that would allow loading a file <code>checked.js</code>:</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"resources"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"./app/checked.js"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"integrity"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"sha384-SggXRQHwCG8g+DktYYzxkXRIkTiEYWBHqev0xnpCxYlqMBufKZHAHQM3/boDaI/0"</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p>Each resource listed in the policy manifest can be of one the following
+formats to determine its location:</p>
+<ol>
+<li>A <a href="https://url.spec.whatwg.org/#relative-url-with-fragment-string">relative-URL string</a> to a resource from the manifest such as <code>./resource.js</code>, <code>../resource.js</code>, or <code>/resource.js</code>.</li>
+<li>A complete URL string to a resource such as <code>file:///resource.js</code>.</li>
+</ol>
+<p>When loading resources the entire URL must match including search parameters
+and hash fragment. <code>./a.js?b</code> will not be used when attempting to load
+<code>./a.js</code> and vice versa.</p>
+<p>To generate integrity strings, a script such as
+<code>node -e 'process.stdout.write("sha256-");process.stdin.pipe(crypto.createHash("sha256").setEncoding("base64")).pipe(process.stdout)' &#x3C; FILE</code>
+can be used.</p>
+<p>Integrity can be specified as the boolean value <code>true</code> to accept any
+body for the resource which can be useful for local development. It is not
+recommended in production since it would allow unexpected alteration of
+resources to be considered valid.</p>
+<h6>Dependency redirection<span><a class="mark" href="#dependency-redirection" id="dependency-redirection">#</a></span><a aria-hidden="true" class="legacy" id="permissions_dependency_redirection"></a></h6>
+<p>An application may need to ship patched versions of modules or to prevent
+modules from allowing all modules access to all other modules. Redirection
+can be used by intercepting attempts to load the modules wishing to be
+replaced.</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"resources"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"./app/checked.js"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"dependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"fs"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"os"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./app/node_modules/alt-os"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"http"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"import"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span> <span class="hljs-punctuation">}</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p>The dependencies are keyed by the requested specifier string and have values
+of either <code>true</code>, <code>null</code>, a string pointing to a module to be resolved,
+or a conditions object.</p>
+<p>The specifier string does not perform any searching and must match exactly what
+is provided to the <code>require()</code> or <code>import</code> except for a canonicalization step.
+Therefore, multiple specifiers may be needed in the policy if it uses multiple
+different strings to point to the same module (such as excluding the extension).</p>
+<p>Specifier strings are canonicalized but not resolved prior to be used for
+matching in order to have some compatibility with import maps, for example if a
+resource <code>file:///C:/app/server.js</code> was given the following redirection from a
+policy located at <code>file:///C:/app/policy.json</code>:</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"resources"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"file:///C:/app/utils.js"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"dependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"./utils.js"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./utils-v2.js"</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p>Any specifier used to load <code>file:///C:/app/utils.js</code> would then be intercepted
+and redirected to <code>file:///C:/app/utils-v2.js</code> instead regardless of using an
+absolute or relative specifier. However, if a specifier that is not an absolute
+or relative URL string is used, it would not be intercepted. So, if an import
+such as <code>import('#utils')</code> was used, it would not be intercepted.</p>
+<p>If the value of the redirection is <code>true</code>, a "dependencies" field at the top of
+the policy file will be used. If that field at the top of the policy file is
+<code>true</code> the default node searching algorithms are used to find the module.</p>
+<p>If the value of the redirection is a string, it is resolved relative to
+the manifest and then immediately used without searching.</p>
+<p>Any specifier string for which resolution is attempted and that is not listed in
+the dependencies results in an error according to the policy.</p>
+<p>Redirection does not prevent access to APIs through means such as direct access
+to <code>require.cache</code> or through <code>module.constructor</code> which allow access to
+loading modules. Policy redirection only affects specifiers to <code>require()</code> and
+<code>import</code>. Other means, such as to prevent undesired access to APIs through
+variables, are necessary to lock down that path of loading modules.</p>
+<p>A boolean value of <code>true</code> for the dependencies map can be specified to allow a
+module to load any specifier without redirection. This can be useful for local
+development and may have some valid usage in production, but should be used
+only with care after auditing a module to ensure its behavior is valid.</p>
+<p>Similar to <code>"exports"</code> in <code>package.json</code>, dependencies can also be specified to
+be objects containing conditions which branch how dependencies are loaded. In
+the preceding example, <code>"http"</code> is allowed when the <code>"import"</code> condition is
+part of loading it.</p>
+<p>A value of <code>null</code> for the resolved value causes the resolution to fail. This
+can be used to ensure some kinds of dynamic access are explicitly prevented.</p>
+<p>Unknown values for the resolved module location cause failures but are
+not guaranteed to be forward compatible.</p>
+<h6>Example: Patched dependency<span><a class="mark" href="#example-patched-dependency" id="example-patched-dependency">#</a></span><a aria-hidden="true" class="legacy" id="permissions_example_patched_dependency"></a></h6>
+<p>Redirected dependencies can provide attenuated or modified functionality as fits
+the application. For example, log data about timing of function durations by
+wrapping the original:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> original = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fn'</span>);
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-keyword">function</span> <span class="hljs-title function_">fn</span>(<span class="hljs-params">...args</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">time</span>();
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span>.<span class="hljs-property">target</span> ?
+      <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">construct</span>(original, args) :
+      <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">apply</span>(original, <span class="hljs-variable language_">this</span>, args);
+  } <span class="hljs-keyword">finally</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">timeEnd</span>();
+  }
+};</code></pre>
+<h5>Scopes<span><a class="mark" href="#scopes" id="scopes">#</a></span><a aria-hidden="true" class="legacy" id="permissions_scopes"></a></h5>
+<p>Use the <code>"scopes"</code> field of a manifest to set configuration for many resources
+at once. The <code>"scopes"</code> field works by matching resources by their segments.
+If a scope or resource includes <code>"cascade": true</code>, unknown specifiers will
+be searched for in their containing scope. The containing scope for cascading
+is found by recursively reducing the resource URL by removing segments for
+<a href="https://url.spec.whatwg.org/#special-scheme">special schemes</a>, keeping trailing <code>"/"</code> suffixes, and removing the query and
+hash fragment. This leads to the eventual reduction of the URL to its origin.
+If the URL is non-special the scope will be located by the URL's origin. If no
+scope is found for the origin or in the case of opaque origins, a protocol
+string can be used as a scope. If no scope is found for the URL's protocol, a
+final empty string <code>""</code> scope will be used.</p>
+<p>Note, <code>blob:</code> URLs adopt their origin from the path they contain, and so a scope
+of <code>"blob:https://nodejs.org"</code> will have no effect since no URL can have an
+origin of <code>blob:https://nodejs.org</code>; URLs starting with
+<code>blob:https://nodejs.org/</code> will use <code>https://nodejs.org</code> for its origin and
+thus <code>https:</code> for its protocol scope. For opaque origin <code>blob:</code> URLs they will
+have <code>blob:</code> for their protocol scope since they do not adopt origins.</p>
+<h6>Example<span><a class="mark" href="#example" id="example">#</a></span><a aria-hidden="true" class="legacy" id="permissions_example"></a></h6>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"scopes"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"file:///C:/app/"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"file:"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">""</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p>Given a file located at <code>file:///C:/app/bin/main.js</code>, the following scopes would
+be checked in order:</p>
+<ol>
+<li><code>"file:///C:/app/bin/"</code></li>
+</ol>
+<p>This determines the policy for all file based resources within
+<code>"file:///C:/app/bin/"</code>. This is not in the <code>"scopes"</code> field of the policy and
+would be skipped. Adding this scope to the policy would cause it to be used
+prior to the <code>"file:///C:/app/"</code> scope.</p>
+<ol start="2">
+<li><code>"file:///C:/app/"</code></li>
+</ol>
+<p>This determines the policy for all file based resources within
+<code>"file:///C:/app/"</code>. This is in the <code>"scopes"</code> field of the policy and it would
+determine the policy for the resource at <code>file:///C:/app/bin/main.js</code>. If the
+scope has <code>"cascade": true</code>, any unsatisfied queries about the resource would
+delegate to the next relevant scope for <code>file:///C:/app/bin/main.js</code>, <code>"file:"</code>.</p>
+<ol start="3">
+<li><code>"file:///C:/"</code></li>
+</ol>
+<p>This determines the policy for all file based resources within <code>"file:///C:/"</code>.
+This is not in the <code>"scopes"</code> field of the policy and would be skipped. It would
+not be used for <code>file:///C:/app/bin/main.js</code> unless <code>"file:///"</code> is set to
+cascade or is not in the <code>"scopes"</code> of the policy.</p>
+<ol start="4">
+<li><code>"file:///"</code></li>
+</ol>
+<p>This determines the policy for all file based resources on the <code>localhost</code>. This
+is not in the <code>"scopes"</code> field of the policy and would be skipped. It would not
+be used for <code>file:///C:/app/bin/main.js</code> unless <code>"file:///"</code> is set to cascade
+or is not in the <code>"scopes"</code> of the policy.</p>
+<ol start="5">
+<li><code>"file:"</code></li>
+</ol>
+<p>This determines the policy for all file based resources. It would not be used
+for <code>file:///C:/app/bin/main.js</code> unless <code>"file:///"</code> is set to cascade or is not
+in the <code>"scopes"</code> of the policy.</p>
+<ol start="6">
+<li><code>""</code></li>
+</ol>
+<p>This determines the policy for all resources. It would not be used for
+<code>file:///C:/app/bin/main.js</code> unless <code>"file:"</code> is set to cascade.</p>
+<h6>Integrity using scopes<span><a class="mark" href="#integrity-using-scopes" id="integrity-using-scopes">#</a></span><a aria-hidden="true" class="legacy" id="permissions_integrity_using_scopes"></a></h6>
+<p>Setting an integrity to <code>true</code> on a scope will set the integrity for any
+resource not found in the manifest to <code>true</code>.</p>
+<p>Setting an integrity to <code>null</code> on a scope will set the integrity for any
+resource not found in the manifest to fail matching.</p>
+<p>Not including an integrity is the same as setting the integrity to <code>null</code>.</p>
+<p><code>"cascade"</code> for integrity checks will be ignored if <code>"integrity"</code> is explicitly
+set.</p>
+<p>The following example allows loading any file:</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"scopes"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"file:"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"integrity"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h6>Dependency redirection using scopes<span><a class="mark" href="#dependency-redirection-using-scopes" id="dependency-redirection-using-scopes">#</a></span><a aria-hidden="true" class="legacy" id="permissions_dependency_redirection_using_scopes"></a></h6>
+<p>The following example, would allow access to <code>fs</code> for all resources within
+<code>./app/</code>:</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"resources"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"./app/checked.js"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"cascade"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"integrity"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"scopes"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"./app/"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"dependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"fs"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p>The following example, would allow access to <code>fs</code> for all <code>data:</code> resources:</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"resources"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"data:text/javascript,import('node:fs');"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"cascade"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"integrity"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"scopes"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"data:"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"dependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"fs"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h6>Example: <a href="https://url.spec.whatwg.org/#relative-url-with-fragment-string">import maps</a> emulation<span><a class="mark" href="#example-import-maps-emulation" id="example-import-maps-emulation">#</a></span><a aria-hidden="true" class="legacy" id="permissions_example_import_maps_emulation"></a></h6>
+<p>Given an import map:</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"imports"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"react"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./app/node_modules/react/index.js"</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"scopes"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"./ssr/"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"react"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./app/node_modules/server-side-react/index.js"</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"dependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"scopes"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">""</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"cascade"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"dependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"react"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./app/node_modules/react/index.js"</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"./ssr/"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"cascade"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"dependencies"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"react"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"./app/node_modules/server-side-react/index.js"</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p>Import maps assume you can get any resource by default. This means
+<code>"dependencies"</code> at the top level of the policy should be set to <code>true</code>.
+Policies require this to be opt-in since it enables all resources of the
+application cross linkage which doesn't make sense for many scenarios. They also
+assume any given scope has access to any scope above its allowed dependencies;
+all scopes emulating import maps must set <code>"cascade": true</code>.</p>
+<p>Import maps only have a single top level scope for their "imports". So for
+emulating <code>"imports"</code> use the <code>""</code> scope. For emulating <code>"scopes"</code> use the
+<code>"scopes"</code> in a similar manner to how <code>"scopes"</code> works in import maps.</p>
+<p>Caveats: Policies do not use string matching for various finding of scope. They
+do URL traversals. This means things like <code>blob:</code> and <code>data:</code> URLs might not be
+entirely interoperable between the two systems. For example import maps can
+partially match a <code>data:</code> or <code>blob:</code> URL by partitioning the URL on a <code>/</code>
+character, policies intentionally cannot. For <code>blob:</code> URLs import map scopes do
+not adopt the origin of the <code>blob:</code> URL.</p>
+<p>Additionally, import maps only work on <code>import</code> so it may be desirable to add a
+<code>"import"</code> condition to all dependency mappings.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>
