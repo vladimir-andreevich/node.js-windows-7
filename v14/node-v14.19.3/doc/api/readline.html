@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v14.19.3">
+  <title>Readline | Node.js v14.19.3 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/readline.html">
+</head>
+<body class="alt apidoc" id="api-section-readline">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="policy.html" class="nav-policy">Policies</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline active">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="readline" class="interior">
+      <header>
+        <div class="header-container">
+          <h1>Node.js v14.19.3 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li>
+              <a href="index.html">Index</a>
+            </li>
+            <li>
+              <a href="all.html">View on single page</a>
+            </li>
+            <li>
+              <a href="readline.json">View as JSON</a>
+            </li>
+            
+    <li class="version-picker">
+      <a href="#">View another version <span>&#x25bc;</span></a>
+      <ol class="version-picker"><li><a href="https://nodejs.org/docs/latest-v18.x/api/readline.html">18.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/readline.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/readline.html">16.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/readline.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/readline.html">14.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/readline.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/readline.html">12.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/readline.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/readline.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/readline.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/readline.html">8.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v7.x/api/readline.html">7.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v6.x/api/readline.html">6.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v5.x/api/readline.html">5.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v4.x/api/readline.html">4.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.12.x/api/readline.html">0.12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.10.x/api/readline.html">0.10.x</a></li></ol>
+    </li>
+  
+            <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/master/doc/api/readline.md">Edit on GitHub</a></li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_2"><a href="#readline_readline">Readline</a></span>
+<ul>
+<li><a href="#readline_class_interface">Class: <code>Interface</code></a>
+<ul>
+<li><a href="#readline_event_close">Event: <code>'close'</code></a></li>
+<li><a href="#readline_event_line">Event: <code>'line'</code></a></li>
+<li><a href="#readline_event_history">Event: <code>'history'</code></a></li>
+<li><a href="#readline_event_pause">Event: <code>'pause'</code></a></li>
+<li><a href="#readline_event_resume">Event: <code>'resume'</code></a></li>
+<li><a href="#readline_event_sigcont">Event: <code>'SIGCONT'</code></a></li>
+<li><a href="#readline_event_sigint">Event: <code>'SIGINT'</code></a></li>
+<li><a href="#readline_event_sigtstp">Event: <code>'SIGTSTP'</code></a></li>
+<li><a href="#readline_rl_close"><code>rl.close()</code></a></li>
+<li><a href="#readline_rl_pause"><code>rl.pause()</code></a></li>
+<li><a href="#readline_rl_prompt_preservecursor"><code>rl.prompt([preserveCursor])</code></a></li>
+<li><a href="#readline_rl_question_query_options_callback"><code>rl.question(query[, options], callback)</code></a></li>
+<li><a href="#readline_rl_resume"><code>rl.resume()</code></a></li>
+<li><a href="#readline_rl_setprompt_prompt"><code>rl.setPrompt(prompt)</code></a></li>
+<li><a href="#readline_rl_getprompt"><code>rl.getPrompt()</code></a></li>
+<li><a href="#readline_rl_write_data_key"><code>rl.write(data[, key])</code></a></li>
+<li><a href="#readline_rl_symbol_asynciterator"><code>rl[Symbol.asyncIterator]()</code></a></li>
+<li><a href="#readline_rl_line"><code>rl.line</code></a></li>
+<li><a href="#readline_rl_cursor"><code>rl.cursor</code></a></li>
+<li><a href="#readline_rl_getcursorpos"><code>rl.getCursorPos()</code></a></li>
+</ul>
+</li>
+<li><a href="#readline_readline_clearline_stream_dir_callback"><code>readline.clearLine(stream, dir[, callback])</code></a></li>
+<li><a href="#readline_readline_clearscreendown_stream_callback"><code>readline.clearScreenDown(stream[, callback])</code></a></li>
+<li><a href="#readline_readline_createinterface_options"><code>readline.createInterface(options)</code></a>
+<ul>
+<li><a href="#readline_use_of_the_completer_function">Use of the <code>completer</code> function</a></li>
+</ul>
+</li>
+<li><a href="#readline_readline_cursorto_stream_x_y_callback"><code>readline.cursorTo(stream, x[, y][, callback])</code></a></li>
+<li><a href="#readline_readline_emitkeypressevents_stream_interface"><code>readline.emitKeypressEvents(stream[, interface])</code></a></li>
+<li><a href="#readline_readline_movecursor_stream_dx_dy_callback"><code>readline.moveCursor(stream, dx, dy[, callback])</code></a></li>
+<li><a href="#readline_example_tiny_cli">Example: Tiny CLI</a></li>
+<li><a href="#readline_example_read_file_stream_line_by_line">Example: Read file stream line-by-Line</a></li>
+<li><a href="#readline_tty_keybindings">TTY keybindings</a></li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Readline<span><a class="mark" href="#readline_readline" id="readline_readline">#</a></span></h2>
+
+<p></p><div class="api_stability api_stability_2"><a href="documentation.html#documentation_stability_index">Stability: 2</a> - Stable</div><p></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v14.19.3/lib/readline.js">lib/readline.js</a></p>
+<p>The <code>readline</code> module provides an interface for reading data from a <a href="stream.html#stream_readable_streams">Readable</a>
+stream (such as <a href="process.html#process_process_stdin"><code>process.stdin</code></a>) one line at a time. It can be accessed
+using:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> readline = <span class="hljs-built_in">require</span>(<span class="hljs-string">'readline'</span>);</code></pre>
+<p>The following simple example illustrates the basic use of the <code>readline</code> module.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> readline = <span class="hljs-built_in">require</span>(<span class="hljs-string">'readline'</span>);
+
+<span class="hljs-keyword">const</span> rl = readline.<span class="hljs-title function_">createInterface</span>({
+  <span class="hljs-attr">input</span>: process.<span class="hljs-property">stdin</span>,
+  <span class="hljs-attr">output</span>: process.<span class="hljs-property">stdout</span>
+});
+
+rl.<span class="hljs-title function_">question</span>(<span class="hljs-string">'What do you think of Node.js? '</span>, <span class="hljs-function">(<span class="hljs-params">answer</span>) =></span> {
+  <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Log the answer in a database</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Thank you for your valuable feedback: <span class="hljs-subst">${answer}</span>`</span>);
+
+  rl.<span class="hljs-title function_">close</span>();
+});</code></pre>
+<p>Once this code is invoked, the Node.js application will not terminate until the
+<code>readline.Interface</code> is closed because the interface waits for data to be
+received on the <code>input</code> stream.</p>
+<section><h3>Class: <code>Interface</code><span><a class="mark" href="#readline_class_interface" id="readline_class_interface">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.104</span>
+</div>
+<ul>
+<li>Extends: <a href="events.html#events_class_eventemitter" class="type">&#x3C;EventEmitter></a></li>
+</ul>
+<p>Instances of the <code>readline.Interface</code> class are constructed using the
+<code>readline.createInterface()</code> method. Every instance is associated with a
+single <code>input</code> <a href="stream.html#stream_readable_streams">Readable</a> stream and a single <code>output</code> <a href="stream.html#stream_writable_streams">Writable</a> stream.
+The <code>output</code> stream is used to print prompts for user input that arrives on,
+and is read from, the <code>input</code> stream.</p>
+<h4>Event: <code>'close'</code><span><a class="mark" href="#readline_event_close" id="readline_event_close">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.98</span>
+</div>
+<p>The <code>'close'</code> event is emitted when one of the following occur:</p>
+<ul>
+<li>The <code>rl.close()</code> method is called and the <code>readline.Interface</code> instance has
+relinquished control over the <code>input</code> and <code>output</code> streams;</li>
+<li>The <code>input</code> stream receives its <code>'end'</code> event;</li>
+<li>The <code>input</code> stream receives <kbd>Ctrl</kbd>+<kbd>D</kbd> to signal
+end-of-transmission (EOT);</li>
+<li>The <code>input</code> stream receives <kbd>Ctrl</kbd>+<kbd>C</kbd> to signal <code>SIGINT</code>
+and there is no <code>'SIGINT'</code> event listener registered on the
+<code>readline.Interface</code> instance.</li>
+</ul>
+<p>The listener function is called without passing any arguments.</p>
+<p>The <code>readline.Interface</code> instance is finished once the <code>'close'</code> event is
+emitted.</p>
+<h4>Event: <code>'line'</code><span><a class="mark" href="#readline_event_line" id="readline_event_line">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.98</span>
+</div>
+<p>The <code>'line'</code> event is emitted whenever the <code>input</code> stream receives an
+end-of-line input (<code>\n</code>, <code>\r</code>, or <code>\r\n</code>). This usually occurs when the user
+presses <kbd>Enter</kbd> or <kbd>Return</kbd>.</p>
+<p>The listener function is called with a string containing the single line of
+received input.</p>
+<pre><code class="language-js">rl.<span class="hljs-title function_">on</span>(<span class="hljs-string">'line'</span>, <span class="hljs-function">(<span class="hljs-params">input</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Received: <span class="hljs-subst">${input}</span>`</span>);
+});</code></pre>
+<h4>Event: <code>'history'</code><span><a class="mark" href="#readline_event_history" id="readline_event_history">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v14.18.0</span>
+</div>
+<p>The <code>'history'</code> event is emitted whenever the history array has changed.</p>
+<p>The listener function is called with an array containing the history array.
+It will reflect all changes, added lines and removed lines due to
+<code>historySize</code> and <code>removeHistoryDuplicates</code>.</p>
+<p>The primary purpose is to allow a listener to persist the history.
+It is also possible for the listener to change the history object. This
+could be useful to prevent certain lines to be added to the history, like
+a password.</p>
+<pre><code class="language-js">rl.<span class="hljs-title function_">on</span>(<span class="hljs-string">'history'</span>, <span class="hljs-function">(<span class="hljs-params">history</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Received: <span class="hljs-subst">${history}</span>`</span>);
+});</code></pre>
+<h4>Event: <code>'pause'</code><span><a class="mark" href="#readline_event_pause" id="readline_event_pause">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.7.5</span>
+</div>
+<p>The <code>'pause'</code> event is emitted when one of the following occur:</p>
+<ul>
+<li>The <code>input</code> stream is paused.</li>
+<li>The <code>input</code> stream is not paused and receives the <code>'SIGCONT'</code> event. (See
+events <a href="#readline_event_sigtstp"><code>'SIGTSTP'</code></a> and <a href="#readline_event_sigcont"><code>'SIGCONT'</code></a>.)</li>
+</ul>
+<p>The listener function is called without passing any arguments.</p>
+<pre><code class="language-js">rl.<span class="hljs-title function_">on</span>(<span class="hljs-string">'pause'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Readline paused.'</span>);
+});</code></pre>
+<h4>Event: <code>'resume'</code><span><a class="mark" href="#readline_event_resume" id="readline_event_resume">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.7.5</span>
+</div>
+<p>The <code>'resume'</code> event is emitted whenever the <code>input</code> stream is resumed.</p>
+<p>The listener function is called without passing any arguments.</p>
+<pre><code class="language-js">rl.<span class="hljs-title function_">on</span>(<span class="hljs-string">'resume'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Readline resumed.'</span>);
+});</code></pre>
+<h4>Event: <code>'SIGCONT'</code><span><a class="mark" href="#readline_event_sigcont" id="readline_event_sigcont">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.7.5</span>
+</div>
+<p>The <code>'SIGCONT'</code> event is emitted when a Node.js process previously moved into
+the background using <kbd>Ctrl</kbd>+<kbd>Z</kbd> (i.e. <code>SIGTSTP</code>) is then
+brought back to the foreground using <a href="http://man7.org/linux/man-pages/man1/fg.1p.html"><code>fg(1p)</code></a>.</p>
+<p>If the <code>input</code> stream was paused <em>before</em> the <code>SIGTSTP</code> request, this event will
+not be emitted.</p>
+<p>The listener function is invoked without passing any arguments.</p>
+<pre><code class="language-js">rl.<span class="hljs-title function_">on</span>(<span class="hljs-string">'SIGCONT'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-comment">// `prompt` will automatically resume the stream</span>
+  rl.<span class="hljs-title function_">prompt</span>();
+});</code></pre>
+<p>The <code>'SIGCONT'</code> event is <em>not</em> supported on Windows.</p>
+<h4>Event: <code>'SIGINT'</code><span><a class="mark" href="#readline_event_sigint" id="readline_event_sigint">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.3.0</span>
+</div>
+<p>The <code>'SIGINT'</code> event is emitted whenever the <code>input</code> stream receives a
+<kbd>Ctrl+C</kbd> input, known typically as <code>SIGINT</code>. If there are no <code>'SIGINT'</code>
+event listeners registered when the <code>input</code> stream receives a <code>SIGINT</code>, the
+<code>'pause'</code> event will be emitted.</p>
+<p>The listener function is invoked without passing any arguments.</p>
+<pre><code class="language-js">rl.<span class="hljs-title function_">on</span>(<span class="hljs-string">'SIGINT'</span>, <span class="hljs-function">() =></span> {
+  rl.<span class="hljs-title function_">question</span>(<span class="hljs-string">'Are you sure you want to exit? '</span>, <span class="hljs-function">(<span class="hljs-params">answer</span>) =></span> {
+    <span class="hljs-keyword">if</span> (answer.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/^y(es)?$/i</span>)) rl.<span class="hljs-title function_">pause</span>();
+  });
+});</code></pre>
+<h4>Event: <code>'SIGTSTP'</code><span><a class="mark" href="#readline_event_sigtstp" id="readline_event_sigtstp">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.7.5</span>
+</div>
+<p>The <code>'SIGTSTP'</code> event is emitted when the <code>input</code> stream receives a
+<kbd>Ctrl</kbd>+<kbd>Z</kbd> input, typically known as <code>SIGTSTP</code>. If there are
+no <code>'SIGTSTP'</code> event listeners registered when the <code>input</code> stream receives a
+<code>SIGTSTP</code>, the Node.js process will be sent to the background.</p>
+<p>When the program is resumed using <a href="http://man7.org/linux/man-pages/man1/fg.1p.html"><code>fg(1p)</code></a>, the <code>'pause'</code> and <code>'SIGCONT'</code> events
+will be emitted. These can be used to resume the <code>input</code> stream.</p>
+<p>The <code>'pause'</code> and <code>'SIGCONT'</code> events will not be emitted if the <code>input</code> was
+paused before the process was sent to the background.</p>
+<p>The listener function is invoked without passing any arguments.</p>
+<pre><code class="language-js">rl.<span class="hljs-title function_">on</span>(<span class="hljs-string">'SIGTSTP'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-comment">// This will override SIGTSTP and prevent the program from going to the</span>
+  <span class="hljs-comment">// background.</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Caught SIGTSTP.'</span>);
+});</code></pre>
+<p>The <code>'SIGTSTP'</code> event is <em>not</em> supported on Windows.</p>
+<h4><code>rl.close()</code><span><a class="mark" href="#readline_rl_close" id="readline_rl_close">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.98</span>
+</div>
+<p>The <code>rl.close()</code> method closes the <code>readline.Interface</code> instance and
+relinquishes control over the <code>input</code> and <code>output</code> streams. When called,
+the <code>'close'</code> event will be emitted.</p>
+<p>Calling <code>rl.close()</code> does not immediately stop other events (including <code>'line'</code>)
+from being emitted by the <code>readline.Interface</code> instance.</p>
+<h4><code>rl.pause()</code><span><a class="mark" href="#readline_rl_pause" id="readline_rl_pause">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.3.4</span>
+</div>
+<p>The <code>rl.pause()</code> method pauses the <code>input</code> stream, allowing it to be resumed
+later if necessary.</p>
+<p>Calling <code>rl.pause()</code> does not immediately pause other events (including
+<code>'line'</code>) from being emitted by the <code>readline.Interface</code> instance.</p>
+<h4><code>rl.prompt([preserveCursor])</code><span><a class="mark" href="#readline_rl_prompt_preservecursor" id="readline_rl_prompt_preservecursor">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.98</span>
+</div>
+<ul>
+<li><code>preserveCursor</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, prevents the cursor placement from
+being reset to <code>0</code>.</li>
+</ul>
+<p>The <code>rl.prompt()</code> method writes the <code>readline.Interface</code> instances configured
+<code>prompt</code> to a new line in <code>output</code> in order to provide a user with a new
+location at which to provide input.</p>
+<p>When called, <code>rl.prompt()</code> will resume the <code>input</code> stream if it has been
+paused.</p>
+<p>If the <code>readline.Interface</code> was created with <code>output</code> set to <code>null</code> or
+<code>undefined</code> the prompt is not written.</p>
+<h4><code>rl.question(query[, options], callback)</code><span><a class="mark" href="#readline_rl_question_query_options_callback" id="readline_rl_question_query_options_callback">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.3.3</span>
+</div>
+<ul>
+<li><code>query</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> A statement or query to write to <code>output</code>, prepended to the
+prompt.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>signal</code> <a href="globals.html#globals_class_abortsignal" class="type">&#x3C;AbortSignal></a> Optionally allows the <code>question()</code> to be canceled
+using an <code>AbortController</code>.</li>
+</ul>
+</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> A callback function that is invoked with the user's
+input in response to the <code>query</code>.</li>
+</ul>
+<p>The <code>rl.question()</code> method displays the <code>query</code> by writing it to the <code>output</code>,
+waits for user input to be provided on <code>input</code>, then invokes the <code>callback</code>
+function passing the provided input as the first argument.</p>
+<p>When called, <code>rl.question()</code> will resume the <code>input</code> stream if it has been
+paused.</p>
+<p>If the <code>readline.Interface</code> was created with <code>output</code> set to <code>null</code> or
+<code>undefined</code> the <code>query</code> is not written.</p>
+<p>The <code>callback</code> function passed to <code>rl.question()</code> does not follow the typical
+pattern of accepting an <code>Error</code> object or <code>null</code> as the first argument.
+The <code>callback</code> is called with the provided answer as the only argument.</p>
+<p>Example usage:</p>
+<pre><code class="language-js">rl.<span class="hljs-title function_">question</span>(<span class="hljs-string">'What is your favorite food? '</span>, <span class="hljs-function">(<span class="hljs-params">answer</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Oh, so your favorite food is <span class="hljs-subst">${answer}</span>`</span>);
+});</code></pre>
+<p>Using an <code>AbortController</code> to cancel a question.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> ac = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>();
+<span class="hljs-keyword">const</span> signal = ac.<span class="hljs-property">signal</span>;
+
+rl.<span class="hljs-title function_">question</span>(<span class="hljs-string">'What is your favorite food? '</span>, { signal }, <span class="hljs-function">(<span class="hljs-params">answer</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Oh, so your favorite food is <span class="hljs-subst">${answer}</span>`</span>);
+});
+
+signal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">'abort'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'The food question timed out'</span>);
+}, { <span class="hljs-attr">once</span>: <span class="hljs-literal">true</span> });
+
+<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> ac.<span class="hljs-title function_">abort</span>(), <span class="hljs-number">10000</span>);</code></pre>
+<p>If this method is invoked as it's util.promisify()ed version, it returns a
+Promise that fulfills with the answer. If the question is canceled using
+an <code>AbortController</code> it will reject with an <code>AbortError</code>.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> util = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
+<span class="hljs-keyword">const</span> question = util.<span class="hljs-title function_">promisify</span>(rl.<span class="hljs-property">question</span>).<span class="hljs-title function_">bind</span>(rl);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">questionExample</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> answer = <span class="hljs-keyword">await</span> <span class="hljs-title function_">question</span>(<span class="hljs-string">'What is you favorite food? '</span>);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Oh, so your favorite food is <span class="hljs-subst">${answer}</span>`</span>);
+  } <span class="hljs-keyword">catch</span> (err) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">'Question rejected'</span>, err);
+  }
+}
+<span class="hljs-title function_">questionExample</span>();</code></pre>
+<h4><code>rl.resume()</code><span><a class="mark" href="#readline_rl_resume" id="readline_rl_resume">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.3.4</span>
+</div>
+<p>The <code>rl.resume()</code> method resumes the <code>input</code> stream if it has been paused.</p>
+<h4><code>rl.setPrompt(prompt)</code><span><a class="mark" href="#readline_rl_setprompt_prompt" id="readline_rl_setprompt_prompt">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.98</span>
+</div>
+<ul>
+<li><code>prompt</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The <code>rl.setPrompt()</code> method sets the prompt that will be written to <code>output</code>
+whenever <code>rl.prompt()</code> is called.</p>
+<h4><code>rl.getPrompt()</code><span><a class="mark" href="#readline_rl_getprompt" id="readline_rl_getprompt">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v14.17.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> the current prompt string</li>
+</ul>
+<p>The <code>rl.getPrompt()</code> method returns the current prompt used by <code>rl.prompt()</code>.</p>
+<h4><code>rl.write(data[, key])</code><span><a class="mark" href="#readline_rl_write_data_key" id="readline_rl_write_data_key">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.98</span>
+</div>
+<ul>
+<li><code>data</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>key</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>ctrl</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>true</code> to indicate the <kbd>Ctrl</kbd> key.</li>
+<li><code>meta</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>true</code> to indicate the <kbd>Meta</kbd> key.</li>
+<li><code>shift</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>true</code> to indicate the <kbd>Shift</kbd> key.</li>
+<li><code>name</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The name of the a key.</li>
+</ul>
+</li>
+</ul>
+<p>The <code>rl.write()</code> method will write either <code>data</code> or a key sequence identified
+by <code>key</code> to the <code>output</code>. The <code>key</code> argument is supported only if <code>output</code> is
+a <a href="tty.html">TTY</a> text terminal. See <a href="#readline_tty_keybindings">TTY keybindings</a> for a list of key
+combinations.</p>
+<p>If <code>key</code> is specified, <code>data</code> is ignored.</p>
+<p>When called, <code>rl.write()</code> will resume the <code>input</code> stream if it has been
+paused.</p>
+<p>If the <code>readline.Interface</code> was created with <code>output</code> set to <code>null</code> or
+<code>undefined</code> the <code>data</code> and <code>key</code> are not written.</p>
+<pre><code class="language-js">rl.<span class="hljs-title function_">write</span>(<span class="hljs-string">'Delete this!'</span>);
+<span class="hljs-comment">// Simulate Ctrl+U to delete the line written previously</span>
+rl.<span class="hljs-title function_">write</span>(<span class="hljs-literal">null</span>, { <span class="hljs-attr">ctrl</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'u'</span> });</code></pre>
+<p>The <code>rl.write()</code> method will write the data to the <code>readline</code> <code>Interface</code>'s
+<code>input</code> <em>as if it were provided by the user</em>.</p>
+<h4><code>rl[Symbol.asyncIterator]()</code><span><a class="mark" href="#readline_rl_symbol_asynciterator" id="readline_rl_symbol_asynciterator">#</a></span></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.4.0, v10.16.0</td>
+<td><p><span>Added in: v11.4.0, v10.16.0</span></p></td></tr>
+<tr><td>v11.14.0, v10.17.0</td>
+<td><p>Symbol.asyncIterator support is no longer experimental.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li>Returns: <a href="https://tc39.github.io/ecma262/#sec-asynciterator-interface" class="type">&#x3C;AsyncIterator></a></li>
+</ul>
+<p>Create an <code>AsyncIterator</code> object that iterates through each line in the input
+stream as a string. This method allows asynchronous iteration of
+<code>readline.Interface</code> objects through <code>for await...of</code> loops.</p>
+<p>Errors in the input stream are not forwarded.</p>
+<p>If the loop is terminated with <code>break</code>, <code>throw</code>, or <code>return</code>,
+<a href="#readline_rl_close"><code>rl.close()</code></a> will be called. In other words, iterating over a
+<code>readline.Interface</code> will always consume the input stream fully.</p>
+<p>Performance is not on par with the traditional <code>'line'</code> event API. Use <code>'line'</code>
+instead for performance-sensitive applications.</p>
+<pre><code class="language-js"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">processLineByLine</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> rl = readline.<span class="hljs-title function_">createInterface</span>({
+    <span class="hljs-comment">// ...</span>
+  });
+
+  <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> line <span class="hljs-keyword">of</span> rl) {
+    <span class="hljs-comment">// Each line in the readline input will be successively available here as</span>
+    <span class="hljs-comment">// `line`.</span>
+  }
+}</code></pre>
+<p><code>readline.createInterface()</code> will start to consume the input stream once
+invoked. Having asynchronous operations between interface creation and
+asynchronous iteration may result in missed lines.</p>
+<h4><code>rl.line</code><span><a class="mark" href="#readline_rl_line" id="readline_rl_line">#</a></span></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.18.0</td>
+<td><p>Value will always be a string, never undefined.</p></td></tr>
+<tr><td>v0.1.98</td>
+<td><p><span>Added in: v0.1.98</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The current input data being processed by node.</p>
+<p>This can be used when collecting input from a TTY stream to retrieve the
+current value that has been processed thus far, prior to the <code>line</code> event
+being emitted. Once the <code>line</code> event has been emitted, this property will
+be an empty string.</p>
+<p>Be aware that modifying the value during the instance runtime may have
+unintended consequences if <code>rl.cursor</code> is not also controlled.</p>
+<p><strong>If not using a TTY stream for input, use the <a href="#readline_event_line"><code>'line'</code></a> event.</strong></p>
+<p>One possible use case would be as follows:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> values = [<span class="hljs-string">'lorem ipsum'</span>, <span class="hljs-string">'dolor sit amet'</span>];
+<span class="hljs-keyword">const</span> rl = readline.<span class="hljs-title function_">createInterface</span>(process.<span class="hljs-property">stdin</span>);
+<span class="hljs-keyword">const</span> showResults = <span class="hljs-title function_">debounce</span>(<span class="hljs-function">() =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(
+    <span class="hljs-string">'\n'</span>,
+    values.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">val</span>) =></span> val.<span class="hljs-title function_">startsWith</span>(rl.<span class="hljs-property">line</span>)).<span class="hljs-title function_">join</span>(<span class="hljs-string">' '</span>)
+  );
+}, <span class="hljs-number">300</span>);
+process.<span class="hljs-property">stdin</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">'keypress'</span>, <span class="hljs-function">(<span class="hljs-params">c, k</span>) =></span> {
+  <span class="hljs-title function_">showResults</span>();
+});</code></pre>
+<h4><code>rl.cursor</code><span><a class="mark" href="#readline_rl_cursor" id="readline_rl_cursor">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.98</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Undefined_type" class="type">&#x3C;undefined></a></li>
+</ul>
+<p>The cursor position relative to <code>rl.line</code>.</p>
+<p>This will track where the current cursor lands in the input string, when
+reading input from a TTY stream. The position of cursor determines the
+portion of the input string that will be modified as input is processed,
+as well as the column where the terminal caret will be rendered.</p>
+<h4><code>rl.getCursorPos()</code><span><a class="mark" href="#readline_rl_getcursorpos" id="readline_rl_getcursorpos">#</a></span></h4>
+<div class="api_metadata">
+<span>Added in: v13.5.0, v12.16.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>rows</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> the row of the prompt the cursor currently lands on</li>
+<li><code>cols</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> the screen column the cursor currently lands on</li>
+</ul>
+</li>
+</ul>
+<p>Returns the real position of the cursor in relation to the input
+prompt + string. Long input (wrapping) strings, as well as multiple
+line prompts are included in the calculations.</p>
+</section><section><h3><code>readline.clearLine(stream, dir[, callback])</code><span><a class="mark" href="#readline_readline_clearline_stream_dir_callback" id="readline_readline_clearline_stream_dir_callback">#</a></span></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.7.0</td>
+<td><p>The stream's write() callback and return value are exposed.</p></td></tr>
+<tr><td>v0.7.7</td>
+<td><p><span>Added in: v0.7.7</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>stream</code> <a href="stream.html#stream_class_stream_writable" class="type">&#x3C;stream.Writable></a></li>
+<li><code>dir</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a>
+<ul>
+<li><code>-1</code>: to the left from cursor</li>
+<li><code>1</code>: to the right from cursor</li>
+<li><code>0</code>: the entire line</li>
+</ul>
+</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Invoked once the operation completes.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>false</code> if <code>stream</code> wishes for the calling code to wait for
+the <code>'drain'</code> event to be emitted before continuing to write additional data;
+otherwise <code>true</code>.</li>
+</ul>
+<p>The <code>readline.clearLine()</code> method clears current line of given <a href="tty.html">TTY</a> stream
+in a specified direction identified by <code>dir</code>.</p>
+</section><section><h3><code>readline.clearScreenDown(stream[, callback])</code><span><a class="mark" href="#readline_readline_clearscreendown_stream_callback" id="readline_readline_clearscreendown_stream_callback">#</a></span></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.7.0</td>
+<td><p>The stream's write() callback and return value are exposed.</p></td></tr>
+<tr><td>v0.7.7</td>
+<td><p><span>Added in: v0.7.7</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>stream</code> <a href="stream.html#stream_class_stream_writable" class="type">&#x3C;stream.Writable></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Invoked once the operation completes.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>false</code> if <code>stream</code> wishes for the calling code to wait for
+the <code>'drain'</code> event to be emitted before continuing to write additional data;
+otherwise <code>true</code>.</li>
+</ul>
+<p>The <code>readline.clearScreenDown()</code> method clears the given <a href="tty.html">TTY</a> stream from
+the current position of the cursor down.</p>
+</section><section><h3><code>readline.createInterface(options)</code><span><a class="mark" href="#readline_readline_createinterface_options" id="readline_readline_createinterface_options">#</a></span></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.18.0</td>
+<td><p>The <code>signal</code> option is supported now.</p></td></tr>
+<tr><td>v14.18.0</td>
+<td><p>The <code>history</code> option is supported now.</p></td></tr>
+<tr><td>v13.9.0</td>
+<td><p>The <code>tabSize</code> option is supported now.</p></td></tr>
+<tr><td>v8.3.0, v6.11.4</td>
+<td><p>Remove max limit of <code>crlfDelay</code> option.</p></td></tr>
+<tr><td>v6.6.0</td>
+<td><p>The <code>crlfDelay</code> option is supported now.</p></td></tr>
+<tr><td>v6.3.0</td>
+<td><p>The <code>prompt</code> option is supported now.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>The <code>historySize</code> option can be <code>0</code> now.</p></td></tr>
+<tr><td>v0.1.98</td>
+<td><p><span>Added in: v0.1.98</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>input</code> <a href="stream.html#stream_class_stream_readable" class="type">&#x3C;stream.Readable></a> The <a href="stream.html#stream_readable_streams">Readable</a> stream to listen to. This option
+is <em>required</em>.</li>
+<li><code>output</code> <a href="stream.html#stream_class_stream_writable" class="type">&#x3C;stream.Writable></a> The <a href="stream.html#stream_writable_streams">Writable</a> stream to write readline data
+to.</li>
+<li><code>completer</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> An optional function used for Tab autocompletion.</li>
+<li><code>terminal</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>true</code> if the <code>input</code> and <code>output</code> streams should be
+treated like a TTY, and have ANSI/VT100 escape codes written to it.
+<strong>Default:</strong> checking <code>isTTY</code> on the <code>output</code> stream upon instantiation.</li>
+<li><code>history</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a> Initial list of history lines. This option makes sense
+only if <code>terminal</code> is set to <code>true</code> by the user or by an internal <code>output</code>
+check, otherwise the history caching mechanism is not initialized at all.
+<strong>Default:</strong> <code>[]</code>.</li>
+<li><code>historySize</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> Maximum number of history lines retained. To disable
+the history set this value to <code>0</code>. This option makes sense only if
+<code>terminal</code> is set to <code>true</code> by the user or by an internal <code>output</code> check,
+otherwise the history caching mechanism is not initialized at all.
+<strong>Default:</strong> <code>30</code>.</li>
+<li><code>removeHistoryDuplicates</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> If <code>true</code>, when a new input line added
+to the history list duplicates an older one, this removes the older line
+from the list. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>prompt</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The prompt string to use. <strong>Default:</strong> <code>'> '</code>.</li>
+<li><code>crlfDelay</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> If the delay between <code>\r</code> and <code>\n</code> exceeds
+<code>crlfDelay</code> milliseconds, both <code>\r</code> and <code>\n</code> will be treated as separate
+end-of-line input. <code>crlfDelay</code> will be coerced to a number no less than
+<code>100</code>. It can be set to <code>Infinity</code>, in which case <code>\r</code> followed by <code>\n</code>
+will always be considered a single newline (which may be reasonable for
+<a href="#readline_example_read_file_stream_line_by_line">reading files</a> with <code>\r\n</code> line delimiter). <strong>Default:</strong> <code>100</code>.</li>
+<li><code>escapeCodeTimeout</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The duration <code>readline</code> will wait for a
+character (when reading an ambiguous key sequence in milliseconds one that
+can both form a complete key sequence using the input read so far and can
+take additional input to complete a longer key sequence).
+<strong>Default:</strong> <code>500</code>.</li>
+<li><code>tabSize</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a> The number of spaces a tab is equal to (minimum 1).
+<strong>Default:</strong> <code>8</code>.</li>
+<li><code>signal</code> <a href="globals.html#globals_class_abortsignal" class="type">&#x3C;AbortSignal></a> Allows closing the interface using an AbortSignal.
+Aborting the signal will internally call <code>close</code> on the interface.</li>
+</ul>
+</li>
+<li>Returns: <a href="readline.html#readline_class_interface" class="type">&#x3C;readline.Interface></a></li>
+</ul>
+<p>The <code>readline.createInterface()</code> method creates a new <code>readline.Interface</code>
+instance.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> readline = <span class="hljs-built_in">require</span>(<span class="hljs-string">'readline'</span>);
+<span class="hljs-keyword">const</span> rl = readline.<span class="hljs-title function_">createInterface</span>({
+  <span class="hljs-attr">input</span>: process.<span class="hljs-property">stdin</span>,
+  <span class="hljs-attr">output</span>: process.<span class="hljs-property">stdout</span>
+});</code></pre>
+<p>Once the <code>readline.Interface</code> instance is created, the most common case is to
+listen for the <code>'line'</code> event:</p>
+<pre><code class="language-js">rl.<span class="hljs-title function_">on</span>(<span class="hljs-string">'line'</span>, <span class="hljs-function">(<span class="hljs-params">line</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Received: <span class="hljs-subst">${line}</span>`</span>);
+});</code></pre>
+<p>If <code>terminal</code> is <code>true</code> for this instance then the <code>output</code> stream will get
+the best compatibility if it defines an <code>output.columns</code> property and emits
+a <code>'resize'</code> event on the <code>output</code> if or when the columns ever change
+(<a href="process.html#process_process_stdout"><code>process.stdout</code></a> does this automatically when it is a TTY).</p>
+<p>When creating a <code>readline.Interface</code> using <code>stdin</code> as input, the program
+will not terminate until it receives <code>EOF</code> (<kbd>Ctrl</kbd>+<kbd>D</kbd> on
+Linux/macOS, <kbd>Ctrl</kbd>+<kbd>Z</kbd> followed by <kbd>Return</kbd> on
+Windows).
+If you want your application to exit without waiting for user input, you can
+<a href="net.html#net_socket_unref"><code>unref()</code></a> the standard input stream:</p>
+<pre><code class="language-js">process.<span class="hljs-property">stdin</span>.<span class="hljs-title function_">unref</span>();</code></pre>
+<h4>Use of the <code>completer</code> function<span><a class="mark" href="#readline_use_of_the_completer_function" id="readline_use_of_the_completer_function">#</a></span></h4>
+<p>The <code>completer</code> function takes the current line entered by the user
+as an argument, and returns an <code>Array</code> with 2 entries:</p>
+<ul>
+<li>An <code>Array</code> with matching entries for the completion.</li>
+<li>The substring that was used for the matching.</li>
+</ul>
+<p>For instance: <code>[[substr1, substr2, ...], originalsubstring]</code>.</p>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">completer</span>(<span class="hljs-params">line</span>) {
+  <span class="hljs-keyword">const</span> completions = <span class="hljs-string">'.help .error .exit .quit .q'</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">' '</span>);
+  <span class="hljs-keyword">const</span> hits = completions.<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">c</span>) =></span> c.<span class="hljs-title function_">startsWith</span>(line));
+  <span class="hljs-comment">// Show all completions if none found</span>
+  <span class="hljs-keyword">return</span> [hits.<span class="hljs-property">length</span> ? hits : completions, line];
+}</code></pre>
+<p>The <code>completer</code> function can be called asynchronously if it accepts two
+arguments:</p>
+<pre><code class="language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">completer</span>(<span class="hljs-params">linePartial, callback</span>) {
+  <span class="hljs-title function_">callback</span>(<span class="hljs-literal">null</span>, [[<span class="hljs-string">'123'</span>], linePartial]);
+}</code></pre>
+</section><section><h3><code>readline.cursorTo(stream, x[, y][, callback])</code><span><a class="mark" href="#readline_readline_cursorto_stream_x_y_callback" id="readline_readline_cursorto_stream_x_y_callback">#</a></span></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.7.0</td>
+<td><p>The stream's write() callback and return value are exposed.</p></td></tr>
+<tr><td>v0.7.7</td>
+<td><p><span>Added in: v0.7.7</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>stream</code> <a href="stream.html#stream_class_stream_writable" class="type">&#x3C;stream.Writable></a></li>
+<li><code>x</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li><code>y</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Invoked once the operation completes.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>false</code> if <code>stream</code> wishes for the calling code to wait for
+the <code>'drain'</code> event to be emitted before continuing to write additional data;
+otherwise <code>true</code>.</li>
+</ul>
+<p>The <code>readline.cursorTo()</code> method moves cursor to the specified position in a
+given <a href="tty.html">TTY</a> <code>stream</code>.</p>
+</section><section><h3><code>readline.emitKeypressEvents(stream[, interface])</code><span><a class="mark" href="#readline_readline_emitkeypressevents_stream_interface" id="readline_readline_emitkeypressevents_stream_interface">#</a></span></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.7</span>
+</div>
+<ul>
+<li><code>stream</code> <a href="stream.html#stream_class_stream_readable" class="type">&#x3C;stream.Readable></a></li>
+<li><code>interface</code> <a href="readline.html#readline_class_interface" class="type">&#x3C;readline.Interface></a></li>
+</ul>
+<p>The <code>readline.emitKeypressEvents()</code> method causes the given <a href="stream.html#stream_readable_streams">Readable</a>
+stream to begin emitting <code>'keypress'</code> events corresponding to received input.</p>
+<p>Optionally, <code>interface</code> specifies a <code>readline.Interface</code> instance for which
+autocompletion is disabled when copy-pasted input is detected.</p>
+<p>If the <code>stream</code> is a <a href="tty.html">TTY</a>, then it must be in raw mode.</p>
+<p>This is automatically called by any readline instance on its <code>input</code> if the
+<code>input</code> is a terminal. Closing the <code>readline</code> instance does not stop
+the <code>input</code> from emitting <code>'keypress'</code> events.</p>
+<pre><code class="language-js">readline.<span class="hljs-title function_">emitKeypressEvents</span>(process.<span class="hljs-property">stdin</span>);
+<span class="hljs-keyword">if</span> (process.<span class="hljs-property">stdin</span>.<span class="hljs-property">isTTY</span>)
+  process.<span class="hljs-property">stdin</span>.<span class="hljs-title function_">setRawMode</span>(<span class="hljs-literal">true</span>);</code></pre>
+</section><section><h3><code>readline.moveCursor(stream, dx, dy[, callback])</code><span><a class="mark" href="#readline_readline_movecursor_stream_dx_dy_callback" id="readline_readline_movecursor_stream_dx_dy_callback">#</a></span></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.7.0</td>
+<td><p>The stream's write() callback and return value are exposed.</p></td></tr>
+<tr><td>v0.7.7</td>
+<td><p><span>Added in: v0.7.7</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>stream</code> <a href="stream.html#stream_class_stream_writable" class="type">&#x3C;stream.Writable></a></li>
+<li><code>dx</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li><code>dy</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Invoked once the operation completes.</li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>false</code> if <code>stream</code> wishes for the calling code to wait for
+the <code>'drain'</code> event to be emitted before continuing to write additional data;
+otherwise <code>true</code>.</li>
+</ul>
+<p>The <code>readline.moveCursor()</code> method moves the cursor <em>relative</em> to its current
+position in a given <a href="tty.html">TTY</a> <code>stream</code>.</p>
+</section><section><h3>Example: Tiny CLI<span><a class="mark" href="#readline_example_tiny_cli" id="readline_example_tiny_cli">#</a></span></h3>
+<p>The following example illustrates the use of <code>readline.Interface</code> class to
+implement a small command-line interface:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> readline = <span class="hljs-built_in">require</span>(<span class="hljs-string">'readline'</span>);
+<span class="hljs-keyword">const</span> rl = readline.<span class="hljs-title function_">createInterface</span>({
+  <span class="hljs-attr">input</span>: process.<span class="hljs-property">stdin</span>,
+  <span class="hljs-attr">output</span>: process.<span class="hljs-property">stdout</span>,
+  <span class="hljs-attr">prompt</span>: <span class="hljs-string">'OHAI> '</span>
+});
+
+rl.<span class="hljs-title function_">prompt</span>();
+
+rl.<span class="hljs-title function_">on</span>(<span class="hljs-string">'line'</span>, <span class="hljs-function">(<span class="hljs-params">line</span>) =></span> {
+  <span class="hljs-keyword">switch</span> (line.<span class="hljs-title function_">trim</span>()) {
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'hello'</span>:
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'world!'</span>);
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-attr">default</span>:
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Say what? I might have heard '<span class="hljs-subst">${line.trim()}</span>'`</span>);
+      <span class="hljs-keyword">break</span>;
+  }
+  rl.<span class="hljs-title function_">prompt</span>();
+}).<span class="hljs-title function_">on</span>(<span class="hljs-string">'close'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Have a great day!'</span>);
+  process.<span class="hljs-title function_">exit</span>(<span class="hljs-number">0</span>);
+});</code></pre>
+</section><section><h3>Example: Read file stream line-by-Line<span><a class="mark" href="#readline_example_read_file_stream_line_by_line" id="readline_example_read_file_stream_line_by_line">#</a></span></h3>
+<p>A common use case for <code>readline</code> is to consume an input file one line at a
+time. The easiest way to do so is leveraging the <a href="fs.html#fs_class_fs_readstream"><code>fs.ReadStream</code></a> API as
+well as a <code>for await...of</code> loop:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> readline = <span class="hljs-built_in">require</span>(<span class="hljs-string">'readline'</span>);
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">processLineByLine</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> fileStream = fs.<span class="hljs-title function_">createReadStream</span>(<span class="hljs-string">'input.txt'</span>);
+
+  <span class="hljs-keyword">const</span> rl = readline.<span class="hljs-title function_">createInterface</span>({
+    <span class="hljs-attr">input</span>: fileStream,
+    <span class="hljs-attr">crlfDelay</span>: <span class="hljs-title class_">Infinity</span>
+  });
+  <span class="hljs-comment">// Note: we use the crlfDelay option to recognize all instances of CR LF</span>
+  <span class="hljs-comment">// ('\r\n') in input.txt as a single line break.</span>
+
+  <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> line <span class="hljs-keyword">of</span> rl) {
+    <span class="hljs-comment">// Each line in input.txt will be successively available here as `line`.</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Line from file: <span class="hljs-subst">${line}</span>`</span>);
+  }
+}
+
+<span class="hljs-title function_">processLineByLine</span>();</code></pre>
+<p>Alternatively, one could use the <a href="#readline_event_line"><code>'line'</code></a> event:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> readline = <span class="hljs-built_in">require</span>(<span class="hljs-string">'readline'</span>);
+
+<span class="hljs-keyword">const</span> rl = readline.<span class="hljs-title function_">createInterface</span>({
+  <span class="hljs-attr">input</span>: fs.<span class="hljs-title function_">createReadStream</span>(<span class="hljs-string">'sample.txt'</span>),
+  <span class="hljs-attr">crlfDelay</span>: <span class="hljs-title class_">Infinity</span>
+});
+
+rl.<span class="hljs-title function_">on</span>(<span class="hljs-string">'line'</span>, <span class="hljs-function">(<span class="hljs-params">line</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Line from file: <span class="hljs-subst">${line}</span>`</span>);
+});</code></pre>
+<p>Currently, <code>for await...of</code> loop can be a bit slower. If <code>async</code> / <code>await</code>
+flow and speed are both essential, a mixed approach can be applied:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> { once } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'events'</span>);
+<span class="hljs-keyword">const</span> { createReadStream } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> { createInterface } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'readline'</span>);
+
+(<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">processLineByLine</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> rl = <span class="hljs-title function_">createInterface</span>({
+      <span class="hljs-attr">input</span>: <span class="hljs-title function_">createReadStream</span>(<span class="hljs-string">'big-file.txt'</span>),
+      <span class="hljs-attr">crlfDelay</span>: <span class="hljs-title class_">Infinity</span>
+    });
+
+    rl.<span class="hljs-title function_">on</span>(<span class="hljs-string">'line'</span>, <span class="hljs-function">(<span class="hljs-params">line</span>) =></span> {
+      <span class="hljs-comment">// Process the line.</span>
+    });
+
+    <span class="hljs-keyword">await</span> <span class="hljs-title function_">once</span>(rl, <span class="hljs-string">'close'</span>);
+
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'File processed.'</span>);
+  } <span class="hljs-keyword">catch</span> (err) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(err);
+  }
+})();</code></pre>
+</section><section><h3>TTY keybindings<span><a class="mark" href="#readline_tty_keybindings" id="readline_tty_keybindings">#</a></span></h3>
+<table>
+  <tbody><tr>
+    <th>Keybindings</th>
+    <th>Description</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Backspace</kbd></td>
+    <td>Delete line left</td>
+    <td>Doesn't work on Linux, Mac and Windows</td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Delete</kbd></td>
+    <td>Delete line right</td>
+    <td>Doesn't work on Mac</td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>C</kbd></td>
+    <td>Emit <code>SIGINT</code> or close the readline instance</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>H</kbd></td>
+    <td>Delete left</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>D</kbd></td>
+    <td>Delete right or close the readline instance in case the current line is empty / EOF</td>
+    <td>Doesn't work on Windows</td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>U</kbd></td>
+    <td>Delete from the current position to the line start</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>K</kbd></td>
+    <td>Delete from the current position to the end of line</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>A</kbd></td>
+    <td>Go to start of line</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>E</kbd></td>
+    <td>Go to to end of line</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>B</kbd></td>
+    <td>Back one character</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>F</kbd></td>
+    <td>Forward one character</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>L</kbd></td>
+    <td>Clear screen</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>N</kbd></td>
+    <td>Next history item</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>P</kbd></td>
+    <td>Previous history item</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>Z</kbd></td>
+    <td>Moves running process into background. Type
+    <code>fg</code> and press <kbd>Enter</kbd>
+    to return.</td>
+    <td>Doesn't work on Windows</td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>W</kbd> or <kbd>Ctrl</kbd>
+   +<kbd>Backspace</kbd></td>
+    <td>Delete backward to a word boundary</td>
+    <td><kbd>Ctrl</kbd>+<kbd>Backspace</kbd> Doesn't
+    work on Linux, Mac and Windows</td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>Delete</kbd></td>
+    <td>Delete forward to a word boundary</td>
+    <td>Doesn't work on Mac</td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>Left arrow</kbd> or
+    <kbd>Meta</kbd>+<kbd>B</kbd></td>
+    <td>Word left</td>
+    <td><kbd>Ctrl</kbd>+<kbd>Left arrow</kbd> Doesn't work
+    on Mac</td>
+  </tr>
+  <tr>
+    <td><kbd>Ctrl</kbd>+<kbd>Right arrow</kbd> or
+    <kbd>Meta</kbd>+<kbd>F</kbd></td>
+    <td>Word right</td>
+    <td><kbd>Ctrl</kbd>+<kbd>Right arrow</kbd> Doesn't work
+    on Mac</td>
+  </tr>
+  <tr>
+    <td><kbd>Meta</kbd>+<kbd>D</kbd> or <kbd>Meta</kbd>
+   +<kbd>Delete</kbd></td>
+    <td>Delete word right</td>
+    <td><kbd>Meta</kbd>+<kbd>Delete</kbd> Doesn't work
+    on windows</td>
+  </tr>
+  <tr>
+    <td><kbd>Meta</kbd>+<kbd>Backspace</kbd></td>
+    <td>Delete word left</td>
+    <td>Doesn't work on Mac</td>
+  </tr>
+</tbody></table></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+  <script>
+    'use strict';
+    {
+      const kCustomPreference = 'customDarkTheme';
+      const userSettings = sessionStorage.getItem(kCustomPreference);
+      const themeToggleButton = document.getElementById('theme-toggle-btn');
+      if (userSettings === null && window.matchMedia) {
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        if ('onchange' in mq) {
+          function mqChangeListener(e) {
+            document.body.classList.toggle('dark-mode', e.matches);
+          }
+          mq.addEventListener('change', mqChangeListener);
+          if (themeToggleButton) {
+            themeToggleButton.addEventListener('click', function() {
+              mq.removeEventListener('change', mqChangeListener);
+            }, { once: true });
+          }
+        }
+        if (mq.matches) {
+          document.body.classList.add('dark-mode');
+        }
+      } else if (userSettings === 'true') {
+        document.body.classList.add('dark-mode');
+      }
+      if (themeToggleButton) {
+        themeToggleButton.hidden = false;
+        themeToggleButton.addEventListener('click', function() {
+          sessionStorage.setItem(
+            kCustomPreference,
+            document.body.classList.toggle('dark-mode')
+          );
+        });
+      }
+    }
+  </script>
+</body>
+</html>

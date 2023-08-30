@@ -1,0 +1,715 @@
+{
+  "type": "module",
+  "source": "doc/api/timers.md",
+  "modules": [
+    {
+      "textRaw": "Timers",
+      "name": "timers",
+      "introduced_in": "v0.10.0",
+      "stability": 2,
+      "stabilityText": "Stable",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v18.19.1/lib/timers.js\">lib/timers.js</a></p>\n<p>The <code>timer</code> module exposes a global API for scheduling functions to\nbe called at some future period of time. Because the timer functions are\nglobals, there is no need to call <code>require('node:timers')</code> to use the API.</p>\n<p>The timer functions within Node.js implement a similar API as the timers API\nprovided by Web Browsers but use a different internal implementation that is\nbuilt around the Node.js <a href=\"https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/#setimmediate-vs-settimeout\">Event Loop</a>.</p>",
+      "classes": [
+        {
+          "textRaw": "Class: `Immediate`",
+          "type": "class",
+          "name": "Immediate",
+          "desc": "<p>This object is created internally and is returned from <a href=\"#setimmediatecallback-args\"><code>setImmediate()</code></a>. It\ncan be passed to <a href=\"#clearimmediateimmediate\"><code>clearImmediate()</code></a> in order to cancel the scheduled\nactions.</p>\n<p>By default, when an immediate is scheduled, the Node.js event loop will continue\nrunning as long as the immediate is active. The <code>Immediate</code> object returned by\n<a href=\"#setimmediatecallback-args\"><code>setImmediate()</code></a> exports both <code>immediate.ref()</code> and <code>immediate.unref()</code>\nfunctions that can be used to control this default behavior.</p>",
+          "methods": [
+            {
+              "textRaw": "`immediate.hasRef()`",
+              "type": "method",
+              "name": "hasRef",
+              "meta": {
+                "added": [
+                  "v11.0.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {boolean}",
+                    "name": "return",
+                    "type": "boolean"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>If true, the <code>Immediate</code> object will keep the Node.js event loop active.</p>"
+            },
+            {
+              "textRaw": "`immediate.ref()`",
+              "type": "method",
+              "name": "ref",
+              "meta": {
+                "added": [
+                  "v9.7.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Immediate} a reference to `immediate`",
+                    "name": "return",
+                    "type": "Immediate",
+                    "desc": "a reference to `immediate`"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>When called, requests that the Node.js event loop <em>not</em> exit so long as the\n<code>Immediate</code> is active. Calling <code>immediate.ref()</code> multiple times will have no\neffect.</p>\n<p>By default, all <code>Immediate</code> objects are \"ref'ed\", making it normally unnecessary\nto call <code>immediate.ref()</code> unless <code>immediate.unref()</code> had been called previously.</p>"
+            },
+            {
+              "textRaw": "`immediate.unref()`",
+              "type": "method",
+              "name": "unref",
+              "meta": {
+                "added": [
+                  "v9.7.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Immediate} a reference to `immediate`",
+                    "name": "return",
+                    "type": "Immediate",
+                    "desc": "a reference to `immediate`"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>When called, the active <code>Immediate</code> object will not require the Node.js event\nloop to remain active. If there is no other activity keeping the event loop\nrunning, the process may exit before the <code>Immediate</code> object's callback is\ninvoked. Calling <code>immediate.unref()</code> multiple times will have no effect.</p>"
+            },
+            {
+              "textRaw": "`immediate[Symbol.dispose]()`",
+              "type": "method",
+              "name": "[Symbol.dispose]",
+              "meta": {
+                "added": [
+                  "v18.18.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": "Experimental",
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Cancels the immediate. This is similar to calling <code>clearImmediate()</code>.</p>"
+            }
+          ]
+        },
+        {
+          "textRaw": "Class: `Timeout`",
+          "type": "class",
+          "name": "Timeout",
+          "desc": "<p>This object is created internally and is returned from <a href=\"#settimeoutcallback-delay-args\"><code>setTimeout()</code></a> and\n<a href=\"#setintervalcallback-delay-args\"><code>setInterval()</code></a>. It can be passed to either <a href=\"#cleartimeouttimeout\"><code>clearTimeout()</code></a> or\n<a href=\"#clearintervaltimeout\"><code>clearInterval()</code></a> in order to cancel the scheduled actions.</p>\n<p>By default, when a timer is scheduled using either <a href=\"#settimeoutcallback-delay-args\"><code>setTimeout()</code></a> or\n<a href=\"#setintervalcallback-delay-args\"><code>setInterval()</code></a>, the Node.js event loop will continue running as long as the\ntimer is active. Each of the <code>Timeout</code> objects returned by these functions\nexport both <code>timeout.ref()</code> and <code>timeout.unref()</code> functions that can be used to\ncontrol this default behavior.</p>",
+          "methods": [
+            {
+              "textRaw": "`timeout.close()`",
+              "type": "method",
+              "name": "close",
+              "meta": {
+                "added": [
+                  "v0.9.1"
+                ],
+                "changes": []
+              },
+              "stability": 3,
+              "stabilityText": "Legacy: Use [`clearTimeout()`][] instead.",
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Timeout} a reference to `timeout`",
+                    "name": "return",
+                    "type": "Timeout",
+                    "desc": "a reference to `timeout`"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>Cancels the timeout.</p>"
+            },
+            {
+              "textRaw": "`timeout.hasRef()`",
+              "type": "method",
+              "name": "hasRef",
+              "meta": {
+                "added": [
+                  "v11.0.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {boolean}",
+                    "name": "return",
+                    "type": "boolean"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>If true, the <code>Timeout</code> object will keep the Node.js event loop active.</p>"
+            },
+            {
+              "textRaw": "`timeout.ref()`",
+              "type": "method",
+              "name": "ref",
+              "meta": {
+                "added": [
+                  "v0.9.1"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Timeout} a reference to `timeout`",
+                    "name": "return",
+                    "type": "Timeout",
+                    "desc": "a reference to `timeout`"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>When called, requests that the Node.js event loop <em>not</em> exit so long as the\n<code>Timeout</code> is active. Calling <code>timeout.ref()</code> multiple times will have no effect.</p>\n<p>By default, all <code>Timeout</code> objects are \"ref'ed\", making it normally unnecessary\nto call <code>timeout.ref()</code> unless <code>timeout.unref()</code> had been called previously.</p>"
+            },
+            {
+              "textRaw": "`timeout.refresh()`",
+              "type": "method",
+              "name": "refresh",
+              "meta": {
+                "added": [
+                  "v10.2.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Timeout} a reference to `timeout`",
+                    "name": "return",
+                    "type": "Timeout",
+                    "desc": "a reference to `timeout`"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>Sets the timer's start time to the current time, and reschedules the timer to\ncall its callback at the previously specified duration adjusted to the current\ntime. This is useful for refreshing a timer without allocating a new\nJavaScript object.</p>\n<p>Using this on a timer that has already called its callback will reactivate the\ntimer.</p>"
+            },
+            {
+              "textRaw": "`timeout.unref()`",
+              "type": "method",
+              "name": "unref",
+              "meta": {
+                "added": [
+                  "v0.9.1"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Timeout} a reference to `timeout`",
+                    "name": "return",
+                    "type": "Timeout",
+                    "desc": "a reference to `timeout`"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>When called, the active <code>Timeout</code> object will not require the Node.js event loop\nto remain active. If there is no other activity keeping the event loop running,\nthe process may exit before the <code>Timeout</code> object's callback is invoked. Calling\n<code>timeout.unref()</code> multiple times will have no effect.</p>"
+            },
+            {
+              "textRaw": "`timeout[Symbol.toPrimitive]()`",
+              "type": "method",
+              "name": "[Symbol.toPrimitive]",
+              "meta": {
+                "added": [
+                  "v14.9.0",
+                  "v12.19.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {integer} a number that can be used to reference this `timeout`",
+                    "name": "return",
+                    "type": "integer",
+                    "desc": "a number that can be used to reference this `timeout`"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>Coerce a <code>Timeout</code> to a primitive. The primitive can be used to\nclear the <code>Timeout</code>. The primitive can only be used in the\nsame thread where the timeout was created. Therefore, to use it\nacross <a href=\"worker_threads.html\"><code>worker_threads</code></a> it must first be passed to the correct\nthread. This allows enhanced compatibility with browser\n<code>setTimeout()</code> and <code>setInterval()</code> implementations.</p>"
+            },
+            {
+              "textRaw": "`timeout[Symbol.dispose]()`",
+              "type": "method",
+              "name": "[Symbol.dispose]",
+              "meta": {
+                "added": [
+                  "v18.18.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": "Experimental",
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Cancels the timeout.</p>"
+            }
+          ]
+        }
+      ],
+      "modules": [
+        {
+          "textRaw": "Scheduling timers",
+          "name": "scheduling_timers",
+          "desc": "<p>A timer in Node.js is an internal construct that calls a given function after\na certain period of time. When a timer's function is called varies depending on\nwhich method was used to create the timer and what other work the Node.js\nevent loop is doing.</p>",
+          "methods": [
+            {
+              "textRaw": "`setImmediate(callback[, ...args])`",
+              "type": "method",
+              "name": "setImmediate",
+              "meta": {
+                "added": [
+                  "v0.9.1"
+                ],
+                "changes": [
+                  {
+                    "version": "v18.0.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/41678",
+                    "description": "Passing an invalid callback to the `callback` argument now throws `ERR_INVALID_ARG_TYPE` instead of `ERR_INVALID_CALLBACK`."
+                  }
+                ]
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Immediate} for use with [`clearImmediate()`][]",
+                    "name": "return",
+                    "type": "Immediate",
+                    "desc": "for use with [`clearImmediate()`][]"
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`callback` {Function} The function to call at the end of this turn of the Node.js [Event Loop][]",
+                      "name": "callback",
+                      "type": "Function",
+                      "desc": "The function to call at the end of this turn of the Node.js [Event Loop][]"
+                    },
+                    {
+                      "textRaw": "`...args` {any} Optional arguments to pass when the `callback` is called.",
+                      "name": "...args",
+                      "type": "any",
+                      "desc": "Optional arguments to pass when the `callback` is called."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Schedules the \"immediate\" execution of the <code>callback</code> after I/O events'\ncallbacks.</p>\n<p>When multiple calls to <code>setImmediate()</code> are made, the <code>callback</code> functions are\nqueued for execution in the order in which they are created. The entire callback\nqueue is processed every event loop iteration. If an immediate timer is queued\nfrom inside an executing callback, that timer will not be triggered until the\nnext event loop iteration.</p>\n<p>If <code>callback</code> is not a function, a <a href=\"errors.html#class-typeerror\"><code>TypeError</code></a> will be thrown.</p>\n<p>This method has a custom variant for promises that is available using\n<a href=\"#timerspromisessetimmediatevalue-options\"><code>timersPromises.setImmediate()</code></a>.</p>"
+            },
+            {
+              "textRaw": "`setInterval(callback[, delay[, ...args]])`",
+              "type": "method",
+              "name": "setInterval",
+              "meta": {
+                "added": [
+                  "v0.0.1"
+                ],
+                "changes": [
+                  {
+                    "version": "v18.0.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/41678",
+                    "description": "Passing an invalid callback to the `callback` argument now throws `ERR_INVALID_ARG_TYPE` instead of `ERR_INVALID_CALLBACK`."
+                  }
+                ]
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Timeout} for use with [`clearInterval()`][]",
+                    "name": "return",
+                    "type": "Timeout",
+                    "desc": "for use with [`clearInterval()`][]"
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`callback` {Function} The function to call when the timer elapses.",
+                      "name": "callback",
+                      "type": "Function",
+                      "desc": "The function to call when the timer elapses."
+                    },
+                    {
+                      "textRaw": "`delay` {number} The number of milliseconds to wait before calling the `callback`. **Default:** `1`.",
+                      "name": "delay",
+                      "type": "number",
+                      "default": "`1`",
+                      "desc": "The number of milliseconds to wait before calling the `callback`."
+                    },
+                    {
+                      "textRaw": "`...args` {any} Optional arguments to pass when the `callback` is called.",
+                      "name": "...args",
+                      "type": "any",
+                      "desc": "Optional arguments to pass when the `callback` is called."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Schedules repeated execution of <code>callback</code> every <code>delay</code> milliseconds.</p>\n<p>When <code>delay</code> is larger than <code>2147483647</code> or less than <code>1</code>, the <code>delay</code> will be\nset to <code>1</code>. Non-integer delays are truncated to an integer.</p>\n<p>If <code>callback</code> is not a function, a <a href=\"errors.html#class-typeerror\"><code>TypeError</code></a> will be thrown.</p>\n<p>This method has a custom variant for promises that is available using\n<a href=\"#timerspromisessetintervaldelay-value-options\"><code>timersPromises.setInterval()</code></a>.</p>"
+            },
+            {
+              "textRaw": "`setTimeout(callback[, delay[, ...args]])`",
+              "type": "method",
+              "name": "setTimeout",
+              "meta": {
+                "added": [
+                  "v0.0.1"
+                ],
+                "changes": [
+                  {
+                    "version": "v18.0.0",
+                    "pr-url": "https://github.com/nodejs/node/pull/41678",
+                    "description": "Passing an invalid callback to the `callback` argument now throws `ERR_INVALID_ARG_TYPE` instead of `ERR_INVALID_CALLBACK`."
+                  }
+                ]
+              },
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Timeout} for use with [`clearTimeout()`][]",
+                    "name": "return",
+                    "type": "Timeout",
+                    "desc": "for use with [`clearTimeout()`][]"
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`callback` {Function} The function to call when the timer elapses.",
+                      "name": "callback",
+                      "type": "Function",
+                      "desc": "The function to call when the timer elapses."
+                    },
+                    {
+                      "textRaw": "`delay` {number} The number of milliseconds to wait before calling the `callback`. **Default:** `1`.",
+                      "name": "delay",
+                      "type": "number",
+                      "default": "`1`",
+                      "desc": "The number of milliseconds to wait before calling the `callback`."
+                    },
+                    {
+                      "textRaw": "`...args` {any} Optional arguments to pass when the `callback` is called.",
+                      "name": "...args",
+                      "type": "any",
+                      "desc": "Optional arguments to pass when the `callback` is called."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Schedules execution of a one-time <code>callback</code> after <code>delay</code> milliseconds.</p>\n<p>The <code>callback</code> will likely not be invoked in precisely <code>delay</code> milliseconds.\nNode.js makes no guarantees about the exact timing of when callbacks will fire,\nnor of their ordering. The callback will be called as close as possible to the\ntime specified.</p>\n<p>When <code>delay</code> is larger than <code>2147483647</code> or less than <code>1</code>, the <code>delay</code>\nwill be set to <code>1</code>. Non-integer delays are truncated to an integer.</p>\n<p>If <code>callback</code> is not a function, a <a href=\"errors.html#class-typeerror\"><code>TypeError</code></a> will be thrown.</p>\n<p>This method has a custom variant for promises that is available using\n<a href=\"#timerspromisessettimeoutdelay-value-options\"><code>timersPromises.setTimeout()</code></a>.</p>"
+            }
+          ],
+          "type": "module",
+          "displayName": "Scheduling timers"
+        },
+        {
+          "textRaw": "Cancelling timers",
+          "name": "cancelling_timers",
+          "desc": "<p>The <a href=\"#setimmediatecallback-args\"><code>setImmediate()</code></a>, <a href=\"#setintervalcallback-delay-args\"><code>setInterval()</code></a>, and <a href=\"#settimeoutcallback-delay-args\"><code>setTimeout()</code></a> methods\neach return objects that represent the scheduled timers. These can be used to\ncancel the timer and prevent it from triggering.</p>\n<p>For the promisified variants of <a href=\"#setimmediatecallback-args\"><code>setImmediate()</code></a> and <a href=\"#settimeoutcallback-delay-args\"><code>setTimeout()</code></a>,\nan <a href=\"globals.html#class-abortcontroller\"><code>AbortController</code></a> may be used to cancel the timer. When canceled, the\nreturned Promises will be rejected with an <code>'AbortError'</code>.</p>\n<p>For <code>setImmediate()</code>:</p>\n<pre><code class=\"language-js\">const { setImmediate: setImmediatePromise } = require('node:timers/promises');\n\nconst ac = new AbortController();\nconst signal = ac.signal;\n\nsetImmediatePromise('foobar', { signal })\n  .then(console.log)\n  .catch((err) => {\n    if (err.name === 'AbortError')\n      console.error('The immediate was aborted');\n  });\n\nac.abort();\n</code></pre>\n<p>For <code>setTimeout()</code>:</p>\n<pre><code class=\"language-js\">const { setTimeout: setTimeoutPromise } = require('node:timers/promises');\n\nconst ac = new AbortController();\nconst signal = ac.signal;\n\nsetTimeoutPromise(1000, 'foobar', { signal })\n  .then(console.log)\n  .catch((err) => {\n    if (err.name === 'AbortError')\n      console.error('The timeout was aborted');\n  });\n\nac.abort();\n</code></pre>",
+          "methods": [
+            {
+              "textRaw": "`clearImmediate(immediate)`",
+              "type": "method",
+              "name": "clearImmediate",
+              "meta": {
+                "added": [
+                  "v0.9.1"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`immediate` {Immediate} An `Immediate` object as returned by [`setImmediate()`][].",
+                      "name": "immediate",
+                      "type": "Immediate",
+                      "desc": "An `Immediate` object as returned by [`setImmediate()`][]."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Cancels an <code>Immediate</code> object created by <a href=\"#setimmediatecallback-args\"><code>setImmediate()</code></a>.</p>"
+            },
+            {
+              "textRaw": "`clearInterval(timeout)`",
+              "type": "method",
+              "name": "clearInterval",
+              "meta": {
+                "added": [
+                  "v0.0.1"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`timeout` {Timeout|string|number} A `Timeout` object as returned by [`setInterval()`][] or the [primitive][] of the `Timeout` object as a string or a number.",
+                      "name": "timeout",
+                      "type": "Timeout|string|number",
+                      "desc": "A `Timeout` object as returned by [`setInterval()`][] or the [primitive][] of the `Timeout` object as a string or a number."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Cancels a <code>Timeout</code> object created by <a href=\"#setintervalcallback-delay-args\"><code>setInterval()</code></a>.</p>"
+            },
+            {
+              "textRaw": "`clearTimeout(timeout)`",
+              "type": "method",
+              "name": "clearTimeout",
+              "meta": {
+                "added": [
+                  "v0.0.1"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`timeout` {Timeout|string|number} A `Timeout` object as returned by [`setTimeout()`][] or the [primitive][] of the `Timeout` object as a string or a number.",
+                      "name": "timeout",
+                      "type": "Timeout|string|number",
+                      "desc": "A `Timeout` object as returned by [`setTimeout()`][] or the [primitive][] of the `Timeout` object as a string or a number."
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>Cancels a <code>Timeout</code> object created by <a href=\"#settimeoutcallback-delay-args\"><code>setTimeout()</code></a>.</p>"
+            }
+          ],
+          "type": "module",
+          "displayName": "Cancelling timers"
+        },
+        {
+          "textRaw": "Timers Promises API",
+          "name": "timers_promises_api",
+          "meta": {
+            "added": [
+              "v15.0.0"
+            ],
+            "changes": [
+              {
+                "version": "v16.0.0",
+                "pr-url": "https://github.com/nodejs/node/pull/38112",
+                "description": "Graduated from experimental."
+              }
+            ]
+          },
+          "desc": "<p>The <code>timers/promises</code> API provides an alternative set of timer functions\nthat return <code>Promise</code> objects. The API is accessible via\n<code>require('node:timers/promises')</code>.</p>\n<pre><code class=\"language-mjs\">import {\n  setTimeout,\n  setImmediate,\n  setInterval,\n} from 'timers/promises';\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  setTimeout,\n  setImmediate,\n  setInterval,\n} = require('node:timers/promises');\n</code></pre>",
+          "methods": [
+            {
+              "textRaw": "`timersPromises.setTimeout([delay[, value[, options]]])`",
+              "type": "method",
+              "name": "setTimeout",
+              "meta": {
+                "added": [
+                  "v15.0.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`delay` {number} The number of milliseconds to wait before fulfilling the promise. **Default:** `1`.",
+                      "name": "delay",
+                      "type": "number",
+                      "default": "`1`",
+                      "desc": "The number of milliseconds to wait before fulfilling the promise."
+                    },
+                    {
+                      "textRaw": "`value` {any} A value with which the promise is fulfilled.",
+                      "name": "value",
+                      "type": "any",
+                      "desc": "A value with which the promise is fulfilled."
+                    },
+                    {
+                      "textRaw": "`options` {Object}",
+                      "name": "options",
+                      "type": "Object",
+                      "options": [
+                        {
+                          "textRaw": "`ref` {boolean} Set to `false` to indicate that the scheduled `Timeout` should not require the Node.js event loop to remain active. **Default:** `true`.",
+                          "name": "ref",
+                          "type": "boolean",
+                          "default": "`true`",
+                          "desc": "Set to `false` to indicate that the scheduled `Timeout` should not require the Node.js event loop to remain active."
+                        },
+                        {
+                          "textRaw": "`signal` {AbortSignal} An optional `AbortSignal` that can be used to cancel the scheduled `Timeout`.",
+                          "name": "signal",
+                          "type": "AbortSignal",
+                          "desc": "An optional `AbortSignal` that can be used to cancel the scheduled `Timeout`."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "desc": "<pre><code class=\"language-mjs\">import {\n  setTimeout,\n} from 'timers/promises';\n\nconst res = await setTimeout(100, 'result');\n\nconsole.log(res);  // Prints 'result'\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  setTimeout,\n} = require('node:timers/promises');\n\nsetTimeout(100, 'result').then((res) => {\n  console.log(res);  // Prints 'result'\n});\n</code></pre>"
+            },
+            {
+              "textRaw": "`timersPromises.setImmediate([value[, options]])`",
+              "type": "method",
+              "name": "setImmediate",
+              "meta": {
+                "added": [
+                  "v15.0.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`value` {any} A value with which the promise is fulfilled.",
+                      "name": "value",
+                      "type": "any",
+                      "desc": "A value with which the promise is fulfilled."
+                    },
+                    {
+                      "textRaw": "`options` {Object}",
+                      "name": "options",
+                      "type": "Object",
+                      "options": [
+                        {
+                          "textRaw": "`ref` {boolean} Set to `false` to indicate that the scheduled `Immediate` should not require the Node.js event loop to remain active. **Default:** `true`.",
+                          "name": "ref",
+                          "type": "boolean",
+                          "default": "`true`",
+                          "desc": "Set to `false` to indicate that the scheduled `Immediate` should not require the Node.js event loop to remain active."
+                        },
+                        {
+                          "textRaw": "`signal` {AbortSignal} An optional `AbortSignal` that can be used to cancel the scheduled `Immediate`.",
+                          "name": "signal",
+                          "type": "AbortSignal",
+                          "desc": "An optional `AbortSignal` that can be used to cancel the scheduled `Immediate`."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "desc": "<pre><code class=\"language-mjs\">import {\n  setImmediate,\n} from 'timers/promises';\n\nconst res = await setImmediate('result');\n\nconsole.log(res);  // Prints 'result'\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  setImmediate,\n} = require('node:timers/promises');\n\nsetImmediate('result').then((res) => {\n  console.log(res);  // Prints 'result'\n});\n</code></pre>"
+            },
+            {
+              "textRaw": "`timersPromises.setInterval([delay[, value[, options]]])`",
+              "type": "method",
+              "name": "setInterval",
+              "meta": {
+                "added": [
+                  "v15.9.0"
+                ],
+                "changes": []
+              },
+              "signatures": [
+                {
+                  "params": []
+                }
+              ],
+              "desc": "<p>Returns an async iterator that generates values in an interval of <code>delay</code> ms.\nIf <code>ref</code> is <code>true</code>, you need to call <code>next()</code> of async iterator explicitly\nor implicitly to keep the event loop alive.</p>\n<ul>\n<li><code>delay</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type\" class=\"type\">&lt;number&gt;</a> The number of milliseconds to wait between iterations.\n<strong>Default:</strong> <code>1</code>.</li>\n<li><code>value</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types\" class=\"type\">&lt;any&gt;</a> A value with which the iterator returns.</li>\n<li><code>options</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a>\n<ul>\n<li><code>ref</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type\" class=\"type\">&lt;boolean&gt;</a> Set to <code>false</code> to indicate that the scheduled <code>Timeout</code>\nbetween iterations should not require the Node.js event loop to\nremain active.\n<strong>Default:</strong> <code>true</code>.</li>\n<li><code>signal</code> <a href=\"globals.html#class-abortsignal\" class=\"type\">&lt;AbortSignal&gt;</a> An optional <code>AbortSignal</code> that can be used to\ncancel the scheduled <code>Timeout</code> between operations.</li>\n</ul>\n</li>\n</ul>\n<pre><code class=\"language-mjs\">import {\n  setInterval,\n} from 'timers/promises';\n\nconst interval = 100;\nfor await (const startTime of setInterval(interval, Date.now())) {\n  const now = Date.now();\n  console.log(now);\n  if ((now - startTime) > 1000)\n    break;\n}\nconsole.log(Date.now());\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  setInterval,\n} = require('node:timers/promises');\nconst interval = 100;\n\n(async function() {\n  for await (const startTime of setInterval(interval, Date.now())) {\n    const now = Date.now();\n    console.log(now);\n    if ((now - startTime) > 1000)\n      break;\n  }\n  console.log(Date.now());\n})();\n</code></pre>"
+            },
+            {
+              "textRaw": "`timersPromises.scheduler.wait(delay[, options])`",
+              "type": "method",
+              "name": "wait",
+              "meta": {
+                "added": [
+                  "v17.3.0",
+                  "v16.14.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": "Experimental",
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Promise}",
+                    "name": "return",
+                    "type": "Promise"
+                  },
+                  "params": [
+                    {
+                      "textRaw": "`delay` {number} The number of milliseconds to wait before resolving the promise.",
+                      "name": "delay",
+                      "type": "number",
+                      "desc": "The number of milliseconds to wait before resolving the promise."
+                    },
+                    {
+                      "textRaw": "`options` {Object}",
+                      "name": "options",
+                      "type": "Object",
+                      "options": [
+                        {
+                          "textRaw": "`signal` {AbortSignal} An optional `AbortSignal` that can be used to cancel waiting.",
+                          "name": "signal",
+                          "type": "AbortSignal",
+                          "desc": "An optional `AbortSignal` that can be used to cancel waiting."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "desc": "<p>An experimental API defined by the <a href=\"https://github.com/WICG/scheduling-apis\">Scheduling APIs</a> draft specification\nbeing developed as a standard Web Platform API.</p>\n<p>Calling <code>timersPromises.scheduler.wait(delay, options)</code> is roughly equivalent\nto calling <code>timersPromises.setTimeout(delay, undefined, options)</code> except that\nthe <code>ref</code> option is not supported.</p>\n<pre><code class=\"language-mjs\">import { scheduler } from 'node:timers/promises';\n\nawait scheduler.wait(1000); // Wait one second before continuing\n</code></pre>"
+            },
+            {
+              "textRaw": "`timersPromises.scheduler.yield()`",
+              "type": "method",
+              "name": "yield",
+              "meta": {
+                "added": [
+                  "v17.3.0",
+                  "v16.14.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": "Experimental",
+              "signatures": [
+                {
+                  "return": {
+                    "textRaw": "Returns: {Promise}",
+                    "name": "return",
+                    "type": "Promise"
+                  },
+                  "params": []
+                }
+              ],
+              "desc": "<p>An experimental API defined by the <a href=\"https://github.com/WICG/scheduling-apis\">Scheduling APIs</a> draft specification\nbeing developed as a standard Web Platform API.</p>\n<p>Calling <code>timersPromises.scheduler.yield()</code> is equivalent to calling\n<code>timersPromises.setImmediate()</code> with no arguments.</p>"
+            }
+          ],
+          "type": "module",
+          "displayName": "Timers Promises API"
+        }
+      ],
+      "type": "module",
+      "displayName": "Timers"
+    }
+  ]
+}

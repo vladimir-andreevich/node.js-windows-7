@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v18.19.1">
+  <title>Query string | Node.js v18.19.1 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/querystring.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  
+</head>
+<body class="alt apidoc" id="api-section-querystring">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring active">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="querystring" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v18.19.1 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v18.19.1</li>
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Table of contents
+      </a>
+
+      <div class="picker"><div class="toc"><ul>
+<li><span class="stability_2"><a href="#query-string">Query string</a></span>
+<ul>
+<li><a href="#querystringdecode"><code>querystring.decode()</code></a></li>
+<li><a href="#querystringencode"><code>querystring.encode()</code></a></li>
+<li><a href="#querystringescapestr"><code>querystring.escape(str)</code></a></li>
+<li><a href="#querystringparsestr-sep-eq-options"><code>querystring.parse(str[, sep[, eq[, options]]])</code></a></li>
+<li><a href="#querystringstringifyobj-sep-eq-options"><code>querystring.stringify(obj[, sep[, eq[, options]]])</code></a></li>
+<li><a href="#querystringunescapestr"><code>querystring.unescape(str)</code></a></li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Index
+      </a>
+
+      <div class="picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring active">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Other versions
+      </a>
+      <div class="picker"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v21.x/api/querystring.html">21.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v20.x/api/querystring.html">20.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v19.x/api/querystring.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/querystring.html">18.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/querystring.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/querystring.html">16.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/querystring.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/querystring.html">14.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/querystring.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/querystring.html">12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/querystring.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/querystring.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/querystring.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/querystring.html">8.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v7.x/api/querystring.html">7.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v6.x/api/querystring.html">6.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v5.x/api/querystring.html">5.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v4.x/api/querystring.html">4.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.12.x/api/querystring.html">0.12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.10.x/api/querystring.html">0.10.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#">
+                <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+                Options
+              </a>
+        
+              <div class="picker">
+                <ul>
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="querystring.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/querystring.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_2"><a href="#query-string">Query string</a></span>
+<ul>
+<li><a href="#querystringdecode"><code>querystring.decode()</code></a></li>
+<li><a href="#querystringencode"><code>querystring.encode()</code></a></li>
+<li><a href="#querystringescapestr"><code>querystring.escape(str)</code></a></li>
+<li><a href="#querystringparsestr-sep-eq-options"><code>querystring.parse(str[, sep[, eq[, options]]])</code></a></li>
+<li><a href="#querystringstringifyobj-sep-eq-options"><code>querystring.stringify(obj[, sep[, eq[, options]]])</code></a></li>
+<li><a href="#querystringunescapestr"><code>querystring.unescape(str)</code></a></li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Query string<span><a class="mark" href="#query-string" id="query-string">#</a></span><a aria-hidden="true" class="legacy" id="querystring_query_string"></a></h2>
+
+<p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
+
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v18.19.1/lib/querystring.js">lib/querystring.js</a></p>
+<p>The <code>node:querystring</code> module provides utilities for parsing and formatting URL
+query strings. It can be accessed using:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:querystring'</span>);</code> <button class="copy-button">copy</button></pre>
+<p><code>querystring</code> is more performant than <a href="url.html#class-urlsearchparams" class="type">&#x3C;URLSearchParams></a> but is not a
+standardized API. Use <a href="url.html#class-urlsearchparams" class="type">&#x3C;URLSearchParams></a> when performance is not critical or
+when compatibility with browser code is desirable.</p>
+<section><h3><code>querystring.decode()</code><span><a class="mark" href="#querystringdecode" id="querystringdecode">#</a></span><a aria-hidden="true" class="legacy" id="querystring_querystring_decode"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.99</span>
+</div>
+<p>The <code>querystring.decode()</code> function is an alias for <code>querystring.parse()</code>.</p>
+</section><section><h3><code>querystring.encode()</code><span><a class="mark" href="#querystringencode" id="querystringencode">#</a></span><a aria-hidden="true" class="legacy" id="querystring_querystring_encode"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.99</span>
+</div>
+<p>The <code>querystring.encode()</code> function is an alias for <code>querystring.stringify()</code>.</p>
+</section><section><h3><code>querystring.escape(str)</code><span><a class="mark" href="#querystringescapestr" id="querystringescapestr">#</a></span><a aria-hidden="true" class="legacy" id="querystring_querystring_escape_str"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.25</span>
+</div>
+<ul>
+<li><code>str</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The <code>querystring.escape()</code> method performs URL percent-encoding on the given
+<code>str</code> in a manner that is optimized for the specific requirements of URL
+query strings.</p>
+<p>The <code>querystring.escape()</code> method is used by <code>querystring.stringify()</code> and is
+generally not expected to be used directly. It is exported primarily to allow
+application code to provide a replacement percent-encoding implementation if
+necessary by assigning <code>querystring.escape</code> to an alternative function.</p>
+</section><section><h3><code>querystring.parse(str[, sep[, eq[, options]]])</code><span><a class="mark" href="#querystringparsestr-sep-eq-options" id="querystringparsestr-sep-eq-options">#</a></span><a aria-hidden="true" class="legacy" id="querystring_querystring_parse_str_sep_eq_options"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v8.0.0</td>
+<td><p>Multiple empty entries are now parsed correctly (e.g. <code>&#x26;=&#x26;=</code>).</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>The returned object no longer inherits from <code>Object.prototype</code>.</p></td></tr>
+<tr><td>v6.0.0, v4.2.4</td>
+<td><p>The <code>eq</code> parameter may now have a length of more than <code>1</code>.</p></td></tr>
+<tr><td>v0.1.25</td>
+<td><p><span>Added in: v0.1.25</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>str</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The URL query string to parse</li>
+<li><code>sep</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The substring used to delimit key and value pairs in the
+query string. <strong>Default:</strong> <code>'&#x26;'</code>.</li>
+<li><code>eq</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a>. The substring used to delimit keys and values in the
+query string. <strong>Default:</strong> <code>'='</code>.</li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>decodeURIComponent</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> The function to use when decoding
+percent-encoded characters in the query string. <strong>Default:</strong>
+<code>querystring.unescape()</code>.</li>
+<li><code>maxKeys</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> Specifies the maximum number of keys to parse.
+Specify <code>0</code> to remove key counting limitations. <strong>Default:</strong> <code>1000</code>.</li>
+</ul>
+</li>
+</ul>
+<p>The <code>querystring.parse()</code> method parses a URL query string (<code>str</code>) into a
+collection of key and value pairs.</p>
+<p>For example, the query string <code>'foo=bar&#x26;abc=xyz&#x26;abc=123'</code> is parsed into:</p>
+<!-- eslint-skip -->
+<pre><code class="language-js">{
+  <span class="hljs-attr">foo</span>: <span class="hljs-string">'bar'</span>,
+  <span class="hljs-attr">abc</span>: [<span class="hljs-string">'xyz'</span>, <span class="hljs-string">'123'</span>]
+}</code> <button class="copy-button">copy</button></pre>
+<p>The object returned by the <code>querystring.parse()</code> method <em>does not</em>
+prototypically inherit from the JavaScript <code>Object</code>. This means that typical
+<code>Object</code> methods such as <code>obj.toString()</code>, <code>obj.hasOwnProperty()</code>, and others
+are not defined and <em>will not work</em>.</p>
+<p>By default, percent-encoded characters within the query string will be assumed
+to use UTF-8 encoding. If an alternative character encoding is used, then an
+alternative <code>decodeURIComponent</code> option will need to be specified:</p>
+<pre><code class="language-js"><span class="hljs-comment">// Assuming gbkDecodeURIComponent function already exists...</span>
+
+querystring.<span class="hljs-title function_">parse</span>(<span class="hljs-string">'w=%D6%D0%CE%C4&#x26;foo=bar'</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>,
+                  { <span class="hljs-attr">decodeURIComponent</span>: gbkDecodeURIComponent });</code> <button class="copy-button">copy</button></pre>
+</section><section><h3><code>querystring.stringify(obj[, sep[, eq[, options]]])</code><span><a class="mark" href="#querystringstringifyobj-sep-eq-options" id="querystringstringifyobj-sep-eq-options">#</a></span><a aria-hidden="true" class="legacy" id="querystring_querystring_stringify_obj_sep_eq_options"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.25</span>
+</div>
+<ul>
+<li><code>obj</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The object to serialize into a URL query string</li>
+<li><code>sep</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The substring used to delimit key and value pairs in the
+query string. <strong>Default:</strong> <code>'&#x26;'</code>.</li>
+<li><code>eq</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a>. The substring used to delimit keys and values in the
+query string. <strong>Default:</strong> <code>'='</code>.</li>
+<li><code>options</code>
+<ul>
+<li><code>encodeURIComponent</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> The function to use when converting
+URL-unsafe characters to percent-encoding in the query string. <strong>Default:</strong>
+<code>querystring.escape()</code>.</li>
+</ul>
+</li>
+</ul>
+<p>The <code>querystring.stringify()</code> method produces a URL query string from a
+given <code>obj</code> by iterating through the object's "own properties".</p>
+<p>It serializes the following types of values passed in <code>obj</code>:
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt" class="type">&#x3C;bigint></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt" class="type">&#x3C;bigint[]></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean[]></a>
+The numeric values must be finite. Any other input values will be coerced to
+empty strings.</p>
+<pre><code class="language-js">querystring.<span class="hljs-title function_">stringify</span>({ <span class="hljs-attr">foo</span>: <span class="hljs-string">'bar'</span>, <span class="hljs-attr">baz</span>: [<span class="hljs-string">'qux'</span>, <span class="hljs-string">'quux'</span>], <span class="hljs-attr">corge</span>: <span class="hljs-string">''</span> });
+<span class="hljs-comment">// Returns 'foo=bar&#x26;baz=qux&#x26;baz=quux&#x26;corge='</span>
+
+querystring.<span class="hljs-title function_">stringify</span>({ <span class="hljs-attr">foo</span>: <span class="hljs-string">'bar'</span>, <span class="hljs-attr">baz</span>: <span class="hljs-string">'qux'</span> }, <span class="hljs-string">';'</span>, <span class="hljs-string">':'</span>);
+<span class="hljs-comment">// Returns 'foo:bar;baz:qux'</span></code> <button class="copy-button">copy</button></pre>
+<p>By default, characters requiring percent-encoding within the query string will
+be encoded as UTF-8. If an alternative encoding is required, then an alternative
+<code>encodeURIComponent</code> option will need to be specified:</p>
+<pre><code class="language-js"><span class="hljs-comment">// Assuming gbkEncodeURIComponent function already exists,</span>
+
+querystring.<span class="hljs-title function_">stringify</span>({ <span class="hljs-attr">w</span>: <span class="hljs-string">'中文'</span>, <span class="hljs-attr">foo</span>: <span class="hljs-string">'bar'</span> }, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>,
+                      { <span class="hljs-attr">encodeURIComponent</span>: gbkEncodeURIComponent });</code> <button class="copy-button">copy</button></pre>
+</section><section><h3><code>querystring.unescape(str)</code><span><a class="mark" href="#querystringunescapestr" id="querystringunescapestr">#</a></span><a aria-hidden="true" class="legacy" id="querystring_querystring_unescape_str"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.25</span>
+</div>
+<ul>
+<li><code>str</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>The <code>querystring.unescape()</code> method performs decoding of URL percent-encoded
+characters on the given <code>str</code>.</p>
+<p>The <code>querystring.unescape()</code> method is used by <code>querystring.parse()</code> and is
+generally not expected to be used directly. It is exported primarily to allow
+application code to provide a replacement decoding implementation if
+necessary by assigning <code>querystring.unescape</code> to an alternative function.</p>
+<p>By default, the <code>querystring.unescape()</code> method will attempt to use the
+JavaScript built-in <code>decodeURIComponent()</code> method to decode. If that fails,
+a safer equivalent that does not throw on malformed URLs will be used.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

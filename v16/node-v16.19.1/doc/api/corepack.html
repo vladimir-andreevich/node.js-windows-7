@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v16.19.1">
+  <title>Corepack | Node.js v16.19.1 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/corepack.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  
+</head>
+<body class="alt apidoc" id="api-section-corepack">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack active">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="corepack" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v16.19.1 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v16.19.1</li>
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Table of contents
+      </a>
+
+      <div class="picker"><div class="toc"><ul>
+<li><a href="#corepack">Corepack</a>
+<ul>
+<li><a href="#workflows">Workflows</a>
+<ul>
+<li><a href="#enabling-the-feature">Enabling the feature</a></li>
+<li><a href="#configuring-a-package">Configuring a package</a></li>
+<li><a href="#upgrading-the-global-versions">Upgrading the global versions</a></li>
+<li><a href="#offline-workflow">Offline workflow</a></li>
+</ul>
+</li>
+<li><a href="#supported-package-managers">Supported package managers</a></li>
+<li><a href="#common-questions">Common questions</a>
+<ul>
+<li><a href="#how-does-corepack-interact-with-npm">How does Corepack interact with npm?</a></li>
+<li><a href="#running-npm-install--g-yarn-doesnt-work">Running <code>npm install -g yarn</code> doesn't work</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Index
+      </a>
+
+      <div class="picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack active">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Other versions
+      </a>
+      <div class="picker"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v19.x/api/corepack.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/corepack.html">18.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/corepack.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/corepack.html">16.x <b>LTS</b></a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#">
+                <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+                Options
+              </a>
+        
+              <div class="picker">
+                <ul>
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="corepack.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/corepack.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><a href="#corepack">Corepack</a>
+<ul>
+<li><a href="#workflows">Workflows</a>
+<ul>
+<li><a href="#enabling-the-feature">Enabling the feature</a></li>
+<li><a href="#configuring-a-package">Configuring a package</a></li>
+<li><a href="#upgrading-the-global-versions">Upgrading the global versions</a></li>
+<li><a href="#offline-workflow">Offline workflow</a></li>
+</ul>
+</li>
+<li><a href="#supported-package-managers">Supported package managers</a></li>
+<li><a href="#common-questions">Common questions</a>
+<ul>
+<li><a href="#how-does-corepack-interact-with-npm">How does Corepack interact with npm?</a></li>
+<li><a href="#running-npm-install--g-yarn-doesnt-work">Running <code>npm install -g yarn</code> doesn't work</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Corepack<span><a class="mark" href="#corepack" id="corepack">#</a></span><a aria-hidden="true" class="legacy" id="corepack_corepack"></a></h2>
+
+
+<div class="api_metadata">
+<span>Added in: v16.9.0, v14.19.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<p><em><a href="https://github.com/nodejs/corepack">Corepack</a></em> is an experimental tool to help with
+managing versions of your package managers. It exposes binary proxies for
+each <a href="#supported-package-managers">supported package manager</a> that, when called, will identify whatever
+package manager is configured for the current project, transparently install
+it if needed, and finally run it without requiring explicit user interactions.</p>
+<p>This feature simplifies two core workflows:</p>
+<ul>
+<li>
+<p>It eases new contributor onboarding, since they won't have to follow
+system-specific installation processes anymore just to have the package
+manager you want them to.</p>
+</li>
+<li>
+<p>It allows you to ensure that everyone in your team will use exactly the
+package manager version you intend them to, without them having to
+manually synchronize it each time you need to make an update.</p>
+</li>
+</ul>
+<section><h3>Workflows<span><a class="mark" href="#workflows" id="workflows">#</a></span><a aria-hidden="true" class="legacy" id="corepack_workflows"></a></h3>
+<h4>Enabling the feature<span><a class="mark" href="#enabling-the-feature" id="enabling-the-feature">#</a></span><a aria-hidden="true" class="legacy" id="corepack_enabling_the_feature"></a></h4>
+<p>Due to its experimental status, Corepack currently needs to be explicitly
+enabled to have any effect. To do that, run <a href="https://github.com/nodejs/corepack#corepack-enable--name"><code>corepack enable</code></a>, which
+will set up the symlinks in your environment next to the <code>node</code> binary
+(and overwrite the existing symlinks if necessary).</p>
+<p>From this point forward, any call to the <a href="#supported-package-managers">supported binaries</a> will work
+without further setup. Should you experience a problem, run
+<a href="https://github.com/nodejs/corepack#corepack-disable--name"><code>corepack disable</code></a> to remove the proxies from your system (and consider
+opening an issue on the <a href="https://github.com/nodejs/corepack">Corepack repository</a> to let us know).</p>
+<h4>Configuring a package<span><a class="mark" href="#configuring-a-package" id="configuring-a-package">#</a></span><a aria-hidden="true" class="legacy" id="corepack_configuring_a_package"></a></h4>
+<p>The Corepack proxies will find the closest <a href="packages.html#nodejs-packagejson-field-definitions"><code>package.json</code></a> file in your
+current directory hierarchy to extract its <a href="packages.html#packagemanager"><code>"packageManager"</code></a> property.</p>
+<p>If the value corresponds to a <a href="#supported-package-managers">supported package manager</a>, Corepack will make
+sure that all calls to the relevant binaries are run against the requested
+version, downloading it on demand if needed, and aborting if it cannot be
+successfully retrieved.</p>
+<h4>Upgrading the global versions<span><a class="mark" href="#upgrading-the-global-versions" id="upgrading-the-global-versions">#</a></span><a aria-hidden="true" class="legacy" id="corepack_upgrading_the_global_versions"></a></h4>
+<p>When running outside of an existing project (for example when running
+<code>yarn init</code>), Corepack will by default use predefined versions roughly
+corresponding to the latest stable releases from each tool. Those versions can
+be overridden by running the <a href="https://github.com/nodejs/corepack#corepack-prepare--nameversion"><code>corepack prepare</code></a> command along with the
+package manager version you wish to set:</p>
+<pre><code class="language-bash">corepack prepare yarn@x.y.z --activate</code></pre>
+<h4>Offline workflow<span><a class="mark" href="#offline-workflow" id="offline-workflow">#</a></span><a aria-hidden="true" class="legacy" id="corepack_offline_workflow"></a></h4>
+<p>Many production environments don't have network access. Since Corepack
+usually downloads the package manager releases straight from their registries,
+it can conflict with such environments. To avoid that happening, call the
+<a href="https://github.com/nodejs/corepack#corepack-prepare--nameversion"><code>corepack prepare</code></a> command while you still have network access (typically at
+the same time you're preparing your deploy image). This will ensure that the
+required package managers are available even without network access.</p>
+<p>The <code>prepare</code> command has <a href="https://github.com/nodejs/corepack#utility-commands">various flags</a>. Consult the detailed
+<a href="https://github.com/nodejs/corepack#readme">Corepack documentation</a> for more information.</p>
+</section><section><h3>Supported package managers<span><a class="mark" href="#supported-package-managers" id="supported-package-managers">#</a></span><a aria-hidden="true" class="legacy" id="corepack_supported_package_managers"></a></h3>
+<p>The following binaries are provided through Corepack:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Package manager</th><th>Binary names</th></tr></thead><tbody><tr><td><a href="https://yarnpkg.com">Yarn</a></td><td><code>yarn</code>, <code>yarnpkg</code></td></tr><tr><td><a href="https://pnpm.js.org">pnpm</a></td><td><code>pnpm</code>, <code>pnpx</code></td></tr></tbody></table>
+</section><section><h3>Common questions<span><a class="mark" href="#common-questions" id="common-questions">#</a></span><a aria-hidden="true" class="legacy" id="corepack_common_questions"></a></h3>
+<h4>How does Corepack interact with npm?<span><a class="mark" href="#how-does-corepack-interact-with-npm" id="how-does-corepack-interact-with-npm">#</a></span><a aria-hidden="true" class="legacy" id="corepack_how_does_corepack_interact_with_npm"></a></h4>
+<p>While Corepack could support npm like any other package manager, its
+shims aren't enabled by default. This has a few consequences:</p>
+<ul>
+<li>
+<p>It's always possible to run a <code>npm</code> command within a project configured to
+be used with another package manager, since Corepack cannot intercept it.</p>
+</li>
+<li>
+<p>While <code>npm</code> is a valid option in the <a href="packages.html#packagemanager"><code>"packageManager"</code></a> property, the
+lack of shim will cause the global npm to be used.</p>
+</li>
+</ul>
+<h4>Running <code>npm install -g yarn</code> doesn't work<span><a class="mark" href="#running-npm-install--g-yarn-doesnt-work" id="running-npm-install--g-yarn-doesnt-work">#</a></span><a aria-hidden="true" class="legacy" id="corepack_running_npm_install_g_yarn_doesn_t_work"></a></h4>
+<p>npm prevents accidentally overriding the Corepack binaries when doing a global
+install. To avoid this problem, consider one of the following options:</p>
+<ul>
+<li>
+<p>Don't run this command; Corepack will provide the package manager
+binaries anyway and will ensure that the requested versions are always
+available, so installing the package managers explicitly isn't needed.</p>
+</li>
+<li>
+<p>Add the <code>--force</code> flag to <code>npm install</code>; this will tell npm that it's fine to
+override binaries, but you'll erase the Corepack ones in the process. (Run
+<a href="https://github.com/nodejs/corepack#corepack-enable--name"><code>corepack enable</code></a> to add them back.)</p>
+</li>
+</ul></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

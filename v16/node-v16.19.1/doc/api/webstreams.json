@@ -1,0 +1,2021 @@
+{
+  "type": "module",
+  "source": "doc/api/webstreams.md",
+  "modules": [
+    {
+      "textRaw": "Web Streams API",
+      "name": "web_streams_api",
+      "introduced_in": "v16.5.0",
+      "stability": 1,
+      "stabilityText": "Experimental",
+      "desc": "<p>An implementation of the <a href=\"https://streams.spec.whatwg.org/\">WHATWG Streams Standard</a>.</p>\n<pre><code class=\"language-mjs\">import {\n  ReadableStream,\n  WritableStream,\n  TransformStream,\n} from 'node:stream/web';\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  ReadableStream,\n  WritableStream,\n  TransformStream,\n} = require('stream/web');\n</code></pre>",
+      "modules": [
+        {
+          "textRaw": "Overview",
+          "name": "overview",
+          "desc": "<p>The <a href=\"https://streams.spec.whatwg.org/\">WHATWG Streams Standard</a> (or \"web streams\") defines an API for handling\nstreaming data. It is similar to the Node.js <a href=\"stream.html\">Streams</a> API but emerged later\nand has become the \"standard\" API for streaming data across many JavaScript\nenvironments.</p>\n<p>There are three primary types of objects:</p>\n<ul>\n<li><code>ReadableStream</code> - Represents a source of streaming data.</li>\n<li><code>WritableStream</code> - Represents a destination for streaming data.</li>\n<li><code>TransformStream</code> - Represents an algorithm for transforming streaming data.</li>\n</ul>\n<h3>Example <code>ReadableStream</code></h3>\n<p>This example creates a simple <code>ReadableStream</code> that pushes the current\n<code>performance.now()</code> timestamp once every second forever. An async iterable\nis used to read the data from the stream.</p>\n<pre><code class=\"language-mjs\">import {\n  ReadableStream\n} from 'node:stream/web';\n\nimport {\n  setInterval as every\n} from 'node:timers/promises';\n\nimport {\n  performance\n} from 'node:perf_hooks';\n\nconst SECOND = 1000;\n\nconst stream = new ReadableStream({\n  async start(controller) {\n    for await (const _ of every(SECOND))\n      controller.enqueue(performance.now());\n  }\n});\n\nfor await (const value of stream)\n  console.log(value);\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  ReadableStream\n} = require('node:stream/web');\n\nconst {\n  setInterval: every\n} = require('node:timers/promises');\n\nconst {\n  performance\n} = require('node:perf_hooks');\n\nconst SECOND = 1000;\n\nconst stream = new ReadableStream({\n  async start(controller) {\n    for await (const _ of every(SECOND))\n      controller.enqueue(performance.now());\n  }\n});\n\n(async () => {\n  for await (const value of stream)\n    console.log(value);\n})();\n</code></pre>",
+          "type": "module",
+          "displayName": "Overview"
+        },
+        {
+          "textRaw": "API",
+          "name": "api",
+          "classes": [
+            {
+              "textRaw": "Class: `ReadableStream`",
+              "type": "class",
+              "name": "ReadableStream",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "properties": [
+                {
+                  "textRaw": "`locked` Type: {boolean} Set to `true` if there is an active reader for this {ReadableStream}.",
+                  "type": "boolean",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>The <code>readableStream.locked</code> property is <code>false</code> by default, and is\nswitched to <code>true</code> while there is an active reader consuming the\nstream's data.</p>",
+                  "shortDesc": "Set to `true` if there is an active reader for this {ReadableStream}."
+                }
+              ],
+              "methods": [
+                {
+                  "textRaw": "`readableStream.cancel([reason])`",
+                  "type": "method",
+                  "name": "cancel",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: A promise fulfilled with `undefined` once cancelation has been completed.",
+                        "name": "return",
+                        "desc": "A promise fulfilled with `undefined` once cancelation has been completed."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`reason` {any}",
+                          "name": "reason",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "textRaw": "`readableStream.getReader([options])`",
+                  "type": "method",
+                  "name": "getReader",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {ReadableStreamDefaultReader|ReadableStreamBYOBReader}",
+                        "name": "return",
+                        "type": "ReadableStreamDefaultReader|ReadableStreamBYOBReader"
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`options` {Object}",
+                          "name": "options",
+                          "type": "Object",
+                          "options": [
+                            {
+                              "textRaw": "`mode` {string} `'byob'` or `undefined`",
+                              "name": "mode",
+                              "type": "string",
+                              "desc": "`'byob'` or `undefined`"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<pre><code class=\"language-mjs\">import { ReadableStream } from 'node:stream/web';\n\nconst stream = new ReadableStream();\n\nconst reader = stream.getReader();\n\nconsole.log(await reader.read());\n</code></pre>\n<pre><code class=\"language-cjs\">const { ReadableStream } = require('node:stream/web');\n\nconst stream = new ReadableStream();\n\nconst reader = stream.getReader();\n\nreader.read().then(console.log);\n</code></pre>\n<p>Causes the <code>readableStream.locked</code> to be <code>true</code>.</p>"
+                },
+                {
+                  "textRaw": "`readableStream.pipeThrough(transform[, options])`",
+                  "type": "method",
+                  "name": "pipeThrough",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {ReadableStream} From `transform.readable`.",
+                        "name": "return",
+                        "type": "ReadableStream",
+                        "desc": "From `transform.readable`."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`transform` {Object}",
+                          "name": "transform",
+                          "type": "Object",
+                          "options": [
+                            {
+                              "textRaw": "`readable` {ReadableStream} The `ReadableStream` to which `transform.writable` will push the potentially modified data is receives from this `ReadableStream`.",
+                              "name": "readable",
+                              "type": "ReadableStream",
+                              "desc": "The `ReadableStream` to which `transform.writable` will push the potentially modified data is receives from this `ReadableStream`."
+                            },
+                            {
+                              "textRaw": "`writable` {WritableStream} The `WritableStream` to which this `ReadableStream`'s data will be written.",
+                              "name": "writable",
+                              "type": "WritableStream",
+                              "desc": "The `WritableStream` to which this `ReadableStream`'s data will be written."
+                            }
+                          ]
+                        },
+                        {
+                          "textRaw": "`options` {Object}",
+                          "name": "options",
+                          "type": "Object",
+                          "options": [
+                            {
+                              "textRaw": "`preventAbort` {boolean} When `true`, errors in this `ReadableStream` will not cause `transform.writable` to be aborted.",
+                              "name": "preventAbort",
+                              "type": "boolean",
+                              "desc": "When `true`, errors in this `ReadableStream` will not cause `transform.writable` to be aborted."
+                            },
+                            {
+                              "textRaw": "`preventCancel` {boolean} When `true`, errors in the destination `transform.writable` do not cause this `ReadableStream` to be canceled.",
+                              "name": "preventCancel",
+                              "type": "boolean",
+                              "desc": "When `true`, errors in the destination `transform.writable` do not cause this `ReadableStream` to be canceled."
+                            },
+                            {
+                              "textRaw": "`preventClose` {boolean} When `true`, closing this `ReadableStream` does not cause `transform.writable` to be closed.",
+                              "name": "preventClose",
+                              "type": "boolean",
+                              "desc": "When `true`, closing this `ReadableStream` does not cause `transform.writable` to be closed."
+                            },
+                            {
+                              "textRaw": "`signal` {AbortSignal} Allows the transfer of data to be canceled using an {AbortController}.",
+                              "name": "signal",
+                              "type": "AbortSignal",
+                              "desc": "Allows the transfer of data to be canceled using an {AbortController}."
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Connects this <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> to the pair of <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> and\n<a href=\"webstreams.html#class-writablestream\" class=\"type\">&lt;WritableStream&gt;</a> provided in the <code>transform</code> argument such that the\ndata from this <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> is written in to <code>transform.writable</code>,\npossibly transformed, then pushed to <code>transform.readable</code>. Once the\npipeline is configured, <code>transform.readable</code> is returned.</p>\n<p>Causes the <code>readableStream.locked</code> to be <code>true</code> while the pipe operation\nis active.</p>\n<pre><code class=\"language-mjs\">import {\n  ReadableStream,\n  TransformStream,\n} from 'node:stream/web';\n\nconst stream = new ReadableStream({\n  start(controller) {\n    controller.enqueue('a');\n  },\n});\n\nconst transform = new TransformStream({\n  transform(chunk, controller) {\n    controller.enqueue(chunk.toUpperCase());\n  }\n});\n\nconst transformedStream = stream.pipeThrough(transform);\n\nfor await (const chunk of transformedStream)\n  console.log(chunk);\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  ReadableStream,\n  TransformStream,\n} = require('node:stream/web');\n\nconst stream = new ReadableStream({\n  start(controller) {\n    controller.enqueue('a');\n  },\n});\n\nconst transform = new TransformStream({\n  transform(chunk, controller) {\n    controller.enqueue(chunk.toUpperCase());\n  }\n});\n\nconst transformedStream = stream.pipeThrough(transform);\n\n(async () => {\n  for await (const chunk of transformedStream)\n    console.log(chunk);\n})();\n</code></pre>"
+                },
+                {
+                  "textRaw": "`readableStream.pipeTo(destination, options)`",
+                  "type": "method",
+                  "name": "pipeTo",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: A promise fulfilled with `undefined`",
+                        "name": "return",
+                        "desc": "A promise fulfilled with `undefined`"
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`destination` {WritableStream} A {WritableStream} to which this `ReadableStream`'s data will be written.",
+                          "name": "destination",
+                          "type": "WritableStream",
+                          "desc": "A {WritableStream} to which this `ReadableStream`'s data will be written."
+                        },
+                        {
+                          "textRaw": "`options` {Object}",
+                          "name": "options",
+                          "type": "Object",
+                          "options": [
+                            {
+                              "textRaw": "`preventAbort` {boolean} When `true`, errors in this `ReadableStream` will not cause `destination` to be aborted.",
+                              "name": "preventAbort",
+                              "type": "boolean",
+                              "desc": "When `true`, errors in this `ReadableStream` will not cause `destination` to be aborted."
+                            },
+                            {
+                              "textRaw": "`preventCancel` {boolean} When `true`, errors in the `destination` will not cause this `ReadableStream` to be canceled.",
+                              "name": "preventCancel",
+                              "type": "boolean",
+                              "desc": "When `true`, errors in the `destination` will not cause this `ReadableStream` to be canceled."
+                            },
+                            {
+                              "textRaw": "`preventClose` {boolean} When `true`, closing this `ReadableStream` does not cause `destination` to be closed.",
+                              "name": "preventClose",
+                              "type": "boolean",
+                              "desc": "When `true`, closing this `ReadableStream` does not cause `destination` to be closed."
+                            },
+                            {
+                              "textRaw": "`signal` {AbortSignal} Allows the transfer of data to be canceled using an {AbortController}.",
+                              "name": "signal",
+                              "type": "AbortSignal",
+                              "desc": "Allows the transfer of data to be canceled using an {AbortController}."
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Causes the <code>readableStream.locked</code> to be <code>true</code> while the pipe operation\nis active.</p>"
+                },
+                {
+                  "textRaw": "`readableStream.tee()`",
+                  "type": "method",
+                  "name": "tee",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": [
+                      {
+                        "version": "v16.18.0",
+                        "pr-url": "https://github.com/nodejs/node/pull/44505",
+                        "description": "Support teeing a readable byte stream."
+                      }
+                    ]
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {ReadableStream\\[]}",
+                        "name": "return",
+                        "type": "ReadableStream\\[]"
+                      },
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Returns a pair of new <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> instances to which this\n<code>ReadableStream</code>'s data will be forwarded. Each will receive the\nsame data.</p>\n<p>Causes the <code>readableStream.locked</code> to be <code>true</code>.</p>"
+                },
+                {
+                  "textRaw": "`readableStream.values([options])`",
+                  "type": "method",
+                  "name": "values",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`options` {Object}",
+                          "name": "options",
+                          "type": "Object",
+                          "options": [
+                            {
+                              "textRaw": "`preventCancel` {boolean} When `true`, prevents the {ReadableStream} from being closed when the async iterator abruptly terminates. **Default**: `false`.",
+                              "name": "preventCancel",
+                              "type": "boolean",
+                              "desc": "When `true`, prevents the {ReadableStream} from being closed when the async iterator abruptly terminates. **Default**: `false`."
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Creates and returns an async iterator usable for consuming this\n<code>ReadableStream</code>'s data.</p>\n<p>Causes the <code>readableStream.locked</code> to be <code>true</code> while the async iterator\nis active.</p>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\nconst stream = new ReadableStream(getSomeSource());\n\nfor await (const chunk of stream.values({ preventCancel: true }))\n  console.log(Buffer.from(chunk).toString());\n</code></pre>"
+                }
+              ],
+              "modules": [
+                {
+                  "textRaw": "Async Iteration",
+                  "name": "async_iteration",
+                  "desc": "<p>The <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> object supports the async iterator protocol using\n<code>for await</code> syntax.</p>\n<pre><code class=\"language-mjs\">import { Buffer } from 'node:buffer';\n\nconst stream = new ReadableStream(getSomeSource());\n\nfor await (const chunk of stream)\n  console.log(Buffer.from(chunk).toString());\n</code></pre>\n<p>The async iterator will consume the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> until it terminates.</p>\n<p>By default, if the async iterator exits early (via either a <code>break</code>,\n<code>return</code>, or a <code>throw</code>), the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> will be closed. To prevent\nautomatic closing of the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>, use the <code>readableStream.values()</code>\nmethod to acquire the async iterator and set the <code>preventCancel</code> option to\n<code>true</code>.</p>\n<p>The <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> must not be locked (that is, it must not have an existing\nactive reader). During the async iteration, the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> will be locked.</p>",
+                  "type": "module",
+                  "displayName": "Async Iteration"
+                },
+                {
+                  "textRaw": "Transferring with `postMessage()`",
+                  "name": "transferring_with_`postmessage()`",
+                  "desc": "<p>A <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> instance can be transferred using a <a href=\"worker_threads.html#class-messageport\" class=\"type\">&lt;MessagePort&gt;</a>.</p>\n<pre><code class=\"language-js\">const stream = new ReadableStream(getReadableSourceSomehow());\n\nconst { port1, port2 } = new MessageChannel();\n\nport1.onmessage = ({ data }) => {\n  data.getReader().read().then((chunk) => {\n    console.log(chunk);\n  });\n};\n\nport2.postMessage(stream, [stream]);\n</code></pre>",
+                  "type": "module",
+                  "displayName": "Transferring with `postMessage()`"
+                }
+              ],
+              "signatures": [
+                {
+                  "params": [],
+                  "desc": "<!--lint disable maximum-line-length remark-lint-->\n<ul>\n<li><code>underlyingSource</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a>\n<ul>\n<li><code>start</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\" class=\"type\">&lt;Function&gt;</a> A user-defined function that is invoked immediately when\nthe <code>ReadableStream</code> is created.\n<ul>\n<li><code>controller</code> <a href=\"webstreams.html#class-readablestreamdefaultcontroller\" class=\"type\">&lt;ReadableStreamDefaultController&gt;</a> | <a href=\"webstreams.html#class-readablebytestreamcontroller\" class=\"type\">&lt;ReadableByteStreamController&gt;</a></li>\n<li>Returns: <code>undefined</code> or a promise fulfilled with <code>undefined</code>.</li>\n</ul>\n</li>\n<li><code>pull</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\" class=\"type\">&lt;Function&gt;</a> A user-defined function that is called repeatedly when the\n<code>ReadableStream</code> internal queue is not full. The operation may be sync or\nasync. If async, the function will not be called again until the previously\nreturned promise is fulfilled.\n<ul>\n<li><code>controller</code> <a href=\"webstreams.html#class-readablestreamdefaultcontroller\" class=\"type\">&lt;ReadableStreamDefaultController&gt;</a> | <a href=\"webstreams.html#class-readablebytestreamcontroller\" class=\"type\">&lt;ReadableByteStreamController&gt;</a></li>\n<li>Returns: A promise fulfilled with <code>undefined</code>.</li>\n</ul>\n</li>\n<li><code>cancel</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\" class=\"type\">&lt;Function&gt;</a> A user-defined function that is called when the\n<code>ReadableStream</code> is canceled.\n<ul>\n<li><code>reason</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types\" class=\"type\">&lt;any&gt;</a></li>\n<li>Returns: A promise fulfilled with <code>undefined</code>.</li>\n</ul>\n</li>\n<li><code>type</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type\" class=\"type\">&lt;string&gt;</a> Must be <code>'bytes'</code> or <code>undefined</code>.</li>\n<li><code>autoAllocateChunkSize</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type\" class=\"type\">&lt;number&gt;</a> Used only when <code>type</code> is equal to\n<code>'bytes'</code>.</li>\n</ul>\n</li>\n<li><code>strategy</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object\" class=\"type\">&lt;Object&gt;</a>\n<ul>\n<li><code>highWaterMark</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type\" class=\"type\">&lt;number&gt;</a> The maximum internal queue size before backpressure\nis applied.</li>\n<li><code>size</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function\" class=\"type\">&lt;Function&gt;</a> A user-defined function used to identify the size of each\nchunk of data.\n<ul>\n<li><code>chunk</code> <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Data_types\" class=\"type\">&lt;any&gt;</a></li>\n<li>Returns: <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type\" class=\"type\">&lt;number&gt;</a></li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n<!--lint enable maximum-line-length remark-lint-->"
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `ReadableStreamDefaultReader`",
+              "type": "class",
+              "name": "ReadableStreamDefaultReader",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>By default, calling <code>readableStream.getReader()</code> with no arguments\nwill return an instance of <code>ReadableStreamDefaultReader</code>. The default\nreader treats the chunks of data passed through the stream as opaque\nvalues, which allows the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> to work with generally any\nJavaScript value.</p>",
+              "methods": [
+                {
+                  "textRaw": "`readableStreamDefaultReader.cancel([reason])`",
+                  "type": "method",
+                  "name": "cancel",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                        "name": "return",
+                        "desc": "A promise fulfilled with `undefined`."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`reason` {any}",
+                          "name": "reason",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Cancels the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> and returns a promise that is fulfilled\nwhen the underlying stream has been canceled.</p>"
+                },
+                {
+                  "textRaw": "`readableStreamDefaultReader.read()`",
+                  "type": "method",
+                  "name": "read",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: A promise fulfilled with an object:",
+                        "name": "return",
+                        "desc": "A promise fulfilled with an object:",
+                        "options": [
+                          {
+                            "textRaw": "`value` {ArrayBuffer}",
+                            "name": "value",
+                            "type": "ArrayBuffer"
+                          },
+                          {
+                            "textRaw": "`done` {boolean}",
+                            "name": "done",
+                            "type": "boolean"
+                          }
+                        ]
+                      },
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Requests the next chunk of data from the underlying <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>\nand returns a promise that is fulfilled with the data once it is\navailable.</p>"
+                },
+                {
+                  "textRaw": "`readableStreamDefaultReader.releaseLock()`",
+                  "type": "method",
+                  "name": "releaseLock",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Releases this reader's lock on the underlying <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>.</p>"
+                }
+              ],
+              "properties": [
+                {
+                  "textRaw": "`closed` Type: {Promise} Fulfilled with `undefined` when the associated {ReadableStream} is closed or rejected if the stream errors or the reader's lock is released before the stream finishes closing.",
+                  "type": "Promise",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "Fulfilled with `undefined` when the associated {ReadableStream} is closed or rejected if the stream errors or the reader's lock is released before the stream finishes closing."
+                }
+              ],
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`stream` {ReadableStream}",
+                      "name": "stream",
+                      "type": "ReadableStream"
+                    }
+                  ],
+                  "desc": "<p>Creates a new <a href=\"webstreams.html#class-readablestreamdefaultreader\" class=\"type\">&lt;ReadableStreamDefaultReader&gt;</a> that is locked to the\ngiven <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>.</p>"
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `ReadableStreamBYOBReader`",
+              "type": "class",
+              "name": "ReadableStreamBYOBReader",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The <code>ReadableStreamBYOBReader</code> is an alternative consumer for\nbyte-oriented <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>s (those that are created with\n<code>underlyingSource.type</code> set equal to <code>'bytes'</code> when the\n<code>ReadableStream</code> was created).</p>\n<p>The <code>BYOB</code> is short for \"bring your own buffer\". This is a\npattern that allows for more efficient reading of byte-oriented\ndata that avoids extraneous copying.</p>\n<pre><code class=\"language-mjs\">import {\n  open\n} from 'node:fs/promises';\n\nimport {\n  ReadableStream\n} from 'node:stream/web';\n\nimport { Buffer } from 'node:buffer';\n\nclass Source {\n  type = 'bytes';\n  autoAllocateChunkSize = 1024;\n\n  async start(controller) {\n    this.file = await open(new URL(import.meta.url));\n    this.controller = controller;\n  }\n\n  async pull(controller) {\n    const view = controller.byobRequest?.view;\n    const {\n      bytesRead,\n    } = await this.file.read({\n      buffer: view,\n      offset: view.byteOffset,\n      length: view.byteLength\n    });\n\n    if (bytesRead === 0) {\n      await this.file.close();\n      this.controller.close();\n    }\n    controller.byobRequest.respond(bytesRead);\n  }\n}\n\nconst stream = new ReadableStream(new Source());\n\nasync function read(stream) {\n  const reader = stream.getReader({ mode: 'byob' });\n\n  const chunks = [];\n  let result;\n  do {\n    result = await reader.read(Buffer.alloc(100));\n    if (result.value !== undefined)\n      chunks.push(Buffer.from(result.value));\n  } while (!result.done);\n\n  return Buffer.concat(chunks);\n}\n\nconst data = await read(stream);\nconsole.log(Buffer.from(data).toString());\n</code></pre>",
+              "methods": [
+                {
+                  "textRaw": "`readableStreamBYOBReader.cancel([reason])`",
+                  "type": "method",
+                  "name": "cancel",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                        "name": "return",
+                        "desc": "A promise fulfilled with `undefined`."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`reason` {any}",
+                          "name": "reason",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Cancels the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> and returns a promise that is fulfilled\nwhen the underlying stream has been canceled.</p>"
+                },
+                {
+                  "textRaw": "`readableStreamBYOBReader.read(view)`",
+                  "type": "method",
+                  "name": "read",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: A promise fulfilled with an object:",
+                        "name": "return",
+                        "desc": "A promise fulfilled with an object:",
+                        "options": [
+                          {
+                            "textRaw": "`value` {ArrayBuffer}",
+                            "name": "value",
+                            "type": "ArrayBuffer"
+                          },
+                          {
+                            "textRaw": "`done` {boolean}",
+                            "name": "done",
+                            "type": "boolean"
+                          }
+                        ]
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`view` {Buffer|TypedArray|DataView}",
+                          "name": "view",
+                          "type": "Buffer|TypedArray|DataView"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Requests the next chunk of data from the underlying <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>\nand returns a promise that is fulfilled with the data once it is\navailable.</p>\n<p>Do not pass a pooled <a href=\"buffer.html#class-buffer\" class=\"type\">&lt;Buffer&gt;</a> object instance in to this method.\nPooled <code>Buffer</code> objects are created using <code>Buffer.allocUnsafe()</code>,\nor <code>Buffer.from()</code>, or are often returned by various <code>node:fs</code> module\ncallbacks. These types of <code>Buffer</code>s use a shared underlying\n<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer\" class=\"type\">&lt;ArrayBuffer&gt;</a> object that contains all of the data from all of\nthe pooled <code>Buffer</code> instances. When a <code>Buffer</code>, <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray\" class=\"type\">&lt;TypedArray&gt;</a>,\nor <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView\" class=\"type\">&lt;DataView&gt;</a> is passed in to <code>readableStreamBYOBReader.read()</code>,\nthe view's underlying <code>ArrayBuffer</code> is <em>detached</em>, invalidating\nall existing views that may exist on that <code>ArrayBuffer</code>. This\ncan have disastrous consequences for your application.</p>"
+                },
+                {
+                  "textRaw": "`readableStreamBYOBReader.releaseLock()`",
+                  "type": "method",
+                  "name": "releaseLock",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Releases this reader's lock on the underlying <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>.</p>"
+                }
+              ],
+              "properties": [
+                {
+                  "textRaw": "`closed` Type: {Promise} Fulfilled with `undefined` when the associated {ReadableStream} is closed or rejected if the stream errors or the reader's lock is released before the stream finishes closing.",
+                  "type": "Promise",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "Fulfilled with `undefined` when the associated {ReadableStream} is closed or rejected if the stream errors or the reader's lock is released before the stream finishes closing."
+                }
+              ],
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`stream` {ReadableStream}",
+                      "name": "stream",
+                      "type": "ReadableStream"
+                    }
+                  ],
+                  "desc": "<p>Creates a new <code>ReadableStreamBYOBReader</code> that is locked to the\ngiven <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>.</p>"
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `ReadableStreamDefaultController`",
+              "type": "class",
+              "name": "ReadableStreamDefaultController",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>Every <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> has a controller that is responsible for\nthe internal state and management of the stream's queue. The\n<code>ReadableStreamDefaultController</code> is the default controller\nimplementation for <code>ReadableStream</code>s that are not byte-oriented.</p>",
+              "methods": [
+                {
+                  "textRaw": "`readableStreamDefaultController.close()`",
+                  "type": "method",
+                  "name": "close",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Closes the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> to which this controller is associated.</p>"
+                },
+                {
+                  "textRaw": "`readableStreamDefaultController.enqueue(chunk)`",
+                  "type": "method",
+                  "name": "enqueue",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`chunk` {any}",
+                          "name": "chunk",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Appends a new chunk of data to the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>'s queue.</p>"
+                },
+                {
+                  "textRaw": "`readableStreamDefaultController.error(error)`",
+                  "type": "method",
+                  "name": "error",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`error` {any}",
+                          "name": "error",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Signals an error that causes the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> to error and close.</p>"
+                }
+              ],
+              "properties": [
+                {
+                  "textRaw": "`desiredSize` Type: {number}",
+                  "type": "number",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>Returns the amount of data remaining to fill the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>'s\nqueue.</p>"
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `ReadableByteStreamController`",
+              "type": "class",
+              "name": "ReadableByteStreamController",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>Every <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> has a controller that is responsible for\nthe internal state and management of the stream's queue. The\n<code>ReadableByteStreamController</code> is for byte-oriented <code>ReadableStream</code>s.</p>",
+              "properties": [
+                {
+                  "textRaw": "`byobRequest` Type: {ReadableStreamBYOBRequest}",
+                  "type": "ReadableStreamBYOBRequest",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>Returns the amount of data remaining to fill the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>'s\nqueue.</p>"
+                },
+                {
+                  "textRaw": "`desiredSize` Type: {number}",
+                  "type": "number",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>Returns the amount of data remaining to fill the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>'s\nqueue.</p>"
+                }
+              ],
+              "methods": [
+                {
+                  "textRaw": "`readableByteStreamController.close()`",
+                  "type": "method",
+                  "name": "close",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Closes the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> to which this controller is associated.</p>"
+                },
+                {
+                  "textRaw": "`readableByteStreamController.enqueue(chunk)`",
+                  "type": "method",
+                  "name": "enqueue",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`chunk`: {Buffer|TypedArray|DataView}",
+                          "name": "chunk",
+                          "type": "Buffer|TypedArray|DataView"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Appends a new chunk of data to the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>'s queue.</p>"
+                },
+                {
+                  "textRaw": "`readableByteStreamController.error(error)`",
+                  "type": "method",
+                  "name": "error",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`error` {any}",
+                          "name": "error",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Signals an error that causes the <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> to error and close.</p>"
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `ReadableStreamBYOBRequest`",
+              "type": "class",
+              "name": "ReadableStreamBYOBRequest",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>When using <code>ReadableByteStreamController</code> in byte-oriented\nstreams, and when using the <code>ReadableStreamBYOBReader</code>,\nthe <code>readableByteStreamController.byobRequest</code> property\nprovides access to a <code>ReadableStreamBYOBRequest</code> instance\nthat represents the current read request. The object\nis used to gain access to the <code>ArrayBuffer</code>/<code>TypedArray</code>\nthat has been provided for the read request to fill,\nand provides methods for signaling that the data has\nbeen provided.</p>",
+              "methods": [
+                {
+                  "textRaw": "`readableStreamBYOBRequest.respond(bytesWritten)`",
+                  "type": "method",
+                  "name": "respond",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`bytesWritten` {number}",
+                          "name": "bytesWritten",
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Signals that a <code>bytesWritten</code> number of bytes have been written\nto <code>readableStreamBYOBRequest.view</code>.</p>"
+                },
+                {
+                  "textRaw": "`readableStreamBYOBRequest.respondWithNewView(view)`",
+                  "type": "method",
+                  "name": "respondWithNewView",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`view` {Buffer|TypedArray|DataView}",
+                          "name": "view",
+                          "type": "Buffer|TypedArray|DataView"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Signals that the request has been fulfilled with bytes written\nto a new <code>Buffer</code>, <code>TypedArray</code>, or <code>DataView</code>.</p>"
+                }
+              ],
+              "properties": [
+                {
+                  "textRaw": "`view` Type: {Buffer|TypedArray|DataView}",
+                  "type": "Buffer|TypedArray|DataView",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  }
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `WritableStream`",
+              "type": "class",
+              "name": "WritableStream",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The <code>WritableStream</code> is a destination to which stream data is sent.</p>\n<pre><code class=\"language-mjs\">import {\n  WritableStream\n} from 'node:stream/web';\n\nconst stream = new WritableStream({\n  write(chunk) {\n    console.log(chunk);\n  }\n});\n\nawait stream.getWriter().write('Hello World');\n</code></pre>",
+              "methods": [
+                {
+                  "textRaw": "`writableStream.abort([reason])`",
+                  "type": "method",
+                  "name": "abort",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                        "name": "return",
+                        "desc": "A promise fulfilled with `undefined`."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`reason` {any}",
+                          "name": "reason",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Abruptly terminates the <code>WritableStream</code>. All queued writes will be\ncanceled with their associated promises rejected.</p>"
+                },
+                {
+                  "textRaw": "`writableStream.close()`",
+                  "type": "method",
+                  "name": "close",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                        "name": "return",
+                        "desc": "A promise fulfilled with `undefined`."
+                      },
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Closes the <code>WritableStream</code> when no additional writes are expected.</p>"
+                },
+                {
+                  "textRaw": "`writableStream.getWriter()`",
+                  "type": "method",
+                  "name": "getWriter",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {WritableStreamDefaultWriter}",
+                        "name": "return",
+                        "type": "WritableStreamDefaultWriter"
+                      },
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Creates and creates a new writer instance that can be used to write\ndata into the <code>WritableStream</code>.</p>"
+                }
+              ],
+              "properties": [
+                {
+                  "textRaw": "`locked` Type: {boolean}",
+                  "type": "boolean",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>The <code>writableStream.locked</code> property is <code>false</code> by default, and is\nswitched to <code>true</code> while there is an active writer attached to this\n<code>WritableStream</code>.</p>"
+                }
+              ],
+              "modules": [
+                {
+                  "textRaw": "Transferring with postMessage()",
+                  "name": "transferring_with_postmessage()",
+                  "desc": "<p>A <a href=\"webstreams.html#class-writablestream\" class=\"type\">&lt;WritableStream&gt;</a> instance can be transferred using a <a href=\"worker_threads.html#class-messageport\" class=\"type\">&lt;MessagePort&gt;</a>.</p>\n<pre><code class=\"language-js\">const stream = new WritableStream(getWritableSinkSomehow());\n\nconst { port1, port2 } = new MessageChannel();\n\nport1.onmessage = ({ data }) => {\n  data.getWriter().write('hello');\n};\n\nport2.postMessage(stream, [stream]);\n</code></pre>",
+                  "type": "module",
+                  "displayName": "Transferring with postMessage()"
+                }
+              ],
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`underlyingSink` {Object}",
+                      "name": "underlyingSink",
+                      "type": "Object",
+                      "options": [
+                        {
+                          "textRaw": "`start` {Function} A user-defined function that is invoked immediately when the `WritableStream` is created.",
+                          "name": "start",
+                          "type": "Function",
+                          "desc": "A user-defined function that is invoked immediately when the `WritableStream` is created.",
+                          "options": [
+                            {
+                              "textRaw": "`controller` {WritableStreamDefaultController}",
+                              "name": "controller",
+                              "type": "WritableStreamDefaultController"
+                            },
+                            {
+                              "textRaw": "Returns: `undefined` or a promise fulfilled with `undefined`.",
+                              "name": "return",
+                              "desc": "`undefined` or a promise fulfilled with `undefined`."
+                            }
+                          ]
+                        },
+                        {
+                          "textRaw": "`write` {Function} A user-defined function that is invoked when a chunk of data has been written to the `WritableStream`.",
+                          "name": "write",
+                          "type": "Function",
+                          "desc": "A user-defined function that is invoked when a chunk of data has been written to the `WritableStream`.",
+                          "options": [
+                            {
+                              "textRaw": "`chunk` {any}",
+                              "name": "chunk",
+                              "type": "any"
+                            },
+                            {
+                              "textRaw": "`controller` {WritableStreamDefaultController}",
+                              "name": "controller",
+                              "type": "WritableStreamDefaultController"
+                            },
+                            {
+                              "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                              "name": "return",
+                              "desc": "A promise fulfilled with `undefined`."
+                            }
+                          ]
+                        },
+                        {
+                          "textRaw": "`close` {Function} A user-defined function that is called when the `WritableStream` is closed.",
+                          "name": "close",
+                          "type": "Function",
+                          "desc": "A user-defined function that is called when the `WritableStream` is closed.",
+                          "options": [
+                            {
+                              "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                              "name": "return",
+                              "desc": "A promise fulfilled with `undefined`."
+                            }
+                          ]
+                        },
+                        {
+                          "textRaw": "`abort` {Function} A user-defined function that is called to abruptly close the `WritableStream`.",
+                          "name": "abort",
+                          "type": "Function",
+                          "desc": "A user-defined function that is called to abruptly close the `WritableStream`.",
+                          "options": [
+                            {
+                              "textRaw": "`reason` {any}",
+                              "name": "reason",
+                              "type": "any"
+                            },
+                            {
+                              "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                              "name": "return",
+                              "desc": "A promise fulfilled with `undefined`."
+                            }
+                          ]
+                        },
+                        {
+                          "textRaw": "`type` {any} The `type` option is reserved for future use and _must_ be undefined.",
+                          "name": "type",
+                          "type": "any",
+                          "desc": "The `type` option is reserved for future use and _must_ be undefined."
+                        }
+                      ]
+                    },
+                    {
+                      "textRaw": "`strategy` {Object}",
+                      "name": "strategy",
+                      "type": "Object",
+                      "options": [
+                        {
+                          "textRaw": "`highWaterMark` {number} The maximum internal queue size before backpressure is applied.",
+                          "name": "highWaterMark",
+                          "type": "number",
+                          "desc": "The maximum internal queue size before backpressure is applied."
+                        },
+                        {
+                          "textRaw": "`size` {Function} A user-defined function used to identify the size of each chunk of data.",
+                          "name": "size",
+                          "type": "Function",
+                          "desc": "A user-defined function used to identify the size of each chunk of data.",
+                          "options": [
+                            {
+                              "textRaw": "`chunk` {any}",
+                              "name": "chunk",
+                              "type": "any"
+                            },
+                            {
+                              "textRaw": "Returns: {number}",
+                              "name": "return",
+                              "type": "number"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `WritableStreamDefaultWriter`",
+              "type": "class",
+              "name": "WritableStreamDefaultWriter",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "methods": [
+                {
+                  "textRaw": "`writableStreamDefaultWriter.abort([reason])`",
+                  "type": "method",
+                  "name": "abort",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                        "name": "return",
+                        "desc": "A promise fulfilled with `undefined`."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`reason` {any}",
+                          "name": "reason",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Abruptly terminates the <code>WritableStream</code>. All queued writes will be\ncanceled with their associated promises rejected.</p>"
+                },
+                {
+                  "textRaw": "`writableStreamDefaultWriter.close()`",
+                  "type": "method",
+                  "name": "close",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                        "name": "return",
+                        "desc": "A promise fulfilled with `undefined`."
+                      },
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Closes the <code>WritableStream</code> when no additional writes are expected.</p>"
+                },
+                {
+                  "textRaw": "`writableStreamDefaultWriter.releaseLock()`",
+                  "type": "method",
+                  "name": "releaseLock",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Releases this writer's lock on the underlying <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a>.</p>"
+                },
+                {
+                  "textRaw": "`writableStreamDefaultWriter.write([chunk])`",
+                  "type": "method",
+                  "name": "write",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                        "name": "return",
+                        "desc": "A promise fulfilled with `undefined`."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`chunk`: {any}",
+                          "name": "chunk",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Appends a new chunk of data to the <a href=\"webstreams.html#class-writablestream\" class=\"type\">&lt;WritableStream&gt;</a>'s queue.</p>"
+                }
+              ],
+              "properties": [
+                {
+                  "textRaw": "`closed` Type: {Promise} Fulfilled with `undefined` when the associated {WritableStream} is closed or rejected if the stream errors or the writer's lock is released before the stream finishes closing.",
+                  "type": "Promise",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "Fulfilled with `undefined` when the associated {WritableStream} is closed or rejected if the stream errors or the writer's lock is released before the stream finishes closing."
+                },
+                {
+                  "textRaw": "`desiredSize` Type: {number}",
+                  "type": "number",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>The amount of data required to fill the <a href=\"webstreams.html#class-writablestream\" class=\"type\">&lt;WritableStream&gt;</a>'s queue.</p>"
+                },
+                {
+                  "textRaw": "`ready` type: A promise that is fulfilled with `undefined` when the writer is ready to be used.",
+                  "name": "type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "A promise that is fulfilled with `undefined` when the writer is ready to be used."
+                }
+              ],
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`stream` {WritableStream}",
+                      "name": "stream",
+                      "type": "WritableStream"
+                    }
+                  ],
+                  "desc": "<p>Creates a new <code>WritableStreamDefaultWriter</code> that is locked to the given\n<code>WritableStream</code>.</p>"
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `WritableStreamDefaultController`",
+              "type": "class",
+              "name": "WritableStreamDefaultController",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The <code>WritableStreamDefaultController</code> manage's the <a href=\"webstreams.html#class-writablestream\" class=\"type\">&lt;WritableStream&gt;</a>'s\ninternal state.</p>",
+              "properties": [
+                {
+                  "textRaw": "`abortReason` Type: {any} The `reason` value passed to `writableStream.abort()`.",
+                  "type": "any",
+                  "name": "Type",
+                  "desc": "The `reason` value passed to `writableStream.abort()`."
+                },
+                {
+                  "textRaw": "`signal` Type: {AbortSignal} An `AbortSignal` that can be used to cancel pending write or close operations when a {WritableStream} is aborted.",
+                  "type": "AbortSignal",
+                  "name": "Type",
+                  "desc": "An `AbortSignal` that can be used to cancel pending write or close operations when a {WritableStream} is aborted."
+                }
+              ],
+              "methods": [
+                {
+                  "textRaw": "`writableStreamDefaultController.error(error)`",
+                  "type": "method",
+                  "name": "error",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`error` {any}",
+                          "name": "error",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Called by user-code to signal that an error has occurred while processing\nthe <code>WritableStream</code> data. When called, the <a href=\"webstreams.html#class-writablestream\" class=\"type\">&lt;WritableStream&gt;</a> will be aborted,\nwith currently pending writes canceled.</p>"
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `TransformStream`",
+              "type": "class",
+              "name": "TransformStream",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>A <code>TransformStream</code> consists of a <a href=\"webstreams.html#class-readablestream\" class=\"type\">&lt;ReadableStream&gt;</a> and a <a href=\"webstreams.html#class-writablestream\" class=\"type\">&lt;WritableStream&gt;</a> that\nare connected such that the data written to the <code>WritableStream</code> is received,\nand potentially transformed, before being pushed into the <code>ReadableStream</code>'s\nqueue.</p>\n<pre><code class=\"language-mjs\">import {\n  TransformStream\n} from 'node:stream/web';\n\nconst transform = new TransformStream({\n  transform(chunk, controller) {\n    controller.enqueue(chunk.toUpperCase());\n  }\n});\n\nawait Promise.all([\n  transform.writable.getWriter().write('A'),\n  transform.readable.getReader().read(),\n]);\n</code></pre>",
+              "properties": [
+                {
+                  "textRaw": "`readable` Type: {ReadableStream}",
+                  "type": "ReadableStream",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  }
+                },
+                {
+                  "textRaw": "`writable` Type: {WritableStream}",
+                  "type": "WritableStream",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  }
+                }
+              ],
+              "modules": [
+                {
+                  "textRaw": "Transferring with postMessage()",
+                  "name": "transferring_with_postmessage()",
+                  "desc": "<p>A <a href=\"webstreams.html#class-transformstream\" class=\"type\">&lt;TransformStream&gt;</a> instance can be transferred using a <a href=\"worker_threads.html#class-messageport\" class=\"type\">&lt;MessagePort&gt;</a>.</p>\n<pre><code class=\"language-js\">const stream = new TransformStream();\n\nconst { port1, port2 } = new MessageChannel();\n\nport1.onmessage = ({ data }) => {\n  const { writable, readable } = data;\n  // ...\n};\n\nport2.postMessage(stream, [stream]);\n</code></pre>",
+                  "type": "module",
+                  "displayName": "Transferring with postMessage()"
+                }
+              ],
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`transformer` {Object}",
+                      "name": "transformer",
+                      "type": "Object",
+                      "options": [
+                        {
+                          "textRaw": "`start` {Function} A user-defined function that is invoked immediately when the `TransformStream` is created.",
+                          "name": "start",
+                          "type": "Function",
+                          "desc": "A user-defined function that is invoked immediately when the `TransformStream` is created.",
+                          "options": [
+                            {
+                              "textRaw": "`controller` {TransformStreamDefaultController}",
+                              "name": "controller",
+                              "type": "TransformStreamDefaultController"
+                            },
+                            {
+                              "textRaw": "Returns: `undefined` or a promise fulfilled with `undefined`",
+                              "name": "return",
+                              "desc": "`undefined` or a promise fulfilled with `undefined`"
+                            }
+                          ]
+                        },
+                        {
+                          "textRaw": "`transform` {Function} A user-defined function that receives, and potentially modifies, a chunk of data written to `transformStream.writable`, before forwarding that on to `transformStream.readable`.",
+                          "name": "transform",
+                          "type": "Function",
+                          "desc": "A user-defined function that receives, and potentially modifies, a chunk of data written to `transformStream.writable`, before forwarding that on to `transformStream.readable`.",
+                          "options": [
+                            {
+                              "textRaw": "`chunk` {any}",
+                              "name": "chunk",
+                              "type": "any"
+                            },
+                            {
+                              "textRaw": "`controller` {TransformStreamDefaultController}",
+                              "name": "controller",
+                              "type": "TransformStreamDefaultController"
+                            },
+                            {
+                              "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                              "name": "return",
+                              "desc": "A promise fulfilled with `undefined`."
+                            }
+                          ]
+                        },
+                        {
+                          "textRaw": "`flush` {Function} A user-defined function that is called immediately before the writable side of the `TransformStream` is closed, signaling the end of the transformation process.",
+                          "name": "flush",
+                          "type": "Function",
+                          "desc": "A user-defined function that is called immediately before the writable side of the `TransformStream` is closed, signaling the end of the transformation process.",
+                          "options": [
+                            {
+                              "textRaw": "`controller` {TransformStreamDefaultController}",
+                              "name": "controller",
+                              "type": "TransformStreamDefaultController"
+                            },
+                            {
+                              "textRaw": "Returns: A promise fulfilled with `undefined`.",
+                              "name": "return",
+                              "desc": "A promise fulfilled with `undefined`."
+                            }
+                          ]
+                        },
+                        {
+                          "textRaw": "`readableType` {any} the `readableType` option is reserved for future use and _must_ be `undefined`.",
+                          "name": "readableType",
+                          "type": "any",
+                          "desc": "the `readableType` option is reserved for future use and _must_ be `undefined`."
+                        },
+                        {
+                          "textRaw": "`writableType` {any} the `writableType` option is reserved for future use and _must_ be `undefined`.",
+                          "name": "writableType",
+                          "type": "any",
+                          "desc": "the `writableType` option is reserved for future use and _must_ be `undefined`."
+                        }
+                      ]
+                    },
+                    {
+                      "textRaw": "`writableStrategy` {Object}",
+                      "name": "writableStrategy",
+                      "type": "Object",
+                      "options": [
+                        {
+                          "textRaw": "`highWaterMark` {number} The maximum internal queue size before backpressure is applied.",
+                          "name": "highWaterMark",
+                          "type": "number",
+                          "desc": "The maximum internal queue size before backpressure is applied."
+                        },
+                        {
+                          "textRaw": "`size` {Function} A user-defined function used to identify the size of each chunk of data.",
+                          "name": "size",
+                          "type": "Function",
+                          "desc": "A user-defined function used to identify the size of each chunk of data.",
+                          "options": [
+                            {
+                              "textRaw": "`chunk` {any}",
+                              "name": "chunk",
+                              "type": "any"
+                            },
+                            {
+                              "textRaw": "Returns: {number}",
+                              "name": "return",
+                              "type": "number"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "textRaw": "`readableStrategy` {Object}",
+                      "name": "readableStrategy",
+                      "type": "Object",
+                      "options": [
+                        {
+                          "textRaw": "`highWaterMark` {number} The maximum internal queue size before backpressure is applied.",
+                          "name": "highWaterMark",
+                          "type": "number",
+                          "desc": "The maximum internal queue size before backpressure is applied."
+                        },
+                        {
+                          "textRaw": "`size` {Function} A user-defined function used to identify the size of each chunk of data.",
+                          "name": "size",
+                          "type": "Function",
+                          "desc": "A user-defined function used to identify the size of each chunk of data.",
+                          "options": [
+                            {
+                              "textRaw": "`chunk` {any}",
+                              "name": "chunk",
+                              "type": "any"
+                            },
+                            {
+                              "textRaw": "Returns: {number}",
+                              "name": "return",
+                              "type": "number"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `TransformStreamDefaultController`",
+              "type": "class",
+              "name": "TransformStreamDefaultController",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The <code>TransformStreamDefaultController</code> manages the internal state\nof the <code>TransformStream</code>.</p>",
+              "properties": [
+                {
+                  "textRaw": "`desiredSize` Type: {number}",
+                  "type": "number",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>The amount of data required to fill the readable side's queue.</p>"
+                }
+              ],
+              "methods": [
+                {
+                  "textRaw": "`transformStreamDefaultController.enqueue([chunk])`",
+                  "type": "method",
+                  "name": "enqueue",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`chunk` {any}",
+                          "name": "chunk",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Appends a chunk of data to the readable side's queue.</p>"
+                },
+                {
+                  "textRaw": "`transformStreamDefaultController.error([reason])`",
+                  "type": "method",
+                  "name": "error",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`reason` {any}",
+                          "name": "reason",
+                          "type": "any"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Signals to both the readable and writable side that an error has occurred\nwhile processing the transform data, causing both sides to be abruptly\nclosed.</p>"
+                },
+                {
+                  "textRaw": "`transformStreamDefaultController.terminate()`",
+                  "type": "method",
+                  "name": "terminate",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": []
+                    }
+                  ],
+                  "desc": "<p>Closes the readable side of the transport and causes the writable side\nto be abruptly closed with an error.</p>"
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `ByteLengthQueuingStrategy`",
+              "type": "class",
+              "name": "ByteLengthQueuingStrategy",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "properties": [
+                {
+                  "textRaw": "`highWaterMark` Type: {number}",
+                  "type": "number",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  }
+                },
+                {
+                  "textRaw": "`size` Type: {Function}",
+                  "type": "Function",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "options": [
+                    {
+                      "textRaw": "`chunk` {any}",
+                      "name": "chunk",
+                      "type": "any"
+                    },
+                    {
+                      "textRaw": "Returns: {number}",
+                      "name": "return",
+                      "type": "number"
+                    }
+                  ]
+                }
+              ],
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`options` {Object}",
+                      "name": "options",
+                      "type": "Object",
+                      "options": [
+                        {
+                          "textRaw": "`highWaterMark` {number}",
+                          "name": "highWaterMark",
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `CountQueuingStrategy`",
+              "type": "class",
+              "name": "CountQueuingStrategy",
+              "meta": {
+                "added": [
+                  "v16.5.0"
+                ],
+                "changes": []
+              },
+              "properties": [
+                {
+                  "textRaw": "`highWaterMark` Type: {number}",
+                  "type": "number",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  }
+                },
+                {
+                  "textRaw": "`size` Type: {Function}",
+                  "type": "Function",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.5.0"
+                    ],
+                    "changes": []
+                  },
+                  "options": [
+                    {
+                      "textRaw": "`chunk` {any}",
+                      "name": "chunk",
+                      "type": "any"
+                    },
+                    {
+                      "textRaw": "Returns: {number}",
+                      "name": "return",
+                      "type": "number"
+                    }
+                  ]
+                }
+              ],
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`options` {Object}",
+                      "name": "options",
+                      "type": "Object",
+                      "options": [
+                        {
+                          "textRaw": "`highWaterMark` {number}",
+                          "name": "highWaterMark",
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `TextEncoderStream`",
+              "type": "class",
+              "name": "TextEncoderStream",
+              "meta": {
+                "added": [
+                  "v16.6.0"
+                ],
+                "changes": []
+              },
+              "properties": [
+                {
+                  "textRaw": "`encoding` Type: {string}",
+                  "type": "string",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.6.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>The encoding supported by the <code>TextEncoderStream</code> instance.</p>"
+                },
+                {
+                  "textRaw": "`readable` Type: {ReadableStream}",
+                  "type": "ReadableStream",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.6.0"
+                    ],
+                    "changes": []
+                  }
+                },
+                {
+                  "textRaw": "`writable` Type: {WritableStream}",
+                  "type": "WritableStream",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.6.0"
+                    ],
+                    "changes": []
+                  }
+                }
+              ],
+              "signatures": [
+                {
+                  "params": [],
+                  "desc": "<p>Creates a new <code>TextEncoderStream</code> instance.</p>"
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `TextDecoderStream`",
+              "type": "class",
+              "name": "TextDecoderStream",
+              "meta": {
+                "added": [
+                  "v16.6.0"
+                ],
+                "changes": []
+              },
+              "properties": [
+                {
+                  "textRaw": "`encoding` Type: {string}",
+                  "type": "string",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.6.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>The encoding supported by the <code>TextDecoderStream</code> instance.</p>"
+                },
+                {
+                  "textRaw": "`fatal` Type: {boolean}",
+                  "type": "boolean",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.6.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>The value will be <code>true</code> if decoding errors result in a <code>TypeError</code> being\nthrown.</p>"
+                },
+                {
+                  "textRaw": "`ignoreBOM` Type: {boolean}",
+                  "type": "boolean",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.6.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>The value will be <code>true</code> if the decoding result will include the byte order\nmark.</p>"
+                },
+                {
+                  "textRaw": "`readable` Type: {ReadableStream}",
+                  "type": "ReadableStream",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.6.0"
+                    ],
+                    "changes": []
+                  }
+                },
+                {
+                  "textRaw": "`writable` Type: {WritableStream}",
+                  "type": "WritableStream",
+                  "name": "Type",
+                  "meta": {
+                    "added": [
+                      "v16.6.0"
+                    ],
+                    "changes": []
+                  }
+                }
+              ],
+              "signatures": [
+                {
+                  "params": [
+                    {
+                      "textRaw": "`encoding` {string} Identifies the `encoding` that this `TextDecoder` instance supports. **Default:** `'utf-8'`.",
+                      "name": "encoding",
+                      "type": "string",
+                      "default": "`'utf-8'`",
+                      "desc": "Identifies the `encoding` that this `TextDecoder` instance supports."
+                    },
+                    {
+                      "textRaw": "`options` {Object}",
+                      "name": "options",
+                      "type": "Object",
+                      "options": [
+                        {
+                          "textRaw": "`fatal` {boolean} `true` if decoding failures are fatal.",
+                          "name": "fatal",
+                          "type": "boolean",
+                          "desc": "`true` if decoding failures are fatal."
+                        },
+                        {
+                          "textRaw": "`ignoreBOM` {boolean} When `true`, the `TextDecoderStream` will include the byte order mark in the decoded result. When `false`, the byte order mark will be removed from the output. This option is only used when `encoding` is `'utf-8'`, `'utf-16be'`, or `'utf-16le'`. **Default:** `false`.",
+                          "name": "ignoreBOM",
+                          "type": "boolean",
+                          "default": "`false`",
+                          "desc": "When `true`, the `TextDecoderStream` will include the byte order mark in the decoded result. When `false`, the byte order mark will be removed from the output. This option is only used when `encoding` is `'utf-8'`, `'utf-16be'`, or `'utf-16le'`."
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Creates a new <code>TextDecoderStream</code> instance.</p>"
+                }
+              ]
+            }
+          ],
+          "modules": [
+            {
+              "textRaw": "Utility Consumers",
+              "name": "utility_consumers",
+              "meta": {
+                "added": [
+                  "v16.7.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The utility consumer functions provide common options for consuming\nstreams.</p>\n<p>They are accessed using:</p>\n<pre><code class=\"language-mjs\">import {\n  arrayBuffer,\n  blob,\n  buffer,\n  json,\n  text,\n} from 'node:stream/consumers';\n</code></pre>\n<pre><code class=\"language-cjs\">const {\n  arrayBuffer,\n  blob,\n  buffer,\n  json,\n  text,\n} = require('node:stream/consumers');\n</code></pre>",
+              "methods": [
+                {
+                  "textRaw": "`streamConsumers.arrayBuffer(stream)`",
+                  "type": "method",
+                  "name": "arrayBuffer",
+                  "meta": {
+                    "added": [
+                      "v16.7.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {Promise} Fulfills with an `ArrayBuffer` containing the full contents of the stream.",
+                        "name": "return",
+                        "type": "Promise",
+                        "desc": "Fulfills with an `ArrayBuffer` containing the full contents of the stream."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`stream` {ReadableStream|stream.Readable|AsyncIterator}",
+                          "name": "stream",
+                          "type": "ReadableStream|stream.Readable|AsyncIterator"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<pre><code class=\"language-mjs\">import { buffer as arrayBuffer } from 'node:stream/consumers';\nimport { Readable } from 'node:stream';\nimport { TextEncoder } from 'node:util';\n\nconst encoder = new TextEncoder();\nconst dataArray = encoder.encode('hello world from consumers!');\n\nconst readable = Readable.from(dataArray);\nconst data = await arrayBuffer(readable);\nconsole.log(`from readable: ${data.byteLength}`);\n</code></pre>\n<pre><code class=\"language-cjs\">const { arrayBuffer } = require('node:stream/consumers');\nconst { Readable } = require('stream');\nconst { TextEncoder } = require('util');\n\nconst encoder = new TextEncoder();\nconst dataArray = encoder.encode(['hello world from consumers!']);\nconst readable = Readable.from(dataArray);\narrayBuffer(readable).then((data) => {\n  console.log(`from readable: ${data.byteLength}`);\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`streamConsumers.blob(stream)`",
+                  "type": "method",
+                  "name": "blob",
+                  "meta": {
+                    "added": [
+                      "v16.7.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {Promise} Fulfills with a {Blob} containing the full contents of the stream.",
+                        "name": "return",
+                        "type": "Promise",
+                        "desc": "Fulfills with a {Blob} containing the full contents of the stream."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`stream` {ReadableStream|stream.Readable|AsyncIterator}",
+                          "name": "stream",
+                          "type": "ReadableStream|stream.Readable|AsyncIterator"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<pre><code class=\"language-mjs\">import { blob } from 'node:stream/consumers';\n\nconst dataBlob = new Blob(['hello world from consumers!']);\n\nconst readable = dataBlob.stream();\nconst data = await blob(readable);\nconsole.log(`from readable: ${data.size}`);\n</code></pre>\n<pre><code class=\"language-cjs\">const { blob } = require('node:stream/consumers');\n\nconst dataBlob = new Blob(['hello world from consumers!']);\n\nconst readable = dataBlob.stream();\nblob(readable).then((data) => {\n  console.log(`from readable: ${data.size}`);\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`streamConsumers.buffer(stream)`",
+                  "type": "method",
+                  "name": "buffer",
+                  "meta": {
+                    "added": [
+                      "v16.7.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {Promise} Fulfills with a {Buffer} containing the full contents of the stream.",
+                        "name": "return",
+                        "type": "Promise",
+                        "desc": "Fulfills with a {Buffer} containing the full contents of the stream."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`stream` {ReadableStream|stream.Readable|AsyncIterator}",
+                          "name": "stream",
+                          "type": "ReadableStream|stream.Readable|AsyncIterator"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<pre><code class=\"language-mjs\">import { buffer } from 'node:stream/consumers';\nimport { Readable } from 'node:stream';\nimport { Buffer } from 'node:buffer';\n\nconst dataBuffer = Buffer.from('hello world from consumers!');\n\nconst readable = Readable.from(dataBuffer);\nconst data = await buffer(readable);\nconsole.log(`from readable: ${data.length}`);\n</code></pre>\n<pre><code class=\"language-cjs\">const { buffer } = require('node:stream/consumers');\nconst { Readable } = require('node:stream');\nconst { Buffer } = require('node:buffer');\n\nconst dataBuffer = Buffer.from('hello world from consumers!');\n\nconst readable = Readable.from(dataBuffer);\nbuffer(readable).then((data) => {\n  console.log(`from readable: ${data.length}`);\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`streamConsumers.json(stream)`",
+                  "type": "method",
+                  "name": "json",
+                  "meta": {
+                    "added": [
+                      "v16.7.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {Promise} Fulfills with the contents of the stream parsed as a UTF-8 encoded string that is then passed through `JSON.parse()`.",
+                        "name": "return",
+                        "type": "Promise",
+                        "desc": "Fulfills with the contents of the stream parsed as a UTF-8 encoded string that is then passed through `JSON.parse()`."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`stream` {ReadableStream|stream.Readable|AsyncIterator}",
+                          "name": "stream",
+                          "type": "ReadableStream|stream.Readable|AsyncIterator"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<pre><code class=\"language-mjs\">import { json } from 'node:stream/consumers';\nimport { Readable } from 'node:stream';\n\nconst items = Array.from(\n  {\n    length: 100\n  },\n  () => ({\n    message: 'hello world from consumers!'\n  })\n);\n\nconst readable = Readable.from(JSON.stringify(items));\nconst data = await json(readable);\nconsole.log(`from readable: ${data.length}`);\n</code></pre>\n<pre><code class=\"language-cjs\">const { json } = require('node:stream/consumers');\nconst { Readable } = require('node:stream');\n\nconst items = Array.from(\n  {\n    length: 100\n  },\n  () => ({\n    message: 'hello world from consumers!'\n  })\n);\n\nconst readable = Readable.from(JSON.stringify(items));\njson(readable).then((data) => {\n  console.log(`from readable: ${data.length}`);\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`streamConsumers.text(stream)`",
+                  "type": "method",
+                  "name": "text",
+                  "meta": {
+                    "added": [
+                      "v16.7.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {Promise} Fulfills with the contents of the stream parsed as a UTF-8 encoded string.",
+                        "name": "return",
+                        "type": "Promise",
+                        "desc": "Fulfills with the contents of the stream parsed as a UTF-8 encoded string."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`stream` {ReadableStream|stream.Readable|AsyncIterator}",
+                          "name": "stream",
+                          "type": "ReadableStream|stream.Readable|AsyncIterator"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<pre><code class=\"language-mjs\">import { json, text, blob, buffer } from 'node:stream/consumers';\nimport { Readable } from 'node:stream';\n\nconst readable = Readable.from('Hello world from consumers!');\nconst data = await text(readable);\nconsole.log(`from readable: ${data.length}`);\n</code></pre>\n<pre><code class=\"language-cjs\">const { text } = require('node:stream/consumers');\nconst { Readable } = require('node:stream');\n\nconst readable = Readable.from('Hello world from consumers!');\ntext(readable).then((data) => {\n  console.log(`from readable: ${data.length}`);\n});\n</code></pre>"
+                }
+              ],
+              "type": "module",
+              "displayName": "Utility Consumers"
+            }
+          ],
+          "type": "module",
+          "displayName": "API"
+        }
+      ],
+      "type": "module",
+      "displayName": "Web Streams API"
+    }
+  ]
+}

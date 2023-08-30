@@ -1,0 +1,3284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v16.19.1">
+  <title>Deprecated APIs | Node.js v16.19.1 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/deprecations.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  
+</head>
+<body class="alt apidoc" id="api-section-deprecations">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations active">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="deprecations" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v16.19.1 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v16.19.1</li>
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Table of contents
+      </a>
+
+      <div class="picker"><div class="toc"><ul>
+<li><a href="#deprecated-apis">Deprecated APIs</a>
+<ul>
+<li><a href="#revoking-deprecations">Revoking deprecations</a></li>
+<li><a href="#list-of-deprecated-apis">List of deprecated APIs</a>
+<ul>
+<li><a href="#DEP0001">DEP0001: <code>http.OutgoingMessage.prototype.flush</code></a></li>
+<li><a href="#DEP0002">DEP0002: <code>require('_linklist')</code></a></li>
+<li><a href="#DEP0003">DEP0003: <code>_writableState.buffer</code></a></li>
+<li><a href="#DEP0004">DEP0004: <code>CryptoStream.prototype.readyState</code></a></li>
+<li><a href="#DEP0005">DEP0005: <code>Buffer()</code> constructor</a></li>
+<li><a href="#DEP0006">DEP0006: <code>child_process</code> <code>options.customFds</code></a></li>
+<li><a href="#DEP0007">DEP0007: Replace <code>cluster</code> <code>worker.suicide</code> with <code>worker.exitedAfterDisconnect</code></a></li>
+<li><a href="#DEP0008">DEP0008: <code>require('node:constants')</code></a></li>
+<li><a href="#DEP0009">DEP0009: <code>crypto.pbkdf2</code> without digest</a></li>
+<li><a href="#DEP0010">DEP0010: <code>crypto.createCredentials</code></a></li>
+<li><a href="#DEP0011">DEP0011: <code>crypto.Credentials</code></a></li>
+<li><a href="#DEP0012">DEP0012: <code>Domain.dispose</code></a></li>
+<li><a href="#DEP0013">DEP0013: <code>fs</code> asynchronous function without callback</a></li>
+<li><a href="#DEP0014">DEP0014: <code>fs.read</code> legacy String interface</a></li>
+<li><a href="#DEP0015">DEP0015: <code>fs.readSync</code> legacy String interface</a></li>
+<li><a href="#DEP0016">DEP0016: <code>GLOBAL</code>/<code>root</code></a></li>
+<li><a href="#DEP0017">DEP0017: <code>Intl.v8BreakIterator</code></a></li>
+<li><a href="#DEP0018">DEP0018: Unhandled promise rejections</a></li>
+<li><a href="#DEP0019">DEP0019: <code>require('.')</code> resolved outside directory</a></li>
+<li><a href="#DEP0020">DEP0020: <code>Server.connections</code></a></li>
+<li><a href="#DEP0021">DEP0021: <code>Server.listenFD</code></a></li>
+<li><a href="#DEP0022">DEP0022: <code>os.tmpDir()</code></a></li>
+<li><a href="#DEP0023">DEP0023: <code>os.getNetworkInterfaces()</code></a></li>
+<li><a href="#DEP0024">DEP0024: <code>REPLServer.prototype.convertToContext()</code></a></li>
+<li><a href="#DEP0025">DEP0025: <code>require('node:sys')</code></a></li>
+<li><a href="#DEP0026">DEP0026: <code>util.print()</code></a></li>
+<li><a href="#DEP0027">DEP0027: <code>util.puts()</code></a></li>
+<li><a href="#DEP0028">DEP0028: <code>util.debug()</code></a></li>
+<li><a href="#DEP0029">DEP0029: <code>util.error()</code></a></li>
+<li><a href="#DEP0030">DEP0030: <code>SlowBuffer</code></a></li>
+<li><a href="#DEP0031">DEP0031: <code>ecdh.setPublicKey()</code></a></li>
+<li><a href="#DEP0032">DEP0032: <code>node:domain</code> module</a></li>
+<li><a href="#DEP0033">DEP0033: <code>EventEmitter.listenerCount()</code></a></li>
+<li><a href="#DEP0034">DEP0034: <code>fs.exists(path, callback)</code></a></li>
+<li><a href="#DEP0035">DEP0035: <code>fs.lchmod(path, mode, callback)</code></a></li>
+<li><a href="#DEP0036">DEP0036: <code>fs.lchmodSync(path, mode)</code></a></li>
+<li><a href="#DEP0037">DEP0037: <code>fs.lchown(path, uid, gid, callback)</code></a></li>
+<li><a href="#DEP0038">DEP0038: <code>fs.lchownSync(path, uid, gid)</code></a></li>
+<li><a href="#DEP0039">DEP0039: <code>require.extensions</code></a></li>
+<li><a href="#DEP0040">DEP0040: <code>node:punycode</code> module</a></li>
+<li><a href="#DEP0041">DEP0041: <code>NODE_REPL_HISTORY_FILE</code> environment variable</a></li>
+<li><a href="#DEP0042">DEP0042: <code>tls.CryptoStream</code></a></li>
+<li><a href="#DEP0043">DEP0043: <code>tls.SecurePair</code></a></li>
+<li><a href="#DEP0044">DEP0044: <code>util.isArray()</code></a></li>
+<li><a href="#DEP0045">DEP0045: <code>util.isBoolean()</code></a></li>
+<li><a href="#DEP0046">DEP0046: <code>util.isBuffer()</code></a></li>
+<li><a href="#DEP0047">DEP0047: <code>util.isDate()</code></a></li>
+<li><a href="#DEP0048">DEP0048: <code>util.isError()</code></a></li>
+<li><a href="#DEP0049">DEP0049: <code>util.isFunction()</code></a></li>
+<li><a href="#DEP0050">DEP0050: <code>util.isNull()</code></a></li>
+<li><a href="#DEP0051">DEP0051: <code>util.isNullOrUndefined()</code></a></li>
+<li><a href="#DEP0052">DEP0052: <code>util.isNumber()</code></a></li>
+<li><a href="#DEP0053">DEP0053: <code>util.isObject()</code></a></li>
+<li><a href="#DEP0054">DEP0054: <code>util.isPrimitive()</code></a></li>
+<li><a href="#DEP0055">DEP0055: <code>util.isRegExp()</code></a></li>
+<li><a href="#DEP0056">DEP0056: <code>util.isString()</code></a></li>
+<li><a href="#DEP0057">DEP0057: <code>util.isSymbol()</code></a></li>
+<li><a href="#DEP0058">DEP0058: <code>util.isUndefined()</code></a></li>
+<li><a href="#DEP0059">DEP0059: <code>util.log()</code></a></li>
+<li><a href="#DEP0060">DEP0060: <code>util._extend()</code></a></li>
+<li><a href="#DEP0061">DEP0061: <code>fs.SyncWriteStream</code></a></li>
+<li><a href="#DEP0062">DEP0062: <code>node --debug</code></a></li>
+<li><a href="#DEP0063">DEP0063: <code>ServerResponse.prototype.writeHeader()</code></a></li>
+<li><a href="#DEP0064">DEP0064: <code>tls.createSecurePair()</code></a></li>
+<li><a href="#DEP0065">DEP0065: <code>repl.REPL_MODE_MAGIC</code> and <code>NODE_REPL_MODE=magic</code></a></li>
+<li><a href="#DEP0066">DEP0066: <code>OutgoingMessage.prototype._headers, OutgoingMessage.prototype._headerNames</code></a></li>
+<li><a href="#DEP0067">DEP0067: <code>OutgoingMessage.prototype._renderHeaders</code></a></li>
+<li><a href="#DEP0068">DEP0068: <code>node debug</code></a></li>
+<li><a href="#DEP0069">DEP0069: <code>vm.runInDebugContext(string)</code></a></li>
+<li><a href="#DEP0070">DEP0070: <code>async_hooks.currentId()</code></a></li>
+<li><a href="#DEP0071">DEP0071: <code>async_hooks.triggerId()</code></a></li>
+<li><a href="#DEP0072">DEP0072: <code>async_hooks.AsyncResource.triggerId()</code></a></li>
+<li><a href="#DEP0073">DEP0073: Several internal properties of <code>net.Server</code></a></li>
+<li><a href="#DEP0074">DEP0074: <code>REPLServer.bufferedCommand</code></a></li>
+<li><a href="#DEP0075">DEP0075: <code>REPLServer.parseREPLKeyword()</code></a></li>
+<li><a href="#DEP0076">DEP0076: <code>tls.parseCertString()</code></a></li>
+<li><a href="#DEP0077">DEP0077: <code>Module._debug()</code></a></li>
+<li><a href="#DEP0078">DEP0078: <code>REPLServer.turnOffEditorMode()</code></a></li>
+<li><a href="#DEP0079">DEP0079: Custom inspection function on objects via <code>.inspect()</code></a></li>
+<li><a href="#DEP0080">DEP0080: <code>path._makeLong()</code></a></li>
+<li><a href="#DEP0081">DEP0081: <code>fs.truncate()</code> using a file descriptor</a></li>
+<li><a href="#DEP0082">DEP0082: <code>REPLServer.prototype.memory()</code></a></li>
+<li><a href="#DEP0083">DEP0083: Disabling ECDH by setting <code>ecdhCurve</code> to <code>false</code></a></li>
+<li><a href="#DEP0084">DEP0084: requiring bundled internal dependencies</a></li>
+<li><a href="#DEP0085">DEP0085: AsyncHooks sensitive API</a></li>
+<li><a href="#DEP0086">DEP0086: Remove <code>runInAsyncIdScope</code></a></li>
+<li><a href="#DEP0089">DEP0089: <code>require('node:assert')</code></a></li>
+<li><a href="#DEP0090">DEP0090: Invalid GCM authentication tag lengths</a></li>
+<li><a href="#DEP0091">DEP0091: <code>crypto.DEFAULT_ENCODING</code></a></li>
+<li><a href="#DEP0092">DEP0092: Top-level <code>this</code> bound to <code>module.exports</code></a></li>
+<li><a href="#DEP0093">DEP0093: <code>crypto.fips</code> is deprecated and replaced</a></li>
+<li><a href="#DEP0094">DEP0094: Using <code>assert.fail()</code> with more than one argument</a></li>
+<li><a href="#DEP0095">DEP0095: <code>timers.enroll()</code></a></li>
+<li><a href="#DEP0096">DEP0096: <code>timers.unenroll()</code></a></li>
+<li><a href="#DEP0097">DEP0097: <code>MakeCallback</code> with <code>domain</code> property</a></li>
+<li><a href="#DEP0098">DEP0098: AsyncHooks embedder <code>AsyncResource.emitBefore</code> and <code>AsyncResource.emitAfter</code> APIs</a></li>
+<li><a href="#DEP0099">DEP0099: Async context-unaware <code>node::MakeCallback</code> C++ APIs</a></li>
+<li><a href="#DEP0100">DEP0100: <code>process.assert()</code></a></li>
+<li><a href="#DEP0101">DEP0101: <code>--with-lttng</code></a></li>
+<li><a href="#DEP0102">DEP0102: Using <code>noAssert</code> in <code>Buffer#(read|write)</code> operations</a></li>
+<li><a href="#DEP0103">DEP0103: <code>process.binding('util').is[...]</code> typechecks</a></li>
+<li><a href="#DEP0104">DEP0104: <code>process.env</code> string coercion</a></li>
+<li><a href="#DEP0105">DEP0105: <code>decipher.finaltol</code></a></li>
+<li><a href="#DEP0106">DEP0106: <code>crypto.createCipher</code> and <code>crypto.createDecipher</code></a></li>
+<li><a href="#DEP0107">DEP0107: <code>tls.convertNPNProtocols()</code></a></li>
+<li><a href="#DEP0108">DEP0108: <code>zlib.bytesRead</code></a></li>
+<li><a href="#DEP0109">DEP0109: <code>http</code>, <code>https</code>, and <code>tls</code> support for invalid URLs</a></li>
+<li><a href="#DEP0110">DEP0110: <code>vm.Script</code> cached data</a></li>
+<li><a href="#DEP0111">DEP0111: <code>process.binding()</code></a></li>
+<li><a href="#DEP0112">DEP0112: <code>dgram</code> private APIs</a></li>
+<li><a href="#DEP0113">DEP0113: <code>Cipher.setAuthTag()</code>, <code>Decipher.getAuthTag()</code></a></li>
+<li><a href="#DEP0114">DEP0114: <code>crypto._toBuf()</code></a></li>
+<li><a href="#DEP0115">DEP0115: <code>crypto.prng()</code>, <code>crypto.pseudoRandomBytes()</code>, <code>crypto.rng()</code></a></li>
+<li><a href="#DEP0116">DEP0116: Legacy URL API</a></li>
+<li><a href="#DEP0117">DEP0117: Native crypto handles</a></li>
+<li><a href="#DEP0118">DEP0118: <code>dns.lookup()</code> support for a falsy host name</a></li>
+<li><a href="#DEP0119">DEP0119: <code>process.binding('uv').errname()</code> private API</a></li>
+<li><a href="#DEP0120">DEP0120: Windows Performance Counter support</a></li>
+<li><a href="#DEP0121">DEP0121: <code>net._setSimultaneousAccepts()</code></a></li>
+<li><a href="#DEP0122">DEP0122: <code>tls</code> <code>Server.prototype.setOptions()</code></a></li>
+<li><a href="#DEP0123">DEP0123: setting the TLS ServerName to an IP address</a></li>
+<li><a href="#DEP0124">DEP0124: using <code>REPLServer.rli</code></a></li>
+<li><a href="#DEP0125">DEP0125: <code>require('node:_stream_wrap')</code></a></li>
+<li><a href="#DEP0126">DEP0126: <code>timers.active()</code></a></li>
+<li><a href="#DEP0127">DEP0127: <code>timers._unrefActive()</code></a></li>
+<li><a href="#DEP0128">DEP0128: modules with an invalid <code>main</code> entry and an <code>index.js</code> file</a></li>
+<li><a href="#DEP0129">DEP0129: <code>ChildProcess._channel</code></a></li>
+<li><a href="#DEP0130">DEP0130: <code>Module.createRequireFromPath()</code></a></li>
+<li><a href="#DEP0131">DEP0131: Legacy HTTP parser</a></li>
+<li><a href="#DEP0132">DEP0132: <code>worker.terminate()</code> with callback</a></li>
+<li><a href="#DEP0133">DEP0133: <code>http</code> <code>connection</code></a></li>
+<li><a href="#DEP0134">DEP0134: <code>process._tickCallback</code></a></li>
+<li><a href="#DEP0135">DEP0135: <code>WriteStream.open()</code> and <code>ReadStream.open()</code> are internal</a></li>
+<li><a href="#DEP0136">DEP0136: <code>http</code> <code>finished</code></a></li>
+<li><a href="#DEP0137">DEP0137: Closing fs.FileHandle on garbage collection</a></li>
+<li><a href="#DEP0138">DEP0138: <code>process.mainModule</code></a></li>
+<li><a href="#DEP0139">DEP0139: <code>process.umask()</code> with no arguments</a></li>
+<li><a href="#DEP0140">DEP0140: Use <code>request.destroy()</code> instead of <code>request.abort()</code></a></li>
+<li><a href="#DEP0141">DEP0141: <code>repl.inputStream</code> and <code>repl.outputStream</code></a></li>
+<li><a href="#DEP0142">DEP0142: <code>repl._builtinLibs</code></a></li>
+<li><a href="#DEP0143">DEP0143: <code>Transform._transformState</code></a></li>
+<li><a href="#DEP0144">DEP0144: <code>module.parent</code></a></li>
+<li><a href="#DEP0145">DEP0145: <code>socket.bufferSize</code></a></li>
+<li><a href="#DEP0146">DEP0146: <code>new crypto.Certificate()</code></a></li>
+<li><a href="#DEP0147">DEP0147: <code>fs.rmdir(path, { recursive: true })</code></a></li>
+<li><a href="#DEP0148">DEP0148: Folder mappings in <code>"exports"</code> (trailing <code>"/"</code>)</a></li>
+<li><a href="#DEP0149">DEP0149: <code>http.IncomingMessage#connection</code></a></li>
+<li><a href="#DEP0150">DEP0150: Changing the value of <code>process.config</code></a></li>
+<li><a href="#DEP0151">DEP0151: Main index lookup and extension searching</a></li>
+<li><a href="#DEP0152">DEP0152: Extension PerformanceEntry properties</a></li>
+<li><a href="#DEP0153">DEP0153: <code>dns.lookup</code> and <code>dnsPromises.lookup</code> options type coercion</a></li>
+<li><a href="#DEP0154">DEP0154: RSA-PSS generate key pair options</a></li>
+<li><a href="#DEP0155">DEP0155: Trailing slashes in pattern specifier resolutions</a></li>
+<li><a href="#DEP0156">DEP0156: <code>.aborted</code> property and <code>'abort'</code>, <code>'aborted'</code> event in <code>http</code></a></li>
+<li><a href="#DEP0157">DEP0157: Thenable support in streams</a></li>
+<li><a href="#DEP0158">DEP0158: <code>buffer.slice(start, end)</code></a></li>
+<li><a href="#DEP0160">DEP0160: <code>process.on('multipleResolves', handler)</code></a></li>
+<li><a href="#DEP0161">DEP0161: <code>process._getActiveRequests()</code> and <code>process._getActiveHandles()</code></a></li>
+<li><a href="#DEP0162">DEP0162: <code>fs.write()</code>, <code>fs.writeFileSync()</code> coercion to string</a></li>
+<li><a href="#DEP0163">DEP0163: <code>channel.subscribe(onMessage)</code>, <code>channel.unsubscribe(onMessage)</code></a></li>
+<li><a href="#DEP0164">DEP0164: <code>process.exit(code)</code>, <code>process.exitCode</code> coercion to integer</a></li>
+<li><a href="#DEP0165">DEP0165: <code>--trace-atomics-wait</code></a></li>
+<li><a href="#DEP0167">DEP0167: Weak <code>DiffieHellmanGroup</code> instances (<code>modp1</code>, <code>modp2</code>, <code>modp5</code>)</a></li>
+<li><a href="#DEP0168">DEP0168: Unhandled exception in Node-API callbacks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Index
+      </a>
+
+      <div class="picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations active">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Other versions
+      </a>
+      <div class="picker"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v19.x/api/deprecations.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/deprecations.html">18.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/deprecations.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/deprecations.html">16.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/deprecations.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/deprecations.html">14.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/deprecations.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/deprecations.html">12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/deprecations.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/deprecations.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/deprecations.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/deprecations.html">8.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v7.x/api/deprecations.html">7.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#">
+                <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+                Options
+              </a>
+        
+              <div class="picker">
+                <ul>
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="deprecations.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/deprecations.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><a href="#deprecated-apis">Deprecated APIs</a>
+<ul>
+<li><a href="#revoking-deprecations">Revoking deprecations</a></li>
+<li><a href="#list-of-deprecated-apis">List of deprecated APIs</a>
+<ul>
+<li><a href="#DEP0001">DEP0001: <code>http.OutgoingMessage.prototype.flush</code></a></li>
+<li><a href="#DEP0002">DEP0002: <code>require('_linklist')</code></a></li>
+<li><a href="#DEP0003">DEP0003: <code>_writableState.buffer</code></a></li>
+<li><a href="#DEP0004">DEP0004: <code>CryptoStream.prototype.readyState</code></a></li>
+<li><a href="#DEP0005">DEP0005: <code>Buffer()</code> constructor</a></li>
+<li><a href="#DEP0006">DEP0006: <code>child_process</code> <code>options.customFds</code></a></li>
+<li><a href="#DEP0007">DEP0007: Replace <code>cluster</code> <code>worker.suicide</code> with <code>worker.exitedAfterDisconnect</code></a></li>
+<li><a href="#DEP0008">DEP0008: <code>require('node:constants')</code></a></li>
+<li><a href="#DEP0009">DEP0009: <code>crypto.pbkdf2</code> without digest</a></li>
+<li><a href="#DEP0010">DEP0010: <code>crypto.createCredentials</code></a></li>
+<li><a href="#DEP0011">DEP0011: <code>crypto.Credentials</code></a></li>
+<li><a href="#DEP0012">DEP0012: <code>Domain.dispose</code></a></li>
+<li><a href="#DEP0013">DEP0013: <code>fs</code> asynchronous function without callback</a></li>
+<li><a href="#DEP0014">DEP0014: <code>fs.read</code> legacy String interface</a></li>
+<li><a href="#DEP0015">DEP0015: <code>fs.readSync</code> legacy String interface</a></li>
+<li><a href="#DEP0016">DEP0016: <code>GLOBAL</code>/<code>root</code></a></li>
+<li><a href="#DEP0017">DEP0017: <code>Intl.v8BreakIterator</code></a></li>
+<li><a href="#DEP0018">DEP0018: Unhandled promise rejections</a></li>
+<li><a href="#DEP0019">DEP0019: <code>require('.')</code> resolved outside directory</a></li>
+<li><a href="#DEP0020">DEP0020: <code>Server.connections</code></a></li>
+<li><a href="#DEP0021">DEP0021: <code>Server.listenFD</code></a></li>
+<li><a href="#DEP0022">DEP0022: <code>os.tmpDir()</code></a></li>
+<li><a href="#DEP0023">DEP0023: <code>os.getNetworkInterfaces()</code></a></li>
+<li><a href="#DEP0024">DEP0024: <code>REPLServer.prototype.convertToContext()</code></a></li>
+<li><a href="#DEP0025">DEP0025: <code>require('node:sys')</code></a></li>
+<li><a href="#DEP0026">DEP0026: <code>util.print()</code></a></li>
+<li><a href="#DEP0027">DEP0027: <code>util.puts()</code></a></li>
+<li><a href="#DEP0028">DEP0028: <code>util.debug()</code></a></li>
+<li><a href="#DEP0029">DEP0029: <code>util.error()</code></a></li>
+<li><a href="#DEP0030">DEP0030: <code>SlowBuffer</code></a></li>
+<li><a href="#DEP0031">DEP0031: <code>ecdh.setPublicKey()</code></a></li>
+<li><a href="#DEP0032">DEP0032: <code>node:domain</code> module</a></li>
+<li><a href="#DEP0033">DEP0033: <code>EventEmitter.listenerCount()</code></a></li>
+<li><a href="#DEP0034">DEP0034: <code>fs.exists(path, callback)</code></a></li>
+<li><a href="#DEP0035">DEP0035: <code>fs.lchmod(path, mode, callback)</code></a></li>
+<li><a href="#DEP0036">DEP0036: <code>fs.lchmodSync(path, mode)</code></a></li>
+<li><a href="#DEP0037">DEP0037: <code>fs.lchown(path, uid, gid, callback)</code></a></li>
+<li><a href="#DEP0038">DEP0038: <code>fs.lchownSync(path, uid, gid)</code></a></li>
+<li><a href="#DEP0039">DEP0039: <code>require.extensions</code></a></li>
+<li><a href="#DEP0040">DEP0040: <code>node:punycode</code> module</a></li>
+<li><a href="#DEP0041">DEP0041: <code>NODE_REPL_HISTORY_FILE</code> environment variable</a></li>
+<li><a href="#DEP0042">DEP0042: <code>tls.CryptoStream</code></a></li>
+<li><a href="#DEP0043">DEP0043: <code>tls.SecurePair</code></a></li>
+<li><a href="#DEP0044">DEP0044: <code>util.isArray()</code></a></li>
+<li><a href="#DEP0045">DEP0045: <code>util.isBoolean()</code></a></li>
+<li><a href="#DEP0046">DEP0046: <code>util.isBuffer()</code></a></li>
+<li><a href="#DEP0047">DEP0047: <code>util.isDate()</code></a></li>
+<li><a href="#DEP0048">DEP0048: <code>util.isError()</code></a></li>
+<li><a href="#DEP0049">DEP0049: <code>util.isFunction()</code></a></li>
+<li><a href="#DEP0050">DEP0050: <code>util.isNull()</code></a></li>
+<li><a href="#DEP0051">DEP0051: <code>util.isNullOrUndefined()</code></a></li>
+<li><a href="#DEP0052">DEP0052: <code>util.isNumber()</code></a></li>
+<li><a href="#DEP0053">DEP0053: <code>util.isObject()</code></a></li>
+<li><a href="#DEP0054">DEP0054: <code>util.isPrimitive()</code></a></li>
+<li><a href="#DEP0055">DEP0055: <code>util.isRegExp()</code></a></li>
+<li><a href="#DEP0056">DEP0056: <code>util.isString()</code></a></li>
+<li><a href="#DEP0057">DEP0057: <code>util.isSymbol()</code></a></li>
+<li><a href="#DEP0058">DEP0058: <code>util.isUndefined()</code></a></li>
+<li><a href="#DEP0059">DEP0059: <code>util.log()</code></a></li>
+<li><a href="#DEP0060">DEP0060: <code>util._extend()</code></a></li>
+<li><a href="#DEP0061">DEP0061: <code>fs.SyncWriteStream</code></a></li>
+<li><a href="#DEP0062">DEP0062: <code>node --debug</code></a></li>
+<li><a href="#DEP0063">DEP0063: <code>ServerResponse.prototype.writeHeader()</code></a></li>
+<li><a href="#DEP0064">DEP0064: <code>tls.createSecurePair()</code></a></li>
+<li><a href="#DEP0065">DEP0065: <code>repl.REPL_MODE_MAGIC</code> and <code>NODE_REPL_MODE=magic</code></a></li>
+<li><a href="#DEP0066">DEP0066: <code>OutgoingMessage.prototype._headers, OutgoingMessage.prototype._headerNames</code></a></li>
+<li><a href="#DEP0067">DEP0067: <code>OutgoingMessage.prototype._renderHeaders</code></a></li>
+<li><a href="#DEP0068">DEP0068: <code>node debug</code></a></li>
+<li><a href="#DEP0069">DEP0069: <code>vm.runInDebugContext(string)</code></a></li>
+<li><a href="#DEP0070">DEP0070: <code>async_hooks.currentId()</code></a></li>
+<li><a href="#DEP0071">DEP0071: <code>async_hooks.triggerId()</code></a></li>
+<li><a href="#DEP0072">DEP0072: <code>async_hooks.AsyncResource.triggerId()</code></a></li>
+<li><a href="#DEP0073">DEP0073: Several internal properties of <code>net.Server</code></a></li>
+<li><a href="#DEP0074">DEP0074: <code>REPLServer.bufferedCommand</code></a></li>
+<li><a href="#DEP0075">DEP0075: <code>REPLServer.parseREPLKeyword()</code></a></li>
+<li><a href="#DEP0076">DEP0076: <code>tls.parseCertString()</code></a></li>
+<li><a href="#DEP0077">DEP0077: <code>Module._debug()</code></a></li>
+<li><a href="#DEP0078">DEP0078: <code>REPLServer.turnOffEditorMode()</code></a></li>
+<li><a href="#DEP0079">DEP0079: Custom inspection function on objects via <code>.inspect()</code></a></li>
+<li><a href="#DEP0080">DEP0080: <code>path._makeLong()</code></a></li>
+<li><a href="#DEP0081">DEP0081: <code>fs.truncate()</code> using a file descriptor</a></li>
+<li><a href="#DEP0082">DEP0082: <code>REPLServer.prototype.memory()</code></a></li>
+<li><a href="#DEP0083">DEP0083: Disabling ECDH by setting <code>ecdhCurve</code> to <code>false</code></a></li>
+<li><a href="#DEP0084">DEP0084: requiring bundled internal dependencies</a></li>
+<li><a href="#DEP0085">DEP0085: AsyncHooks sensitive API</a></li>
+<li><a href="#DEP0086">DEP0086: Remove <code>runInAsyncIdScope</code></a></li>
+<li><a href="#DEP0089">DEP0089: <code>require('node:assert')</code></a></li>
+<li><a href="#DEP0090">DEP0090: Invalid GCM authentication tag lengths</a></li>
+<li><a href="#DEP0091">DEP0091: <code>crypto.DEFAULT_ENCODING</code></a></li>
+<li><a href="#DEP0092">DEP0092: Top-level <code>this</code> bound to <code>module.exports</code></a></li>
+<li><a href="#DEP0093">DEP0093: <code>crypto.fips</code> is deprecated and replaced</a></li>
+<li><a href="#DEP0094">DEP0094: Using <code>assert.fail()</code> with more than one argument</a></li>
+<li><a href="#DEP0095">DEP0095: <code>timers.enroll()</code></a></li>
+<li><a href="#DEP0096">DEP0096: <code>timers.unenroll()</code></a></li>
+<li><a href="#DEP0097">DEP0097: <code>MakeCallback</code> with <code>domain</code> property</a></li>
+<li><a href="#DEP0098">DEP0098: AsyncHooks embedder <code>AsyncResource.emitBefore</code> and <code>AsyncResource.emitAfter</code> APIs</a></li>
+<li><a href="#DEP0099">DEP0099: Async context-unaware <code>node::MakeCallback</code> C++ APIs</a></li>
+<li><a href="#DEP0100">DEP0100: <code>process.assert()</code></a></li>
+<li><a href="#DEP0101">DEP0101: <code>--with-lttng</code></a></li>
+<li><a href="#DEP0102">DEP0102: Using <code>noAssert</code> in <code>Buffer#(read|write)</code> operations</a></li>
+<li><a href="#DEP0103">DEP0103: <code>process.binding('util').is[...]</code> typechecks</a></li>
+<li><a href="#DEP0104">DEP0104: <code>process.env</code> string coercion</a></li>
+<li><a href="#DEP0105">DEP0105: <code>decipher.finaltol</code></a></li>
+<li><a href="#DEP0106">DEP0106: <code>crypto.createCipher</code> and <code>crypto.createDecipher</code></a></li>
+<li><a href="#DEP0107">DEP0107: <code>tls.convertNPNProtocols()</code></a></li>
+<li><a href="#DEP0108">DEP0108: <code>zlib.bytesRead</code></a></li>
+<li><a href="#DEP0109">DEP0109: <code>http</code>, <code>https</code>, and <code>tls</code> support for invalid URLs</a></li>
+<li><a href="#DEP0110">DEP0110: <code>vm.Script</code> cached data</a></li>
+<li><a href="#DEP0111">DEP0111: <code>process.binding()</code></a></li>
+<li><a href="#DEP0112">DEP0112: <code>dgram</code> private APIs</a></li>
+<li><a href="#DEP0113">DEP0113: <code>Cipher.setAuthTag()</code>, <code>Decipher.getAuthTag()</code></a></li>
+<li><a href="#DEP0114">DEP0114: <code>crypto._toBuf()</code></a></li>
+<li><a href="#DEP0115">DEP0115: <code>crypto.prng()</code>, <code>crypto.pseudoRandomBytes()</code>, <code>crypto.rng()</code></a></li>
+<li><a href="#DEP0116">DEP0116: Legacy URL API</a></li>
+<li><a href="#DEP0117">DEP0117: Native crypto handles</a></li>
+<li><a href="#DEP0118">DEP0118: <code>dns.lookup()</code> support for a falsy host name</a></li>
+<li><a href="#DEP0119">DEP0119: <code>process.binding('uv').errname()</code> private API</a></li>
+<li><a href="#DEP0120">DEP0120: Windows Performance Counter support</a></li>
+<li><a href="#DEP0121">DEP0121: <code>net._setSimultaneousAccepts()</code></a></li>
+<li><a href="#DEP0122">DEP0122: <code>tls</code> <code>Server.prototype.setOptions()</code></a></li>
+<li><a href="#DEP0123">DEP0123: setting the TLS ServerName to an IP address</a></li>
+<li><a href="#DEP0124">DEP0124: using <code>REPLServer.rli</code></a></li>
+<li><a href="#DEP0125">DEP0125: <code>require('node:_stream_wrap')</code></a></li>
+<li><a href="#DEP0126">DEP0126: <code>timers.active()</code></a></li>
+<li><a href="#DEP0127">DEP0127: <code>timers._unrefActive()</code></a></li>
+<li><a href="#DEP0128">DEP0128: modules with an invalid <code>main</code> entry and an <code>index.js</code> file</a></li>
+<li><a href="#DEP0129">DEP0129: <code>ChildProcess._channel</code></a></li>
+<li><a href="#DEP0130">DEP0130: <code>Module.createRequireFromPath()</code></a></li>
+<li><a href="#DEP0131">DEP0131: Legacy HTTP parser</a></li>
+<li><a href="#DEP0132">DEP0132: <code>worker.terminate()</code> with callback</a></li>
+<li><a href="#DEP0133">DEP0133: <code>http</code> <code>connection</code></a></li>
+<li><a href="#DEP0134">DEP0134: <code>process._tickCallback</code></a></li>
+<li><a href="#DEP0135">DEP0135: <code>WriteStream.open()</code> and <code>ReadStream.open()</code> are internal</a></li>
+<li><a href="#DEP0136">DEP0136: <code>http</code> <code>finished</code></a></li>
+<li><a href="#DEP0137">DEP0137: Closing fs.FileHandle on garbage collection</a></li>
+<li><a href="#DEP0138">DEP0138: <code>process.mainModule</code></a></li>
+<li><a href="#DEP0139">DEP0139: <code>process.umask()</code> with no arguments</a></li>
+<li><a href="#DEP0140">DEP0140: Use <code>request.destroy()</code> instead of <code>request.abort()</code></a></li>
+<li><a href="#DEP0141">DEP0141: <code>repl.inputStream</code> and <code>repl.outputStream</code></a></li>
+<li><a href="#DEP0142">DEP0142: <code>repl._builtinLibs</code></a></li>
+<li><a href="#DEP0143">DEP0143: <code>Transform._transformState</code></a></li>
+<li><a href="#DEP0144">DEP0144: <code>module.parent</code></a></li>
+<li><a href="#DEP0145">DEP0145: <code>socket.bufferSize</code></a></li>
+<li><a href="#DEP0146">DEP0146: <code>new crypto.Certificate()</code></a></li>
+<li><a href="#DEP0147">DEP0147: <code>fs.rmdir(path, { recursive: true })</code></a></li>
+<li><a href="#DEP0148">DEP0148: Folder mappings in <code>"exports"</code> (trailing <code>"/"</code>)</a></li>
+<li><a href="#DEP0149">DEP0149: <code>http.IncomingMessage#connection</code></a></li>
+<li><a href="#DEP0150">DEP0150: Changing the value of <code>process.config</code></a></li>
+<li><a href="#DEP0151">DEP0151: Main index lookup and extension searching</a></li>
+<li><a href="#DEP0152">DEP0152: Extension PerformanceEntry properties</a></li>
+<li><a href="#DEP0153">DEP0153: <code>dns.lookup</code> and <code>dnsPromises.lookup</code> options type coercion</a></li>
+<li><a href="#DEP0154">DEP0154: RSA-PSS generate key pair options</a></li>
+<li><a href="#DEP0155">DEP0155: Trailing slashes in pattern specifier resolutions</a></li>
+<li><a href="#DEP0156">DEP0156: <code>.aborted</code> property and <code>'abort'</code>, <code>'aborted'</code> event in <code>http</code></a></li>
+<li><a href="#DEP0157">DEP0157: Thenable support in streams</a></li>
+<li><a href="#DEP0158">DEP0158: <code>buffer.slice(start, end)</code></a></li>
+<li><a href="#DEP0160">DEP0160: <code>process.on('multipleResolves', handler)</code></a></li>
+<li><a href="#DEP0161">DEP0161: <code>process._getActiveRequests()</code> and <code>process._getActiveHandles()</code></a></li>
+<li><a href="#DEP0162">DEP0162: <code>fs.write()</code>, <code>fs.writeFileSync()</code> coercion to string</a></li>
+<li><a href="#DEP0163">DEP0163: <code>channel.subscribe(onMessage)</code>, <code>channel.unsubscribe(onMessage)</code></a></li>
+<li><a href="#DEP0164">DEP0164: <code>process.exit(code)</code>, <code>process.exitCode</code> coercion to integer</a></li>
+<li><a href="#DEP0165">DEP0165: <code>--trace-atomics-wait</code></a></li>
+<li><a href="#DEP0167">DEP0167: Weak <code>DiffieHellmanGroup</code> instances (<code>modp1</code>, <code>modp2</code>, <code>modp5</code>)</a></li>
+<li><a href="#DEP0168">DEP0168: Unhandled exception in Node-API callbacks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Deprecated APIs<span><a class="mark" href="#deprecated-apis" id="deprecated-apis">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_deprecated_apis"></a></h2>
+
+
+<p>Node.js APIs might be deprecated for any of the following reasons:</p>
+<ul>
+<li>Use of the API is unsafe.</li>
+<li>An improved alternative API is available.</li>
+<li>Breaking changes to the API are expected in a future major release.</li>
+</ul>
+<p>Node.js uses three kinds of Deprecations:</p>
+<ul>
+<li>Documentation-only</li>
+<li>Runtime</li>
+<li>End-of-Life</li>
+</ul>
+<p>A Documentation-only deprecation is one that is expressed only within the
+Node.js API docs. These generate no side-effects while running Node.js.
+Some Documentation-only deprecations trigger a runtime warning when launched
+with <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a> flag (or its alternative,
+<code>NODE_PENDING_DEPRECATION=1</code> environment variable), similarly to Runtime
+deprecations below. Documentation-only deprecations that support that flag
+are explicitly labeled as such in the
+<a href="#list-of-deprecated-apis">list of Deprecated APIs</a>.</p>
+<p>A Runtime deprecation will, by default, generate a process warning that will
+be printed to <code>stderr</code> the first time the deprecated API is used. When the
+<a href="cli.html#--throw-deprecation"><code>--throw-deprecation</code></a> command-line flag is used, a Runtime deprecation will
+cause an error to be thrown.</p>
+<p>An End-of-Life deprecation is used when functionality is or will soon be removed
+from Node.js.</p>
+<section><h3>Revoking deprecations<span><a class="mark" href="#revoking-deprecations" id="revoking-deprecations">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_revoking_deprecations"></a></h3>
+<p>Occasionally, the deprecation of an API might be reversed. In such situations,
+this document will be updated with information relevant to the decision.
+However, the deprecation identifier will not be modified.</p>
+</section><section><h3>List of deprecated APIs<span><a class="mark" href="#list-of-deprecated-apis" id="list-of-deprecated-apis">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_list_of_deprecated_apis"></a></h3>
+<h4 id="DEP0001">DEP0001: <code>http.OutgoingMessage.prototype.flush</code><span><a class="mark" href="#dep0001-httpoutgoingmessageprototypeflush" id="dep0001-httpoutgoingmessageprototypeflush">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0001_http_outgoingmessage_prototype_flush"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v1.6.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>OutgoingMessage.prototype.flush()</code> has been removed. Use
+<code>OutgoingMessage.prototype.flushHeaders()</code> instead.</p>
+<h4 id="DEP0002">DEP0002: <code>require('_linklist')</code><span><a class="mark" href="#dep0002-require_linklist" id="dep0002-require_linklist">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0002_require_linklist"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v8.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v5.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>_linklist</code> module is deprecated. Please use a userland alternative.</p>
+<h4 id="DEP0003">DEP0003: <code>_writableState.buffer</code><span><a class="mark" href="#dep0003-_writablestatebuffer" id="dep0003-_writablestatebuffer">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0003_writablestate_buffer"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.11.15</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>_writableState.buffer</code> has been removed. Use <code>_writableState.getBuffer()</code>
+instead.</p>
+<h4 id="DEP0004">DEP0004: <code>CryptoStream.prototype.readyState</code><span><a class="mark" href="#dep0004-cryptostreamprototypereadystate" id="dep0004-cryptostreamprototypereadystate">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0004_cryptostream_prototype_readystate"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.4.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>CryptoStream.prototype.readyState</code> property was removed.</p>
+<h4 id="DEP0005">DEP0005: <code>Buffer()</code> constructor<span><a class="mark" href="#dep0005-buffer-constructor" id="dep0005-buffer-constructor">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0005_buffer_constructor"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p>The <code>Buffer()</code> function and <code>new Buffer()</code> constructor are deprecated due to
+API usability issues that can lead to accidental security issues.</p>
+<p>As an alternative, use one of the following methods of constructing <code>Buffer</code>
+objects:</p>
+<ul>
+<li><a href="buffer.html#static-method-bufferallocsize-fill-encoding"><code>Buffer.alloc(size[, fill[, encoding]])</code></a>: Create a <code>Buffer</code> with
+<em>initialized</em> memory.</li>
+<li><a href="buffer.html#static-method-bufferallocunsafesize"><code>Buffer.allocUnsafe(size)</code></a>: Create a <code>Buffer</code> with
+<em>uninitialized</em> memory.</li>
+<li><a href="buffer.html#static-method-bufferallocunsafeslowsize"><code>Buffer.allocUnsafeSlow(size)</code></a>: Create a <code>Buffer</code> with <em>uninitialized</em>
+memory.</li>
+<li><a href="buffer.html#static-method-bufferfromarray"><code>Buffer.from(array)</code></a>: Create a <code>Buffer</code> with a copy of <code>array</code></li>
+<li><a href="buffer.html#static-method-bufferfromarraybuffer-byteoffset-length"><code>Buffer.from(arrayBuffer[, byteOffset[, length]])</code></a> -
+Create a <code>Buffer</code> that wraps the given <code>arrayBuffer</code>.</li>
+<li><a href="buffer.html#static-method-bufferfrombuffer"><code>Buffer.from(buffer)</code></a>: Create a <code>Buffer</code> that copies <code>buffer</code>.</li>
+<li><a href="buffer.html#static-method-bufferfromstring-encoding"><code>Buffer.from(string[, encoding])</code></a>: Create a <code>Buffer</code>
+that copies <code>string</code>.</li>
+</ul>
+<p>Without <code>--pending-deprecation</code>, runtime warnings occur only for code not in
+<code>node_modules</code>. This means there will not be deprecation warnings for
+<code>Buffer()</code> usage in dependencies. With <code>--pending-deprecation</code>, a runtime
+warning results no matter where the <code>Buffer()</code> usage occurs.</p>
+<h4 id="DEP0006">DEP0006: <code>child_process</code> <code>options.customFds</code><span><a class="mark" href="#dep0006-child_process-optionscustomfds" id="dep0006-child_process-optionscustomfds">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0006_child_process_options_customfds"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.11.14</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v0.5.10</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Within the <a href="child_process.html"><code>child_process</code></a> module's <code>spawn()</code>, <code>fork()</code>, and <code>exec()</code>
+methods, the <code>options.customFds</code> option is deprecated. The <code>options.stdio</code>
+option should be used instead.</p>
+<h4 id="DEP0007">DEP0007: Replace <code>cluster</code> <code>worker.suicide</code> with <code>worker.exitedAfterDisconnect</code><span><a class="mark" href="#dep0007-replace-cluster-workersuicide-with-workerexitedafterdisconnect" id="dep0007-replace-cluster-workersuicide-with-workerexitedafterdisconnect">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0007_replace_cluster_worker_suicide_with_worker_exitedafterdisconnect"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v9.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v7.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>In an earlier version of the Node.js <code>cluster</code>, a boolean property with the name
+<code>suicide</code> was added to the <code>Worker</code> object. The intent of this property was to
+provide an indication of how and why the <code>Worker</code> instance exited. In Node.js
+6.0.0, the old property was deprecated and replaced with a new
+<a href="cluster.html#workerexitedafterdisconnect"><code>worker.exitedAfterDisconnect</code></a> property. The old property name did not
+precisely describe the actual semantics and was unnecessarily emotion-laden.</p>
+<h4 id="DEP0008">DEP0008: <code>require('node:constants')</code><span><a class="mark" href="#dep0008-requirenodeconstants" id="dep0008-requirenodeconstants">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0008_require_node_constants"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v6.3.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <code>node:constants</code> module is deprecated. When requiring access to constants
+relevant to specific Node.js builtin modules, developers should instead refer
+to the <code>constants</code> property exposed by the relevant module. For instance,
+<code>require('node:fs').constants</code> and <code>require('node:os').constants</code>.</p>
+<h4 id="DEP0009">DEP0009: <code>crypto.pbkdf2</code> without digest<span><a class="mark" href="#dep0009-cryptopbkdf2-without-digest" id="dep0009-cryptopbkdf2-without-digest">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0009_crypto_pbkdf2_without_digest"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.0.0</td>
+<td><p>End-of-Life (for <code>digest === null</code>).</p></td></tr>
+<tr><td>v11.0.0</td>
+<td><p>Runtime deprecation (for <code>digest === null</code>).</p></td></tr>
+<tr><td>v8.0.0</td>
+<td><p>End-of-Life (for <code>digest === undefined</code>).</p></td></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>Runtime deprecation (for <code>digest === undefined</code>).</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Use of the <a href="crypto.html#cryptopbkdf2password-salt-iterations-keylen-digest-callback"><code>crypto.pbkdf2()</code></a> API without specifying a digest was deprecated
+in Node.js 6.0 because the method defaulted to using the non-recommended
+<code>'SHA1'</code> digest. Previously, a deprecation warning was printed. Starting in
+Node.js 8.0.0, calling <code>crypto.pbkdf2()</code> or <code>crypto.pbkdf2Sync()</code> with
+<code>digest</code> set to <code>undefined</code> will throw a <code>TypeError</code>.</p>
+<p>Beginning in Node.js v11.0.0, calling these functions with <code>digest</code> set to
+<code>null</code> would print a deprecation warning to align with the behavior when <code>digest</code>
+is <code>undefined</code>.</p>
+<p>Now, however, passing either <code>undefined</code> or <code>null</code> will throw a <code>TypeError</code>.</p>
+<h4 id="DEP0010">DEP0010: <code>crypto.createCredentials</code><span><a class="mark" href="#dep0010-cryptocreatecredentials" id="dep0010-cryptocreatecredentials">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0010_crypto_createcredentials"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.11.13</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>crypto.createCredentials()</code> API was removed. Please use
+<a href="tls.html#tlscreatesecurecontextoptions"><code>tls.createSecureContext()</code></a> instead.</p>
+<h4 id="DEP0011">DEP0011: <code>crypto.Credentials</code><span><a class="mark" href="#dep0011-cryptocredentials" id="dep0011-cryptocredentials">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0011_crypto_credentials"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.11.13</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>crypto.Credentials</code> class was removed. Please use <a href="tls.html#tlscreatesecurecontextoptions"><code>tls.SecureContext</code></a>
+instead.</p>
+<h4 id="DEP0012">DEP0012: <code>Domain.dispose</code><span><a class="mark" href="#dep0012-domaindispose" id="dep0012-domaindispose">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0012_domain_dispose"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v9.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.11.7</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>Domain.dispose()</code> has been removed. Recover from failed I/O actions
+explicitly via error event handlers set on the domain instead.</p>
+<h4 id="DEP0013">DEP0013: <code>fs</code> asynchronous function without callback<span><a class="mark" href="#dep0013-fs-asynchronous-function-without-callback" id="dep0013-fs-asynchronous-function-without-callback">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0013_fs_asynchronous_function_without_callback"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v7.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Calling an asynchronous function without a callback throws a <code>TypeError</code>
+in Node.js 10.0.0 onwards. See <a href="https://github.com/nodejs/node/pull/12562">https://github.com/nodejs/node/pull/12562</a>.</p>
+<h4 id="DEP0014">DEP0014: <code>fs.read</code> legacy String interface<span><a class="mark" href="#dep0014-fsread-legacy-string-interface" id="dep0014-fsread-legacy-string-interface">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0014_fs_read_legacy_string_interface"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v8.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.1.96</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <a href="fs.html#fsreadfd-buffer-offset-length-position-callback"><code>fs.read()</code></a> legacy <code>String</code> interface is deprecated. Use the <code>Buffer</code>
+API as mentioned in the documentation instead.</p>
+<h4 id="DEP0015">DEP0015: <code>fs.readSync</code> legacy String interface<span><a class="mark" href="#dep0015-fsreadsync-legacy-string-interface" id="dep0015-fsreadsync-legacy-string-interface">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0015_fs_readsync_legacy_string_interface"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v8.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.1.96</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <a href="fs.html#fsreadsyncfd-buffer-offset-length-position"><code>fs.readSync()</code></a> legacy <code>String</code> interface is deprecated. Use the
+<code>Buffer</code> API as mentioned in the documentation instead.</p>
+<h4 id="DEP0016">DEP0016: <code>GLOBAL</code>/<code>root</code><span><a class="mark" href="#dep0016-globalroot" id="dep0016-globalroot">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0016_global_root"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>GLOBAL</code> and <code>root</code> aliases for the <code>global</code> property were deprecated
+in Node.js 6.0.0 and have since been removed.</p>
+<h4 id="DEP0017">DEP0017: <code>Intl.v8BreakIterator</code><span><a class="mark" href="#dep0017-intlv8breakiterator" id="dep0017-intlv8breakiterator">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0017_intl_v8breakiterator"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v9.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v7.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>Intl.v8BreakIterator</code> was a non-standard extension and has been removed.
+See <a href="https://github.com/tc39/proposal-intl-segmenter"><code>Intl.Segmenter</code></a>.</p>
+<h4 id="DEP0018">DEP0018: Unhandled promise rejections<span><a class="mark" href="#dep0018-unhandled-promise-rejections" id="dep0018-unhandled-promise-rejections">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0018_unhandled_promise_rejections"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v7.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Unhandled promise rejections are deprecated. By default, promise rejections
+that are not handled terminate the Node.js process with a non-zero exit
+code. To change the way Node.js treats unhandled rejections, use the
+<a href="cli.html#--unhandled-rejectionsmode"><code>--unhandled-rejections</code></a> command-line option.</p>
+<h4 id="DEP0019">DEP0019: <code>require('.')</code> resolved outside directory<span><a class="mark" href="#dep0019-require-resolved-outside-directory" id="dep0019-require-resolved-outside-directory">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0019_require_resolved_outside_directory"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>Removed functionality.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v1.8.1</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>In certain cases, <code>require('.')</code> could resolve outside the package directory.
+This behavior has been removed.</p>
+<h4 id="DEP0020">DEP0020: <code>Server.connections</code><span><a class="mark" href="#dep0020-serverconnections" id="dep0020-serverconnections">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0020_server_connections"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.0.0</td>
+<td><p>Server.connections has been removed.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.9.7</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>Server.connections</code> property was deprecated in Node.js v0.9.7 and has
+been removed. Please use the <a href="net.html#servergetconnectionscallback"><code>Server.getConnections()</code></a> method instead.</p>
+<h4 id="DEP0021">DEP0021: <code>Server.listenFD</code><span><a class="mark" href="#dep0021-serverlistenfd" id="dep0021-serverlistenfd">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0021_server_listenfd"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.7.12</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>Server.listenFD()</code> method was deprecated and removed. Please use
+<a href="net.html#serverlistenhandle-backlog-callback"><code>Server.listen({fd: &#x3C;number>})</code></a> instead.</p>
+<h4 id="DEP0022">DEP0022: <code>os.tmpDir()</code><span><a class="mark" href="#dep0022-ostmpdir" id="dep0022-ostmpdir">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0022_os_tmpdir"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v7.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>os.tmpDir()</code> API was deprecated in Node.js 7.0.0 and has since been
+removed. Please use <a href="os.html#ostmpdir"><code>os.tmpdir()</code></a> instead.</p>
+<h4 id="DEP0023">DEP0023: <code>os.getNetworkInterfaces()</code><span><a class="mark" href="#dep0023-osgetnetworkinterfaces" id="dep0023-osgetnetworkinterfaces">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0023_os_getnetworkinterfaces"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.6.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>os.getNetworkInterfaces()</code> method is deprecated. Please use the
+<a href="os.html#osnetworkinterfaces"><code>os.networkInterfaces()</code></a> method instead.</p>
+<h4 id="DEP0024">DEP0024: <code>REPLServer.prototype.convertToContext()</code><span><a class="mark" href="#dep0024-replserverprototypeconverttocontext" id="dep0024-replserverprototypeconverttocontext">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0024_replserver_prototype_converttocontext"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v9.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v7.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>REPLServer.prototype.convertToContext()</code> API has been removed.</p>
+<h4 id="DEP0025">DEP0025: <code>require('node:sys')</code><span><a class="mark" href="#dep0025-requirenodesys" id="dep0025-requirenodesys">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0025_require_node_sys"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v1.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The <code>node:sys</code> module is deprecated. Please use the <a href="util.html"><code>util</code></a> module instead.</p>
+<h4 id="DEP0026">DEP0026: <code>util.print()</code><span><a class="mark" href="#dep0026-utilprint" id="dep0026-utilprint">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0026_util_print"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.11.3</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>util.print()</code> has been removed. Please use <a href="console.html#consolelogdata-args"><code>console.log()</code></a> instead.</p>
+<h4 id="DEP0027">DEP0027: <code>util.puts()</code><span><a class="mark" href="#dep0027-utilputs" id="dep0027-utilputs">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0027_util_puts"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.11.3</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>util.puts()</code> has been removed. Please use <a href="console.html#consolelogdata-args"><code>console.log()</code></a> instead.</p>
+<h4 id="DEP0028">DEP0028: <code>util.debug()</code><span><a class="mark" href="#dep0028-utildebug" id="dep0028-utildebug">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0028_util_debug"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.11.3</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>util.debug()</code> has been removed. Please use <a href="console.html#consoleerrordata-args"><code>console.error()</code></a> instead.</p>
+<h4 id="DEP0029">DEP0029: <code>util.error()</code><span><a class="mark" href="#dep0029-utilerror" id="dep0029-utilerror">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0029_util_error"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.11.3</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>util.error()</code> has been removed. Please use <a href="console.html#consoleerrordata-args"><code>console.error()</code></a> instead.</p>
+<h4 id="DEP0030">DEP0030: <code>SlowBuffer</code><span><a class="mark" href="#dep0030-slowbuffer" id="dep0030-slowbuffer">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0030_slowbuffer"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="buffer.html#class-slowbuffer"><code>SlowBuffer</code></a> class is deprecated. Please use
+<a href="buffer.html#static-method-bufferallocunsafeslowsize"><code>Buffer.allocUnsafeSlow(size)</code></a> instead.</p>
+<h4 id="DEP0031">DEP0031: <code>ecdh.setPublicKey()</code><span><a class="mark" href="#dep0031-ecdhsetpublickey" id="dep0031-ecdhsetpublickey">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0031_ecdh_setpublickey"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v5.2.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="crypto.html#ecdhsetpublickeypublickey-encoding"><code>ecdh.setPublicKey()</code></a> method is now deprecated as its inclusion in the
+API is not useful.</p>
+<h4 id="DEP0032">DEP0032: <code>node:domain</code> module<span><a class="mark" href="#dep0032-nodedomain-module" id="dep0032-nodedomain-module">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0032_node_domain_module"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v1.4.2</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="domain.html"><code>domain</code></a> module is deprecated and should not be used.</p>
+<h4 id="DEP0033">DEP0033: <code>EventEmitter.listenerCount()</code><span><a class="mark" href="#dep0033-eventemitterlistenercount" id="dep0033-eventemitterlistenercount">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0033_eventemitter_listenercount"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v3.2.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="events.html#eventslistenercountemitter-eventname"><code>events.listenerCount(emitter, eventName)</code></a> API is
+deprecated. Please use <a href="events.html#emitterlistenercounteventname"><code>emitter.listenerCount(eventName)</code></a> instead.</p>
+<h4 id="DEP0034">DEP0034: <code>fs.exists(path, callback)</code><span><a class="mark" href="#dep0034-fsexistspath-callback" id="dep0034-fsexistspath-callback">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0034_fs_exists_path_callback"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v1.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="fs.html#fsexistspath-callback"><code>fs.exists(path, callback)</code></a> API is deprecated. Please use
+<a href="fs.html#fsstatpath-options-callback"><code>fs.stat()</code></a> or <a href="fs.html#fsaccesspath-mode-callback"><code>fs.access()</code></a> instead.</p>
+<h4 id="DEP0035">DEP0035: <code>fs.lchmod(path, mode, callback)</code><span><a class="mark" href="#dep0035-fslchmodpath-mode-callback" id="dep0035-fslchmodpath-mode-callback">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0035_fs_lchmod_path_mode_callback"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.4.7</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="fs.html#fslchmodpath-mode-callback"><code>fs.lchmod(path, mode, callback)</code></a> API is deprecated.</p>
+<h4 id="DEP0036">DEP0036: <code>fs.lchmodSync(path, mode)</code><span><a class="mark" href="#dep0036-fslchmodsyncpath-mode" id="dep0036-fslchmodsyncpath-mode">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0036_fs_lchmodsync_path_mode"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.4.7</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="fs.html#fslchmodsyncpath-mode"><code>fs.lchmodSync(path, mode)</code></a> API is deprecated.</p>
+<h4 id="DEP0037">DEP0037: <code>fs.lchown(path, uid, gid, callback)</code><span><a class="mark" href="#dep0037-fslchownpath-uid-gid-callback" id="dep0037-fslchownpath-uid-gid-callback">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0037_fs_lchown_path_uid_gid_callback"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.6.0</td>
+<td><p>Deprecation revoked.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.4.7</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Deprecation revoked</p>
+<p>The <a href="fs.html#fslchownpath-uid-gid-callback"><code>fs.lchown(path, uid, gid, callback)</code></a> API was deprecated. The
+deprecation was revoked because the requisite supporting APIs were added in
+libuv.</p>
+<h4 id="DEP0038">DEP0038: <code>fs.lchownSync(path, uid, gid)</code><span><a class="mark" href="#dep0038-fslchownsyncpath-uid-gid" id="dep0038-fslchownsyncpath-uid-gid">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0038_fs_lchownsync_path_uid_gid"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.6.0</td>
+<td><p>Deprecation revoked.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.4.7</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Deprecation revoked</p>
+<p>The <a href="fs.html#fslchownsyncpath-uid-gid"><code>fs.lchownSync(path, uid, gid)</code></a> API was deprecated. The deprecation was
+revoked because the requisite supporting APIs were added in libuv.</p>
+<h4 id="DEP0039">DEP0039: <code>require.extensions</code><span><a class="mark" href="#dep0039-requireextensions" id="dep0039-requireextensions">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0039_require_extensions"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.10.6</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="modules.html#requireextensions"><code>require.extensions</code></a> property is deprecated.</p>
+<h4 id="DEP0040">DEP0040: <code>node:punycode</code> module<span><a class="mark" href="#dep0040-nodepunycode-module" id="dep0040-nodepunycode-module">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0040_node_punycode_module"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.6.0</td>
+<td><p>Added support for <code>--pending-deprecation</code>.</p></td></tr>
+<tr><td>v7.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p>The <a href="punycode.html"><code>punycode</code></a> module is deprecated. Please use a userland alternative
+instead.</p>
+<h4 id="DEP0041">DEP0041: <code>NODE_REPL_HISTORY_FILE</code> environment variable<span><a class="mark" href="#dep0041-node_repl_history_file-environment-variable" id="dep0041-node_repl_history_file-environment-variable">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0041_node_repl_history_file_environment_variable"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v3.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>NODE_REPL_HISTORY_FILE</code> environment variable was removed. Please use
+<code>NODE_REPL_HISTORY</code> instead.</p>
+<h4 id="DEP0042">DEP0042: <code>tls.CryptoStream</code><span><a class="mark" href="#dep0042-tlscryptostream" id="dep0042-tlscryptostream">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0042_tls_cryptostream"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v0.11.3</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <a href="tls.html#class-tlscryptostream"><code>tls.CryptoStream</code></a> class was removed. Please use
+<a href="tls.html#class-tlstlssocket"><code>tls.TLSSocket</code></a> instead.</p>
+<h4 id="DEP0043">DEP0043: <code>tls.SecurePair</code><span><a class="mark" href="#dep0043-tlssecurepair" id="dep0043-tlssecurepair">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0043_tls_securepair"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v8.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+<tr><td>v0.11.15</td>
+<td><p>Deprecation revoked.</p></td></tr>
+<tr><td>v0.11.3</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="tls.html#class-tlssecurepair"><code>tls.SecurePair</code></a> class is deprecated. Please use
+<a href="tls.html#class-tlstlssocket"><code>tls.TLSSocket</code></a> instead.</p>
+<h4 id="DEP0044">DEP0044: <code>util.isArray()</code><span><a class="mark" href="#dep0044-utilisarray" id="dep0044-utilisarray">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0044_util_isarray"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisarrayobject"><code>util.isArray()</code></a> API is deprecated. Please use <code>Array.isArray()</code>
+instead.</p>
+<h4 id="DEP0045">DEP0045: <code>util.isBoolean()</code><span><a class="mark" href="#dep0045-utilisboolean" id="dep0045-utilisboolean">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0045_util_isboolean"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisbooleanobject"><code>util.isBoolean()</code></a> API is deprecated.</p>
+<h4 id="DEP0046">DEP0046: <code>util.isBuffer()</code><span><a class="mark" href="#dep0046-utilisbuffer" id="dep0046-utilisbuffer">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0046_util_isbuffer"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisbufferobject"><code>util.isBuffer()</code></a> API is deprecated. Please use
+<a href="buffer.html#static-method-bufferisbufferobj"><code>Buffer.isBuffer()</code></a> instead.</p>
+<h4 id="DEP0047">DEP0047: <code>util.isDate()</code><span><a class="mark" href="#dep0047-utilisdate" id="dep0047-utilisdate">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0047_util_isdate"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisdateobject"><code>util.isDate()</code></a> API is deprecated.</p>
+<h4 id="DEP0048">DEP0048: <code>util.isError()</code><span><a class="mark" href="#dep0048-utiliserror" id="dep0048-utiliserror">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0048_util_iserror"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utiliserrorobject"><code>util.isError()</code></a> API is deprecated.</p>
+<h4 id="DEP0049">DEP0049: <code>util.isFunction()</code><span><a class="mark" href="#dep0049-utilisfunction" id="dep0049-utilisfunction">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0049_util_isfunction"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisfunctionobject"><code>util.isFunction()</code></a> API is deprecated.</p>
+<h4 id="DEP0050">DEP0050: <code>util.isNull()</code><span><a class="mark" href="#dep0050-utilisnull" id="dep0050-utilisnull">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0050_util_isnull"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisnullobject"><code>util.isNull()</code></a> API is deprecated.</p>
+<h4 id="DEP0051">DEP0051: <code>util.isNullOrUndefined()</code><span><a class="mark" href="#dep0051-utilisnullorundefined" id="dep0051-utilisnullorundefined">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0051_util_isnullorundefined"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisnullorundefinedobject"><code>util.isNullOrUndefined()</code></a> API is deprecated.</p>
+<h4 id="DEP0052">DEP0052: <code>util.isNumber()</code><span><a class="mark" href="#dep0052-utilisnumber" id="dep0052-utilisnumber">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0052_util_isnumber"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisnumberobject"><code>util.isNumber()</code></a> API is deprecated.</p>
+<h4 id="DEP0053">DEP0053: <code>util.isObject()</code><span><a class="mark" href="#dep0053-utilisobject" id="dep0053-utilisobject">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0053_util_isobject"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisobjectobject"><code>util.isObject()</code></a> API is deprecated.</p>
+<h4 id="DEP0054">DEP0054: <code>util.isPrimitive()</code><span><a class="mark" href="#dep0054-utilisprimitive" id="dep0054-utilisprimitive">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0054_util_isprimitive"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisprimitiveobject"><code>util.isPrimitive()</code></a> API is deprecated.</p>
+<h4 id="DEP0055">DEP0055: <code>util.isRegExp()</code><span><a class="mark" href="#dep0055-utilisregexp" id="dep0055-utilisregexp">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0055_util_isregexp"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisregexpobject"><code>util.isRegExp()</code></a> API is deprecated.</p>
+<h4 id="DEP0056">DEP0056: <code>util.isString()</code><span><a class="mark" href="#dep0056-utilisstring" id="dep0056-utilisstring">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0056_util_isstring"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisstringobject"><code>util.isString()</code></a> API is deprecated.</p>
+<h4 id="DEP0057">DEP0057: <code>util.isSymbol()</code><span><a class="mark" href="#dep0057-utilissymbol" id="dep0057-utilissymbol">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0057_util_issymbol"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilissymbolobject"><code>util.isSymbol()</code></a> API is deprecated.</p>
+<h4 id="DEP0058">DEP0058: <code>util.isUndefined()</code><span><a class="mark" href="#dep0058-utilisundefined" id="dep0058-utilisundefined">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0058_util_isundefined"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0, v4.8.6</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v4.0.0, v3.3.1</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utilisundefinedobject"><code>util.isUndefined()</code></a> API is deprecated.</p>
+<h4 id="DEP0059">DEP0059: <code>util.log()</code><span><a class="mark" href="#dep0059-utillog" id="dep0059-utillog">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0059_util_log"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#utillogstring"><code>util.log()</code></a> API is deprecated.</p>
+<h4 id="DEP0060">DEP0060: <code>util._extend()</code><span><a class="mark" href="#dep0060-util_extend" id="dep0060-util_extend">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0060_util_extend"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="util.html#util_extendtarget-source"><code>util._extend()</code></a> API is deprecated.</p>
+<h4 id="DEP0061">DEP0061: <code>fs.SyncWriteStream</code><span><a class="mark" href="#dep0061-fssyncwritestream" id="dep0061-fssyncwritestream">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0061_fs_syncwritestream"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v8.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v7.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>fs.SyncWriteStream</code> class was never intended to be a publicly accessible
+API and has been removed. No alternative API is available. Please use a userland
+alternative.</p>
+<h4 id="DEP0062">DEP0062: <code>node --debug</code><span><a class="mark" href="#dep0062-node---debug" id="dep0062-node---debug">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0062_node_debug"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v8.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>--debug</code> activates the legacy V8 debugger interface, which was removed as
+of V8 5.8. It is replaced by Inspector which is activated with <code>--inspect</code>
+instead.</p>
+<h4 id="DEP0063">DEP0063: <code>ServerResponse.prototype.writeHeader()</code><span><a class="mark" href="#dep0063-serverresponseprototypewriteheader" id="dep0063-serverresponseprototypewriteheader">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0063_serverresponse_prototype_writeheader"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v8.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <code>node:http</code> module <code>ServerResponse.prototype.writeHeader()</code> API is
+deprecated. Please use <code>ServerResponse.prototype.writeHead()</code> instead.</p>
+<p>The <code>ServerResponse.prototype.writeHeader()</code> method was never documented as an
+officially supported API.</p>
+<h4 id="DEP0064">DEP0064: <code>tls.createSecurePair()</code><span><a class="mark" href="#dep0064-tlscreatesecurepair" id="dep0064-tlscreatesecurepair">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0064_tls_createsecurepair"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v8.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v6.12.0</td>
+<td><p>A deprecation code has been assigned.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+<tr><td>v0.11.15</td>
+<td><p>Deprecation revoked.</p></td></tr>
+<tr><td>v0.11.3</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The <code>tls.createSecurePair()</code> API was deprecated in documentation in Node.js
+0.11.3. Users should use <code>tls.Socket</code> instead.</p>
+<h4 id="DEP0065">DEP0065: <code>repl.REPL_MODE_MAGIC</code> and <code>NODE_REPL_MODE=magic</code><span><a class="mark" href="#dep0065-replrepl_mode_magic-and-node_repl_modemagic" id="dep0065-replrepl_mode_magic-and-node_repl_modemagic">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0065_repl_repl_mode_magic_and_node_repl_mode_magic"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v8.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>node:repl</code> module's <code>REPL_MODE_MAGIC</code> constant, used for <code>replMode</code> option,
+has been removed. Its behavior has been functionally identical to that of
+<code>REPL_MODE_SLOPPY</code> since Node.js 6.0.0, when V8 5.0 was imported. Please use
+<code>REPL_MODE_SLOPPY</code> instead.</p>
+<p>The <code>NODE_REPL_MODE</code> environment variable is used to set the underlying
+<code>replMode</code> of an interactive <code>node</code> session. Its value, <code>magic</code>, is also
+removed. Please use <code>sloppy</code> instead.</p>
+<h4 id="DEP0066">DEP0066: <code>OutgoingMessage.prototype._headers, OutgoingMessage.prototype._headerNames</code><span><a class="mark" href="#dep0066-outgoingmessageprototype_headers-outgoingmessageprototype_headernames" id="dep0066-outgoingmessageprototype_headers-outgoingmessageprototype_headernames">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0066_outgoingmessage_prototype_headers_outgoingmessage_prototype_headernames"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v8.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The <code>node:http</code> module <code>OutgoingMessage.prototype._headers</code> and
+<code>OutgoingMessage.prototype._headerNames</code> properties are deprecated. Use one of
+the public methods (e.g. <code>OutgoingMessage.prototype.getHeader()</code>,
+<code>OutgoingMessage.prototype.getHeaders()</code>,
+<code>OutgoingMessage.prototype.getHeaderNames()</code>,
+<code>OutgoingMessage.prototype.getRawHeaderNames()</code>,
+<code>OutgoingMessage.prototype.hasHeader()</code>,
+<code>OutgoingMessage.prototype.removeHeader()</code>,
+<code>OutgoingMessage.prototype.setHeader()</code>) for working with outgoing headers.</p>
+<p>The <code>OutgoingMessage.prototype._headers</code> and
+<code>OutgoingMessage.prototype._headerNames</code> properties were never documented as
+officially supported properties.</p>
+<h4 id="DEP0067">DEP0067: <code>OutgoingMessage.prototype._renderHeaders</code><span><a class="mark" href="#dep0067-outgoingmessageprototype_renderheaders" id="dep0067-outgoingmessageprototype_renderheaders">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0067_outgoingmessage_prototype_renderheaders"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v8.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <code>node:http</code> module <code>OutgoingMessage.prototype._renderHeaders()</code> API is
+deprecated.</p>
+<p>The <code>OutgoingMessage.prototype._renderHeaders</code> property was never documented as
+an officially supported API.</p>
+<h4 id="DEP0068">DEP0068: <code>node debug</code><span><a class="mark" href="#dep0068-node-debug" id="dep0068-node-debug">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0068_node_debug"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.0.0</td>
+<td><p>The legacy <code>node debug</code> command was removed.</p></td></tr>
+<tr><td>v8.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>node debug</code> corresponds to the legacy CLI debugger which has been replaced with
+a V8-inspector based CLI debugger available through <code>node inspect</code>.</p>
+<h4 id="DEP0069">DEP0069: <code>vm.runInDebugContext(string)</code><span><a class="mark" href="#dep0069-vmrunindebugcontextstring" id="dep0069-vmrunindebugcontextstring">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0069_vm_runindebugcontext_string"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v9.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v8.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>DebugContext has been removed in V8 and is not available in Node.js 10+.</p>
+<p>DebugContext was an experimental API.</p>
+<h4 id="DEP0070">DEP0070: <code>async_hooks.currentId()</code><span><a class="mark" href="#dep0070-async_hookscurrentid" id="dep0070-async_hookscurrentid">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0070_async_hooks_currentid"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v9.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v8.2.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>async_hooks.currentId()</code> was renamed to <code>async_hooks.executionAsyncId()</code> for
+clarity.</p>
+<p>This change was made while <code>async_hooks</code> was an experimental API.</p>
+<h4 id="DEP0071">DEP0071: <code>async_hooks.triggerId()</code><span><a class="mark" href="#dep0071-async_hookstriggerid" id="dep0071-async_hookstriggerid">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0071_async_hooks_triggerid"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v9.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v8.2.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>async_hooks.triggerId()</code> was renamed to <code>async_hooks.triggerAsyncId()</code> for
+clarity.</p>
+<p>This change was made while <code>async_hooks</code> was an experimental API.</p>
+<h4 id="DEP0072">DEP0072: <code>async_hooks.AsyncResource.triggerId()</code><span><a class="mark" href="#dep0072-async_hooksasyncresourcetriggerid" id="dep0072-async_hooksasyncresourcetriggerid">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0072_async_hooks_asyncresource_triggerid"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v9.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v8.2.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>async_hooks.AsyncResource.triggerId()</code> was renamed to
+<code>async_hooks.AsyncResource.triggerAsyncId()</code> for clarity.</p>
+<p>This change was made while <code>async_hooks</code> was an experimental API.</p>
+<h4 id="DEP0073">DEP0073: Several internal properties of <code>net.Server</code><span><a class="mark" href="#dep0073-several-internal-properties-of-netserver" id="dep0073-several-internal-properties-of-netserver">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0073_several_internal_properties_of_net_server"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v9.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Accessing several internal, undocumented properties of <code>net.Server</code> instances
+with inappropriate names is deprecated.</p>
+<p>As the original API was undocumented and not generally useful for non-internal
+code, no replacement API is provided.</p>
+<h4 id="DEP0074">DEP0074: <code>REPLServer.bufferedCommand</code><span><a class="mark" href="#dep0074-replserverbufferedcommand" id="dep0074-replserverbufferedcommand">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0074_replserver_bufferedcommand"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v9.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>REPLServer.bufferedCommand</code> property was deprecated in favor of
+<a href="repl.html#replserverclearbufferedcommand"><code>REPLServer.clearBufferedCommand()</code></a>.</p>
+<h4 id="DEP0075">DEP0075: <code>REPLServer.parseREPLKeyword()</code><span><a class="mark" href="#dep0075-replserverparsereplkeyword" id="dep0075-replserverparsereplkeyword">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0075_replserver_parsereplkeyword"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v9.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>REPLServer.parseREPLKeyword()</code> was removed from userland visibility.</p>
+<h4 id="DEP0076">DEP0076: <code>tls.parseCertString()</code><span><a class="mark" href="#dep0076-tlsparsecertstring" id="dep0076-tlsparsecertstring">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0076_tls_parsecertstring"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v9.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v8.6.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p><code>tls.parseCertString()</code> is a trivial parsing helper that was made public by
+mistake. This function can usually be replaced with:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> querystring = <span class="hljs-built_in">require</span>(<span class="hljs-string">'querystring'</span>);
+querystring.<span class="hljs-title function_">parse</span>(str, <span class="hljs-string">'\n'</span>, <span class="hljs-string">'='</span>);</code></pre>
+<p>This function is not completely equivalent to <code>querystring.parse()</code>. One
+difference is that <code>querystring.parse()</code> does url decoding:</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">> </span><span class="language-bash">querystring.parse(<span class="hljs-string">'%E5%A5%BD=1'</span>, <span class="hljs-string">'\n'</span>, <span class="hljs-string">'='</span>);</span>
+{ '好': '1' }
+<span class="hljs-meta prompt_">> </span><span class="language-bash">tls.parseCertString(<span class="hljs-string">'%E5%A5%BD=1'</span>);</span>
+{ '%E5%A5%BD': '1' }</code></pre>
+<h4 id="DEP0077">DEP0077: <code>Module._debug()</code><span><a class="mark" href="#dep0077-module_debug" id="dep0077-module_debug">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0077_module_debug"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v9.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p><code>Module._debug()</code> is deprecated.</p>
+<p>The <code>Module._debug()</code> function was never documented as an officially
+supported API.</p>
+<h4 id="DEP0078">DEP0078: <code>REPLServer.turnOffEditorMode()</code><span><a class="mark" href="#dep0078-replserverturnoffeditormode" id="dep0078-replserverturnoffeditormode">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0078_replserver_turnoffeditormode"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v9.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>REPLServer.turnOffEditorMode()</code> was removed from userland visibility.</p>
+<h4 id="DEP0079">DEP0079: Custom inspection function on objects via <code>.inspect()</code><span><a class="mark" href="#dep0079-custom-inspection-function-on-objects-via-inspect" id="dep0079-custom-inspection-function-on-objects-via-inspect">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0079_custom_inspection_function_on_objects_via_inspect"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v8.7.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Using a property named <code>inspect</code> on an object to specify a custom inspection
+function for <a href="util.html#utilinspectobject-options"><code>util.inspect()</code></a> is deprecated. Use <a href="util.html#utilinspectcustom"><code>util.inspect.custom</code></a>
+instead. For backward compatibility with Node.js prior to version 6.4.0, both
+can be specified.</p>
+<h4 id="DEP0080">DEP0080: <code>path._makeLong()</code><span><a class="mark" href="#dep0080-path_makelong" id="dep0080-path_makelong">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0080_path_makelong"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v9.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The internal <code>path._makeLong()</code> was not intended for public use. However,
+userland modules have found it useful. The internal API is deprecated
+and replaced with an identical, public <code>path.toNamespacedPath()</code> method.</p>
+<h4 id="DEP0081">DEP0081: <code>fs.truncate()</code> using a file descriptor<span><a class="mark" href="#dep0081-fstruncate-using-a-file-descriptor" id="dep0081-fstruncate-using-a-file-descriptor">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0081_fs_truncate_using_a_file_descriptor"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v9.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p><code>fs.truncate()</code> <code>fs.truncateSync()</code> usage with a file descriptor is
+deprecated. Please use <code>fs.ftruncate()</code> or <code>fs.ftruncateSync()</code> to work with
+file descriptors.</p>
+<h4 id="DEP0082">DEP0082: <code>REPLServer.prototype.memory()</code><span><a class="mark" href="#dep0082-replserverprototypememory" id="dep0082-replserverprototypememory">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0082_replserver_prototype_memory"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v9.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>REPLServer.prototype.memory()</code> is only necessary for the internal mechanics of
+the <code>REPLServer</code> itself. Do not use this function.</p>
+<h4 id="DEP0083">DEP0083: Disabling ECDH by setting <code>ecdhCurve</code> to <code>false</code><span><a class="mark" href="#dep0083-disabling-ecdh-by-setting-ecdhcurve-to-false" id="dep0083-disabling-ecdh-by-setting-ecdhcurve-to-false">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0083_disabling_ecdh_by_setting_ecdhcurve_to_false"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v9.2.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life.</p>
+<p>The <code>ecdhCurve</code> option to <code>tls.createSecureContext()</code> and <code>tls.TLSSocket</code> could
+be set to <code>false</code> to disable ECDH entirely on the server only. This mode was
+deprecated in preparation for migrating to OpenSSL 1.1.0 and consistency with
+the client and is now unsupported. Use the <code>ciphers</code> parameter instead.</p>
+<h4 id="DEP0084">DEP0084: requiring bundled internal dependencies<span><a class="mark" href="#dep0084-requiring-bundled-internal-dependencies" id="dep0084-requiring-bundled-internal-dependencies">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0084_requiring_bundled_internal_dependencies"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>This functionality has been removed.</p></td></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Since Node.js versions 4.4.0 and 5.2.0, several modules only intended for
+internal usage were mistakenly exposed to user code through <code>require()</code>. These
+modules were:</p>
+<ul>
+<li><code>v8/tools/codemap</code></li>
+<li><code>v8/tools/consarray</code></li>
+<li><code>v8/tools/csvparser</code></li>
+<li><code>v8/tools/logreader</code></li>
+<li><code>v8/tools/profile_view</code></li>
+<li><code>v8/tools/profile</code></li>
+<li><code>v8/tools/SourceMap</code></li>
+<li><code>v8/tools/splaytree</code></li>
+<li><code>v8/tools/tickprocessor-driver</code></li>
+<li><code>v8/tools/tickprocessor</code></li>
+<li><code>node-inspect/lib/_inspect</code> (from 7.6.0)</li>
+<li><code>node-inspect/lib/internal/inspect_client</code> (from 7.6.0)</li>
+<li><code>node-inspect/lib/internal/inspect_repl</code> (from 7.6.0)</li>
+</ul>
+<p>The <code>v8/*</code> modules do not have any exports, and if not imported in a specific
+order would in fact throw errors. As such there are virtually no legitimate use
+cases for importing them through <code>require()</code>.</p>
+<p>On the other hand, <code>node-inspect</code> can be installed locally through a package
+manager, as it is published on the npm registry under the same name. No source
+code modification is necessary if that is done.</p>
+<h4 id="DEP0085">DEP0085: AsyncHooks sensitive API<span><a class="mark" href="#dep0085-asynchooks-sensitive-api" id="dep0085-asynchooks-sensitive-api">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0085_asynchooks_sensitive_api"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v9.4.0, v8.10.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The AsyncHooks sensitive API was never documented and had various minor issues.
+Use the <code>AsyncResource</code> API instead. See
+<a href="https://github.com/nodejs/node/issues/15572">https://github.com/nodejs/node/issues/15572</a>.</p>
+<h4 id="DEP0086">DEP0086: Remove <code>runInAsyncIdScope</code><span><a class="mark" href="#dep0086-remove-runinasyncidscope" id="dep0086-remove-runinasyncidscope">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0086_remove_runinasyncidscope"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v9.4.0, v8.10.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>runInAsyncIdScope</code> doesn't emit the <code>'before'</code> or <code>'after'</code> event and can thus
+cause a lot of issues. See <a href="https://github.com/nodejs/node/issues/14328">https://github.com/nodejs/node/issues/14328</a>.</p>
+<!-- md-lint skip-deprecation DEP0087 -->
+<!-- md-lint skip-deprecation DEP0088 -->
+<h4 id="DEP0089">DEP0089: <code>require('node:assert')</code><span><a class="mark" href="#dep0089-requirenodeassert" id="dep0089-requirenodeassert">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0089_require_node_assert"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.8.0</td>
+<td><p>Deprecation revoked.</p></td></tr>
+<tr><td>v9.9.0, v8.13.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Deprecation revoked</p>
+<p>Importing assert directly was not recommended as the exposed functions use
+loose equality checks. The deprecation was revoked because use of the
+<code>node:assert</code> module is not discouraged, and the deprecation caused developer
+confusion.</p>
+<h4 id="DEP0090">DEP0090: Invalid GCM authentication tag lengths<span><a class="mark" href="#dep0090-invalid-gcm-authentication-tag-lengths" id="dep0090-invalid-gcm-authentication-tag-lengths">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0090_invalid_gcm_authentication_tag_lengths"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Node.js used to support all GCM authentication tag lengths which are accepted by
+OpenSSL when calling <a href="crypto.html#deciphersetauthtagbuffer-encoding"><code>decipher.setAuthTag()</code></a>. Beginning with Node.js
+v11.0.0, only authentication tag lengths of 128, 120, 112, 104, 96, 64, and 32
+bits are allowed. Authentication tags of other lengths are invalid per
+<a href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38d.pdf">NIST SP 800-38D</a>.</p>
+<h4 id="DEP0091">DEP0091: <code>crypto.DEFAULT_ENCODING</code><span><a class="mark" href="#dep0091-cryptodefault_encoding" id="dep0091-cryptodefault_encoding">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0091_crypto_default_encoding"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The <a href="crypto.html#cryptodefault_encoding"><code>crypto.DEFAULT_ENCODING</code></a> property is deprecated.</p>
+<h4 id="DEP0092">DEP0092: Top-level <code>this</code> bound to <code>module.exports</code><span><a class="mark" href="#dep0092-top-level-this-bound-to-moduleexports" id="dep0092-top-level-this-bound-to-moduleexports">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0092_top_level_this_bound_to_module_exports"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Assigning properties to the top-level <code>this</code> as an alternative
+to <code>module.exports</code> is deprecated. Developers should use <code>exports</code>
+or <code>module.exports</code> instead.</p>
+<h4 id="DEP0093">DEP0093: <code>crypto.fips</code> is deprecated and replaced<span><a class="mark" href="#dep0093-cryptofips-is-deprecated-and-replaced" id="dep0093-cryptofips-is-deprecated-and-replaced">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0093_crypto_fips_is_deprecated_and_replaced"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="crypto.html#cryptofips"><code>crypto.fips</code></a> property is deprecated. Please use <code>crypto.setFips()</code>
+and <code>crypto.getFips()</code> instead.</p>
+<h4 id="DEP0094">DEP0094: Using <code>assert.fail()</code> with more than one argument<span><a class="mark" href="#dep0094-using-assertfail-with-more-than-one-argument" id="dep0094-using-assertfail-with-more-than-one-argument">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0094_using_assert_fail_with_more_than_one_argument"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Using <code>assert.fail()</code> with more than one argument is deprecated. Use
+<code>assert.fail()</code> with only one argument or use a different <code>node:assert</code> module
+method.</p>
+<h4 id="DEP0095">DEP0095: <code>timers.enroll()</code><span><a class="mark" href="#dep0095-timersenroll" id="dep0095-timersenroll">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0095_timers_enroll"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p><code>timers.enroll()</code> is deprecated. Please use the publicly documented
+<a href="timers.html#settimeoutcallback-delay-args"><code>setTimeout()</code></a> or <a href="timers.html#setintervalcallback-delay-args"><code>setInterval()</code></a> instead.</p>
+<h4 id="DEP0096">DEP0096: <code>timers.unenroll()</code><span><a class="mark" href="#dep0096-timersunenroll" id="dep0096-timersunenroll">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0096_timers_unenroll"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p><code>timers.unenroll()</code> is deprecated. Please use the publicly documented
+<a href="timers.html#cleartimeouttimeout"><code>clearTimeout()</code></a> or <a href="timers.html#clearintervaltimeout"><code>clearInterval()</code></a> instead.</p>
+<h4 id="DEP0097">DEP0097: <code>MakeCallback</code> with <code>domain</code> property<span><a class="mark" href="#dep0097-makecallback-with-domain-property" id="dep0097-makecallback-with-domain-property">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0097_makecallback_with_domain_property"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Users of <code>MakeCallback</code> that add the <code>domain</code> property to carry context,
+should start using the <code>async_context</code> variant of <code>MakeCallback</code> or
+<code>CallbackScope</code>, or the high-level <code>AsyncResource</code> class.</p>
+<h4 id="DEP0098">DEP0098: AsyncHooks embedder <code>AsyncResource.emitBefore</code> and <code>AsyncResource.emitAfter</code> APIs<span><a class="mark" href="#dep0098-asynchooks-embedder-asyncresourceemitbefore-and-asyncresourceemitafter-apis" id="dep0098-asynchooks-embedder-asyncresourceemitbefore-and-asyncresourceemitafter-apis">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0098_asynchooks_embedder_asyncresource_emitbefore_and_asyncresource_emitafter_apis"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v10.0.0, v9.6.0, v8.12.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The embedded API provided by AsyncHooks exposes <code>.emitBefore()</code> and
+<code>.emitAfter()</code> methods which are very easy to use incorrectly which can lead
+to unrecoverable errors.</p>
+<p>Use <a href="async_context.html#asyncresourceruninasyncscopefn-thisarg-args"><code>asyncResource.runInAsyncScope()</code></a> API instead which provides a much
+safer, and more convenient, alternative. See
+<a href="https://github.com/nodejs/node/pull/18513">https://github.com/nodejs/node/pull/18513</a>.</p>
+<h4 id="DEP0099">DEP0099: Async context-unaware <code>node::MakeCallback</code> C++ APIs<span><a class="mark" href="#dep0099-async-context-unaware-nodemakecallback-c-apis" id="dep0099-async-context-unaware-nodemakecallback-c-apis">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0099_async_context_unaware_node_makecallback_c_apis"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>Compile-time deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Compile-time</p>
+<p>Certain versions of <code>node::MakeCallback</code> APIs available to native addons are
+deprecated. Please use the versions of the API that accept an <code>async_context</code>
+parameter.</p>
+<h4 id="DEP0100">DEP0100: <code>process.assert()</code><span><a class="mark" href="#dep0100-processassert" id="dep0100-processassert">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0100_process_assert"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v0.3.7</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p><code>process.assert()</code> is deprecated. Please use the <a href="assert.html"><code>assert</code></a> module instead.</p>
+<p>This was never a documented feature.</p>
+<h4 id="DEP0101">DEP0101: <code>--with-lttng</code><span><a class="mark" href="#dep0101---with-lttng" id="dep0101---with-lttng">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0101_with_lttng"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>--with-lttng</code> compile-time option has been removed.</p>
+<h4 id="DEP0102">DEP0102: Using <code>noAssert</code> in <code>Buffer#(read|write)</code> operations<span><a class="mark" href="#dep0102-using-noassert-in-bufferreadwrite-operations" id="dep0102-using-noassert-in-bufferreadwrite-operations">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0102_using_noassert_in_buffer_read_write_operations"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Using the <code>noAssert</code> argument has no functionality anymore. All input is
+verified regardless of the value of <code>noAssert</code>. Skipping the verification
+could lead to hard-to-find errors and crashes.</p>
+<h4 id="DEP0103">DEP0103: <code>process.binding('util').is[...]</code> typechecks<span><a class="mark" href="#dep0103-processbindingutilis-typechecks" id="dep0103-processbindingutilis-typechecks">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0103_process_binding_util_is_typechecks"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.9.0</td>
+<td><p>Superseded by <a href="#DEP0111">DEP0111</a>.</p></td></tr>
+<tr><td>v10.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p>Using <code>process.binding()</code> in general should be avoided. The type checking
+methods in particular can be replaced by using <a href="util.html#utiltypes"><code>util.types</code></a>.</p>
+<p>This deprecation has been superseded by the deprecation of the
+<code>process.binding()</code> API (<a href="#DEP0111">DEP0111</a>).</p>
+<h4 id="DEP0104">DEP0104: <code>process.env</code> string coercion<span><a class="mark" href="#dep0104-processenv-string-coercion" id="dep0104-processenv-string-coercion">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0104_process_env_string_coercion"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p>When assigning a non-string property to <a href="process.html#processenv"><code>process.env</code></a>, the assigned value is
+implicitly converted to a string. This behavior is deprecated if the assigned
+value is not a string, boolean, or number. In the future, such assignment might
+result in a thrown error. Please convert the property to a string before
+assigning it to <code>process.env</code>.</p>
+<h4 id="DEP0105">DEP0105: <code>decipher.finaltol</code><span><a class="mark" href="#dep0105-decipherfinaltol" id="dep0105-decipherfinaltol">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0105_decipher_finaltol"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>decipher.finaltol()</code> has never been documented and was an alias for
+<a href="crypto.html#decipherfinaloutputencoding"><code>decipher.final()</code></a>. This API has been removed, and it is recommended to use
+<a href="crypto.html#decipherfinaloutputencoding"><code>decipher.final()</code></a> instead.</p>
+<h4 id="DEP0106">DEP0106: <code>crypto.createCipher</code> and <code>crypto.createDecipher</code><span><a class="mark" href="#dep0106-cryptocreatecipher-and-cryptocreatedecipher" id="dep0106-cryptocreatecipher-and-cryptocreatedecipher">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0106_crypto_createcipher_and_crypto_createdecipher"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v10.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Using <a href="crypto.html#cryptocreatecipheralgorithm-password-options"><code>crypto.createCipher()</code></a> and <a href="crypto.html#cryptocreatedecipheralgorithm-password-options"><code>crypto.createDecipher()</code></a> must be
+avoided as they use a weak key derivation function (MD5 with no salt) and static
+initialization vectors. It is recommended to derive a key using
+<a href="crypto.html#cryptopbkdf2password-salt-iterations-keylen-digest-callback"><code>crypto.pbkdf2()</code></a> or <a href="crypto.html#cryptoscryptpassword-salt-keylen-options-callback"><code>crypto.scrypt()</code></a> with random salts and to use
+<a href="crypto.html#cryptocreatecipherivalgorithm-key-iv-options"><code>crypto.createCipheriv()</code></a> and <a href="crypto.html#cryptocreatedecipherivalgorithm-key-iv-options"><code>crypto.createDecipheriv()</code></a> to obtain the
+<a href="crypto.html#class-cipher"><code>Cipher</code></a> and <a href="crypto.html#class-decipher"><code>Decipher</code></a> objects respectively.</p>
+<h4 id="DEP0107">DEP0107: <code>tls.convertNPNProtocols()</code><span><a class="mark" href="#dep0107-tlsconvertnpnprotocols" id="dep0107-tlsconvertnpnprotocols">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0107_tls_convertnpnprotocols"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v10.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>This was an undocumented helper function not intended for use outside Node.js
+core and obsoleted by the removal of NPN (Next Protocol Negotiation) support.</p>
+<h4 id="DEP0108">DEP0108: <code>zlib.bytesRead</code><span><a class="mark" href="#dep0108-zlibbytesread" id="dep0108-zlibbytesread">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0108_zlib_bytesread"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v10.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Deprecated alias for <a href="zlib.html#zlibbyteswritten"><code>zlib.bytesWritten</code></a>. This original name was chosen
+because it also made sense to interpret the value as the number of bytes
+read by the engine, but is inconsistent with other streams in Node.js that
+expose values under these names.</p>
+<h4 id="DEP0109">DEP0109: <code>http</code>, <code>https</code>, and <code>tls</code> support for invalid URLs<span><a class="mark" href="#dep0109-http-https-and-tls-support-for-invalid-urls" id="dep0109-http-https-and-tls-support-for-invalid-urls">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0109_http_https_and_tls_support_for_invalid_urls"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v11.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Some previously supported (but strictly invalid) URLs were accepted through the
+<a href="http.html#httprequestoptions-callback"><code>http.request()</code></a>, <a href="http.html#httpgetoptions-callback"><code>http.get()</code></a>, <a href="https.html#httpsrequestoptions-callback"><code>https.request()</code></a>,
+<a href="https.html#httpsgetoptions-callback"><code>https.get()</code></a>, and <a href="tls.html#tlscheckserveridentityhostname-cert"><code>tls.checkServerIdentity()</code></a> APIs because those were
+accepted by the legacy <code>url.parse()</code> API. The mentioned APIs now use the WHATWG
+URL parser that requires strictly valid URLs. Passing an invalid URL is
+deprecated and support will be removed in the future.</p>
+<h4 id="DEP0110">DEP0110: <code>vm.Script</code> cached data<span><a class="mark" href="#dep0110-vmscript-cached-data" id="dep0110-vmscript-cached-data">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0110_vm_script_cached_data"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v10.6.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <code>produceCachedData</code> option is deprecated. Use
+<a href="vm.html#scriptcreatecacheddata"><code>script.createCachedData()</code></a> instead.</p>
+<h4 id="DEP0111">DEP0111: <code>process.binding()</code><span><a class="mark" href="#dep0111-processbinding" id="dep0111-processbinding">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0111_process_binding"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.12.0</td>
+<td><p>Added support for <code>--pending-deprecation</code>.</p></td></tr>
+<tr><td>v10.9.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p><code>process.binding()</code> is for use by Node.js internal code only.</p>
+<h4 id="DEP0112">DEP0112: <code>dgram</code> private APIs<span><a class="mark" href="#dep0112-dgram-private-apis" id="dep0112-dgram-private-apis">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0112_dgram_private_apis"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The <code>node:dgram</code> module previously contained several APIs that were never meant
+to accessed outside of Node.js core: <code>Socket.prototype._handle</code>,
+<code>Socket.prototype._receiving</code>, <code>Socket.prototype._bindState</code>,
+<code>Socket.prototype._queue</code>, <code>Socket.prototype._reuseAddr</code>,
+<code>Socket.prototype._healthCheck()</code>, <code>Socket.prototype._stopReceiving()</code>, and
+<code>dgram._createSocketHandle()</code>.</p>
+<h4 id="DEP0113">DEP0113: <code>Cipher.setAuthTag()</code>, <code>Decipher.getAuthTag()</code><span><a class="mark" href="#dep0113-ciphersetauthtag-deciphergetauthtag" id="dep0113-ciphersetauthtag-deciphergetauthtag">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0113_cipher_setauthtag_decipher_getauthtag"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v11.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p><code>Cipher.setAuthTag()</code> and <code>Decipher.getAuthTag()</code> are no longer available. They
+were never documented and would throw when called.</p>
+<h4 id="DEP0114">DEP0114: <code>crypto._toBuf()</code><span><a class="mark" href="#dep0114-crypto_tobuf" id="dep0114-crypto_tobuf">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0114_crypto_tobuf"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v11.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The <code>crypto._toBuf()</code> function was not designed to be used by modules outside
+of Node.js core and was removed.</p>
+<!--lint disable nodejs-yaml-comments -->
+<h4 id="DEP0115">DEP0115: <code>crypto.prng()</code>, <code>crypto.pseudoRandomBytes()</code>, <code>crypto.rng()</code><span><a class="mark" href="#dep0115-cryptoprng-cryptopseudorandombytes-cryptorng" id="dep0115-cryptoprng-cryptopseudorandombytes-cryptorng">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0115_crypto_prng_crypto_pseudorandombytes_crypto_rng"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>Added documentation-only deprecation with <code>--pending-deprecation</code> support.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<!--lint enable nodejs-yaml-comments -->
+<p>In recent versions of Node.js, there is no difference between
+<a href="crypto.html#cryptorandombytessize-callback"><code>crypto.randomBytes()</code></a> and <code>crypto.pseudoRandomBytes()</code>. The latter is
+deprecated along with the undocumented aliases <code>crypto.prng()</code> and
+<code>crypto.rng()</code> in favor of <a href="crypto.html#cryptorandombytessize-callback"><code>crypto.randomBytes()</code></a> and might be removed in a
+future release.</p>
+<h4 id="DEP0116">DEP0116: Legacy URL API<span><a class="mark" href="#dep0116-legacy-url-api" id="dep0116-legacy-url-api">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0116_legacy_url_api"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.13.0</td>
+<td><p>Deprecation revoked. Status changed to "Legacy".</p></td></tr>
+<tr><td>v11.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Deprecation revoked</p>
+<p>The <a href="url.html#legacy-url-api">Legacy URL API</a> is deprecated. This includes <a href="url.html#urlformaturlobject"><code>url.format()</code></a>,
+<a href="url.html#urlparseurlstring-parsequerystring-slashesdenotehost"><code>url.parse()</code></a>, <a href="url.html#urlresolvefrom-to"><code>url.resolve()</code></a>, and the <a href="url.html#legacy-urlobject">legacy <code>urlObject</code></a>. Please
+use the <a href="url.html#the-whatwg-url-api">WHATWG URL API</a> instead.</p>
+<h4 id="DEP0117">DEP0117: Native crypto handles<span><a class="mark" href="#dep0117-native-crypto-handles" id="dep0117-native-crypto-handles">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0117_native_crypto_handles"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v11.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Previous versions of Node.js exposed handles to internal native objects through
+the <code>_handle</code> property of the <code>Cipher</code>, <code>Decipher</code>, <code>DiffieHellman</code>,
+<code>DiffieHellmanGroup</code>, <code>ECDH</code>, <code>Hash</code>, <code>Hmac</code>, <code>Sign</code>, and <code>Verify</code> classes.
+The <code>_handle</code> property has been removed because improper use of the native
+object can lead to crashing the application.</p>
+<h4 id="DEP0118">DEP0118: <code>dns.lookup()</code> support for a falsy host name<span><a class="mark" href="#dep0118-dnslookup-support-for-a-falsy-host-name" id="dep0118-dnslookup-support-for-a-falsy-host-name">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0118_dns_lookup_support_for_a_falsy_host_name"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Previous versions of Node.js supported <code>dns.lookup()</code> with a falsy host name
+like <code>dns.lookup(false)</code> due to backward compatibility.
+This behavior is undocumented and is thought to be unused in real world apps.
+It will become an error in future versions of Node.js.</p>
+<h4 id="DEP0119">DEP0119: <code>process.binding('uv').errname()</code> private API<span><a class="mark" href="#dep0119-processbindinguverrname-private-api" id="dep0119-processbindinguverrname-private-api">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0119_process_binding_uv_errname_private_api"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p><code>process.binding('uv').errname()</code> is deprecated. Please use
+<a href="util.html#utilgetsystemerrornameerr"><code>util.getSystemErrorName()</code></a> instead.</p>
+<h4 id="DEP0120">DEP0120: Windows Performance Counter support<span><a class="mark" href="#dep0120-windows-performance-counter-support" id="dep0120-windows-performance-counter-support">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0120_windows_performance_counter_support"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v11.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Windows Performance Counter support has been removed from Node.js. The
+undocumented <code>COUNTER_NET_SERVER_CONNECTION()</code>,
+<code>COUNTER_NET_SERVER_CONNECTION_CLOSE()</code>, <code>COUNTER_HTTP_SERVER_REQUEST()</code>,
+<code>COUNTER_HTTP_SERVER_RESPONSE()</code>, <code>COUNTER_HTTP_CLIENT_REQUEST()</code>, and
+<code>COUNTER_HTTP_CLIENT_RESPONSE()</code> functions have been deprecated.</p>
+<h4 id="DEP0121">DEP0121: <code>net._setSimultaneousAccepts()</code><span><a class="mark" href="#dep0121-net_setsimultaneousaccepts" id="dep0121-net_setsimultaneousaccepts">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0121_net_setsimultaneousaccepts"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The undocumented <code>net._setSimultaneousAccepts()</code> function was originally
+intended for debugging and performance tuning when using the
+<code>node:child_process</code> and <code>node:cluster</code> modules on Windows. The function is not
+generally useful and is being removed. See discussion here:
+<a href="https://github.com/nodejs/node/issues/18391">https://github.com/nodejs/node/issues/18391</a></p>
+<h4 id="DEP0122">DEP0122: <code>tls</code> <code>Server.prototype.setOptions()</code><span><a class="mark" href="#dep0122-tls-serverprototypesetoptions" id="dep0122-tls-serverprototypesetoptions">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0122_tls_server_prototype_setoptions"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Please use <code>Server.prototype.setSecureContext()</code> instead.</p>
+<h4 id="DEP0123">DEP0123: setting the TLS ServerName to an IP address<span><a class="mark" href="#dep0123-setting-the-tls-servername-to-an-ip-address" id="dep0123-setting-the-tls-servername-to-an-ip-address">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0123_setting_the_tls_servername_to_an_ip_address"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Setting the TLS ServerName to an IP address is not permitted by
+<a href="https://tools.ietf.org/html/rfc6066#section-3">RFC 6066</a>. This will be ignored in a future version.</p>
+<h4 id="DEP0124">DEP0124: using <code>REPLServer.rli</code><span><a class="mark" href="#dep0124-using-replserverrli" id="dep0124-using-replserverrli">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0124_using_replserver_rli"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.0.0</td>
+<td><p>End-of-Life.</p></td></tr>
+<tr><td>v12.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>This property is a reference to the instance itself.</p>
+<h4 id="DEP0125">DEP0125: <code>require('node:_stream_wrap')</code><span><a class="mark" href="#dep0125-requirenode_stream_wrap" id="dep0125-requirenode_stream_wrap">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0125_require_node_stream_wrap"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The <code>node:_stream_wrap</code> module is deprecated.</p>
+<h4 id="DEP0126">DEP0126: <code>timers.active()</code><span><a class="mark" href="#dep0126-timersactive" id="dep0126-timersactive">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0126_timers_active"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.14.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The previously undocumented <code>timers.active()</code> is deprecated.
+Please use the publicly documented <a href="timers.html#timeoutrefresh"><code>timeout.refresh()</code></a> instead.
+If re-referencing the timeout is necessary, <a href="timers.html#timeoutref"><code>timeout.ref()</code></a> can be used
+with no performance impact since Node.js 10.</p>
+<h4 id="DEP0127">DEP0127: <code>timers._unrefActive()</code><span><a class="mark" href="#dep0127-timers_unrefactive" id="dep0127-timers_unrefactive">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0127_timers_unrefactive"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v11.14.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The previously undocumented and "private" <code>timers._unrefActive()</code> is deprecated.
+Please use the publicly documented <a href="timers.html#timeoutrefresh"><code>timeout.refresh()</code></a> instead.
+If unreferencing the timeout is necessary, <a href="timers.html#timeoutunref"><code>timeout.unref()</code></a> can be used
+with no performance impact since Node.js 10.</p>
+<h4 id="DEP0128">DEP0128: modules with an invalid <code>main</code> entry and an <code>index.js</code> file<span><a class="mark" href="#dep0128-modules-with-an-invalid-main-entry-and-an-indexjs-file" id="dep0128-modules-with-an-invalid-main-entry-and-an-indexjs-file">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0128_modules_with_an_invalid_main_entry_and_an_index_js_file"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v12.0.0</td>
+<td><p>Documentation-only.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Modules that have an invalid <code>main</code> entry (e.g., <code>./does-not-exist.js</code>) and
+also have an <code>index.js</code> file in the top level directory will resolve the
+<code>index.js</code> file. That is deprecated and is going to throw an error in future
+Node.js versions.</p>
+<h4 id="DEP0129">DEP0129: <code>ChildProcess._channel</code><span><a class="mark" href="#dep0129-childprocess_channel" id="dep0129-childprocess_channel">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0129_childprocess_channel"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v13.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v11.14.0</td>
+<td><p>Documentation-only.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The <code>_channel</code> property of child process objects returned by <code>spawn()</code> and
+similar functions is not intended for public use. Use <code>ChildProcess.channel</code>
+instead.</p>
+<h4 id="DEP0130">DEP0130: <code>Module.createRequireFromPath()</code><span><a class="mark" href="#dep0130-modulecreaterequirefrompath" id="dep0130-modulecreaterequirefrompath">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0130_module_createrequirefrompath"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.0.0</td>
+<td><p>End-of-life.</p></td></tr>
+<tr><td>v13.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v12.2.0</td>
+<td><p>Documentation-only.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>Use <a href="module.html#modulecreaterequirefilename"><code>module.createRequire()</code></a> instead.</p>
+<h4 id="DEP0131">DEP0131: Legacy HTTP parser<span><a class="mark" href="#dep0131-legacy-http-parser" id="dep0131-legacy-http-parser">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0131_legacy_http_parser"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v13.0.0</td>
+<td><p>This feature has been removed.</p></td></tr>
+<tr><td>v12.22.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v12.3.0</td>
+<td><p>Documentation-only.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: End-of-Life</p>
+<p>The legacy HTTP parser, used by default in versions of Node.js prior to 12.0.0,
+is deprecated and has been removed in v13.0.0. Prior to v13.0.0, the
+<code>--http-parser=legacy</code> command-line flag could be used to revert to using the
+legacy parser.</p>
+<h4 id="DEP0132">DEP0132: <code>worker.terminate()</code> with callback<span><a class="mark" href="#dep0132-workerterminate-with-callback" id="dep0132-workerterminate-with-callback">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0132_worker_terminate_with_callback"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.5.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Passing a callback to <a href="worker_threads.html#workerterminate"><code>worker.terminate()</code></a> is deprecated. Use the returned
+<code>Promise</code> instead, or a listener to the worker's <code>'exit'</code> event.</p>
+<h4 id="DEP0133">DEP0133: <code>http</code> <code>connection</code><span><a class="mark" href="#dep0133-http-connection" id="dep0133-http-connection">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0133_http_connection"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.12.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Prefer <a href="http.html#responsesocket"><code>response.socket</code></a> over <a href="http.html#responseconnection"><code>response.connection</code></a> and
+<a href="http.html#requestsocket"><code>request.socket</code></a> over <a href="http.html#requestconnection"><code>request.connection</code></a>.</p>
+<h4 id="DEP0134">DEP0134: <code>process._tickCallback</code><span><a class="mark" href="#dep0134-process_tickcallback" id="dep0134-process_tickcallback">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0134_process_tickcallback"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v12.12.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p>The <code>process._tickCallback</code> property was never documented as
+an officially supported API.</p>
+<h4 id="DEP0135">DEP0135: <code>WriteStream.open()</code> and <code>ReadStream.open()</code> are internal<span><a class="mark" href="#dep0135-writestreamopen-and-readstreamopen-are-internal" id="dep0135-writestreamopen-and-readstreamopen-are-internal">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0135_writestream_open_and_readstream_open_are_internal"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v13.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p><a href="fs.html#class-fswritestream"><code>WriteStream.open()</code></a> and <a href="fs.html#class-fsreadstream"><code>ReadStream.open()</code></a> are undocumented internal
+APIs that do not make sense to use in userland. File streams should always be
+opened through their corresponding factory methods <a href="fs.html#fscreatewritestreampath-options"><code>fs.createWriteStream()</code></a>
+and <a href="fs.html#fscreatereadstreampath-options"><code>fs.createReadStream()</code></a>) or by passing a file descriptor in options.</p>
+<h4 id="DEP0136">DEP0136: <code>http</code> <code>finished</code><span><a class="mark" href="#dep0136-http-finished" id="dep0136-http-finished">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0136_http_finished"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v13.4.0, v12.16.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p><a href="http.html#responsefinished"><code>response.finished</code></a> indicates whether <a href="http.html#responseenddata-encoding-callback"><code>response.end()</code></a> has been
+called, not whether <code>'finish'</code> has been emitted and the underlying data
+is flushed.</p>
+<p>Use <a href="http.html#responsewritablefinished"><code>response.writableFinished</code></a> or <a href="http.html#responsewritableended"><code>response.writableEnded</code></a>
+accordingly instead to avoid the ambiguity.</p>
+<p>To maintain existing behavior <code>response.finished</code> should be replaced with
+<code>response.writableEnded</code>.</p>
+<h4 id="DEP0137">DEP0137: Closing fs.FileHandle on garbage collection<span><a class="mark" href="#dep0137-closing-fsfilehandle-on-garbage-collection" id="dep0137-closing-fsfilehandle-on-garbage-collection">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0137_closing_fs_filehandle_on_garbage_collection"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Allowing a <a href="fs.html#class-filehandle"><code>fs.FileHandle</code></a> object to be closed on garbage collection is
+deprecated. In the future, doing so might result in a thrown error that will
+terminate the process.</p>
+<p>Please ensure that all <code>fs.FileHandle</code> objects are explicitly closed using
+<code>FileHandle.prototype.close()</code> when the <code>fs.FileHandle</code> is no longer needed:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> fsPromises = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:fs'</span>).<span class="hljs-property">promises</span>;
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">openAndClose</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">let</span> filehandle;
+  <span class="hljs-keyword">try</span> {
+    filehandle = <span class="hljs-keyword">await</span> fsPromises.<span class="hljs-title function_">open</span>(<span class="hljs-string">'thefile.txt'</span>, <span class="hljs-string">'r'</span>);
+  } <span class="hljs-keyword">finally</span> {
+    <span class="hljs-keyword">if</span> (filehandle !== <span class="hljs-literal">undefined</span>)
+      <span class="hljs-keyword">await</span> filehandle.<span class="hljs-title function_">close</span>();
+  }
+}</code></pre>
+<h4 id="DEP0138">DEP0138: <code>process.mainModule</code><span><a class="mark" href="#dep0138-processmainmodule" id="dep0138-processmainmodule">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0138_process_mainmodule"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p><a href="process.html#processmainmodule"><code>process.mainModule</code></a> is a CommonJS-only feature while <code>process</code> global
+object is shared with non-CommonJS environment. Its use within ECMAScript
+modules is unsupported.</p>
+<p>It is deprecated in favor of <a href="modules.html#accessing-the-main-module"><code>require.main</code></a>, because it serves the same
+purpose and is only available on CommonJS environment.</p>
+<h4 id="DEP0139">DEP0139: <code>process.umask()</code> with no arguments<span><a class="mark" href="#dep0139-processumask-with-no-arguments" id="dep0139-processumask-with-no-arguments">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0139_process_umask_with_no_arguments"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.0.0, v12.19.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Calling <code>process.umask()</code> with no argument causes the process-wide umask to be
+written twice. This introduces a race condition between threads, and is a
+potential security vulnerability. There is no safe, cross-platform alternative
+API.</p>
+<h4 id="DEP0140">DEP0140: Use <code>request.destroy()</code> instead of <code>request.abort()</code><span><a class="mark" href="#dep0140-use-requestdestroy-instead-of-requestabort" id="dep0140-use-requestdestroy-instead-of-requestabort">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0140_use_request_destroy_instead_of_request_abort"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.1.0, v13.14.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Use <a href="http.html#requestdestroyerror"><code>request.destroy()</code></a> instead of <a href="http.html#requestabort"><code>request.abort()</code></a>.</p>
+<h4 id="DEP0141">DEP0141: <code>repl.inputStream</code> and <code>repl.outputStream</code><span><a class="mark" href="#dep0141-replinputstream-and-reploutputstream" id="dep0141-replinputstream-and-reploutputstream">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0141_repl_inputstream_and_repl_outputstream"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.3.0</td>
+<td><p>Documentation-only (supports [<code>--pending-deprecation</code>][]).</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p>The <code>node:repl</code> module exported the input and output stream twice. Use <code>.input</code>
+instead of <code>.inputStream</code> and <code>.output</code> instead of <code>.outputStream</code>.</p>
+<h4 id="DEP0142">DEP0142: <code>repl._builtinLibs</code><span><a class="mark" href="#dep0142-repl_builtinlibs" id="dep0142-repl_builtinlibs">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0142_repl_builtinlibs"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.3.0</td>
+<td><p>Documentation-only (supports [<code>--pending-deprecation</code>][]).</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <code>node:repl</code> module exports a <code>_builtinLibs</code> property that contains an array
+of built-in modules. It was incomplete so far and instead it's better to rely
+upon <code>require('node:module').builtinModules</code>.</p>
+<h4 id="DEP0143">DEP0143: <code>Transform._transformState</code><span><a class="mark" href="#dep0143-transform_transformstate" id="dep0143-transform_transformstate">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0143_transform_transformstate"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.5.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime
+<code>Transform._transformState</code> will be removed in future versions where it is
+no longer required due to simplification of the implementation.</p>
+<h4 id="DEP0144">DEP0144: <code>module.parent</code><span><a class="mark" href="#dep0144-moduleparent" id="dep0144-moduleparent">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0144_module_parent"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.6.0, v12.19.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p>A CommonJS module can access the first module that required it using
+<code>module.parent</code>. This feature is deprecated because it does not work
+consistently in the presence of ECMAScript modules and because it gives an
+inaccurate representation of the CommonJS module graph.</p>
+<p>Some modules use it to check if they are the entry point of the current process.
+Instead, it is recommended to compare <code>require.main</code> and <code>module</code>:</p>
+<pre><code class="language-js"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">require</span>.<span class="hljs-property">main</span> === <span class="hljs-variable language_">module</span>) {
+  <span class="hljs-comment">// Code section that will run only if current file is the entry point.</span>
+}</code></pre>
+<p>When looking for the CommonJS modules that have required the current one,
+<code>require.cache</code> and <code>module.children</code> can be used:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> moduleParents = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(<span class="hljs-built_in">require</span>.<span class="hljs-property">cache</span>)
+  .<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">m</span>) =></span> m.<span class="hljs-property">children</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-variable language_">module</span>));</code></pre>
+<h4 id="DEP0145">DEP0145: <code>socket.bufferSize</code><span><a class="mark" href="#dep0145-socketbuffersize" id="dep0145-socketbuffersize">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0145_socket_buffersize"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.6.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p><a href="net.html#socketbuffersize"><code>socket.bufferSize</code></a> is just an alias for <a href="stream.html#writablewritablelength"><code>writable.writableLength</code></a>.</p>
+<h4 id="DEP0146">DEP0146: <code>new crypto.Certificate()</code><span><a class="mark" href="#dep0146-new-cryptocertificate" id="dep0146-new-cryptocertificate">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0146_new_crypto_certificate"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v14.9.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="crypto.html#legacy-api"><code>crypto.Certificate()</code> constructor</a> is deprecated. Use
+<a href="crypto.html#class-certificate">static methods of <code>crypto.Certificate()</code></a> instead.</p>
+<h4 id="DEP0147">DEP0147: <code>fs.rmdir(path, { recursive: true })</code><span><a class="mark" href="#dep0147-fsrmdirpath--recursive-true-" id="dep0147-fsrmdirpath--recursive-true-">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0147_fs_rmdir_path_recursive_true"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v15.0.0</td>
+<td><p>Runtime deprecation for permissive behavior.</p></td></tr>
+<tr><td>v14.14.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>In future versions of Node.js, <code>recursive</code> option will be ignored for
+<code>fs.rmdir</code>, <code>fs.rmdirSync</code>, and <code>fs.promises.rmdir</code>.</p>
+<p>Use <code>fs.rm(path, { recursive: true, force: true })</code>,
+<code>fs.rmSync(path, { recursive: true, force: true })</code> or
+<code>fs.promises.rm(path, { recursive: true, force: true })</code> instead.</p>
+<h4 id="DEP0148">DEP0148: Folder mappings in <code>"exports"</code> (trailing <code>"/"</code>)<span><a class="mark" href="#dep0148-folder-mappings-in-exports-trailing-" id="dep0148-folder-mappings-in-exports-trailing-">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0148_folder_mappings_in_exports_trailing"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v15.1.0</td>
+<td><p>Runtime deprecation for self-referencing imports.</p></td></tr>
+<tr><td>v14.13.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Using a trailing <code>"/"</code> to define
+<a href="packages.html#subpath-folder-mappings">subpath folder mappings</a> in the <a href="packages.html#subpath-exports">subpath exports</a> or
+<a href="packages.html#subpath-imports">subpath imports</a> fields is deprecated. Use <a href="packages.html#subpath-patterns">subpath patterns</a> instead.</p>
+<h4 id="DEP0149">DEP0149: <code>http.IncomingMessage#connection</code><span><a class="mark" href="#dep0149-httpincomingmessageconnection" id="dep0149-httpincomingmessageconnection">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0149_http_incomingmessage_connection"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.0.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only.</p>
+<p>Prefer <a href="http.html#messagesocket"><code>message.socket</code></a> over <a href="http.html#messageconnection"><code>message.connection</code></a>.</p>
+<h4 id="DEP0150">DEP0150: Changing the value of <code>process.config</code><span><a class="mark" href="#dep0150-changing-the-value-of-processconfig" id="dep0150-changing-the-value-of-processconfig">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0150_changing_the_value_of_process_config"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The <code>process.config</code> property provides access to Node.js compile-time settings.
+However, the property is mutable and therefore subject to tampering. The ability
+to change the value will be removed in a future version of Node.js.</p>
+<h4 id="DEP0151">DEP0151: Main index lookup and extension searching<span><a class="mark" href="#dep0151-main-index-lookup-and-extension-searching" id="dep0151-main-index-lookup-and-extension-searching">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0151_main_index_lookup_and_extension_searching"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+<tr><td>v15.8.0</td>
+<td><p>Documentation-only deprecation with <code>--pending-deprecation</code> support.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>Previously, <code>index.js</code> and extension searching lookups would apply to
+<code>import 'pkg'</code> main entry point resolution, even when resolving ES modules.</p>
+<p>With this deprecation, all ES module main entry point resolutions require
+an explicit <a href="packages.html#main-entry-point-export"><code>"exports"</code> or <code>"main"</code> entry</a> with the exact file extension.</p>
+<h4 id="DEP0152">DEP0152: Extension PerformanceEntry properties<span><a class="mark" href="#dep0152-extension-performanceentry-properties" id="dep0152-extension-performanceentry-properties">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0152_extension_performanceentry_properties"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.0.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime</p>
+<p>The <code>'gc'</code>, <code>'http2'</code>, and <code>'http'</code> <a href="perf_hooks.html#class-performanceentry" class="type">&#x3C;PerformanceEntry></a> object types have
+additional properties assigned to them that provide additional information.
+These properties are now available within the standard <code>detail</code> property
+of the <code>PerformanceEntry</code> object. The existing accessors have been
+deprecated and should no longer be used.</p>
+<h4 id="DEP0153">DEP0153: <code>dns.lookup</code> and <code>dnsPromises.lookup</code> options type coercion<span><a class="mark" href="#dep0153-dnslookup-and-dnspromiseslookup-options-type-coercion" id="dep0153-dnslookup-and-dnspromiseslookup-options-type-coercion">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0153_dns_lookup_and_dnspromises_lookup_options_type_coercion"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.8.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Using a non-nullish non-integer value for <code>family</code> option, a non-nullish
+non-number value for <code>hints</code> option, a non-nullish non-boolean value for <code>all</code>
+option, or a non-nullish non-boolean value for <code>verbatim</code> option in
+<a href="dns.html#dnslookuphostname-options-callback"><code>dns.lookup()</code></a> and <a href="dns.html#dnspromiseslookuphostname-options"><code>dnsPromises.lookup()</code></a> is deprecated.</p>
+<h4 id="DEP0154">DEP0154: RSA-PSS generate key pair options<span><a class="mark" href="#dep0154-rsa-pss-generate-key-pair-options" id="dep0154-rsa-pss-generate-key-pair-options">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0154_rsa_pss_generate_key_pair_options"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.10.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p>The <code>'hash'</code> and <code>'mgf1Hash'</code> options are replaced with <code>'hashAlgorithm'</code>
+and <code>'mgf1HashAlgorithm'</code>.</p>
+<h4 id="DEP0155">DEP0155: Trailing slashes in pattern specifier resolutions<span><a class="mark" href="#dep0155-trailing-slashes-in-pattern-specifier-resolutions" id="dep0155-trailing-slashes-in-pattern-specifier-resolutions">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0155_trailing_slashes_in_pattern_specifier_resolutions"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.10.0</td>
+<td><p>Documentation-only deprecation with <code>--pending-deprecation</code> support.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only (supports <a href="cli.html#--pending-deprecation"><code>--pending-deprecation</code></a>)</p>
+<p>The remapping of specifiers ending in <code>"/"</code> like <code>import 'pkg/x/'</code> is deprecated
+for package <code>"exports"</code> and <code>"imports"</code> pattern resolutions.</p>
+<h4 id="DEP0156">DEP0156: <code>.aborted</code> property and <code>'abort'</code>, <code>'aborted'</code> event in <code>http</code><span><a class="mark" href="#dep0156-aborted-property-and-abort-aborted-event-in-http" id="dep0156-aborted-property-and-abort-aborted-event-in-http">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0156_aborted_property_and_abort_aborted_event_in_http"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.12.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Move to <a href="stream.html#stream" class="type">&#x3C;Stream></a> API instead, as the <a href="http.html#class-httpclientrequest"><code>http.ClientRequest</code></a>,
+<a href="http.html#class-httpserverresponse"><code>http.ServerResponse</code></a>, and <a href="http.html#class-httpincomingmessage"><code>http.IncomingMessage</code></a> are all stream-based.
+Check <code>stream.destroyed</code> instead of the <code>.aborted</code> property, and listen for
+<code>'close'</code> instead of <code>'abort'</code>, <code>'aborted'</code> event.</p>
+<p>The <code>.aborted</code> property and <code>'abort'</code> event are only useful for detecting
+<code>.abort()</code> calls. For closing a request early, use the Stream
+<code>.destroy([error])</code> then check the <code>.destroyed</code> property and <code>'close'</code> event
+should have the same effect. The receiving end should also check the
+<a href="stream.html#readablereadableended"><code>readable.readableEnded</code></a> value on <a href="http.html#class-httpincomingmessage"><code>http.IncomingMessage</code></a> to get whether
+it was an aborted or graceful destroy.</p>
+<h4 id="DEP0157">DEP0157: Thenable support in streams<span><a class="mark" href="#dep0157-thenable-support-in-streams" id="dep0157-thenable-support-in-streams">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0157_thenable_support_in_streams"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.14.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>An undocumented feature of Node.js streams was to support thenables in
+implementation methods. This is now deprecated, use callbacks instead and avoid
+use of async function for streams implementation methods.</p>
+<p>This feature caused users to encounter unexpected problems where the user
+implements the function in callback style but uses e.g. an async method which
+would cause an error since mixing promise and callback semantics is not valid.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> w = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Writable</span>({
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">final</span>(<span class="hljs-params">callback</span>) {
+    <span class="hljs-keyword">await</span> <span class="hljs-title function_">someOp</span>();
+    <span class="hljs-title function_">callback</span>();
+  }
+});</code></pre>
+<h4 id="DEP0158">DEP0158: <code>buffer.slice(start, end)</code><span><a class="mark" href="#dep0158-bufferslicestart-end" id="dep0158-bufferslicestart-end">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0158_buffer_slice_start_end"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.15.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>This method was deprecated because it is not compatible with
+<code>Uint8Array.prototype.slice()</code>, which is a superclass of <code>Buffer</code>.</p>
+<p>Use <a href="buffer.html#bufsubarraystart-end"><code>buffer.subarray</code></a> which does the same thing instead.</p>
+<!-- md-lint skip-deprecation DEP0159 -->
+<h4 id="DEP0160">DEP0160: <code>process.on('multipleResolves', handler)</code><span><a class="mark" href="#dep0160-processonmultipleresolves-handler" id="dep0160-processonmultipleresolves-handler">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0160_process_on_multipleresolves_handler"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.15.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>This event was deprecated because it did not work with V8 promise combinators
+which diminished its usefulness.</p>
+<h4 id="DEP0161">DEP0161: <code>process._getActiveRequests()</code> and <code>process._getActiveHandles()</code><span><a class="mark" href="#dep0161-process_getactiverequests-and-process_getactivehandles" id="dep0161-process_getactiverequests-and-process_getactivehandles">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0161_process_getactiverequests_and_process_getactivehandles"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.15.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <code>process._getActiveHandles()</code> and <code>process._getActiveRequests()</code>
+functions are not intended for public use and can be removed in future
+releases.</p>
+<p>Use <a href="process.html#processgetactiveresourcesinfo"><code>process.getActiveResourcesInfo()</code></a> to get a list of types of active
+resources and not the actual references.</p>
+<h4 id="DEP0162">DEP0162: <code>fs.write()</code>, <code>fs.writeFileSync()</code> coercion to string<span><a class="mark" href="#dep0162-fswrite-fswritefilesync-coercion-to-string" id="dep0162-fswrite-fswritefilesync-coercion-to-string">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0162_fs_write_fs_writefilesync_coercion_to_string"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.15.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Implicit coercion of objects with own <code>toString</code> property, passed as second
+parameter in <a href="fs.html#fswritefd-buffer-offset-length-position-callback"><code>fs.write()</code></a>, <a href="fs.html#fswritefilefile-data-options-callback"><code>fs.writeFile()</code></a>, <a href="fs.html#fsappendfilepath-data-options-callback"><code>fs.appendFile()</code></a>,
+<a href="fs.html#fswritefilesyncfile-data-options"><code>fs.writeFileSync()</code></a>, and <a href="fs.html#fsappendfilesyncpath-data-options"><code>fs.appendFileSync()</code></a> is deprecated.
+Convert them to primitive strings.</p>
+<h4 id="DEP0163">DEP0163: <code>channel.subscribe(onMessage)</code>, <code>channel.unsubscribe(onMessage)</code><span><a class="mark" href="#dep0163-channelsubscribeonmessage-channelunsubscribeonmessage" id="dep0163-channelsubscribeonmessage-channelunsubscribeonmessage">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0163_channel_subscribe_onmessage_channel_unsubscribe_onmessage"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.17.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>These methods were deprecated because they can be used in a way which does not
+hold the channel reference alive long enough to receive the events.</p>
+<p>Use <a href="diagnostics_channel.html#diagnostics_channelsubscribename-onmessage"><code>diagnostics_channel.subscribe(name, onMessage)</code></a> or
+<a href="diagnostics_channel.html#diagnostics_channelunsubscribename-onmessage"><code>diagnostics_channel.unsubscribe(name, onMessage)</code></a> which does the same
+thing instead.</p>
+<h4 id="DEP0164">DEP0164: <code>process.exit(code)</code>, <code>process.exitCode</code> coercion to integer<span><a class="mark" href="#dep0164-processexitcode-processexitcode-coercion-to-integer" id="dep0164-processexitcode-processexitcode-coercion-to-integer">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0164_process_exit_code_process_exitcode_coercion_to_integer"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.18.0</td>
+<td><p>Documentation-only deprecation of <code>process.exitCode</code> integer coercion.</p></td></tr>
+<tr><td>v16.17.0</td>
+<td><p>Documentation-only deprecation of <code>process.exit(code)</code> integer coercion.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>Values other than <code>undefined</code>, <code>null</code>, integer numbers, and integer strings
+(e.g., <code>'1'</code>) are deprecated as value for the <code>code</code> parameter in
+<a href="process.html#processexitcode"><code>process.exit()</code></a> and as value to assign to <a href="process.html#processexitcode_1"><code>process.exitCode</code></a>.</p>
+<h4 id="DEP0165">DEP0165: <code>--trace-atomics-wait</code><span><a class="mark" href="#dep0165---trace-atomics-wait" id="dep0165---trace-atomics-wait">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0165_trace_atomics_wait"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.18.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The <a href="cli.html#--trace-atomics-wait"><code>--trace-atomics-wait</code></a> flag is deprecated.</p>
+<!-- md-lint skip-deprecation DEP0166 -->
+<h4 id="DEP0167">DEP0167: Weak <code>DiffieHellmanGroup</code> instances (<code>modp1</code>, <code>modp2</code>, <code>modp5</code>)<span><a class="mark" href="#dep0167-weak-diffiehellmangroup-instances-modp1-modp2-modp5" id="dep0167-weak-diffiehellmangroup-instances-modp1-modp2-modp5">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0167_weak_diffiehellmangroup_instances_modp1_modp2_modp5"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.18.0</td>
+<td><p>Documentation-only deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Documentation-only</p>
+<p>The well-known MODP groups <code>modp1</code>, <code>modp2</code>, and <code>modp5</code> are deprecated because
+they are not secure against practical attacks. See <a href="https://www.rfc-editor.org/rfc/rfc8247#section-2.4">RFC 8247 Section 2.4</a> for
+details.</p>
+<p>These groups might be removed in future versions of Node.js. Applications that
+rely on these groups should evaluate using stronger MODP groups instead.</p>
+<h4 id="DEP0168">DEP0168: Unhandled exception in Node-API callbacks<span><a class="mark" href="#dep0168-unhandled-exception-in-node-api-callbacks" id="dep0168-unhandled-exception-in-node-api-callbacks">#</a></span><a aria-hidden="true" class="legacy" id="deprecations_dep0168_unhandled_exception_in_node_api_callbacks"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.3.0, v16.17.0</td>
+<td><p>Runtime deprecation.</p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>Type: Runtime.</p>
+<p>The implicit suppression of uncaught exceptions in Node-API callbacks is now
+deprecated.</p>
+<p>Set the flag <a href="cli.html#--force-node-api-uncaught-exceptions-policy"><code>--force-node-api-uncaught-exceptions-policy</code></a> to force Node.js
+to emit an <a href="process.html#event-uncaughtexception"><code>'uncaughtException'</code></a> event if the exception is not handled in
+Node-API callbacks.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

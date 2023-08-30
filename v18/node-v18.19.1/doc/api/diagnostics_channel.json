@@ -1,0 +1,884 @@
+{
+  "type": "module",
+  "source": "doc/api/diagnostics_channel.md",
+  "modules": [
+    {
+      "textRaw": "Diagnostics Channel",
+      "name": "diagnostics_channel",
+      "meta": {
+        "added": [
+          "v15.1.0",
+          "v14.17.0"
+        ],
+        "changes": [
+          {
+            "version": "v18.13.0",
+            "pr-url": "https://github.com/nodejs/node/pull/45290",
+            "description": "diagnostics_channel is now Stable."
+          }
+        ]
+      },
+      "introduced_in": "v15.1.0",
+      "stability": 2,
+      "stabilityText": "Stable",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v18.19.1/lib/diagnostics_channel.js\">lib/diagnostics_channel.js</a></p>\n<p>The <code>node:diagnostics_channel</code> module provides an API to create named channels\nto report arbitrary message data for diagnostics purposes.</p>\n<p>It can be accessed using:</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n</code></pre>\n<p>It is intended that a module writer wanting to report diagnostics messages\nwill create one or many top-level channels to report messages through.\nChannels may also be acquired at runtime but it is not encouraged\ndue to the additional overhead of doing so. Channels may be exported for\nconvenience, but as long as the name is known it can be acquired anywhere.</p>\n<p>If you intend for your module to produce diagnostics data for others to\nconsume it is recommended that you include documentation of what named\nchannels are used along with the shape of the message data. Channel names\nshould generally include the module name to avoid collisions with data from\nother modules.</p>",
+      "modules": [
+        {
+          "textRaw": "Public API",
+          "name": "public_api",
+          "modules": [
+            {
+              "textRaw": "Overview",
+              "name": "overview",
+              "desc": "<p>Following is a simple overview of the public API.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\n// Get a reusable channel object\nconst channel = diagnostics_channel.channel('my-channel');\n\nfunction onMessage(message, name) {\n  // Received data\n}\n\n// Subscribe to the channel\ndiagnostics_channel.subscribe('my-channel', onMessage);\n\n// Check if the channel has an active subscriber\nif (channel.hasSubscribers) {\n  // Publish data to the channel\n  channel.publish({\n    some: 'data',\n  });\n}\n\n// Unsubscribe from the channel\ndiagnostics_channel.unsubscribe('my-channel', onMessage);\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\n// Get a reusable channel object\nconst channel = diagnostics_channel.channel('my-channel');\n\nfunction onMessage(message, name) {\n  // Received data\n}\n\n// Subscribe to the channel\ndiagnostics_channel.subscribe('my-channel', onMessage);\n\n// Check if the channel has an active subscriber\nif (channel.hasSubscribers) {\n  // Publish data to the channel\n  channel.publish({\n    some: 'data',\n  });\n}\n\n// Unsubscribe from the channel\ndiagnostics_channel.unsubscribe('my-channel', onMessage);\n</code></pre>",
+              "methods": [
+                {
+                  "textRaw": "`diagnostics_channel.hasSubscribers(name)`",
+                  "type": "method",
+                  "name": "hasSubscribers",
+                  "meta": {
+                    "added": [
+                      "v15.1.0",
+                      "v14.17.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {boolean} If there are active subscribers",
+                        "name": "return",
+                        "type": "boolean",
+                        "desc": "If there are active subscribers"
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`name` {string|symbol} The channel name",
+                          "name": "name",
+                          "type": "string|symbol",
+                          "desc": "The channel name"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Check if there are active subscribers to the named channel. This is helpful if\nthe message you want to send might be expensive to prepare.</p>\n<p>This API is optional but helpful when trying to publish messages from very\nperformance-sensitive code.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nif (diagnostics_channel.hasSubscribers('my-channel')) {\n  // There are subscribers, prepare and publish message\n}\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nif (diagnostics_channel.hasSubscribers('my-channel')) {\n  // There are subscribers, prepare and publish message\n}\n</code></pre>"
+                },
+                {
+                  "textRaw": "`diagnostics_channel.channel(name)`",
+                  "type": "method",
+                  "name": "channel",
+                  "meta": {
+                    "added": [
+                      "v15.1.0",
+                      "v14.17.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {Channel} The named channel object",
+                        "name": "return",
+                        "type": "Channel",
+                        "desc": "The named channel object"
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`name` {string|symbol} The channel name",
+                          "name": "name",
+                          "type": "string|symbol",
+                          "desc": "The channel name"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>This is the primary entry-point for anyone wanting to publish to a named\nchannel. It produces a channel object which is optimized to reduce overhead at\npublish time as much as possible.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nconst channel = diagnostics_channel.channel('my-channel');\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nconst channel = diagnostics_channel.channel('my-channel');\n</code></pre>"
+                },
+                {
+                  "textRaw": "`diagnostics_channel.subscribe(name, onMessage)`",
+                  "type": "method",
+                  "name": "subscribe",
+                  "meta": {
+                    "added": [
+                      "v18.7.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`name` {string|symbol} The channel name",
+                          "name": "name",
+                          "type": "string|symbol",
+                          "desc": "The channel name"
+                        },
+                        {
+                          "textRaw": "`onMessage` {Function} The handler to receive channel messages",
+                          "name": "onMessage",
+                          "type": "Function",
+                          "desc": "The handler to receive channel messages",
+                          "options": [
+                            {
+                              "textRaw": "`message` {any} The message data",
+                              "name": "message",
+                              "type": "any",
+                              "desc": "The message data"
+                            },
+                            {
+                              "textRaw": "`name` {string|symbol} The name of the channel",
+                              "name": "name",
+                              "type": "string|symbol",
+                              "desc": "The name of the channel"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Register a message handler to subscribe to this channel. This message handler\nwill be run synchronously whenever a message is published to the channel. Any\nerrors thrown in the message handler will trigger an <a href=\"process.html#event-uncaughtexception\"><code>'uncaughtException'</code></a>.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\ndiagnostics_channel.subscribe('my-channel', (message, name) => {\n  // Received data\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\ndiagnostics_channel.subscribe('my-channel', (message, name) => {\n  // Received data\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`diagnostics_channel.unsubscribe(name, onMessage)`",
+                  "type": "method",
+                  "name": "unsubscribe",
+                  "meta": {
+                    "added": [
+                      "v18.7.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {boolean} `true` if the handler was found, `false` otherwise.",
+                        "name": "return",
+                        "type": "boolean",
+                        "desc": "`true` if the handler was found, `false` otherwise."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`name` {string|symbol} The channel name",
+                          "name": "name",
+                          "type": "string|symbol",
+                          "desc": "The channel name"
+                        },
+                        {
+                          "textRaw": "`onMessage` {Function} The previous subscribed handler to remove",
+                          "name": "onMessage",
+                          "type": "Function",
+                          "desc": "The previous subscribed handler to remove"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Remove a message handler previously registered to this channel with\n<a href=\"#diagnostics_channelsubscribename-onmessage\"><code>diagnostics_channel.subscribe(name, onMessage)</code></a>.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nfunction onMessage(message, name) {\n  // Received data\n}\n\ndiagnostics_channel.subscribe('my-channel', onMessage);\n\ndiagnostics_channel.unsubscribe('my-channel', onMessage);\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nfunction onMessage(message, name) {\n  // Received data\n}\n\ndiagnostics_channel.subscribe('my-channel', onMessage);\n\ndiagnostics_channel.unsubscribe('my-channel', onMessage);\n</code></pre>"
+                },
+                {
+                  "textRaw": "`diagnostics_channel.tracingChannel(nameOrChannels)`",
+                  "type": "method",
+                  "name": "tracingChannel",
+                  "meta": {
+                    "added": [
+                      "v18.19.0"
+                    ],
+                    "changes": []
+                  },
+                  "stability": 1,
+                  "stabilityText": "Experimental",
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {TracingChannel} Collection of channels to trace with",
+                        "name": "return",
+                        "type": "TracingChannel",
+                        "desc": "Collection of channels to trace with"
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`nameOrChannels` {string|TracingChannel} Channel name or object containing all the [TracingChannel Channels][]",
+                          "name": "nameOrChannels",
+                          "type": "string|TracingChannel",
+                          "desc": "Channel name or object containing all the [TracingChannel Channels][]"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Creates a <a href=\"#class-tracingchannel\"><code>TracingChannel</code></a> wrapper for the given\n<a href=\"#tracingchannel-channels\">TracingChannel Channels</a>. If a name is given, the corresponding tracing\nchannels will be created in the form of <code>tracing:${name}:${eventType}</code> where\n<code>eventType</code> corresponds to the types of <a href=\"#tracingchannel-channels\">TracingChannel Channels</a>.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nconst channelsByName = diagnostics_channel.tracingChannel('my-channel');\n\n// or...\n\nconst channelsByCollection = diagnostics_channel.tracingChannel({\n  start: diagnostics_channel.channel('tracing:my-channel:start'),\n  end: diagnostics_channel.channel('tracing:my-channel:end'),\n  asyncStart: diagnostics_channel.channel('tracing:my-channel:asyncStart'),\n  asyncEnd: diagnostics_channel.channel('tracing:my-channel:asyncEnd'),\n  error: diagnostics_channel.channel('tracing:my-channel:error'),\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nconst channelsByName = diagnostics_channel.tracingChannel('my-channel');\n\n// or...\n\nconst channelsByCollection = diagnostics_channel.tracingChannel({\n  start: diagnostics_channel.channel('tracing:my-channel:start'),\n  end: diagnostics_channel.channel('tracing:my-channel:end'),\n  asyncStart: diagnostics_channel.channel('tracing:my-channel:asyncStart'),\n  asyncEnd: diagnostics_channel.channel('tracing:my-channel:asyncEnd'),\n  error: diagnostics_channel.channel('tracing:my-channel:error'),\n});\n</code></pre>"
+                }
+              ],
+              "type": "module",
+              "displayName": "Overview"
+            },
+            {
+              "textRaw": "TracingChannel Channels",
+              "name": "tracingchannel_channels",
+              "desc": "<p>A TracingChannel is a collection of several diagnostics_channels representing\nspecific points in the execution lifecycle of a single traceable action. The\nbehaviour is split into five diagnostics_channels consisting of <code>start</code>,\n<code>end</code>, <code>asyncStart</code>, <code>asyncEnd</code>, and <code>error</code>. A single traceable action will\nshare the same event object between all events, this can be helpful for\nmanaging correlation through a weakmap.</p>\n<p>These event objects will be extended with <code>result</code> or <code>error</code> values when\nthe task \"completes\". In the case of a synchronous task the <code>result</code> will be\nthe return value and the <code>error</code> will be anything thrown from the function.\nWith callback-based async functions the <code>result</code> will be the second argument\nof the callback while the <code>error</code> will either be a thrown error visible in the\n<code>end</code> event or the first callback argument in either of the <code>asyncStart</code> or\n<code>asyncEnd</code> events.</p>\n<p>Tracing channels should follow a naming pattern of:</p>\n<ul>\n<li><code>tracing:module.class.method:start</code> or <code>tracing:module.function:start</code></li>\n<li><code>tracing:module.class.method:end</code> or <code>tracing:module.function:end</code></li>\n<li><code>tracing:module.class.method:asyncStart</code> or <code>tracing:module.function:asyncStart</code></li>\n<li><code>tracing:module.class.method:asyncEnd</code> or <code>tracing:module.function:asyncEnd</code></li>\n<li><code>tracing:module.class.method:error</code> or <code>tracing:module.function:error</code></li>\n</ul>",
+              "methods": [
+                {
+                  "textRaw": "`start(event)`",
+                  "type": "method",
+                  "name": "start",
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "Name: `tracing:${name}:start`",
+                          "name": "Name",
+                          "desc": "`tracing:${name}:start`"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>The <code>start</code> event represents the point at which a function is called. At this\npoint the event data may contain function arguments or anything else available\nat the very start of the execution of the function.</p>"
+                },
+                {
+                  "textRaw": "`end(event)`",
+                  "type": "method",
+                  "name": "end",
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "Name: `tracing:${name}:end`",
+                          "name": "Name",
+                          "desc": "`tracing:${name}:end`"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>The <code>end</code> event represents the point at which a function call returns a value.\nIn the case of an async function this is when the promise returned not when the\nfunction itself makes a return statement internally. At this point, if the\ntraced function was synchronous the <code>result</code> field will be set to the return\nvalue of the function. Alternatively, the <code>error</code> field may be present to\nrepresent any thrown errors.</p>\n<p>It is recommended to listen specifically to the <code>error</code> event to track errors\nas it may be possible for a traceable action to produce multiple errors. For\nexample, an async task which fails may be started internally before the sync\npart of the task then throws an error.</p>"
+                },
+                {
+                  "textRaw": "`asyncStart(event)`",
+                  "type": "method",
+                  "name": "asyncStart",
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "Name: `tracing:${name}:asyncStart`",
+                          "name": "Name",
+                          "desc": "`tracing:${name}:asyncStart`"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>The <code>asyncStart</code> event represents the callback or continuation of a traceable\nfunction being reached. At this point things like callback arguments may be\navailable, or anything else expressing the \"result\" of the action.</p>\n<p>For callbacks-based functions, the first argument of the callback will be\nassigned to the <code>error</code> field, if not <code>undefined</code> or <code>null</code>, and the second\nargument will be assigned to the <code>result</code> field.</p>\n<p>For promises, the argument to the <code>resolve</code> path will be assigned to <code>result</code>\nor the argument to the <code>reject</code> path will be assign to <code>error</code>.</p>\n<p>It is recommended to listen specifically to the <code>error</code> event to track errors\nas it may be possible for a traceable action to produce multiple errors. For\nexample, an async task which fails may be started internally before the sync\npart of the task then throws an error.</p>"
+                },
+                {
+                  "textRaw": "`asyncEnd(event)`",
+                  "type": "method",
+                  "name": "asyncEnd",
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "Name: `tracing:${name}:asyncEnd`",
+                          "name": "Name",
+                          "desc": "`tracing:${name}:asyncEnd`"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>The <code>asyncEnd</code> event represents the callback of an asynchronous function\nreturning. It's not likely event data will change after the <code>asyncStart</code> event,\nhowever it may be useful to see the point where the callback completes.</p>"
+                },
+                {
+                  "textRaw": "`error(event)`",
+                  "type": "method",
+                  "name": "error",
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "Name: `tracing:${name}:error`",
+                          "name": "Name",
+                          "desc": "`tracing:${name}:error`"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>The <code>error</code> event represents any error produced by the traceable function\neither synchronously or asynchronously. If an error is thrown in the\nsynchronous portion of the traced function the error will be assigned to the\n<code>error</code> field of the event and the <code>error</code> event will be triggered. If an error\nis received asynchronously through a callback or promise rejection it will also\nbe assigned to the <code>error</code> field of the event and trigger the <code>error</code> event.</p>\n<p>It is possible for a single traceable function call to produce errors multiple\ntimes so this should be considered when consuming this event. For example, if\nanother async task is triggered internally which fails and then the sync part\nof the function then throws and error two <code>error</code> events will be emitted, one\nfor the sync error and one for the async error.</p>"
+                }
+              ],
+              "type": "module",
+              "displayName": "TracingChannel Channels"
+            },
+            {
+              "textRaw": "Built-in Channels",
+              "name": "built-in_channels",
+              "stability": 1,
+              "stabilityText": "Experimental",
+              "desc": "<p>While the diagnostics_channel API is now considered stable, the built-in\nchannels currently available are not. Each channel must be declared stable\nindependently.</p>",
+              "modules": [
+                {
+                  "textRaw": "HTTP",
+                  "name": "http",
+                  "desc": "<p><code>http.client.request.start</code></p>\n<ul>\n<li><code>request</code> <a href=\"http.html#class-httpclientrequest\" class=\"type\">&lt;http.ClientRequest&gt;</a></li>\n</ul>\n<p>Emitted when client starts a request.</p>\n<p><code>http.client.response.finish</code></p>\n<ul>\n<li><code>request</code> <a href=\"http.html#class-httpclientrequest\" class=\"type\">&lt;http.ClientRequest&gt;</a></li>\n<li><code>response</code> <a href=\"http.html#class-httpincomingmessage\" class=\"type\">&lt;http.IncomingMessage&gt;</a></li>\n</ul>\n<p>Emitted when client receives a response.</p>\n<p><code>http.server.request.start</code></p>\n<ul>\n<li><code>request</code> <a href=\"http.html#class-httpincomingmessage\" class=\"type\">&lt;http.IncomingMessage&gt;</a></li>\n<li><code>response</code> <a href=\"http.html#class-httpserverresponse\" class=\"type\">&lt;http.ServerResponse&gt;</a></li>\n<li><code>socket</code> <a href=\"net.html#class-netsocket\" class=\"type\">&lt;net.Socket&gt;</a></li>\n<li><code>server</code> <a href=\"http.html#class-httpserver\" class=\"type\">&lt;http.Server&gt;</a></li>\n</ul>\n<p>Emitted when server receives a request.</p>\n<p><code>http.server.response.finish</code></p>\n<ul>\n<li><code>request</code> <a href=\"http.html#class-httpincomingmessage\" class=\"type\">&lt;http.IncomingMessage&gt;</a></li>\n<li><code>response</code> <a href=\"http.html#class-httpserverresponse\" class=\"type\">&lt;http.ServerResponse&gt;</a></li>\n<li><code>socket</code> <a href=\"net.html#class-netsocket\" class=\"type\">&lt;net.Socket&gt;</a></li>\n<li><code>server</code> <a href=\"http.html#class-httpserver\" class=\"type\">&lt;http.Server&gt;</a></li>\n</ul>\n<p>Emitted when server sends a response.</p>\n<p><code>net.client.socket</code></p>\n<ul>\n<li><code>socket</code> <a href=\"net.html#class-netsocket\" class=\"type\">&lt;net.Socket&gt;</a></li>\n</ul>\n<p>Emitted when a new TCP or pipe client socket is created.</p>\n<p><code>net.server.socket</code></p>\n<ul>\n<li><code>socket</code> <a href=\"net.html#class-netsocket\" class=\"type\">&lt;net.Socket&gt;</a></li>\n</ul>\n<p>Emitted when a new TCP or pipe connection is received.</p>\n<p><code>udp.socket</code></p>\n<ul>\n<li><code>socket</code> <a href=\"dgram.html#class-dgramsocket\" class=\"type\">&lt;dgram.Socket&gt;</a></li>\n</ul>\n<p>Emitted when a new UDP socket is created.</p>",
+                  "type": "module",
+                  "displayName": "HTTP"
+                }
+              ],
+              "type": "module",
+              "displayName": "Built-in Channels"
+            }
+          ],
+          "classes": [
+            {
+              "textRaw": "Class: `Channel`",
+              "type": "class",
+              "name": "Channel",
+              "meta": {
+                "added": [
+                  "v15.1.0",
+                  "v14.17.0"
+                ],
+                "changes": []
+              },
+              "desc": "<p>The class <code>Channel</code> represents an individual named channel within the data\npipeline. It is used to track subscribers and to publish messages when there\nare subscribers present. It exists as a separate object to avoid channel\nlookups at publish time, enabling very fast publish speeds and allowing\nfor heavy use while incurring very minimal cost. Channels are created with\n<a href=\"#diagnostics_channelchannelname\"><code>diagnostics_channel.channel(name)</code></a>, constructing a channel directly\nwith <code>new Channel(name)</code> is not supported.</p>",
+              "properties": [
+                {
+                  "textRaw": "`hasSubscribers` Returns: {boolean} If there are active subscribers",
+                  "type": "boolean",
+                  "name": "return",
+                  "meta": {
+                    "added": [
+                      "v15.1.0",
+                      "v14.17.0"
+                    ],
+                    "changes": []
+                  },
+                  "desc": "<p>Check if there are active subscribers to this channel. This is helpful if\nthe message you want to send might be expensive to prepare.</p>\n<p>This API is optional but helpful when trying to publish messages from very\nperformance-sensitive code.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nif (channel.hasSubscribers) {\n  // There are subscribers, prepare and publish message\n}\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nif (channel.hasSubscribers) {\n  // There are subscribers, prepare and publish message\n}\n</code></pre>",
+                  "shortDesc": "If there are active subscribers"
+                }
+              ],
+              "methods": [
+                {
+                  "textRaw": "`channel.publish(message)`",
+                  "type": "method",
+                  "name": "publish",
+                  "meta": {
+                    "added": [
+                      "v15.1.0",
+                      "v14.17.0"
+                    ],
+                    "changes": []
+                  },
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`message` {any} The message to send to the channel subscribers",
+                          "name": "message",
+                          "type": "any",
+                          "desc": "The message to send to the channel subscribers"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Publish a message to any subscribers to the channel. This will trigger\nmessage handlers synchronously so they will execute within the same context.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nchannel.publish({\n  some: 'message',\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nchannel.publish({\n  some: 'message',\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`channel.subscribe(onMessage)`",
+                  "type": "method",
+                  "name": "subscribe",
+                  "meta": {
+                    "added": [
+                      "v15.1.0",
+                      "v14.17.0"
+                    ],
+                    "deprecated": [
+                      "v18.7.0"
+                    ],
+                    "changes": []
+                  },
+                  "stability": 0,
+                  "stabilityText": "Deprecated: Use [`diagnostics_channel.subscribe(name, onMessage)`][]",
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`onMessage` {Function} The handler to receive channel messages",
+                          "name": "onMessage",
+                          "type": "Function",
+                          "desc": "The handler to receive channel messages",
+                          "options": [
+                            {
+                              "textRaw": "`message` {any} The message data",
+                              "name": "message",
+                              "type": "any",
+                              "desc": "The message data"
+                            },
+                            {
+                              "textRaw": "`name` {string|symbol} The name of the channel",
+                              "name": "name",
+                              "type": "string|symbol",
+                              "desc": "The name of the channel"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Register a message handler to subscribe to this channel. This message handler\nwill be run synchronously whenever a message is published to the channel. Any\nerrors thrown in the message handler will trigger an <a href=\"process.html#event-uncaughtexception\"><code>'uncaughtException'</code></a>.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nchannel.subscribe((message, name) => {\n  // Received data\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nchannel.subscribe((message, name) => {\n  // Received data\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`channel.unsubscribe(onMessage)`",
+                  "type": "method",
+                  "name": "unsubscribe",
+                  "meta": {
+                    "added": [
+                      "v15.1.0",
+                      "v14.17.0"
+                    ],
+                    "deprecated": [
+                      "v18.7.0"
+                    ],
+                    "changes": [
+                      {
+                        "version": [
+                          "v17.1.0",
+                          "v16.14.0",
+                          "v14.19.0"
+                        ],
+                        "pr-url": "https://github.com/nodejs/node/pull/40433",
+                        "description": "Added return value. Added to channels without subscribers."
+                      }
+                    ]
+                  },
+                  "stability": 0,
+                  "stabilityText": "Deprecated: Use [`diagnostics_channel.unsubscribe(name, onMessage)`][]",
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {boolean} `true` if the handler was found, `false` otherwise.",
+                        "name": "return",
+                        "type": "boolean",
+                        "desc": "`true` if the handler was found, `false` otherwise."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`onMessage` {Function} The previous subscribed handler to remove",
+                          "name": "onMessage",
+                          "type": "Function",
+                          "desc": "The previous subscribed handler to remove"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Remove a message handler previously registered to this channel with\n<a href=\"#channelsubscribeonmessage\"><code>channel.subscribe(onMessage)</code></a>.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nfunction onMessage(message, name) {\n  // Received data\n}\n\nchannel.subscribe(onMessage);\n\nchannel.unsubscribe(onMessage);\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nfunction onMessage(message, name) {\n  // Received data\n}\n\nchannel.subscribe(onMessage);\n\nchannel.unsubscribe(onMessage);\n</code></pre>"
+                },
+                {
+                  "textRaw": "`channel.bindStore(store[, transform])`",
+                  "type": "method",
+                  "name": "bindStore",
+                  "meta": {
+                    "added": [
+                      "v18.19.0"
+                    ],
+                    "changes": []
+                  },
+                  "stability": 1,
+                  "stabilityText": "Experimental",
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`store` {AsyncLocalStorage} The store to which to bind the context data",
+                          "name": "store",
+                          "type": "AsyncLocalStorage",
+                          "desc": "The store to which to bind the context data"
+                        },
+                        {
+                          "textRaw": "`transform` {Function} Transform context data before setting the store context",
+                          "name": "transform",
+                          "type": "Function",
+                          "desc": "Transform context data before setting the store context"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>When <a href=\"#channelrunstorescontext-fn-thisarg-args\"><code>channel.runStores(context, ...)</code></a> is called, the given context data\nwill be applied to any store bound to the channel. If the store has already been\nbound the previous <code>transform</code> function will be replaced with the new one.\nThe <code>transform</code> function may be omitted to set the given context data as the\ncontext directly.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\nimport { AsyncLocalStorage } from 'node:async_hooks';\n\nconst store = new AsyncLocalStorage();\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nchannel.bindStore(store, (data) => {\n  return { data };\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\nconst { AsyncLocalStorage } = require('node:async_hooks');\n\nconst store = new AsyncLocalStorage();\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nchannel.bindStore(store, (data) => {\n  return { data };\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`channel.unbindStore(store)`",
+                  "type": "method",
+                  "name": "unbindStore",
+                  "meta": {
+                    "added": [
+                      "v18.19.0"
+                    ],
+                    "changes": []
+                  },
+                  "stability": 1,
+                  "stabilityText": "Experimental",
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {boolean} `true` if the store was found, `false` otherwise.",
+                        "name": "return",
+                        "type": "boolean",
+                        "desc": "`true` if the store was found, `false` otherwise."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`store` {AsyncLocalStorage} The store to unbind from the channel.",
+                          "name": "store",
+                          "type": "AsyncLocalStorage",
+                          "desc": "The store to unbind from the channel."
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Remove a message handler previously registered to this channel with\n<a href=\"#channelbindstorestore-transform\"><code>channel.bindStore(store)</code></a>.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\nimport { AsyncLocalStorage } from 'node:async_hooks';\n\nconst store = new AsyncLocalStorage();\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nchannel.bindStore(store);\nchannel.unbindStore(store);\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\nconst { AsyncLocalStorage } = require('node:async_hooks');\n\nconst store = new AsyncLocalStorage();\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nchannel.bindStore(store);\nchannel.unbindStore(store);\n</code></pre>"
+                },
+                {
+                  "textRaw": "`channel.runStores(context, fn[, thisArg[, ...args]])`",
+                  "type": "method",
+                  "name": "runStores",
+                  "meta": {
+                    "added": [
+                      "v18.19.0"
+                    ],
+                    "changes": []
+                  },
+                  "stability": 1,
+                  "stabilityText": "Experimental",
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`context` {any} Message to send to subscribers and bind to stores",
+                          "name": "context",
+                          "type": "any",
+                          "desc": "Message to send to subscribers and bind to stores"
+                        },
+                        {
+                          "textRaw": "`fn` {Function} Handler to run within the entered storage context",
+                          "name": "fn",
+                          "type": "Function",
+                          "desc": "Handler to run within the entered storage context"
+                        },
+                        {
+                          "textRaw": "`thisArg` {any} The receiver to be used for the function call.",
+                          "name": "thisArg",
+                          "type": "any",
+                          "desc": "The receiver to be used for the function call."
+                        },
+                        {
+                          "textRaw": "`...args` {any} Optional arguments to pass to the function.",
+                          "name": "...args",
+                          "type": "any",
+                          "desc": "Optional arguments to pass to the function."
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Applies the given data to any AsyncLocalStorage instances bound to the channel\nfor the duration of the given function, then publishes to the channel within\nthe scope of that data is applied to the stores.</p>\n<p>If a transform function was given to <a href=\"#channelbindstorestore-transform\"><code>channel.bindStore(store)</code></a> it will be\napplied to transform the message data before it becomes the context value for\nthe store. The prior storage context is accessible from within the transform\nfunction in cases where context linking is required.</p>\n<p>The context applied to the store should be accesible in any async code which\ncontinues from execution which began during the given function, however\nthere are some situations in which <a href=\"async_context.html#troubleshooting-context-loss\">context loss</a> may occur.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\nimport { AsyncLocalStorage } from 'node:async_hooks';\n\nconst store = new AsyncLocalStorage();\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nchannel.bindStore(store, (message) => {\n  const parent = store.getStore();\n  return new Span(message, parent);\n});\nchannel.runStores({ some: 'message' }, () => {\n  store.getStore(); // Span({ some: 'message' })\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\nconst { AsyncLocalStorage } = require('node:async_hooks');\n\nconst store = new AsyncLocalStorage();\n\nconst channel = diagnostics_channel.channel('my-channel');\n\nchannel.bindStore(store, (message) => {\n  const parent = store.getStore();\n  return new Span(message, parent);\n});\nchannel.runStores({ some: 'message' }, () => {\n  store.getStore(); // Span({ some: 'message' })\n});\n</code></pre>"
+                }
+              ]
+            },
+            {
+              "textRaw": "Class: `TracingChannel`",
+              "type": "class",
+              "name": "TracingChannel",
+              "meta": {
+                "added": [
+                  "v18.19.0"
+                ],
+                "changes": []
+              },
+              "stability": 1,
+              "stabilityText": "Experimental",
+              "desc": "<p>The class <code>TracingChannel</code> is a collection of <a href=\"#tracingchannel-channels\">TracingChannel Channels</a> which\ntogether express a single traceable action. It is used to formalize and\nsimplify the process of producing events for tracing application flow.\n<a href=\"#diagnostics_channeltracingchannelnameorchannels\"><code>diagnostics_channel.tracingChannel()</code></a> is used to construct a\n<code>TracingChannel</code>. As with <code>Channel</code> it is recommended to create and reuse a\nsingle <code>TracingChannel</code> at the top-level of the file rather than creating them\ndynamically.</p>",
+              "methods": [
+                {
+                  "textRaw": "`tracingChannel.subscribe(subscribers)`",
+                  "type": "method",
+                  "name": "subscribe",
+                  "meta": {
+                    "added": [
+                      "v18.19.0"
+                    ],
+                    "changes": []
+                  },
+                  "stability": 1,
+                  "stabilityText": "Experimental",
+                  "signatures": [
+                    {
+                      "params": [
+                        {
+                          "textRaw": "`subscribers` {Object} Set of [TracingChannel Channels][] subscribers",
+                          "name": "subscribers",
+                          "type": "Object",
+                          "desc": "Set of [TracingChannel Channels][] subscribers",
+                          "options": [
+                            {
+                              "textRaw": "`start` {Function} The [`start` event][] subscriber",
+                              "name": "start",
+                              "type": "Function",
+                              "desc": "The [`start` event][] subscriber"
+                            },
+                            {
+                              "textRaw": "`end` {Function} The [`end` event][] subscriber",
+                              "name": "end",
+                              "type": "Function",
+                              "desc": "The [`end` event][] subscriber"
+                            },
+                            {
+                              "textRaw": "`asyncStart` {Function} The [`asyncStart` event][] subscriber",
+                              "name": "asyncStart",
+                              "type": "Function",
+                              "desc": "The [`asyncStart` event][] subscriber"
+                            },
+                            {
+                              "textRaw": "`asyncEnd` {Function} The [`asyncEnd` event][] subscriber",
+                              "name": "asyncEnd",
+                              "type": "Function",
+                              "desc": "The [`asyncEnd` event][] subscriber"
+                            },
+                            {
+                              "textRaw": "`error` {Function} The [`error` event][] subscriber",
+                              "name": "error",
+                              "type": "Function",
+                              "desc": "The [`error` event][] subscriber"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Helper to subscribe a collection of functions to the corresponding channels.\nThis is the same as calling <a href=\"#channelsubscribeonmessage\"><code>channel.subscribe(onMessage)</code></a> on each channel\nindividually.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\n\nchannels.subscribe({\n  start(message) {\n    // Handle start message\n  },\n  end(message) {\n    // Handle end message\n  },\n  asyncStart(message) {\n    // Handle asyncStart message\n  },\n  asyncEnd(message) {\n    // Handle asyncEnd message\n  },\n  error(message) {\n    // Handle error message\n  },\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\n\nchannels.subscribe({\n  start(message) {\n    // Handle start message\n  },\n  end(message) {\n    // Handle end message\n  },\n  asyncStart(message) {\n    // Handle asyncStart message\n  },\n  asyncEnd(message) {\n    // Handle asyncEnd message\n  },\n  error(message) {\n    // Handle error message\n  },\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`tracingChannel.unsubscribe(subscribers)`",
+                  "type": "method",
+                  "name": "unsubscribe",
+                  "meta": {
+                    "added": [
+                      "v18.19.0"
+                    ],
+                    "changes": []
+                  },
+                  "stability": 1,
+                  "stabilityText": "Experimental",
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {boolean} `true` if all handlers were successfully unsubscribed, and `false` otherwise.",
+                        "name": "return",
+                        "type": "boolean",
+                        "desc": "`true` if all handlers were successfully unsubscribed, and `false` otherwise."
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`subscribers` {Object} Set of [TracingChannel Channels][] subscribers",
+                          "name": "subscribers",
+                          "type": "Object",
+                          "desc": "Set of [TracingChannel Channels][] subscribers",
+                          "options": [
+                            {
+                              "textRaw": "`start` {Function} The [`start` event][] subscriber",
+                              "name": "start",
+                              "type": "Function",
+                              "desc": "The [`start` event][] subscriber"
+                            },
+                            {
+                              "textRaw": "`end` {Function} The [`end` event][] subscriber",
+                              "name": "end",
+                              "type": "Function",
+                              "desc": "The [`end` event][] subscriber"
+                            },
+                            {
+                              "textRaw": "`asyncStart` {Function} The [`asyncStart` event][] subscriber",
+                              "name": "asyncStart",
+                              "type": "Function",
+                              "desc": "The [`asyncStart` event][] subscriber"
+                            },
+                            {
+                              "textRaw": "`asyncEnd` {Function} The [`asyncEnd` event][] subscriber",
+                              "name": "asyncEnd",
+                              "type": "Function",
+                              "desc": "The [`asyncEnd` event][] subscriber"
+                            },
+                            {
+                              "textRaw": "`error` {Function} The [`error` event][] subscriber",
+                              "name": "error",
+                              "type": "Function",
+                              "desc": "The [`error` event][] subscriber"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Helper to unsubscribe a collection of functions from the corresponding channels.\nThis is the same as calling <a href=\"#channelunsubscribeonmessage\"><code>channel.unsubscribe(onMessage)</code></a> on each channel\nindividually.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\n\nchannels.unsubscribe({\n  start(message) {\n    // Handle start message\n  },\n  end(message) {\n    // Handle end message\n  },\n  asyncStart(message) {\n    // Handle asyncStart message\n  },\n  asyncEnd(message) {\n    // Handle asyncEnd message\n  },\n  error(message) {\n    // Handle error message\n  },\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\n\nchannels.unsubscribe({\n  start(message) {\n    // Handle start message\n  },\n  end(message) {\n    // Handle end message\n  },\n  asyncStart(message) {\n    // Handle asyncStart message\n  },\n  asyncEnd(message) {\n    // Handle asyncEnd message\n  },\n  error(message) {\n    // Handle error message\n  },\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`tracingChannel.traceSync(fn[, context[, thisArg[, ...args]]])`",
+                  "type": "method",
+                  "name": "traceSync",
+                  "meta": {
+                    "added": [
+                      "v18.19.0"
+                    ],
+                    "changes": []
+                  },
+                  "stability": 1,
+                  "stabilityText": "Experimental",
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {any} The return value of the given function",
+                        "name": "return",
+                        "type": "any",
+                        "desc": "The return value of the given function"
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`fn` {Function} Function to wrap a trace around",
+                          "name": "fn",
+                          "type": "Function",
+                          "desc": "Function to wrap a trace around"
+                        },
+                        {
+                          "textRaw": "`context` {Object} Shared object to correlate events through",
+                          "name": "context",
+                          "type": "Object",
+                          "desc": "Shared object to correlate events through"
+                        },
+                        {
+                          "textRaw": "`thisArg` {any} The receiver to be used for the function call",
+                          "name": "thisArg",
+                          "type": "any",
+                          "desc": "The receiver to be used for the function call"
+                        },
+                        {
+                          "textRaw": "`...args` {any} Optional arguments to pass to the function",
+                          "name": "...args",
+                          "type": "any",
+                          "desc": "Optional arguments to pass to the function"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Trace a synchronous function call. This will always produce a <a href=\"#startevent\"><code>start</code> event</a>\nand <a href=\"#endevent\"><code>end</code> event</a> around the execution and may produce an <a href=\"#errorevent\"><code>error</code> event</a>\nif the given function throws an error. This will run the given function using\n<a href=\"#channelrunstorescontext-fn-thisarg-args\"><code>channel.runStores(context, ...)</code></a> on the <code>start</code> channel which ensures all\nevents should have any bound stores set to match this trace context.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\n\nchannels.traceSync(() => {\n  // Do something\n}, {\n  some: 'thing',\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\n\nchannels.traceSync(() => {\n  // Do something\n}, {\n  some: 'thing',\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`tracingChannel.tracePromise(fn[, context[, thisArg[, ...args]]])`",
+                  "type": "method",
+                  "name": "tracePromise",
+                  "meta": {
+                    "added": [
+                      "v18.19.0"
+                    ],
+                    "changes": []
+                  },
+                  "stability": 1,
+                  "stabilityText": "Experimental",
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {Promise} Chained from promise returned by the given function",
+                        "name": "return",
+                        "type": "Promise",
+                        "desc": "Chained from promise returned by the given function"
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`fn` {Function} Promise-returning function to wrap a trace around",
+                          "name": "fn",
+                          "type": "Function",
+                          "desc": "Promise-returning function to wrap a trace around"
+                        },
+                        {
+                          "textRaw": "`context` {Object} Shared object to correlate trace events through",
+                          "name": "context",
+                          "type": "Object",
+                          "desc": "Shared object to correlate trace events through"
+                        },
+                        {
+                          "textRaw": "`thisArg` {any} The receiver to be used for the function call",
+                          "name": "thisArg",
+                          "type": "any",
+                          "desc": "The receiver to be used for the function call"
+                        },
+                        {
+                          "textRaw": "`...args` {any} Optional arguments to pass to the function",
+                          "name": "...args",
+                          "type": "any",
+                          "desc": "Optional arguments to pass to the function"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Trace a promise-returning function call. This will always produce a\n<a href=\"#startevent\"><code>start</code> event</a> and <a href=\"#endevent\"><code>end</code> event</a> around the synchronous portion of the\nfunction execution, and will produce an <a href=\"#asyncstartevent\"><code>asyncStart</code> event</a> and\n<a href=\"#asyncendevent\"><code>asyncEnd</code> event</a> when a promise continuation is reached. It may also\nproduce an <a href=\"#errorevent\"><code>error</code> event</a> if the given function throws an error or the\nreturned promise rejects. This will run the given function using\n<a href=\"#channelrunstorescontext-fn-thisarg-args\"><code>channel.runStores(context, ...)</code></a> on the <code>start</code> channel which ensures all\nevents should have any bound stores set to match this trace context.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\n\nchannels.tracePromise(async () => {\n  // Do something\n}, {\n  some: 'thing',\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\n\nchannels.tracePromise(async () => {\n  // Do something\n}, {\n  some: 'thing',\n});\n</code></pre>"
+                },
+                {
+                  "textRaw": "`tracingChannel.traceCallback(fn[, position[, context[, thisArg[, ...args]]]])`",
+                  "type": "method",
+                  "name": "traceCallback",
+                  "meta": {
+                    "added": [
+                      "v18.19.0"
+                    ],
+                    "changes": []
+                  },
+                  "stability": 1,
+                  "stabilityText": "Experimental",
+                  "signatures": [
+                    {
+                      "return": {
+                        "textRaw": "Returns: {any} The return value of the given function",
+                        "name": "return",
+                        "type": "any",
+                        "desc": "The return value of the given function"
+                      },
+                      "params": [
+                        {
+                          "textRaw": "`fn` {Function} callback using function to wrap a trace around",
+                          "name": "fn",
+                          "type": "Function",
+                          "desc": "callback using function to wrap a trace around"
+                        },
+                        {
+                          "textRaw": "`position` {number} Zero-indexed argument position of expected callback",
+                          "name": "position",
+                          "type": "number",
+                          "desc": "Zero-indexed argument position of expected callback"
+                        },
+                        {
+                          "textRaw": "`context` {Object} Shared object to correlate trace events through",
+                          "name": "context",
+                          "type": "Object",
+                          "desc": "Shared object to correlate trace events through"
+                        },
+                        {
+                          "textRaw": "`thisArg` {any} The receiver to be used for the function call",
+                          "name": "thisArg",
+                          "type": "any",
+                          "desc": "The receiver to be used for the function call"
+                        },
+                        {
+                          "textRaw": "`...args` {any} Optional arguments to pass to the function",
+                          "name": "...args",
+                          "type": "any",
+                          "desc": "Optional arguments to pass to the function"
+                        }
+                      ]
+                    }
+                  ],
+                  "desc": "<p>Trace a callback-receiving function call. This will always produce a\n<a href=\"#startevent\"><code>start</code> event</a> and <a href=\"#endevent\"><code>end</code> event</a> around the synchronous portion of the\nfunction execution, and will produce a <a href=\"#asyncstartevent\"><code>asyncStart</code> event</a> and\n<a href=\"#asyncendevent\"><code>asyncEnd</code> event</a> around the callback execution. It may also produce an\n<a href=\"#errorevent\"><code>error</code> event</a> if the given function throws an error or the returned\npromise rejects. This will run the given function using\n<a href=\"#channelrunstorescontext-fn-thisarg-args\"><code>channel.runStores(context, ...)</code></a> on the <code>start</code> channel which ensures all\nevents should have any bound stores set to match this trace context.</p>\n<p>The <code>position</code> will be -1 by default to indicate the final argument should\nbe used as the callback.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\n\nchannels.traceCallback((arg1, callback) => {\n  // Do something\n  callback(null, 'result');\n}, 1, {\n  some: 'thing',\n}, thisArg, arg1, callback);\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\n\nchannels.traceCallback((arg1, callback) => {\n  // Do something\n  callback(null, 'result');\n}, {\n  some: 'thing',\n}, thisArg, arg1, callback);\n</code></pre>\n<p>The callback will also be run with <a href=\"#channelrunstorescontext-fn-thisarg-args\"><code>channel.runStores(context, ...)</code></a> which\nenables context loss recovery in some cases.</p>\n<pre><code class=\"language-mjs\">import diagnostics_channel from 'node:diagnostics_channel';\nimport { AsyncLocalStorage } from 'node:async_hooks';\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\nconst myStore = new AsyncLocalStorage();\n\n// The start channel sets the initial store data to something\n// and stores that store data value on the trace context object\nchannels.start.bindStore(myStore, (data) => {\n  const span = new Span(data);\n  data.span = span;\n  return span;\n});\n\n// Then asyncStart can restore from that data it stored previously\nchannels.asyncStart.bindStore(myStore, (data) => {\n  return data.span;\n});\n</code></pre>\n<pre><code class=\"language-cjs\">const diagnostics_channel = require('node:diagnostics_channel');\nconst { AsyncLocalStorage } = require('node:async_hooks');\n\nconst channels = diagnostics_channel.tracingChannel('my-channel');\nconst myStore = new AsyncLocalStorage();\n\n// The start channel sets the initial store data to something\n// and stores that store data value on the trace context object\nchannels.start.bindStore(myStore, (data) => {\n  const span = new Span(data);\n  data.span = span;\n  return span;\n});\n\n// Then asyncStart can restore from that data it stored previously\nchannels.asyncStart.bindStore(myStore, (data) => {\n  return data.span;\n});\n</code></pre>"
+                }
+              ]
+            }
+          ],
+          "type": "module",
+          "displayName": "Public API"
+        }
+      ],
+      "type": "module",
+      "displayName": "Diagnostics Channel"
+    }
+  ]
+}

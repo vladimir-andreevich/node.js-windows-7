@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v16.19.1">
+  <title>Trace events | Node.js v16.19.1 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/tracing.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  
+</head>
+<body class="alt apidoc" id="api-section-tracing">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing active">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="tracing" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v16.19.1 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v16.19.1</li>
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Table of contents
+      </a>
+
+      <div class="picker"><div class="toc"><ul>
+<li><span class="stability_1"><a href="#trace-events">Trace events</a></span>
+<ul>
+<li><a href="#the-nodetrace_events-module">The <code>node:trace_events</code> module</a>
+<ul>
+<li><a href="#tracing-object"><code>Tracing</code> object</a>
+<ul>
+<li><a href="#tracingcategories"><code>tracing.categories</code></a></li>
+<li><a href="#tracingdisable"><code>tracing.disable()</code></a></li>
+<li><a href="#tracingenable"><code>tracing.enable()</code></a></li>
+<li><a href="#tracingenabled"><code>tracing.enabled</code></a></li>
+</ul>
+</li>
+<li><a href="#trace_eventscreatetracingoptions"><code>trace_events.createTracing(options)</code></a></li>
+<li><a href="#trace_eventsgetenabledcategories"><code>trace_events.getEnabledCategories()</code></a></li>
+</ul>
+</li>
+<li><a href="#examples">Examples</a>
+<ul>
+<li><a href="#collect-trace-events-data-by-inspector">Collect trace events data by inspector</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Index
+      </a>
+
+      <div class="picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing active">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Other versions
+      </a>
+      <div class="picker"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v19.x/api/tracing.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/tracing.html">18.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/tracing.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/tracing.html">16.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/tracing.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/tracing.html">14.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/tracing.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/tracing.html">12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/tracing.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/tracing.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/tracing.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/tracing.html">8.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v7.x/api/tracing.html">7.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#">
+                <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+                Options
+              </a>
+        
+              <div class="picker">
+                <ul>
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="tracing.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/tracing.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_1"><a href="#trace-events">Trace events</a></span>
+<ul>
+<li><a href="#the-nodetrace_events-module">The <code>node:trace_events</code> module</a>
+<ul>
+<li><a href="#tracing-object"><code>Tracing</code> object</a>
+<ul>
+<li><a href="#tracingcategories"><code>tracing.categories</code></a></li>
+<li><a href="#tracingdisable"><code>tracing.disable()</code></a></li>
+<li><a href="#tracingenable"><code>tracing.enable()</code></a></li>
+<li><a href="#tracingenabled"><code>tracing.enabled</code></a></li>
+</ul>
+</li>
+<li><a href="#trace_eventscreatetracingoptions"><code>trace_events.createTracing(options)</code></a></li>
+<li><a href="#trace_eventsgetenabledcategories"><code>trace_events.getEnabledCategories()</code></a></li>
+</ul>
+</li>
+<li><a href="#examples">Examples</a>
+<ul>
+<li><a href="#collect-trace-events-data-by-inspector">Collect trace events data by inspector</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Trace events<span><a class="mark" href="#trace-events" id="trace-events">#</a></span><a aria-hidden="true" class="legacy" id="tracing_trace_events"></a></h2>
+
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v16.19.1/lib/trace_events.js">lib/trace_events.js</a></p>
+<p>The <code>node:trace_events</code> module provides a mechanism to centralize tracing
+information generated by V8, Node.js core, and userspace code.</p>
+<p>Tracing can be enabled with the <code>--trace-event-categories</code> command-line flag
+or by using the <code>node:trace_events</code> module. The <code>--trace-event-categories</code> flag
+accepts a list of comma-separated category names.</p>
+<p>The available categories are:</p>
+<ul>
+<li><code>node</code>: An empty placeholder.</li>
+<li><code>node.async_hooks</code>: Enables capture of detailed <a href="async_hooks.html"><code>async_hooks</code></a> trace data.
+The <a href="async_hooks.html"><code>async_hooks</code></a> events have a unique <code>asyncId</code> and a special <code>triggerId</code>
+<code>triggerAsyncId</code> property.</li>
+<li><code>node.bootstrap</code>: Enables capture of Node.js bootstrap milestones.</li>
+<li><code>node.console</code>: Enables capture of <code>console.time()</code> and <code>console.count()</code>
+output.</li>
+<li><code>node.dns.native</code>: Enables capture of trace data for DNS queries.</li>
+<li><code>node.net.native</code>: Enables capture of trace data for network.</li>
+<li><code>node.environment</code>: Enables capture of Node.js Environment milestones.</li>
+<li><code>node.fs.sync</code>: Enables capture of trace data for file system sync methods.</li>
+<li><code>node.fs_dir.sync</code>: Enables capture of trace data for file system sync
+directory methods.</li>
+<li><code>node.fs.async</code>: Enables capture of trace data for file system async methods.</li>
+<li><code>node.fs_dir.async</code>: Enables capture of trace data for file system async
+directory methods.</li>
+<li><code>node.perf</code>: Enables capture of <a href="perf_hooks.html">Performance API</a> measurements.
+<ul>
+<li><code>node.perf.usertiming</code>: Enables capture of only Performance API User Timing
+measures and marks.</li>
+<li><code>node.perf.timerify</code>: Enables capture of only Performance API timerify
+measurements.</li>
+</ul>
+</li>
+<li><code>node.promises.rejections</code>: Enables capture of trace data tracking the number
+of unhandled Promise rejections and handled-after-rejections.</li>
+<li><code>node.vm.script</code>: Enables capture of trace data for the <code>node:vm</code> module's
+<code>runInNewContext()</code>, <code>runInContext()</code>, and <code>runInThisContext()</code> methods.</li>
+<li><code>v8</code>: The <a href="v8.html">V8</a> events are GC, compiling, and execution related.</li>
+<li><code>node.http</code>: Enables capture of trace data for http request / response.</li>
+</ul>
+<p>By default the <code>node</code>, <code>node.async_hooks</code>, and <code>v8</code> categories are enabled.</p>
+<pre><code class="language-bash">node --trace-event-categories v8,node,node.async_hooks server.js</code></pre>
+<p>Prior versions of Node.js required the use of the <code>--trace-events-enabled</code>
+flag to enable trace events. This requirement has been removed. However, the
+<code>--trace-events-enabled</code> flag <em>may</em> still be used and will enable the
+<code>node</code>, <code>node.async_hooks</code>, and <code>v8</code> trace event categories by default.</p>
+<pre><code class="language-bash">node --trace-events-enabled
+
+<span class="hljs-comment"># is equivalent to</span>
+
+node --trace-event-categories v8,node,node.async_hooks</code></pre>
+<p>Alternatively, trace events may be enabled using the <code>node:trace_events</code> module:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> trace_events = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:trace_events'</span>);
+<span class="hljs-keyword">const</span> tracing = trace_events.<span class="hljs-title function_">createTracing</span>({ <span class="hljs-attr">categories</span>: [<span class="hljs-string">'node.perf'</span>] });
+tracing.<span class="hljs-title function_">enable</span>();  <span class="hljs-comment">// Enable trace event capture for the 'node.perf' category</span>
+
+<span class="hljs-comment">// do work</span>
+
+tracing.<span class="hljs-title function_">disable</span>();  <span class="hljs-comment">// Disable trace event capture for the 'node.perf' category</span></code></pre>
+<p>Running Node.js with tracing enabled will produce log files that can be opened
+in the <a href="https://www.chromium.org/developers/how-tos/trace-event-profiling-tool"><code>chrome://tracing</code></a>
+tab of Chrome.</p>
+<p>The logging file is by default called <code>node_trace.${rotation}.log</code>, where
+<code>${rotation}</code> is an incrementing log-rotation id. The filepath pattern can
+be specified with <code>--trace-event-file-pattern</code> that accepts a template
+string that supports <code>${rotation}</code> and <code>${pid}</code>:</p>
+<pre><code class="language-bash">node --trace-event-categories v8 --trace-event-file-pattern <span class="hljs-string">'${pid}-${rotation}.log'</span> server.js</code></pre>
+<p>To guarantee that the log file is properly generated after signal events like
+<code>SIGINT</code>, <code>SIGTERM</code>, or <code>SIGBREAK</code>, make sure to have the appropriate handlers
+in your code, such as:</p>
+<pre><code class="language-js">process.<span class="hljs-title function_">on</span>(<span class="hljs-string">'SIGINT'</span>, <span class="hljs-keyword">function</span> <span class="hljs-title function_">onSigint</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">'Received SIGINT.'</span>);
+  process.<span class="hljs-title function_">exit</span>(<span class="hljs-number">130</span>);  <span class="hljs-comment">// Or applicable exit code depending on OS and signal</span>
+});</code></pre>
+<p>The tracing system uses the same time source
+as the one used by <code>process.hrtime()</code>.
+However the trace-event timestamps are expressed in microseconds,
+unlike <code>process.hrtime()</code> which returns nanoseconds.</p>
+<p>The features from this module are not available in <a href="worker_threads.html#class-worker"><code>Worker</code></a> threads.</p>
+<section><h3>The <code>node:trace_events</code> module<span><a class="mark" href="#the-nodetrace_events-module" id="the-nodetrace_events-module">#</a></span><a aria-hidden="true" class="legacy" id="tracing_the_node_trace_events_module"></a></h3>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+<h4><code>Tracing</code> object<span><a class="mark" href="#tracing-object" id="tracing-object">#</a></span><a aria-hidden="true" class="legacy" id="tracing_tracing_object"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+<p>The <code>Tracing</code> object is used to enable or disable tracing for sets of
+categories. Instances are created using the <code>trace_events.createTracing()</code>
+method.</p>
+<p>When created, the <code>Tracing</code> object is disabled. Calling the
+<code>tracing.enable()</code> method adds the categories to the set of enabled trace event
+categories. Calling <code>tracing.disable()</code> will remove the categories from the
+set of enabled trace event categories.</p>
+<h5><code>tracing.categories</code><span><a class="mark" href="#tracingcategories" id="tracingcategories">#</a></span><a aria-hidden="true" class="legacy" id="tracing_tracing_categories"></a></h5>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>A comma-separated list of the trace event categories covered by this
+<code>Tracing</code> object.</p>
+<h5><code>tracing.disable()</code><span><a class="mark" href="#tracingdisable" id="tracingdisable">#</a></span><a aria-hidden="true" class="legacy" id="tracing_tracing_disable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+<p>Disables this <code>Tracing</code> object.</p>
+<p>Only trace event categories <em>not</em> covered by other enabled <code>Tracing</code> objects
+and <em>not</em> specified by the <code>--trace-event-categories</code> flag will be disabled.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> trace_events = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:trace_events'</span>);
+<span class="hljs-keyword">const</span> t1 = trace_events.<span class="hljs-title function_">createTracing</span>({ <span class="hljs-attr">categories</span>: [<span class="hljs-string">'node'</span>, <span class="hljs-string">'v8'</span>] });
+<span class="hljs-keyword">const</span> t2 = trace_events.<span class="hljs-title function_">createTracing</span>({ <span class="hljs-attr">categories</span>: [<span class="hljs-string">'node.perf'</span>, <span class="hljs-string">'node'</span>] });
+t1.<span class="hljs-title function_">enable</span>();
+t2.<span class="hljs-title function_">enable</span>();
+
+<span class="hljs-comment">// Prints 'node,node.perf,v8'</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(trace_events.<span class="hljs-title function_">getEnabledCategories</span>());
+
+t2.<span class="hljs-title function_">disable</span>(); <span class="hljs-comment">// Will only disable emission of the 'node.perf' category</span>
+
+<span class="hljs-comment">// Prints 'node,v8'</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(trace_events.<span class="hljs-title function_">getEnabledCategories</span>());</code></pre>
+<h5><code>tracing.enable()</code><span><a class="mark" href="#tracingenable" id="tracingenable">#</a></span><a aria-hidden="true" class="legacy" id="tracing_tracing_enable"></a></h5>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+<p>Enables this <code>Tracing</code> object for the set of categories covered by the
+<code>Tracing</code> object.</p>
+<h5><code>tracing.enabled</code><span><a class="mark" href="#tracingenabled" id="tracingenabled">#</a></span><a aria-hidden="true" class="legacy" id="tracing_tracing_enabled"></a></h5>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> <code>true</code> only if the <code>Tracing</code> object has been enabled.</li>
+</ul>
+<h4><code>trace_events.createTracing(options)</code><span><a class="mark" href="#trace_eventscreatetracingoptions" id="trace_eventscreatetracingoptions">#</a></span><a aria-hidden="true" class="legacy" id="tracing_trace_events_createtracing_options"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+<ul>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>categories</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a> An array of trace category names. Values included
+in the array are coerced to a string when possible. An error will be
+thrown if the value cannot be coerced.</li>
+</ul>
+</li>
+<li>Returns: <a href="tracing.html#tracing-object" class="type">&#x3C;Tracing></a>.</li>
+</ul>
+<p>Creates and returns a <code>Tracing</code> object for the given set of <code>categories</code>.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> trace_events = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:trace_events'</span>);
+<span class="hljs-keyword">const</span> categories = [<span class="hljs-string">'node.perf'</span>, <span class="hljs-string">'node.async_hooks'</span>];
+<span class="hljs-keyword">const</span> tracing = trace_events.<span class="hljs-title function_">createTracing</span>({ categories });
+tracing.<span class="hljs-title function_">enable</span>();
+<span class="hljs-comment">// do stuff</span>
+tracing.<span class="hljs-title function_">disable</span>();</code></pre>
+<h4><code>trace_events.getEnabledCategories()</code><span><a class="mark" href="#trace_eventsgetenabledcategories" id="trace_eventsgetenabledcategories">#</a></span><a aria-hidden="true" class="legacy" id="tracing_trace_events_getenabledcategories"></a></h4>
+<div class="api_metadata">
+<span>Added in: v10.0.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Returns a comma-separated list of all currently-enabled trace event
+categories. The current set of enabled trace event categories is determined
+by the <em>union</em> of all currently-enabled <code>Tracing</code> objects and any categories
+enabled using the <code>--trace-event-categories</code> flag.</p>
+<p>Given the file <code>test.js</code> below, the command
+<code>node --trace-event-categories node.perf test.js</code> will print
+<code>'node.async_hooks,node.perf'</code> to the console.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> trace_events = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:trace_events'</span>);
+<span class="hljs-keyword">const</span> t1 = trace_events.<span class="hljs-title function_">createTracing</span>({ <span class="hljs-attr">categories</span>: [<span class="hljs-string">'node.async_hooks'</span>] });
+<span class="hljs-keyword">const</span> t2 = trace_events.<span class="hljs-title function_">createTracing</span>({ <span class="hljs-attr">categories</span>: [<span class="hljs-string">'node.perf'</span>] });
+<span class="hljs-keyword">const</span> t3 = trace_events.<span class="hljs-title function_">createTracing</span>({ <span class="hljs-attr">categories</span>: [<span class="hljs-string">'v8'</span>] });
+
+t1.<span class="hljs-title function_">enable</span>();
+t2.<span class="hljs-title function_">enable</span>();
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(trace_events.<span class="hljs-title function_">getEnabledCategories</span>());</code></pre>
+</section><section><h3>Examples<span><a class="mark" href="#examples" id="examples">#</a></span><a aria-hidden="true" class="legacy" id="tracing_examples"></a></h3>
+<h4>Collect trace events data by inspector<span><a class="mark" href="#collect-trace-events-data-by-inspector" id="collect-trace-events-data-by-inspector">#</a></span><a aria-hidden="true" class="legacy" id="tracing_collect_trace_events_data_by_inspector"></a></h4>
+<pre><code class="language-js"><span class="hljs-meta">'use strict'</span>;
+
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Session</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'inspector'</span>);
+<span class="hljs-keyword">const</span> session = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Session</span>();
+session.<span class="hljs-title function_">connect</span>();
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">post</span>(<span class="hljs-params">message, data</span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =></span> {
+    session.<span class="hljs-title function_">post</span>(message, data, <span class="hljs-function">(<span class="hljs-params">err, result</span>) =></span> {
+      <span class="hljs-keyword">if</span> (err)
+        <span class="hljs-title function_">reject</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(err)));
+      <span class="hljs-keyword">else</span>
+        <span class="hljs-title function_">resolve</span>(result);
+    });
+  });
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">collect</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> data = [];
+  session.<span class="hljs-title function_">on</span>(<span class="hljs-string">'NodeTracing.dataCollected'</span>, <span class="hljs-function">(<span class="hljs-params">chunk</span>) =></span> data.<span class="hljs-title function_">push</span>(chunk));
+  session.<span class="hljs-title function_">on</span>(<span class="hljs-string">'NodeTracing.tracingComplete'</span>, <span class="hljs-function">() =></span> {
+    <span class="hljs-comment">// done</span>
+  });
+  <span class="hljs-keyword">const</span> traceConfig = { <span class="hljs-attr">includedCategories</span>: [<span class="hljs-string">'v8'</span>] };
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">post</span>(<span class="hljs-string">'NodeTracing.start'</span>, { traceConfig });
+  <span class="hljs-comment">// do something</span>
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> {
+    <span class="hljs-title function_">post</span>(<span class="hljs-string">'NodeTracing.stop'</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =></span> {
+      session.<span class="hljs-title function_">disconnect</span>();
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data);
+    });
+  }, <span class="hljs-number">1000</span>);
+}
+
+<span class="hljs-title function_">collect</span>();</code></pre></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v18.19.1">
+  <title>UDP/datagram sockets | Node.js v18.19.1 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/dgram.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  <style>@media(max-width:558px){.with-42-chars>.js-flavor-selector{float:none;margin:0 0 1em auto;}}@media(max-width:542px){.with-40-chars>.js-flavor-selector{float:none;margin:0 0 1em auto;}}</style>
+</head>
+<body class="alt apidoc" id="api-section-dgram">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram active">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="dgram" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v18.19.1 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v18.19.1</li>
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Table of contents
+      </a>
+
+      <div class="picker"><div class="toc"><ul>
+<li><span class="stability_2"><a href="#udpdatagram-sockets">UDP/datagram sockets</a></span>
+<ul>
+<li><a href="#class-dgramsocket">Class: <code>dgram.Socket</code></a>
+<ul>
+<li><a href="#event-close">Event: <code>'close'</code></a></li>
+<li><a href="#event-connect">Event: <code>'connect'</code></a></li>
+<li><a href="#event-error">Event: <code>'error'</code></a></li>
+<li><a href="#event-listening">Event: <code>'listening'</code></a></li>
+<li><a href="#event-message">Event: <code>'message'</code></a></li>
+<li><a href="#socketaddmembershipmulticastaddress-multicastinterface"><code>socket.addMembership(multicastAddress[, multicastInterface])</code></a></li>
+<li><a href="#socketaddsourcespecificmembershipsourceaddress-groupaddress-multicastinterface"><code>socket.addSourceSpecificMembership(sourceAddress, groupAddress[, multicastInterface])</code></a></li>
+<li><a href="#socketaddress"><code>socket.address()</code></a></li>
+<li><a href="#socketbindport-address-callback"><code>socket.bind([port][, address][, callback])</code></a></li>
+<li><a href="#socketbindoptions-callback"><code>socket.bind(options[, callback])</code></a></li>
+<li><a href="#socketclosecallback"><code>socket.close([callback])</code></a></li>
+<li><span class="stability_1"><a href="#socketsymbolasyncdispose"><code>socket[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#socketconnectport-address-callback"><code>socket.connect(port[, address][, callback])</code></a></li>
+<li><a href="#socketdisconnect"><code>socket.disconnect()</code></a></li>
+<li><a href="#socketdropmembershipmulticastaddress-multicastinterface"><code>socket.dropMembership(multicastAddress[, multicastInterface])</code></a></li>
+<li><a href="#socketdropsourcespecificmembershipsourceaddress-groupaddress-multicastinterface"><code>socket.dropSourceSpecificMembership(sourceAddress, groupAddress[, multicastInterface])</code></a></li>
+<li><a href="#socketgetrecvbuffersize"><code>socket.getRecvBufferSize()</code></a></li>
+<li><a href="#socketgetsendbuffersize"><code>socket.getSendBufferSize()</code></a></li>
+<li><a href="#socketgetsendqueuesize"><code>socket.getSendQueueSize()</code></a></li>
+<li><a href="#socketgetsendqueuecount"><code>socket.getSendQueueCount()</code></a></li>
+<li><a href="#socketref"><code>socket.ref()</code></a></li>
+<li><a href="#socketremoteaddress"><code>socket.remoteAddress()</code></a></li>
+<li><a href="#socketsendmsg-offset-length-port-address-callback"><code>socket.send(msg[, offset, length][, port][, address][, callback])</code></a>
+<ul>
+<li><a href="#note-about-udp-datagram-size">Note about UDP datagram size</a></li>
+</ul>
+</li>
+<li><a href="#socketsetbroadcastflag"><code>socket.setBroadcast(flag)</code></a></li>
+<li><a href="#socketsetmulticastinterfacemulticastinterface"><code>socket.setMulticastInterface(multicastInterface)</code></a>
+<ul>
+<li><a href="#example-ipv6-outgoing-multicast-interface">Example: IPv6 outgoing multicast interface</a></li>
+<li><a href="#example-ipv4-outgoing-multicast-interface">Example: IPv4 outgoing multicast interface</a></li>
+<li><a href="#call-results">Call results</a></li>
+</ul>
+</li>
+<li><a href="#socketsetmulticastloopbackflag"><code>socket.setMulticastLoopback(flag)</code></a></li>
+<li><a href="#socketsetmulticastttlttl"><code>socket.setMulticastTTL(ttl)</code></a></li>
+<li><a href="#socketsetrecvbuffersizesize"><code>socket.setRecvBufferSize(size)</code></a></li>
+<li><a href="#socketsetsendbuffersizesize"><code>socket.setSendBufferSize(size)</code></a></li>
+<li><a href="#socketsetttlttl"><code>socket.setTTL(ttl)</code></a></li>
+<li><a href="#socketunref"><code>socket.unref()</code></a></li>
+</ul>
+</li>
+<li><a href="#nodedgram-module-functions"><code>node:dgram</code> module functions</a>
+<ul>
+<li><a href="#dgramcreatesocketoptions-callback"><code>dgram.createSocket(options[, callback])</code></a></li>
+<li><a href="#dgramcreatesockettype-callback"><code>dgram.createSocket(type[, callback])</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Index
+      </a>
+
+      <div class="picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram active">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Other versions
+      </a>
+      <div class="picker"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v21.x/api/dgram.html">21.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v20.x/api/dgram.html">20.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v19.x/api/dgram.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/dgram.html">18.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/dgram.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/dgram.html">16.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/dgram.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/dgram.html">14.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/dgram.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/dgram.html">12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/dgram.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/dgram.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/dgram.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/dgram.html">8.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v7.x/api/dgram.html">7.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v6.x/api/dgram.html">6.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v5.x/api/dgram.html">5.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v4.x/api/dgram.html">4.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.12.x/api/dgram.html">0.12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.10.x/api/dgram.html">0.10.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#">
+                <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+                Options
+              </a>
+        
+              <div class="picker">
+                <ul>
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="dgram.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/dgram.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_2"><a href="#udpdatagram-sockets">UDP/datagram sockets</a></span>
+<ul>
+<li><a href="#class-dgramsocket">Class: <code>dgram.Socket</code></a>
+<ul>
+<li><a href="#event-close">Event: <code>'close'</code></a></li>
+<li><a href="#event-connect">Event: <code>'connect'</code></a></li>
+<li><a href="#event-error">Event: <code>'error'</code></a></li>
+<li><a href="#event-listening">Event: <code>'listening'</code></a></li>
+<li><a href="#event-message">Event: <code>'message'</code></a></li>
+<li><a href="#socketaddmembershipmulticastaddress-multicastinterface"><code>socket.addMembership(multicastAddress[, multicastInterface])</code></a></li>
+<li><a href="#socketaddsourcespecificmembershipsourceaddress-groupaddress-multicastinterface"><code>socket.addSourceSpecificMembership(sourceAddress, groupAddress[, multicastInterface])</code></a></li>
+<li><a href="#socketaddress"><code>socket.address()</code></a></li>
+<li><a href="#socketbindport-address-callback"><code>socket.bind([port][, address][, callback])</code></a></li>
+<li><a href="#socketbindoptions-callback"><code>socket.bind(options[, callback])</code></a></li>
+<li><a href="#socketclosecallback"><code>socket.close([callback])</code></a></li>
+<li><span class="stability_1"><a href="#socketsymbolasyncdispose"><code>socket[Symbol.asyncDispose]()</code></a></span></li>
+<li><a href="#socketconnectport-address-callback"><code>socket.connect(port[, address][, callback])</code></a></li>
+<li><a href="#socketdisconnect"><code>socket.disconnect()</code></a></li>
+<li><a href="#socketdropmembershipmulticastaddress-multicastinterface"><code>socket.dropMembership(multicastAddress[, multicastInterface])</code></a></li>
+<li><a href="#socketdropsourcespecificmembershipsourceaddress-groupaddress-multicastinterface"><code>socket.dropSourceSpecificMembership(sourceAddress, groupAddress[, multicastInterface])</code></a></li>
+<li><a href="#socketgetrecvbuffersize"><code>socket.getRecvBufferSize()</code></a></li>
+<li><a href="#socketgetsendbuffersize"><code>socket.getSendBufferSize()</code></a></li>
+<li><a href="#socketgetsendqueuesize"><code>socket.getSendQueueSize()</code></a></li>
+<li><a href="#socketgetsendqueuecount"><code>socket.getSendQueueCount()</code></a></li>
+<li><a href="#socketref"><code>socket.ref()</code></a></li>
+<li><a href="#socketremoteaddress"><code>socket.remoteAddress()</code></a></li>
+<li><a href="#socketsendmsg-offset-length-port-address-callback"><code>socket.send(msg[, offset, length][, port][, address][, callback])</code></a>
+<ul>
+<li><a href="#note-about-udp-datagram-size">Note about UDP datagram size</a></li>
+</ul>
+</li>
+<li><a href="#socketsetbroadcastflag"><code>socket.setBroadcast(flag)</code></a></li>
+<li><a href="#socketsetmulticastinterfacemulticastinterface"><code>socket.setMulticastInterface(multicastInterface)</code></a>
+<ul>
+<li><a href="#example-ipv6-outgoing-multicast-interface">Example: IPv6 outgoing multicast interface</a></li>
+<li><a href="#example-ipv4-outgoing-multicast-interface">Example: IPv4 outgoing multicast interface</a></li>
+<li><a href="#call-results">Call results</a></li>
+</ul>
+</li>
+<li><a href="#socketsetmulticastloopbackflag"><code>socket.setMulticastLoopback(flag)</code></a></li>
+<li><a href="#socketsetmulticastttlttl"><code>socket.setMulticastTTL(ttl)</code></a></li>
+<li><a href="#socketsetrecvbuffersizesize"><code>socket.setRecvBufferSize(size)</code></a></li>
+<li><a href="#socketsetsendbuffersizesize"><code>socket.setSendBufferSize(size)</code></a></li>
+<li><a href="#socketsetttlttl"><code>socket.setTTL(ttl)</code></a></li>
+<li><a href="#socketunref"><code>socket.unref()</code></a></li>
+</ul>
+</li>
+<li><a href="#nodedgram-module-functions"><code>node:dgram</code> module functions</a>
+<ul>
+<li><a href="#dgramcreatesocketoptions-callback"><code>dgram.createSocket(options[, callback])</code></a></li>
+<li><a href="#dgramcreatesockettype-callback"><code>dgram.createSocket(type[, callback])</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>UDP/datagram sockets<span><a class="mark" href="#udpdatagram-sockets" id="udpdatagram-sockets">#</a></span><a aria-hidden="true" class="legacy" id="dgram_udp_datagram_sockets"></a></h2>
+
+<p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
+
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v18.19.1/lib/dgram.js">lib/dgram.js</a></p>
+<p>The <code>node:dgram</code> module provides an implementation of UDP datagram sockets.</p>
+
+<pre class="with-42-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> dgram <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dgram'</span>;
+
+<span class="hljs-keyword">const</span> server = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'error'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">`server error:\n<span class="hljs-subst">${err.stack}</span>`</span>);
+  server.<span class="hljs-title function_">close</span>();
+});
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'message'</span>, <span class="hljs-function">(<span class="hljs-params">msg, rinfo</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`server got: <span class="hljs-subst">${msg}</span> from <span class="hljs-subst">${rinfo.address}</span>:<span class="hljs-subst">${rinfo.port}</span>`</span>);
+});
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'listening'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">const</span> address = server.<span class="hljs-title function_">address</span>();
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`server listening <span class="hljs-subst">${address.address}</span>:<span class="hljs-subst">${address.port}</span>`</span>);
+});
+
+server.<span class="hljs-title function_">bind</span>(<span class="hljs-number">41234</span>);
+<span class="hljs-comment">// Prints: server listening 0.0.0.0:41234</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> dgram = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dgram'</span>);
+<span class="hljs-keyword">const</span> server = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'error'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">`server error:\n<span class="hljs-subst">${err.stack}</span>`</span>);
+  server.<span class="hljs-title function_">close</span>();
+});
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'message'</span>, <span class="hljs-function">(<span class="hljs-params">msg, rinfo</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`server got: <span class="hljs-subst">${msg}</span> from <span class="hljs-subst">${rinfo.address}</span>:<span class="hljs-subst">${rinfo.port}</span>`</span>);
+});
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'listening'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">const</span> address = server.<span class="hljs-title function_">address</span>();
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`server listening <span class="hljs-subst">${address.address}</span>:<span class="hljs-subst">${address.port}</span>`</span>);
+});
+
+server.<span class="hljs-title function_">bind</span>(<span class="hljs-number">41234</span>);
+<span class="hljs-comment">// Prints: server listening 0.0.0.0:41234</span></code><button class="copy-button">copy</button></pre>
+<section><h3>Class: <code>dgram.Socket</code><span><a class="mark" href="#class-dgramsocket" id="class-dgramsocket">#</a></span><a aria-hidden="true" class="legacy" id="dgram_class_dgram_socket"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.1.99</span>
+</div>
+<ul>
+<li>Extends: <a href="events.html#class-eventemitter" class="type">&#x3C;EventEmitter></a></li>
+</ul>
+<p>Encapsulates the datagram functionality.</p>
+<p>New instances of <code>dgram.Socket</code> are created using <a href="#dgramcreatesocketoptions-callback"><code>dgram.createSocket()</code></a>.
+The <code>new</code> keyword is not to be used to create <code>dgram.Socket</code> instances.</p>
+<h4>Event: <code>'close'</code><span><a class="mark" href="#event-close" id="event-close">#</a></span><a aria-hidden="true" class="legacy" id="dgram_event_close"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.99</span>
+</div>
+<p>The <code>'close'</code> event is emitted after a socket is closed with <a href="#socketclosecallback"><code>close()</code></a>.
+Once triggered, no new <code>'message'</code> events will be emitted on this socket.</p>
+<h4>Event: <code>'connect'</code><span><a class="mark" href="#event-connect" id="event-connect">#</a></span><a aria-hidden="true" class="legacy" id="dgram_event_connect"></a></h4>
+<div class="api_metadata">
+<span>Added in: v12.0.0</span>
+</div>
+<p>The <code>'connect'</code> event is emitted after a socket is associated to a remote
+address as a result of a successful <a href="#socketconnectport-address-callback"><code>connect()</code></a> call.</p>
+<h4>Event: <code>'error'</code><span><a class="mark" href="#event-error" id="event-error">#</a></span><a aria-hidden="true" class="legacy" id="dgram_event_error"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.99</span>
+</div>
+<ul>
+<li><code>exception</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error" class="type">&#x3C;Error></a></li>
+</ul>
+<p>The <code>'error'</code> event is emitted whenever any error occurs. The event handler
+function is passed a single <code>Error</code> object.</p>
+<h4>Event: <code>'listening'</code><span><a class="mark" href="#event-listening" id="event-listening">#</a></span><a aria-hidden="true" class="legacy" id="dgram_event_listening"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.99</span>
+</div>
+<p>The <code>'listening'</code> event is emitted once the <code>dgram.Socket</code> is addressable and
+can receive data. This happens either explicitly with <code>socket.bind()</code> or
+implicitly the first time data is sent using <code>socket.send()</code>.
+Until the <code>dgram.Socket</code> is listening, the underlying system resources do not
+exist and calls such as <code>socket.address()</code> and <code>socket.setTTL()</code> will fail.</p>
+<h4>Event: <code>'message'</code><span><a class="mark" href="#event-message" id="event-message">#</a></span><a aria-hidden="true" class="legacy" id="dgram_event_message"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v18.4.0</td>
+<td><p>The <code>family</code> property now returns a string instead of a number.</p></td></tr>
+<tr><td>v18.0.0</td>
+<td><p>The <code>family</code> property now returns a number instead of a string.</p></td></tr>
+<tr><td>v0.1.99</td>
+<td><p><span>Added in: v0.1.99</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p>The <code>'message'</code> event is emitted when a new datagram is available on a socket.
+The event handler function is passed two arguments: <code>msg</code> and <code>rinfo</code>.</p>
+<ul>
+<li><code>msg</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> The message.</li>
+<li><code>rinfo</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Remote address information.
+<ul>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The sender address.</li>
+<li><code>family</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The address family (<code>'IPv4'</code> or <code>'IPv6'</code>).</li>
+<li><code>port</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The sender port.</li>
+<li><code>size</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The message size.</li>
+</ul>
+</li>
+</ul>
+<p>If the source address of the incoming packet is an IPv6 link-local
+address, the interface name is added to the <code>address</code>. For
+example, a packet received on the <code>en0</code> interface might have the
+address field set to <code>'fe80::2618:1234:ab11:3b9c%en0'</code>, where <code>'%en0'</code>
+is the interface name as a zone ID suffix.</p>
+<h4><code>socket.addMembership(multicastAddress[, multicastInterface])</code><span><a class="mark" href="#socketaddmembershipmulticastaddress-multicastinterface" id="socketaddmembershipmulticastaddress-multicastinterface">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_addmembership_multicastaddress_multicastinterface"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.6.9</span>
+</div>
+<ul>
+<li><code>multicastAddress</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>multicastInterface</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Tells the kernel to join a multicast group at the given <code>multicastAddress</code> and
+<code>multicastInterface</code> using the <code>IP_ADD_MEMBERSHIP</code> socket option. If the
+<code>multicastInterface</code> argument is not specified, the operating system will choose
+one interface and will add membership to it. To add membership to every
+available interface, call <code>addMembership</code> multiple times, once per interface.</p>
+<p>When called on an unbound socket, this method will implicitly bind to a random
+port, listening on all interfaces.</p>
+<p>When sharing a UDP socket across multiple <code>cluster</code> workers, the
+<code>socket.addMembership()</code> function must be called only once or an
+<code>EADDRINUSE</code> error will occur:</p>
+
+<pre class="with-40-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> cluster <span class="hljs-keyword">from</span> <span class="hljs-string">'node:cluster'</span>;
+<span class="hljs-keyword">import</span> dgram <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dgram'</span>;
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  cluster.<span class="hljs-title function_">fork</span>(); <span class="hljs-comment">// Works ok.</span>
+  cluster.<span class="hljs-title function_">fork</span>(); <span class="hljs-comment">// Fails with EADDRINUSE.</span>
+} <span class="hljs-keyword">else</span> {
+  <span class="hljs-keyword">const</span> s = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+  s.<span class="hljs-title function_">bind</span>(<span class="hljs-number">1234</span>, <span class="hljs-function">() =></span> {
+    s.<span class="hljs-title function_">addMembership</span>(<span class="hljs-string">'224.0.0.114'</span>);
+  });
+}</code><code class="language-js cjs"><span class="hljs-keyword">const</span> cluster = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:cluster'</span>);
+<span class="hljs-keyword">const</span> dgram = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dgram'</span>);
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  cluster.<span class="hljs-title function_">fork</span>(); <span class="hljs-comment">// Works ok.</span>
+  cluster.<span class="hljs-title function_">fork</span>(); <span class="hljs-comment">// Fails with EADDRINUSE.</span>
+} <span class="hljs-keyword">else</span> {
+  <span class="hljs-keyword">const</span> s = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+  s.<span class="hljs-title function_">bind</span>(<span class="hljs-number">1234</span>, <span class="hljs-function">() =></span> {
+    s.<span class="hljs-title function_">addMembership</span>(<span class="hljs-string">'224.0.0.114'</span>);
+  });
+}</code><button class="copy-button">copy</button></pre>
+<h4><code>socket.addSourceSpecificMembership(sourceAddress, groupAddress[, multicastInterface])</code><span><a class="mark" href="#socketaddsourcespecificmembershipsourceaddress-groupaddress-multicastinterface" id="socketaddsourcespecificmembershipsourceaddress-groupaddress-multicastinterface">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_addsourcespecificmembership_sourceaddress_groupaddress_multicastinterface"></a></h4>
+<div class="api_metadata">
+<span>Added in: v13.1.0, v12.16.0</span>
+</div>
+<ul>
+<li><code>sourceAddress</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>groupAddress</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>multicastInterface</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Tells the kernel to join a source-specific multicast channel at the given
+<code>sourceAddress</code> and <code>groupAddress</code>, using the <code>multicastInterface</code> with the
+<code>IP_ADD_SOURCE_MEMBERSHIP</code> socket option. If the <code>multicastInterface</code> argument
+is not specified, the operating system will choose one interface and will add
+membership to it. To add membership to every available interface, call
+<code>socket.addSourceSpecificMembership()</code> multiple times, once per interface.</p>
+<p>When called on an unbound socket, this method will implicitly bind to a random
+port, listening on all interfaces.</p>
+<h4><code>socket.address()</code><span><a class="mark" href="#socketaddress" id="socketaddress">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_address"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.99</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Returns an object containing the address information for a socket.
+For UDP sockets, this object will contain <code>address</code>, <code>family</code>, and <code>port</code>
+properties.</p>
+<p>This method throws <code>EBADF</code> if called on an unbound socket.</p>
+<h4><code>socket.bind([port][, address][, callback])</code><span><a class="mark" href="#socketbindport-address-callback" id="socketbindport-address-callback">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_bind_port_address_callback"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v0.9.1</td>
+<td><p>The method was changed to an asynchronous execution model. Legacy code would need to be changed to pass a callback function to the method call.</p></td></tr>
+<tr><td>v0.1.99</td>
+<td><p><span>Added in: v0.1.99</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>port</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a></li>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> with no parameters. Called when binding is complete.</li>
+</ul>
+<p>For UDP sockets, causes the <code>dgram.Socket</code> to listen for datagram
+messages on a named <code>port</code> and optional <code>address</code>. If <code>port</code> is not
+specified or is <code>0</code>, the operating system will attempt to bind to a
+random port. If <code>address</code> is not specified, the operating system will
+attempt to listen on all addresses. Once binding is complete, a
+<code>'listening'</code> event is emitted and the optional <code>callback</code> function is
+called.</p>
+<p>Specifying both a <code>'listening'</code> event listener and passing a
+<code>callback</code> to the <code>socket.bind()</code> method is not harmful but not very
+useful.</p>
+<p>A bound datagram socket keeps the Node.js process running to receive
+datagram messages.</p>
+<p>If binding fails, an <code>'error'</code> event is generated. In rare case (e.g.
+attempting to bind with a closed socket), an <a href="errors.html#class-error"><code>Error</code></a> may be thrown.</p>
+<p>Example of a UDP server listening on port 41234:</p>
+
+<pre class="with-42-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> dgram <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dgram'</span>;
+
+<span class="hljs-keyword">const</span> server = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'error'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">`server error:\n<span class="hljs-subst">${err.stack}</span>`</span>);
+  server.<span class="hljs-title function_">close</span>();
+});
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'message'</span>, <span class="hljs-function">(<span class="hljs-params">msg, rinfo</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`server got: <span class="hljs-subst">${msg}</span> from <span class="hljs-subst">${rinfo.address}</span>:<span class="hljs-subst">${rinfo.port}</span>`</span>);
+});
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'listening'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">const</span> address = server.<span class="hljs-title function_">address</span>();
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`server listening <span class="hljs-subst">${address.address}</span>:<span class="hljs-subst">${address.port}</span>`</span>);
+});
+
+server.<span class="hljs-title function_">bind</span>(<span class="hljs-number">41234</span>);
+<span class="hljs-comment">// Prints: server listening 0.0.0.0:41234</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> dgram = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dgram'</span>);
+<span class="hljs-keyword">const</span> server = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'error'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">`server error:\n<span class="hljs-subst">${err.stack}</span>`</span>);
+  server.<span class="hljs-title function_">close</span>();
+});
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'message'</span>, <span class="hljs-function">(<span class="hljs-params">msg, rinfo</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`server got: <span class="hljs-subst">${msg}</span> from <span class="hljs-subst">${rinfo.address}</span>:<span class="hljs-subst">${rinfo.port}</span>`</span>);
+});
+
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'listening'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-keyword">const</span> address = server.<span class="hljs-title function_">address</span>();
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`server listening <span class="hljs-subst">${address.address}</span>:<span class="hljs-subst">${address.port}</span>`</span>);
+});
+
+server.<span class="hljs-title function_">bind</span>(<span class="hljs-number">41234</span>);
+<span class="hljs-comment">// Prints: server listening 0.0.0.0:41234</span></code><button class="copy-button">copy</button></pre>
+<h4><code>socket.bind(options[, callback])</code><span><a class="mark" href="#socketbindoptions-callback" id="socketbindoptions-callback">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_bind_options_callback"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.11.14</span>
+</div>
+<ul>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Required. Supports the following properties:
+<ul>
+<li><code>port</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a></li>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>exclusive</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+<li><code>fd</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a></li>
+</ul>
+</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
+</ul>
+<p>For UDP sockets, causes the <code>dgram.Socket</code> to listen for datagram
+messages on a named <code>port</code> and optional <code>address</code> that are passed as
+properties of an <code>options</code> object passed as the first argument. If
+<code>port</code> is not specified or is <code>0</code>, the operating system will attempt
+to bind to a random port. If <code>address</code> is not specified, the operating
+system will attempt to listen on all addresses. Once binding is
+complete, a <code>'listening'</code> event is emitted and the optional <code>callback</code>
+function is called.</p>
+<p>The <code>options</code> object may contain a <code>fd</code> property. When a <code>fd</code> greater
+than <code>0</code> is set, it will wrap around an existing socket with the given
+file descriptor. In this case, the properties of <code>port</code> and <code>address</code>
+will be ignored.</p>
+<p>Specifying both a <code>'listening'</code> event listener and passing a
+<code>callback</code> to the <code>socket.bind()</code> method is not harmful but not very
+useful.</p>
+<p>The <code>options</code> object may contain an additional <code>exclusive</code> property that is
+used when using <code>dgram.Socket</code> objects with the <a href="cluster.html"><code>cluster</code></a> module. When
+<code>exclusive</code> is set to <code>false</code> (the default), cluster workers will use the same
+underlying socket handle allowing connection handling duties to be shared.
+When <code>exclusive</code> is <code>true</code>, however, the handle is not shared and attempted
+port sharing results in an error.</p>
+<p>A bound datagram socket keeps the Node.js process running to receive
+datagram messages.</p>
+<p>If binding fails, an <code>'error'</code> event is generated. In rare case (e.g.
+attempting to bind with a closed socket), an <a href="errors.html#class-error"><code>Error</code></a> may be thrown.</p>
+<p>An example socket listening on an exclusive port is shown below.</p>
+<pre><code class="language-js">socket.<span class="hljs-title function_">bind</span>({
+  <span class="hljs-attr">address</span>: <span class="hljs-string">'localhost'</span>,
+  <span class="hljs-attr">port</span>: <span class="hljs-number">8000</span>,
+  <span class="hljs-attr">exclusive</span>: <span class="hljs-literal">true</span>,
+});</code> <button class="copy-button">copy</button></pre>
+<h4><code>socket.close([callback])</code><span><a class="mark" href="#socketclosecallback" id="socketclosecallback">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_close_callback"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.99</span>
+</div>
+<ul>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Called when the socket has been closed.</li>
+</ul>
+<p>Close the underlying socket and stop listening for data on it. If a callback is
+provided, it is added as a listener for the <a href="#event-close"><code>'close'</code></a> event.</p>
+<h4><code>socket[Symbol.asyncDispose]()</code><span><a class="mark" href="#socketsymbolasyncdispose" id="socketsymbolasyncdispose">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_symbol_asyncdispose"></a></h4>
+<div class="api_metadata">
+<span>Added in: v18.18.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental</div><p></p>
+<p>Calls <a href="#socketclosecallback"><code>socket.close()</code></a> and returns a promise that fulfills when the
+socket has closed.</p>
+<h4><code>socket.connect(port[, address][, callback])</code><span><a class="mark" href="#socketconnectport-address-callback" id="socketconnectport-address-callback">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_connect_port_address_callback"></a></h4>
+<div class="api_metadata">
+<span>Added in: v12.0.0</span>
+</div>
+<ul>
+<li><code>port</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a></li>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Called when the connection is completed or on error.</li>
+</ul>
+<p>Associates the <code>dgram.Socket</code> to a remote address and port. Every
+message sent by this handle is automatically sent to that destination. Also,
+the socket will only receive messages from that remote peer.
+Trying to call <code>connect()</code> on an already connected socket will result
+in an <a href="errors.html#err_socket_dgram_is_connected"><code>ERR_SOCKET_DGRAM_IS_CONNECTED</code></a> exception. If <code>address</code> is not
+provided, <code>'127.0.0.1'</code> (for <code>udp4</code> sockets) or <code>'::1'</code> (for <code>udp6</code> sockets)
+will be used by default. Once the connection is complete, a <code>'connect'</code> event
+is emitted and the optional <code>callback</code> function is called. In case of failure,
+the <code>callback</code> is called or, failing this, an <code>'error'</code> event is emitted.</p>
+<h4><code>socket.disconnect()</code><span><a class="mark" href="#socketdisconnect" id="socketdisconnect">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_disconnect"></a></h4>
+<div class="api_metadata">
+<span>Added in: v12.0.0</span>
+</div>
+<p>A synchronous function that disassociates a connected <code>dgram.Socket</code> from
+its remote address. Trying to call <code>disconnect()</code> on an unbound or already
+disconnected socket will result in an <a href="errors.html#err_socket_dgram_not_connected"><code>ERR_SOCKET_DGRAM_NOT_CONNECTED</code></a>
+exception.</p>
+<h4><code>socket.dropMembership(multicastAddress[, multicastInterface])</code><span><a class="mark" href="#socketdropmembershipmulticastaddress-multicastinterface" id="socketdropmembershipmulticastaddress-multicastinterface">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_dropmembership_multicastaddress_multicastinterface"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.6.9</span>
+</div>
+<ul>
+<li><code>multicastAddress</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>multicastInterface</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Instructs the kernel to leave a multicast group at <code>multicastAddress</code> using the
+<code>IP_DROP_MEMBERSHIP</code> socket option. This method is automatically called by the
+kernel when the socket is closed or the process terminates, so most apps will
+never have reason to call this.</p>
+<p>If <code>multicastInterface</code> is not specified, the operating system will attempt to
+drop membership on all valid interfaces.</p>
+<h4><code>socket.dropSourceSpecificMembership(sourceAddress, groupAddress[, multicastInterface])</code><span><a class="mark" href="#socketdropsourcespecificmembershipsourceaddress-groupaddress-multicastinterface" id="socketdropsourcespecificmembershipsourceaddress-groupaddress-multicastinterface">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_dropsourcespecificmembership_sourceaddress_groupaddress_multicastinterface"></a></h4>
+<div class="api_metadata">
+<span>Added in: v13.1.0, v12.16.0</span>
+</div>
+<ul>
+<li><code>sourceAddress</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>groupAddress</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+<li><code>multicastInterface</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p>Instructs the kernel to leave a source-specific multicast channel at the given
+<code>sourceAddress</code> and <code>groupAddress</code> using the <code>IP_DROP_SOURCE_MEMBERSHIP</code>
+socket option. This method is automatically called by the kernel when the
+socket is closed or the process terminates, so most apps will never have
+reason to call this.</p>
+<p>If <code>multicastInterface</code> is not specified, the operating system will attempt to
+drop membership on all valid interfaces.</p>
+<h4><code>socket.getRecvBufferSize()</code><span><a class="mark" href="#socketgetrecvbuffersize" id="socketgetrecvbuffersize">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_getrecvbuffersize"></a></h4>
+<div class="api_metadata">
+<span>Added in: v8.7.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> the <code>SO_RCVBUF</code> socket receive buffer size in bytes.</li>
+</ul>
+<p>This method throws <a href="errors.html#err_socket_buffer_size"><code>ERR_SOCKET_BUFFER_SIZE</code></a> if called on an unbound socket.</p>
+<h4><code>socket.getSendBufferSize()</code><span><a class="mark" href="#socketgetsendbuffersize" id="socketgetsendbuffersize">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_getsendbuffersize"></a></h4>
+<div class="api_metadata">
+<span>Added in: v8.7.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> the <code>SO_SNDBUF</code> socket send buffer size in bytes.</li>
+</ul>
+<p>This method throws <a href="errors.html#err_socket_buffer_size"><code>ERR_SOCKET_BUFFER_SIZE</code></a> if called on an unbound socket.</p>
+<h4><code>socket.getSendQueueSize()</code><span><a class="mark" href="#socketgetsendqueuesize" id="socketgetsendqueuesize">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_getsendqueuesize"></a></h4>
+<div class="api_metadata">
+<span>Added in: v18.8.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> Number of bytes queued for sending.</li>
+</ul>
+<h4><code>socket.getSendQueueCount()</code><span><a class="mark" href="#socketgetsendqueuecount" id="socketgetsendqueuecount">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_getsendqueuecount"></a></h4>
+<div class="api_metadata">
+<span>Added in: v18.8.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> Number of send requests currently in the queue awaiting
+to be processed.</li>
+</ul>
+<h4><code>socket.ref()</code><span><a class="mark" href="#socketref" id="socketref">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_ref"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.9.1</span>
+</div>
+<ul>
+<li>Returns: <a href="dgram.html#class-dgramsocket" class="type">&#x3C;dgram.Socket></a></li>
+</ul>
+<p>By default, binding a socket will cause it to block the Node.js process from
+exiting as long as the socket is open. The <code>socket.unref()</code> method can be used
+to exclude the socket from the reference counting that keeps the Node.js
+process active. The <code>socket.ref()</code> method adds the socket back to the reference
+counting and restores the default behavior.</p>
+<p>Calling <code>socket.ref()</code> multiples times will have no additional effect.</p>
+<p>The <code>socket.ref()</code> method returns a reference to the socket so calls can be
+chained.</p>
+<h4><code>socket.remoteAddress()</code><span><a class="mark" href="#socketremoteaddress" id="socketremoteaddress">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_remoteaddress"></a></h4>
+<div class="api_metadata">
+<span>Added in: v12.0.0</span>
+</div>
+<ul>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Returns an object containing the <code>address</code>, <code>family</code>, and <code>port</code> of the remote
+endpoint. This method throws an <a href="errors.html#err_socket_dgram_not_connected"><code>ERR_SOCKET_DGRAM_NOT_CONNECTED</code></a> exception
+if the socket is not connected.</p>
+<h4><code>socket.send(msg[, offset, length][, port][, address][, callback])</code><span><a class="mark" href="#socketsendmsg-offset-length-port-address-callback" id="socketsendmsg-offset-length-port-address-callback">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_send_msg_offset_length_port_address_callback"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v17.0.0</td>
+<td><p>The <code>address</code> parameter now only accepts a <code>string</code>, <code>null</code> or <code>undefined</code>.</p></td></tr>
+<tr><td>v14.5.0, v12.19.0</td>
+<td><p>The <code>msg</code> parameter can now be any <code>TypedArray</code> or <code>DataView</code>.</p></td></tr>
+<tr><td>v12.0.0</td>
+<td><p>Added support for sending data on connected sockets.</p></td></tr>
+<tr><td>v8.0.0</td>
+<td><p>The <code>msg</code> parameter can be an <code>Uint8Array</code> now.</p></td></tr>
+<tr><td>v8.0.0</td>
+<td><p>The <code>address</code> parameter is always optional now.</p></td></tr>
+<tr><td>v6.0.0</td>
+<td><p>On success, <code>callback</code> will now be called with an <code>error</code> argument of <code>null</code> rather than <code>0</code>.</p></td></tr>
+<tr><td>v5.7.0</td>
+<td><p>The <code>msg</code> parameter can be an array now. Also, the <code>offset</code> and <code>length</code> parameters are optional now.</p></td></tr>
+<tr><td>v0.1.99</td>
+<td><p><span>Added in: v0.1.99</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>msg</code> <a href="buffer.html#class-buffer" class="type">&#x3C;Buffer></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" class="type">&#x3C;TypedArray></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView" class="type">&#x3C;DataView></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> Message to be sent.</li>
+<li><code>offset</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a> Offset in the buffer where the message starts.</li>
+<li><code>length</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a> Number of bytes in the message.</li>
+<li><code>port</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a> Destination port.</li>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Destination host name or IP address.</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Called when the message has been sent.</li>
+</ul>
+<p>Broadcasts a datagram on the socket.
+For connectionless sockets, the destination <code>port</code> and <code>address</code> must be
+specified. Connected sockets, on the other hand, will use their associated
+remote endpoint, so the <code>port</code> and <code>address</code> arguments must not be set.</p>
+<p>The <code>msg</code> argument contains the message to be sent.
+Depending on its type, different behavior can apply. If <code>msg</code> is a <code>Buffer</code>,
+any <code>TypedArray</code> or a <code>DataView</code>,
+the <code>offset</code> and <code>length</code> specify the offset within the <code>Buffer</code> where the
+message begins and the number of bytes in the message, respectively.
+If <code>msg</code> is a <code>String</code>, then it is automatically converted to a <code>Buffer</code>
+with <code>'utf8'</code> encoding. With messages that
+contain multi-byte characters, <code>offset</code> and <code>length</code> will be calculated with
+respect to <a href="buffer.html#static-method-bufferbytelengthstring-encoding">byte length</a> and not the character position.
+If <code>msg</code> is an array, <code>offset</code> and <code>length</code> must not be specified.</p>
+<p>The <code>address</code> argument is a string. If the value of <code>address</code> is a host name,
+DNS will be used to resolve the address of the host. If <code>address</code> is not
+provided or otherwise nullish, <code>'127.0.0.1'</code> (for <code>udp4</code> sockets) or <code>'::1'</code>
+(for <code>udp6</code> sockets) will be used by default.</p>
+<p>If the socket has not been previously bound with a call to <code>bind</code>, the socket
+is assigned a random port number and is bound to the "all interfaces" address
+(<code>'0.0.0.0'</code> for <code>udp4</code> sockets, <code>'::0'</code> for <code>udp6</code> sockets.)</p>
+<p>An optional <code>callback</code> function may be specified to as a way of reporting
+DNS errors or for determining when it is safe to reuse the <code>buf</code> object.
+DNS lookups delay the time to send for at least one tick of the
+Node.js event loop.</p>
+<p>The only way to know for sure that the datagram has been sent is by using a
+<code>callback</code>. If an error occurs and a <code>callback</code> is given, the error will be
+passed as the first argument to the <code>callback</code>. If a <code>callback</code> is not given,
+the error is emitted as an <code>'error'</code> event on the <code>socket</code> object.</p>
+<p>Offset and length are optional but both <em>must</em> be set if either are used.
+They are supported only when the first argument is a <code>Buffer</code>, a <code>TypedArray</code>,
+or a <code>DataView</code>.</p>
+<p>This method throws <a href="errors.html#err_socket_bad_port"><code>ERR_SOCKET_BAD_PORT</code></a> if called on an unbound socket.</p>
+<p>Example of sending a UDP packet to a port on <code>localhost</code>;</p>
+
+<pre class="with-42-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> dgram <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dgram'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+
+<span class="hljs-keyword">const</span> message = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Some bytes'</span>);
+<span class="hljs-keyword">const</span> client = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+client.<span class="hljs-title function_">send</span>(message, <span class="hljs-number">41234</span>, <span class="hljs-string">'localhost'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  client.<span class="hljs-title function_">close</span>();
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> dgram = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dgram'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Buffer</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:buffer'</span>);
+
+<span class="hljs-keyword">const</span> message = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Some bytes'</span>);
+<span class="hljs-keyword">const</span> client = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+client.<span class="hljs-title function_">send</span>(message, <span class="hljs-number">41234</span>, <span class="hljs-string">'localhost'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  client.<span class="hljs-title function_">close</span>();
+});</code><button class="copy-button">copy</button></pre>
+<p>Example of sending a UDP packet composed of multiple buffers to a port on
+<code>127.0.0.1</code>;</p>
+
+<pre class="with-42-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> dgram <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dgram'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+
+<span class="hljs-keyword">const</span> buf1 = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Some '</span>);
+<span class="hljs-keyword">const</span> buf2 = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'bytes'</span>);
+<span class="hljs-keyword">const</span> client = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+client.<span class="hljs-title function_">send</span>([buf1, buf2], <span class="hljs-number">41234</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  client.<span class="hljs-title function_">close</span>();
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> dgram = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dgram'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Buffer</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:buffer'</span>);
+
+<span class="hljs-keyword">const</span> buf1 = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Some '</span>);
+<span class="hljs-keyword">const</span> buf2 = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'bytes'</span>);
+<span class="hljs-keyword">const</span> client = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+client.<span class="hljs-title function_">send</span>([buf1, buf2], <span class="hljs-number">41234</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  client.<span class="hljs-title function_">close</span>();
+});</code><button class="copy-button">copy</button></pre>
+<p>Sending multiple buffers might be faster or slower depending on the
+application and operating system. Run benchmarks to
+determine the optimal strategy on a case-by-case basis. Generally speaking,
+however, sending multiple buffers is faster.</p>
+<p>Example of sending a UDP packet using a socket connected to a port on
+<code>localhost</code>:</p>
+
+<pre class="with-42-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> dgram <span class="hljs-keyword">from</span> <span class="hljs-string">'node:dgram'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Buffer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:buffer'</span>;
+
+<span class="hljs-keyword">const</span> message = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Some bytes'</span>);
+<span class="hljs-keyword">const</span> client = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+client.<span class="hljs-title function_">connect</span>(<span class="hljs-number">41234</span>, <span class="hljs-string">'localhost'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  client.<span class="hljs-title function_">send</span>(message, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+    client.<span class="hljs-title function_">close</span>();
+  });
+});</code><code class="language-js cjs"><span class="hljs-keyword">const</span> dgram = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:dgram'</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">Buffer</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:buffer'</span>);
+
+<span class="hljs-keyword">const</span> message = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">'Some bytes'</span>);
+<span class="hljs-keyword">const</span> client = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+client.<span class="hljs-title function_">connect</span>(<span class="hljs-number">41234</span>, <span class="hljs-string">'localhost'</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+  client.<span class="hljs-title function_">send</span>(message, <span class="hljs-function">(<span class="hljs-params">err</span>) =></span> {
+    client.<span class="hljs-title function_">close</span>();
+  });
+});</code><button class="copy-button">copy</button></pre>
+<h5>Note about UDP datagram size<span><a class="mark" href="#note-about-udp-datagram-size" id="note-about-udp-datagram-size">#</a></span><a aria-hidden="true" class="legacy" id="dgram_note_about_udp_datagram_size"></a></h5>
+<p>The maximum size of an IPv4/v6 datagram depends on the <code>MTU</code>
+(Maximum Transmission Unit) and on the <code>Payload Length</code> field size.</p>
+<ul>
+<li>
+<p>The <code>Payload Length</code> field is 16 bits wide, which means that a normal
+payload cannot exceed 64K octets including the internet header and data
+(65,507 bytes = 65,535 − 8 bytes UDP header − 20 bytes IP header);
+this is generally true for loopback interfaces, but such long datagram
+messages are impractical for most hosts and networks.</p>
+</li>
+<li>
+<p>The <code>MTU</code> is the largest size a given link layer technology can support for
+datagram messages. For any link, IPv4 mandates a minimum <code>MTU</code> of 68
+octets, while the recommended <code>MTU</code> for IPv4 is 576 (typically recommended
+as the <code>MTU</code> for dial-up type applications), whether they arrive whole or in
+fragments.</p>
+<p>For IPv6, the minimum <code>MTU</code> is 1280 octets. However, the mandatory minimum
+fragment reassembly buffer size is 1500 octets. The value of 68 octets is
+very small, since most current link layer technologies, like Ethernet, have a
+minimum <code>MTU</code> of 1500.</p>
+</li>
+</ul>
+<p>It is impossible to know in advance the MTU of each link through which
+a packet might travel. Sending a datagram greater than the receiver <code>MTU</code> will
+not work because the packet will get silently dropped without informing the
+source that the data did not reach its intended recipient.</p>
+<h4><code>socket.setBroadcast(flag)</code><span><a class="mark" href="#socketsetbroadcastflag" id="socketsetbroadcastflag">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_setbroadcast_flag"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.6.9</span>
+</div>
+<ul>
+<li><code>flag</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>Sets or clears the <code>SO_BROADCAST</code> socket option. When set to <code>true</code>, UDP
+packets may be sent to a local interface's broadcast address.</p>
+<p>This method throws <code>EBADF</code> if called on an unbound socket.</p>
+<h4><code>socket.setMulticastInterface(multicastInterface)</code><span><a class="mark" href="#socketsetmulticastinterfacemulticastinterface" id="socketsetmulticastinterfacemulticastinterface">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_setmulticastinterface_multicastinterface"></a></h4>
+<div class="api_metadata">
+<span>Added in: v8.6.0</span>
+</div>
+<ul>
+<li><code>multicastInterface</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a></li>
+</ul>
+<p><em>All references to scope in this section are referring to
+<a href="https://en.wikipedia.org/wiki/IPv6_address#Scoped_literal_IPv6_addresses">IPv6 Zone Indices</a>, which are defined by <a href="https://tools.ietf.org/html/rfc4007">RFC 4007</a>. In string form, an IP
+with a scope index is written as <code>'IP%scope'</code> where scope is an interface name
+or interface number.</em></p>
+<p>Sets the default outgoing multicast interface of the socket to a chosen
+interface or back to system interface selection. The <code>multicastInterface</code> must
+be a valid string representation of an IP from the socket's family.</p>
+<p>For IPv4 sockets, this should be the IP configured for the desired physical
+interface. All packets sent to multicast on the socket will be sent on the
+interface determined by the most recent successful use of this call.</p>
+<p>For IPv6 sockets, <code>multicastInterface</code> should include a scope to indicate the
+interface as in the examples that follow. In IPv6, individual <code>send</code> calls can
+also use explicit scope in addresses, so only packets sent to a multicast
+address without specifying an explicit scope are affected by the most recent
+successful use of this call.</p>
+<p>This method throws <code>EBADF</code> if called on an unbound socket.</p>
+<h5>Example: IPv6 outgoing multicast interface<span><a class="mark" href="#example-ipv6-outgoing-multicast-interface" id="example-ipv6-outgoing-multicast-interface">#</a></span><a aria-hidden="true" class="legacy" id="dgram_example_ipv6_outgoing_multicast_interface"></a></h5>
+<p>On most systems, where scope format uses the interface name:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> socket = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp6'</span>);
+
+socket.<span class="hljs-title function_">bind</span>(<span class="hljs-number">1234</span>, <span class="hljs-function">() =></span> {
+  socket.<span class="hljs-title function_">setMulticastInterface</span>(<span class="hljs-string">'::%eth1'</span>);
+});</code> <button class="copy-button">copy</button></pre>
+<p>On Windows, where scope format uses an interface number:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> socket = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp6'</span>);
+
+socket.<span class="hljs-title function_">bind</span>(<span class="hljs-number">1234</span>, <span class="hljs-function">() =></span> {
+  socket.<span class="hljs-title function_">setMulticastInterface</span>(<span class="hljs-string">'::%2'</span>);
+});</code> <button class="copy-button">copy</button></pre>
+<h5>Example: IPv4 outgoing multicast interface<span><a class="mark" href="#example-ipv4-outgoing-multicast-interface" id="example-ipv4-outgoing-multicast-interface">#</a></span><a aria-hidden="true" class="legacy" id="dgram_example_ipv4_outgoing_multicast_interface"></a></h5>
+<p>All systems use an IP of the host on the desired physical interface:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> socket = dgram.<span class="hljs-title function_">createSocket</span>(<span class="hljs-string">'udp4'</span>);
+
+socket.<span class="hljs-title function_">bind</span>(<span class="hljs-number">1234</span>, <span class="hljs-function">() =></span> {
+  socket.<span class="hljs-title function_">setMulticastInterface</span>(<span class="hljs-string">'10.0.0.2'</span>);
+});</code> <button class="copy-button">copy</button></pre>
+<h5>Call results<span><a class="mark" href="#call-results" id="call-results">#</a></span><a aria-hidden="true" class="legacy" id="dgram_call_results"></a></h5>
+<p>A call on a socket that is not ready to send or no longer open may throw a <em>Not
+running</em> <a href="errors.html#class-error"><code>Error</code></a>.</p>
+<p>If <code>multicastInterface</code> can not be parsed into an IP then an <em>EINVAL</em>
+<a href="errors.html#class-systemerror"><code>System Error</code></a> is thrown.</p>
+<p>On IPv4, if <code>multicastInterface</code> is a valid address but does not match any
+interface, or if the address does not match the family then
+a <a href="errors.html#class-systemerror"><code>System Error</code></a> such as <code>EADDRNOTAVAIL</code> or <code>EPROTONOSUP</code> is thrown.</p>
+<p>On IPv6, most errors with specifying or omitting scope will result in the socket
+continuing to use (or returning to) the system's default interface selection.</p>
+<p>A socket's address family's ANY address (IPv4 <code>'0.0.0.0'</code> or IPv6 <code>'::'</code>) can be
+used to return control of the sockets default outgoing interface to the system
+for future multicast packets.</p>
+<h4><code>socket.setMulticastLoopback(flag)</code><span><a class="mark" href="#socketsetmulticastloopbackflag" id="socketsetmulticastloopbackflag">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_setmulticastloopback_flag"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.3.8</span>
+</div>
+<ul>
+<li><code>flag</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>Sets or clears the <code>IP_MULTICAST_LOOP</code> socket option. When set to <code>true</code>,
+multicast packets will also be received on the local interface.</p>
+<p>This method throws <code>EBADF</code> if called on an unbound socket.</p>
+<h4><code>socket.setMulticastTTL(ttl)</code><span><a class="mark" href="#socketsetmulticastttlttl" id="socketsetmulticastttlttl">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_setmulticastttl_ttl"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.3.8</span>
+</div>
+<ul>
+<li><code>ttl</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a></li>
+</ul>
+<p>Sets the <code>IP_MULTICAST_TTL</code> socket option. While TTL generally stands for
+"Time to Live", in this context it specifies the number of IP hops that a
+packet is allowed to travel through, specifically for multicast traffic. Each
+router or gateway that forwards a packet decrements the TTL. If the TTL is
+decremented to 0 by a router, it will not be forwarded.</p>
+<p>The <code>ttl</code> argument may be between 0 and 255. The default on most systems is <code>1</code>.</p>
+<p>This method throws <code>EBADF</code> if called on an unbound socket.</p>
+<h4><code>socket.setRecvBufferSize(size)</code><span><a class="mark" href="#socketsetrecvbuffersizesize" id="socketsetrecvbuffersizesize">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_setrecvbuffersize_size"></a></h4>
+<div class="api_metadata">
+<span>Added in: v8.7.0</span>
+</div>
+<ul>
+<li><code>size</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a></li>
+</ul>
+<p>Sets the <code>SO_RCVBUF</code> socket option. Sets the maximum socket receive buffer
+in bytes.</p>
+<p>This method throws <a href="errors.html#err_socket_buffer_size"><code>ERR_SOCKET_BUFFER_SIZE</code></a> if called on an unbound socket.</p>
+<h4><code>socket.setSendBufferSize(size)</code><span><a class="mark" href="#socketsetsendbuffersizesize" id="socketsetsendbuffersizesize">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_setsendbuffersize_size"></a></h4>
+<div class="api_metadata">
+<span>Added in: v8.7.0</span>
+</div>
+<ul>
+<li><code>size</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a></li>
+</ul>
+<p>Sets the <code>SO_SNDBUF</code> socket option. Sets the maximum socket send buffer
+in bytes.</p>
+<p>This method throws <a href="errors.html#err_socket_buffer_size"><code>ERR_SOCKET_BUFFER_SIZE</code></a> if called on an unbound socket.</p>
+<h4><code>socket.setTTL(ttl)</code><span><a class="mark" href="#socketsetttlttl" id="socketsetttlttl">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_setttl_ttl"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.101</span>
+</div>
+<ul>
+<li><code>ttl</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a></li>
+</ul>
+<p>Sets the <code>IP_TTL</code> socket option. While TTL generally stands for "Time to Live",
+in this context it specifies the number of IP hops that a packet is allowed to
+travel through. Each router or gateway that forwards a packet decrements the
+TTL. If the TTL is decremented to 0 by a router, it will not be forwarded.
+Changing TTL values is typically done for network probes or when multicasting.</p>
+<p>The <code>ttl</code> argument may be between 1 and 255. The default on most systems
+is 64.</p>
+<p>This method throws <code>EBADF</code> if called on an unbound socket.</p>
+<h4><code>socket.unref()</code><span><a class="mark" href="#socketunref" id="socketunref">#</a></span><a aria-hidden="true" class="legacy" id="dgram_socket_unref"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.9.1</span>
+</div>
+<ul>
+<li>Returns: <a href="dgram.html#class-dgramsocket" class="type">&#x3C;dgram.Socket></a></li>
+</ul>
+<p>By default, binding a socket will cause it to block the Node.js process from
+exiting as long as the socket is open. The <code>socket.unref()</code> method can be used
+to exclude the socket from the reference counting that keeps the Node.js
+process active, allowing the process to exit even if the socket is still
+listening.</p>
+<p>Calling <code>socket.unref()</code> multiple times will have no addition effect.</p>
+<p>The <code>socket.unref()</code> method returns a reference to the socket so calls can be
+chained.</p>
+</section><section><h3><code>node:dgram</code> module functions<span><a class="mark" href="#nodedgram-module-functions" id="nodedgram-module-functions">#</a></span><a aria-hidden="true" class="legacy" id="dgram_node_dgram_module_functions"></a></h3>
+<h4><code>dgram.createSocket(options[, callback])</code><span><a class="mark" href="#dgramcreatesocketoptions-callback" id="dgramcreatesocketoptions-callback">#</a></span><a aria-hidden="true" class="legacy" id="dgram_dgram_createsocket_options_callback"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v15.8.0</td>
+<td><p>AbortSignal support was added.</p></td></tr>
+<tr><td>v11.4.0</td>
+<td><p>The <code>ipv6Only</code> option is supported.</p></td></tr>
+<tr><td>v8.7.0</td>
+<td><p>The <code>recvBufferSize</code> and <code>sendBufferSize</code> options are supported now.</p></td></tr>
+<tr><td>v8.6.0</td>
+<td><p>The <code>lookup</code> option is supported.</p></td></tr>
+<tr><td>v0.11.13</td>
+<td><p><span>Added in: v0.11.13</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Available options are:
+<ul>
+<li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The family of socket. Must be either <code>'udp4'</code> or <code>'udp6'</code>.
+Required.</li>
+<li><code>reuseAddr</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> When <code>true</code> <a href="#socketbindport-address-callback"><code>socket.bind()</code></a> will reuse the
+address, even if another process has already bound a socket on it.
+<strong>Default:</strong> <code>false</code>.</li>
+<li><code>ipv6Only</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> Setting <code>ipv6Only</code> to <code>true</code> will
+disable dual-stack support, i.e., binding to address <code>::</code> won't make
+<code>0.0.0.0</code> be bound. <strong>Default:</strong> <code>false</code>.</li>
+<li><code>recvBufferSize</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> Sets the <code>SO_RCVBUF</code> socket value.</li>
+<li><code>sendBufferSize</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> Sets the <code>SO_SNDBUF</code> socket value.</li>
+<li><code>lookup</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Custom lookup function. <strong>Default:</strong> <a href="dns.html#dnslookuphostname-options-callback"><code>dns.lookup()</code></a>.</li>
+<li><code>signal</code> <a href="globals.html#class-abortsignal" class="type">&#x3C;AbortSignal></a> An AbortSignal that may be used to close a socket.</li>
+</ul>
+</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Attached as a listener for <code>'message'</code> events. Optional.</li>
+<li>Returns: <a href="dgram.html#class-dgramsocket" class="type">&#x3C;dgram.Socket></a></li>
+</ul>
+<p>Creates a <code>dgram.Socket</code> object. Once the socket is created, calling
+<a href="#socketbindport-address-callback"><code>socket.bind()</code></a> will instruct the socket to begin listening for datagram
+messages. When <code>address</code> and <code>port</code> are not passed to <a href="#socketbindport-address-callback"><code>socket.bind()</code></a> the
+method will bind the socket to the "all interfaces" address on a random port
+(it does the right thing for both <code>udp4</code> and <code>udp6</code> sockets). The bound address
+and port can be retrieved using <a href="#socketaddress"><code>socket.address().address</code></a> and
+<a href="#socketaddress"><code>socket.address().port</code></a>.</p>
+<p>If the <code>signal</code> option is enabled, calling <code>.abort()</code> on the corresponding
+<code>AbortController</code> is similar to calling <code>.close()</code> on the socket:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> controller = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AbortController</span>();
+<span class="hljs-keyword">const</span> { signal } = controller;
+<span class="hljs-keyword">const</span> server = dgram.<span class="hljs-title function_">createSocket</span>({ <span class="hljs-attr">type</span>: <span class="hljs-string">'udp4'</span>, signal });
+server.<span class="hljs-title function_">on</span>(<span class="hljs-string">'message'</span>, <span class="hljs-function">(<span class="hljs-params">msg, rinfo</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`server got: <span class="hljs-subst">${msg}</span> from <span class="hljs-subst">${rinfo.address}</span>:<span class="hljs-subst">${rinfo.port}</span>`</span>);
+});
+<span class="hljs-comment">// Later, when you want to close the server.</span>
+controller.<span class="hljs-title function_">abort</span>();</code> <button class="copy-button">copy</button></pre>
+<h4><code>dgram.createSocket(type[, callback])</code><span><a class="mark" href="#dgramcreatesockettype-callback" id="dgramcreatesockettype-callback">#</a></span><a aria-hidden="true" class="legacy" id="dgram_dgram_createsocket_type_callback"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.1.99</span>
+</div>
+<ul>
+<li><code>type</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Either <code>'udp4'</code> or <code>'udp6'</code>.</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Attached as a listener to <code>'message'</code> events.</li>
+<li>Returns: <a href="dgram.html#class-dgramsocket" class="type">&#x3C;dgram.Socket></a></li>
+</ul>
+<p>Creates a <code>dgram.Socket</code> object of the specified <code>type</code>.</p>
+<p>Once the socket is created, calling <a href="#socketbindport-address-callback"><code>socket.bind()</code></a> will instruct the
+socket to begin listening for datagram messages. When <code>address</code> and <code>port</code> are
+not passed to <a href="#socketbindport-address-callback"><code>socket.bind()</code></a> the method will bind the socket to the "all
+interfaces" address on a random port (it does the right thing for both <code>udp4</code>
+and <code>udp6</code> sockets). The bound address and port can be retrieved using
+<a href="#socketaddress"><code>socket.address().address</code></a> and <a href="#socketaddress"><code>socket.address().port</code></a>.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "source": "doc/api/policy.md",
+  "introduced_in": "v11.8.0",
+  "stability": 1,
+  "stabilityText": "Experimental",
+  "miscs": [
+    {
+      "textRaw": "Policies",
+      "name": "Policies",
+      "introduced_in": "v11.8.0",
+      "type": "misc",
+      "stability": 1,
+      "stabilityText": "Experimental",
+      "desc": "<p>The former Policies documentation is now at <a href=\"permissions.html#policies\">Permissions documentation</a>.</p>"
+    }
+  ]
+}

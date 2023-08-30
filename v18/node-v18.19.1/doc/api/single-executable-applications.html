@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v18.19.1">
+  <title>Single executable applications | Node.js v18.19.1 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/single-executable-applications.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  
+</head>
+<body class="alt apidoc" id="api-section-single-executable-applications">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications active">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="single-executable-applications" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v18.19.1 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v18.19.1</li>
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Table of contents
+      </a>
+
+      <div class="picker"><div class="toc"><ul>
+<li><span class="stability_1"><a href="#single-executable-applications">Single executable applications</a></span>
+<ul>
+<li><a href="#notes">Notes</a>
+<ul>
+<li><a href="#requireid-in-the-injected-module-is-not-file-based"><code>require(id)</code> in the injected module is not file based</a></li>
+<li><a href="#__filename-and-modulefilename-in-the-injected-module"><code>__filename</code> and <code>module.filename</code> in the injected module</a></li>
+<li><a href="#__dirname-in-the-injected-module"><code>__dirname</code> in the injected module</a></li>
+<li><a href="#single-executable-application-creation-process">Single executable application creation process</a></li>
+<li><a href="#platform-support">Platform support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Index
+      </a>
+
+      <div class="picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications active">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Other versions
+      </a>
+      <div class="picker"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v21.x/api/single-executable-applications.html">21.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v20.x/api/single-executable-applications.html">20.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v19.x/api/single-executable-applications.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/single-executable-applications.html">18.x <b>LTS</b></a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#">
+                <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+                Options
+              </a>
+        
+              <div class="picker">
+                <ul>
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="single-executable-applications.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/single-executable-applications.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_1"><a href="#single-executable-applications">Single executable applications</a></span>
+<ul>
+<li><a href="#notes">Notes</a>
+<ul>
+<li><a href="#requireid-in-the-injected-module-is-not-file-based"><code>require(id)</code> in the injected module is not file based</a></li>
+<li><a href="#__filename-and-modulefilename-in-the-injected-module"><code>__filename</code> and <code>module.filename</code> in the injected module</a></li>
+<li><a href="#__dirname-in-the-injected-module"><code>__dirname</code> in the injected module</a></li>
+<li><a href="#single-executable-application-creation-process">Single executable application creation process</a></li>
+<li><a href="#platform-support">Platform support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Single executable applications<span><a class="mark" href="#single-executable-applications" id="single-executable-applications">#</a></span><a aria-hidden="true" class="legacy" id="single_executable_applications_single_executable_applications"></a></h2>
+
+<div class="api_metadata">
+<span>Added in: v19.7.0, v18.16.0</span>
+</div>
+<p></p><div class="api_stability api_stability_1"><a href="documentation.html#stability-index">Stability: 1</a> - Experimental: This feature is being designed and will change.</div><p></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v18.19.1/src/node_sea.cc">src/node_sea.cc</a></p>
+<p>This feature allows the distribution of a Node.js application conveniently to a
+system that does not have Node.js installed.</p>
+<p>Node.js supports the creation of <a href="https://github.com/nodejs/single-executable">single executable applications</a> by allowing
+the injection of a JavaScript file into the <code>node</code> binary. During start up, the
+program checks if anything has been injected. If the script is found, it
+executes its contents. Otherwise Node.js operates as it normally does.</p>
+<p>The single executable application feature only supports running a single
+embedded <a href="modules.html#modules-commonjs-modules">CommonJS</a> file.</p>
+<p>A bundled JavaScript file can be turned into a single executable application
+with any tool which can inject resources into the <code>node</code> binary.</p>
+<p>Here are the steps for creating a single executable application using one such
+tool, <a href="https://github.com/nodejs/postject">postject</a>:</p>
+<ol>
+<li>
+<p>Create a JavaScript file:</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">'console.log(`Hello, ${process.argv[2]}!`);'</span> > hello.js</span></code> <button class="copy-button">copy</button></pre>
+</li>
+<li>
+<p>Create a copy of the <code>node</code> executable and name it according to your needs:</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cp</span> $(<span class="hljs-built_in">command</span> -v node) hello</span></code> <button class="copy-button">copy</button></pre>
+</li>
+<li>
+<p>Remove the signature of the binary:</p>
+<ul>
+<li>On macOS:</li>
+</ul>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">codesign --remove-signature hello</span></code> <button class="copy-button">copy</button></pre>
+<ul>
+<li>On Windows (optional):</li>
+</ul>
+<p><a href="https://learn.microsoft.com/en-us/windows/win32/seccrypto/signtool">signtool</a> can be used from the installed <a href="https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/">Windows SDK</a>. If this step is
+skipped, ignore any signature-related warning from postject.</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">signtool remove /s hello</span></code> <button class="copy-button">copy</button></pre>
+</li>
+<li>
+<p>Inject the JavaScript file into the copied binary by running <code>postject</code> with
+the following options:</p>
+<ul>
+<li><code>hello</code> - The name of the copy of the <code>node</code> executable created in step 2.</li>
+<li><code>NODE_JS_CODE</code> - The name of the resource / note / section in the binary
+where the contents of the JavaScript file will be stored.</li>
+<li><code>hello.js</code> - The name of the JavaScript file created in step 1.</li>
+<li><code>--sentinel-fuse NODE_JS_FUSE_fce680ab2cc467b6e072b8b5df1996b2</code> - The
+<a href="https://www.electronjs.org/docs/latest/tutorial/fuses">fuse</a> used by the Node.js project to detect if a file has been injected.</li>
+<li><code>--macho-segment-name NODE_JS</code> (only needed on macOS) - The name of the
+segment in the binary where the contents of the JavaScript file will be
+stored.</li>
+</ul>
+<p>To summarize, here is the required command for each platform:</p>
+<ul>
+<li>
+<p>On systems other than macOS:</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">npx postject hello NODE_JS_CODE hello.js \
+    --sentinel-fuse NODE_JS_FUSE_fce680ab2cc467b6e072b8b5df1996b2</span></code> <button class="copy-button">copy</button></pre>
+</li>
+<li>
+<p>On macOS:</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">npx postject hello NODE_JS_CODE hello.js \
+    --sentinel-fuse NODE_JS_FUSE_fce680ab2cc467b6e072b8b5df1996b2 \
+    --macho-segment-name NODE_JS</span></code> <button class="copy-button">copy</button></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Sign the binary:</p>
+<ul>
+<li>On macOS:</li>
+</ul>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">codesign --sign - hello</span></code> <button class="copy-button">copy</button></pre>
+<ul>
+<li>On Windows (optional):</li>
+</ul>
+<p>A certificate needs to be present for this to work. However, the unsigned
+binary would still be runnable.</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">signtool sign /fd SHA256 hello</span></code> <button class="copy-button">copy</button></pre>
+</li>
+<li>
+<p>Run the binary:</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">./hello world</span>
+Hello, world!</code> <button class="copy-button">copy</button></pre>
+</li>
+</ol>
+<section><h3>Notes<span><a class="mark" href="#notes" id="notes">#</a></span><a aria-hidden="true" class="legacy" id="single_executable_applications_notes"></a></h3>
+<h4><code>require(id)</code> in the injected module is not file based<span><a class="mark" href="#requireid-in-the-injected-module-is-not-file-based" id="requireid-in-the-injected-module-is-not-file-based">#</a></span><a aria-hidden="true" class="legacy" id="single_executable_applications_require_id_in_the_injected_module_is_not_file_based"></a></h4>
+<p><code>require()</code> in the injected module is not the same as the <a href="modules.html#requireid"><code>require()</code></a>
+available to modules that are not injected. It also does not have any of the
+properties that non-injected <a href="modules.html#requireid"><code>require()</code></a> has except <a href="modules.html#accessing-the-main-module"><code>require.main</code></a>. It
+can only be used to load built-in modules. Attempting to load a module that can
+only be found in the file system will throw an error.</p>
+<p>Instead of relying on a file based <code>require()</code>, users can bundle their
+application into a standalone JavaScript file to inject into the executable.
+This also ensures a more deterministic dependency graph.</p>
+<p>However, if a file based <code>require()</code> is still needed, that can also be achieved:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> { createRequire } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:module'</span>);
+<span class="hljs-built_in">require</span> = <span class="hljs-title function_">createRequire</span>(__filename);</code> <button class="copy-button">copy</button></pre>
+<h4><code>__filename</code> and <code>module.filename</code> in the injected module<span><a class="mark" href="#__filename-and-modulefilename-in-the-injected-module" id="__filename-and-modulefilename-in-the-injected-module">#</a></span><a aria-hidden="true" class="legacy" id="single_executable_applications_filename_and_module_filename_in_the_injected_module"></a></h4>
+<p>The values of <code>__filename</code> and <code>module.filename</code> in the injected module are
+equal to <a href="process.html#processexecpath"><code>process.execPath</code></a>.</p>
+<h4><code>__dirname</code> in the injected module<span><a class="mark" href="#__dirname-in-the-injected-module" id="__dirname-in-the-injected-module">#</a></span><a aria-hidden="true" class="legacy" id="single_executable_applications_dirname_in_the_injected_module"></a></h4>
+<p>The value of <code>__dirname</code> in the injected module is equal to the directory name
+of <a href="process.html#processexecpath"><code>process.execPath</code></a>.</p>
+<h4>Single executable application creation process<span><a class="mark" href="#single-executable-application-creation-process" id="single-executable-application-creation-process">#</a></span><a aria-hidden="true" class="legacy" id="single_executable_applications_single_executable_application_creation_process"></a></h4>
+<p>A tool aiming to create a single executable Node.js application must
+inject the contents of a JavaScript file into:</p>
+<ul>
+<li>a resource named <code>NODE_JS_CODE</code> if the <code>node</code> binary is a <a href="https://en.wikipedia.org/wiki/Portable_Executable">PE</a> file</li>
+<li>a section named <code>NODE_JS_CODE</code> in the <code>NODE_JS</code> segment if the <code>node</code> binary
+is a <a href="https://en.wikipedia.org/wiki/Mach-O">Mach-O</a> file</li>
+<li>a note named <code>NODE_JS_CODE</code> if the <code>node</code> binary is an <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format">ELF</a> file</li>
+</ul>
+<p>Search the binary for the
+<code>NODE_JS_FUSE_fce680ab2cc467b6e072b8b5df1996b2:0</code> <a href="https://www.electronjs.org/docs/latest/tutorial/fuses">fuse</a> string and flip the
+last character to <code>1</code> to indicate that a resource has been injected.</p>
+<h4>Platform support<span><a class="mark" href="#platform-support" id="platform-support">#</a></span><a aria-hidden="true" class="legacy" id="single_executable_applications_platform_support"></a></h4>
+<p>Single-executable support is tested regularly on CI only on the following
+platforms:</p>
+<ul>
+<li>Windows</li>
+<li>macOS</li>
+<li>Linux (all distributions <a href="https://github.com/nodejs/node/blob/main/BUILDING.md#platform-list">supported by Node.js</a> except Alpine and all
+architectures <a href="https://github.com/nodejs/node/blob/main/BUILDING.md#platform-list">supported by Node.js</a> except s390x and ppc64)</li>
+</ul>
+<p>This is due to a lack of better tools to generate single-executables that can be
+used to test this feature on other platforms.</p>
+<p>Suggestions for other resource injection tools/workflows are welcomed. Please
+start a discussion at <a href="https://github.com/nodejs/single-executable/discussions">https://github.com/nodejs/single-executable/discussions</a>
+to help us document them.</p></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

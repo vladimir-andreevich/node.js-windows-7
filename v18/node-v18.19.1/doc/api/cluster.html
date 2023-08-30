@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="nodejs.org:node-version" content="v18.19.1">
+  <title>Cluster | Node.js v18.19.1 Documentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic&display=fallback">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/hljs.css">
+  <link rel="canonical" href="https://nodejs.org/api/cluster.html">
+  <script async defer src="assets/api.js" type="text/javascript"></script>
+  <style>@media(max-width:542px){.with-40-chars>.js-flavor-selector{float:none;margin:0 0 1em auto;}}@media(max-width:582px){.with-45-chars>.js-flavor-selector{float:none;margin:0 0 1em auto;}}</style>
+</head>
+<body class="alt apidoc" id="api-section-cluster">
+  <div id="content" class="clearfix">
+    <div id="column2" class="interior">
+      <div id="intro" class="interior">
+        <a href="/" title="Go back to the home page">
+          Node.js
+        </a>
+      </div>
+      <ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster active">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul>
+    </div>
+
+    <div id="column1" data-id="cluster" class="interior">
+      <header class="header">
+        <div class="header-container">
+          <h1>Node.js v18.19.1 documentation</h1>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle dark mode/light mode" aria-label="Toggle dark mode/light mode" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" height="24" width="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M11.1 12.08c-2.33-4.51-.5-8.48.53-10.07C6.27 2.2 1.98 6.59 1.98 12c0 .14.02.28.02.42.62-.27 1.29-.42 2-.42 1.66 0 3.18.83 4.1 2.15A4.01 4.01 0 0111 18c0 1.52-.87 2.83-2.12 3.51.98.32 2.03.5 3.11.5 3.5 0 6.58-1.8 8.37-4.52-2.36.23-6.98-.97-9.26-5.41z"/>
+              <path d="M7 16h-.18C6.4 14.84 5.3 14 4 14c-1.66 0-3 1.34-3 3s1.34 3 3 3h3c1.1 0 2-.9 2-2s-.9-2-2-2z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" height="24" width="24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="gtoc">
+          <ul>
+            <li class="pinned-header">Node.js v18.19.1</li>
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Table of contents
+      </a>
+
+      <div class="picker"><div class="toc"><ul>
+<li><span class="stability_2"><a href="#cluster">Cluster</a></span>
+<ul>
+<li><a href="#how-it-works">How it works</a></li>
+<li><a href="#class-worker">Class: <code>Worker</code></a>
+<ul>
+<li><a href="#event-disconnect">Event: <code>'disconnect'</code></a></li>
+<li><a href="#event-error">Event: <code>'error'</code></a></li>
+<li><a href="#event-exit">Event: <code>'exit'</code></a></li>
+<li><a href="#event-listening">Event: <code>'listening'</code></a></li>
+<li><a href="#event-message">Event: <code>'message'</code></a></li>
+<li><a href="#event-online">Event: <code>'online'</code></a></li>
+<li><a href="#workerdisconnect"><code>worker.disconnect()</code></a></li>
+<li><a href="#workerexitedafterdisconnect"><code>worker.exitedAfterDisconnect</code></a></li>
+<li><a href="#workerid"><code>worker.id</code></a></li>
+<li><a href="#workerisconnected"><code>worker.isConnected()</code></a></li>
+<li><a href="#workerisdead"><code>worker.isDead()</code></a></li>
+<li><a href="#workerkillsignal"><code>worker.kill([signal])</code></a></li>
+<li><a href="#workerprocess"><code>worker.process</code></a></li>
+<li><a href="#workersendmessage-sendhandle-options-callback"><code>worker.send(message[, sendHandle[, options]][, callback])</code></a></li>
+</ul>
+</li>
+<li><a href="#event-disconnect_1">Event: <code>'disconnect'</code></a></li>
+<li><a href="#event-exit_1">Event: <code>'exit'</code></a></li>
+<li><a href="#event-fork">Event: <code>'fork'</code></a></li>
+<li><a href="#event-listening_1">Event: <code>'listening'</code></a></li>
+<li><a href="#event-message_1">Event: <code>'message'</code></a></li>
+<li><a href="#event-online_1">Event: <code>'online'</code></a></li>
+<li><a href="#event-setup">Event: <code>'setup'</code></a></li>
+<li><a href="#clusterdisconnectcallback"><code>cluster.disconnect([callback])</code></a></li>
+<li><a href="#clusterforkenv"><code>cluster.fork([env])</code></a></li>
+<li><span class="stability_0"><a href="#clusterismaster"><code>cluster.isMaster</code></a></span></li>
+<li><a href="#clusterisprimary"><code>cluster.isPrimary</code></a></li>
+<li><a href="#clusterisworker"><code>cluster.isWorker</code></a></li>
+<li><a href="#clusterschedulingpolicy"><code>cluster.schedulingPolicy</code></a></li>
+<li><a href="#clustersettings"><code>cluster.settings</code></a></li>
+<li><span class="stability_0"><a href="#clustersetupmastersettings"><code>cluster.setupMaster([settings])</code></a></span></li>
+<li><a href="#clustersetupprimarysettings"><code>cluster.setupPrimary([settings])</code></a></li>
+<li><a href="#clusterworker"><code>cluster.worker</code></a></li>
+<li><a href="#clusterworkers"><code>cluster.workers</code></a></li>
+</ul>
+</li>
+</ul></div></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Index
+      </a>
+
+      <div class="picker"><ul>
+<li><a href="documentation.html" class="nav-documentation">About this documentation</a></li>
+<li><a href="synopsis.html" class="nav-synopsis">Usage and example</a></li>
+
+      <li>
+        <a href="index.html">Index</a>
+      </li>
+    </ul>
+  
+<hr class="line">
+<ul>
+<li><a href="assert.html" class="nav-assert">Assertion testing</a></li>
+<li><a href="async_context.html" class="nav-async_context">Asynchronous context tracking</a></li>
+<li><a href="async_hooks.html" class="nav-async_hooks">Async hooks</a></li>
+<li><a href="buffer.html" class="nav-buffer">Buffer</a></li>
+<li><a href="addons.html" class="nav-addons">C++ addons</a></li>
+<li><a href="n-api.html" class="nav-n-api">C/C++ addons with Node-API</a></li>
+<li><a href="embedding.html" class="nav-embedding">C++ embedder API</a></li>
+<li><a href="child_process.html" class="nav-child_process">Child processes</a></li>
+<li><a href="cluster.html" class="nav-cluster active">Cluster</a></li>
+<li><a href="cli.html" class="nav-cli">Command-line options</a></li>
+<li><a href="console.html" class="nav-console">Console</a></li>
+<li><a href="corepack.html" class="nav-corepack">Corepack</a></li>
+<li><a href="crypto.html" class="nav-crypto">Crypto</a></li>
+<li><a href="debugger.html" class="nav-debugger">Debugger</a></li>
+<li><a href="deprecations.html" class="nav-deprecations">Deprecated APIs</a></li>
+<li><a href="diagnostics_channel.html" class="nav-diagnostics_channel">Diagnostics Channel</a></li>
+<li><a href="dns.html" class="nav-dns">DNS</a></li>
+<li><a href="domain.html" class="nav-domain">Domain</a></li>
+<li><a href="errors.html" class="nav-errors">Errors</a></li>
+<li><a href="events.html" class="nav-events">Events</a></li>
+<li><a href="fs.html" class="nav-fs">File system</a></li>
+<li><a href="globals.html" class="nav-globals">Globals</a></li>
+<li><a href="http.html" class="nav-http">HTTP</a></li>
+<li><a href="http2.html" class="nav-http2">HTTP/2</a></li>
+<li><a href="https.html" class="nav-https">HTTPS</a></li>
+<li><a href="inspector.html" class="nav-inspector">Inspector</a></li>
+<li><a href="intl.html" class="nav-intl">Internationalization</a></li>
+<li><a href="modules.html" class="nav-modules">Modules: CommonJS modules</a></li>
+<li><a href="esm.html" class="nav-esm">Modules: ECMAScript modules</a></li>
+<li><a href="module.html" class="nav-module">Modules: <code>node:module</code> API</a></li>
+<li><a href="packages.html" class="nav-packages">Modules: Packages</a></li>
+<li><a href="net.html" class="nav-net">Net</a></li>
+<li><a href="os.html" class="nav-os">OS</a></li>
+<li><a href="path.html" class="nav-path">Path</a></li>
+<li><a href="perf_hooks.html" class="nav-perf_hooks">Performance hooks</a></li>
+<li><a href="permissions.html" class="nav-permissions">Permissions</a></li>
+<li><a href="process.html" class="nav-process">Process</a></li>
+<li><a href="punycode.html" class="nav-punycode">Punycode</a></li>
+<li><a href="querystring.html" class="nav-querystring">Query strings</a></li>
+<li><a href="readline.html" class="nav-readline">Readline</a></li>
+<li><a href="repl.html" class="nav-repl">REPL</a></li>
+<li><a href="report.html" class="nav-report">Report</a></li>
+<li><a href="single-executable-applications.html" class="nav-single-executable-applications">Single executable applications</a></li>
+<li><a href="stream.html" class="nav-stream">Stream</a></li>
+<li><a href="string_decoder.html" class="nav-string_decoder">String decoder</a></li>
+<li><a href="test.html" class="nav-test">Test runner</a></li>
+<li><a href="timers.html" class="nav-timers">Timers</a></li>
+<li><a href="tls.html" class="nav-tls">TLS/SSL</a></li>
+<li><a href="tracing.html" class="nav-tracing">Trace events</a></li>
+<li><a href="tty.html" class="nav-tty">TTY</a></li>
+<li><a href="dgram.html" class="nav-dgram">UDP/datagram</a></li>
+<li><a href="url.html" class="nav-url">URL</a></li>
+<li><a href="util.html" class="nav-util">Utilities</a></li>
+<li><a href="v8.html" class="nav-v8">V8</a></li>
+<li><a href="vm.html" class="nav-vm">VM</a></li>
+<li><a href="wasi.html" class="nav-wasi">WASI</a></li>
+<li><a href="webcrypto.html" class="nav-webcrypto">Web Crypto API</a></li>
+<li><a href="webstreams.html" class="nav-webstreams">Web Streams API</a></li>
+<li><a href="worker_threads.html" class="nav-worker_threads">Worker threads</a></li>
+<li><a href="zlib.html" class="nav-zlib">Zlib</a></li>
+</ul>
+<hr class="line">
+<ul>
+<li><a href="https://github.com/nodejs/node" class="nav-https-github-com-nodejs-node">Code repository and issue tracker</a></li>
+</ul></div>
+    </li>
+  
+            
+    <li class="picker-header">
+      <a href="#">
+        <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+        Other versions
+      </a>
+      <div class="picker"><ol id="alt-docs"><li><a href="https://nodejs.org/docs/latest-v21.x/api/cluster.html">21.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v20.x/api/cluster.html">20.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v19.x/api/cluster.html">19.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v18.x/api/cluster.html">18.x <b>LTS</b></a></li>
+<li><a href="https://nodejs.org/docs/latest-v17.x/api/cluster.html">17.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v16.x/api/cluster.html">16.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v15.x/api/cluster.html">15.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v14.x/api/cluster.html">14.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v13.x/api/cluster.html">13.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v12.x/api/cluster.html">12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v11.x/api/cluster.html">11.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v10.x/api/cluster.html">10.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v9.x/api/cluster.html">9.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v8.x/api/cluster.html">8.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v7.x/api/cluster.html">7.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v6.x/api/cluster.html">6.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v5.x/api/cluster.html">5.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v4.x/api/cluster.html">4.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.12.x/api/cluster.html">0.12.x</a></li>
+<li><a href="https://nodejs.org/docs/latest-v0.10.x/api/cluster.html">0.10.x</a></li></ol></div>
+    </li>
+  
+            <li class="picker-header">
+              <a href="#">
+                <span class="collapsed-arrow">&#x25ba;</span><span class="expanded-arrow">&#x25bc;</span>
+                Options
+              </a>
+        
+              <div class="picker">
+                <ul>
+                  <li>
+                    <a href="all.html">View on single page</a>
+                  </li>
+                  <li>
+                    <a href="cluster.json">View as JSON</a>
+                  </li>
+                  <li class="edit_on_github"><a href="https://github.com/nodejs/node/edit/main/doc/api/cluster.md">Edit on GitHub</a></li>    
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+
+      <details id="toc" open><summary>Table of contents</summary><ul>
+<li><span class="stability_2"><a href="#cluster">Cluster</a></span>
+<ul>
+<li><a href="#how-it-works">How it works</a></li>
+<li><a href="#class-worker">Class: <code>Worker</code></a>
+<ul>
+<li><a href="#event-disconnect">Event: <code>'disconnect'</code></a></li>
+<li><a href="#event-error">Event: <code>'error'</code></a></li>
+<li><a href="#event-exit">Event: <code>'exit'</code></a></li>
+<li><a href="#event-listening">Event: <code>'listening'</code></a></li>
+<li><a href="#event-message">Event: <code>'message'</code></a></li>
+<li><a href="#event-online">Event: <code>'online'</code></a></li>
+<li><a href="#workerdisconnect"><code>worker.disconnect()</code></a></li>
+<li><a href="#workerexitedafterdisconnect"><code>worker.exitedAfterDisconnect</code></a></li>
+<li><a href="#workerid"><code>worker.id</code></a></li>
+<li><a href="#workerisconnected"><code>worker.isConnected()</code></a></li>
+<li><a href="#workerisdead"><code>worker.isDead()</code></a></li>
+<li><a href="#workerkillsignal"><code>worker.kill([signal])</code></a></li>
+<li><a href="#workerprocess"><code>worker.process</code></a></li>
+<li><a href="#workersendmessage-sendhandle-options-callback"><code>worker.send(message[, sendHandle[, options]][, callback])</code></a></li>
+</ul>
+</li>
+<li><a href="#event-disconnect_1">Event: <code>'disconnect'</code></a></li>
+<li><a href="#event-exit_1">Event: <code>'exit'</code></a></li>
+<li><a href="#event-fork">Event: <code>'fork'</code></a></li>
+<li><a href="#event-listening_1">Event: <code>'listening'</code></a></li>
+<li><a href="#event-message_1">Event: <code>'message'</code></a></li>
+<li><a href="#event-online_1">Event: <code>'online'</code></a></li>
+<li><a href="#event-setup">Event: <code>'setup'</code></a></li>
+<li><a href="#clusterdisconnectcallback"><code>cluster.disconnect([callback])</code></a></li>
+<li><a href="#clusterforkenv"><code>cluster.fork([env])</code></a></li>
+<li><span class="stability_0"><a href="#clusterismaster"><code>cluster.isMaster</code></a></span></li>
+<li><a href="#clusterisprimary"><code>cluster.isPrimary</code></a></li>
+<li><a href="#clusterisworker"><code>cluster.isWorker</code></a></li>
+<li><a href="#clusterschedulingpolicy"><code>cluster.schedulingPolicy</code></a></li>
+<li><a href="#clustersettings"><code>cluster.settings</code></a></li>
+<li><span class="stability_0"><a href="#clustersetupmastersettings"><code>cluster.setupMaster([settings])</code></a></span></li>
+<li><a href="#clustersetupprimarysettings"><code>cluster.setupPrimary([settings])</code></a></li>
+<li><a href="#clusterworker"><code>cluster.worker</code></a></li>
+<li><a href="#clusterworkers"><code>cluster.workers</code></a></li>
+</ul>
+</li>
+</ul></details>
+
+      <div id="apicontent">
+        <h2>Cluster<span><a class="mark" href="#cluster" id="cluster">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster"></a></h2>
+
+<p></p><div class="api_stability api_stability_2"><a href="documentation.html#stability-index">Stability: 2</a> - Stable</div><p></p>
+<p><strong>Source Code:</strong> <a href="https://github.com/nodejs/node/blob/v18.19.1/lib/cluster.js">lib/cluster.js</a></p>
+<p>Clusters of Node.js processes can be used to run multiple instances of Node.js
+that can distribute workloads among their application threads. When process
+isolation is not needed, use the <a href="worker_threads.html"><code>worker_threads</code></a> module instead, which
+allows running multiple application threads within a single Node.js instance.</p>
+<p>The cluster module allows easy creation of child processes that all share
+server ports.</p>
+
+<pre class="with-40-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> cluster <span class="hljs-keyword">from</span> <span class="hljs-string">'node:cluster'</span>;
+<span class="hljs-keyword">import</span> http <span class="hljs-keyword">from</span> <span class="hljs-string">'node:http'</span>;
+<span class="hljs-keyword">import</span> { availableParallelism } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:os'</span>;
+<span class="hljs-keyword">import</span> process <span class="hljs-keyword">from</span> <span class="hljs-string">'node:process'</span>;
+
+<span class="hljs-keyword">const</span> numCPUs = <span class="hljs-title function_">availableParallelism</span>();
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Primary <span class="hljs-subst">${process.pid}</span> is running`</span>);
+
+  <span class="hljs-comment">// Fork workers.</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &#x3C; numCPUs; i++) {
+    cluster.<span class="hljs-title function_">fork</span>();
+  }
+
+  cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'exit'</span>, <span class="hljs-function">(<span class="hljs-params">worker, code, signal</span>) =></span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`worker <span class="hljs-subst">${worker.process.pid}</span> died`</span>);
+  });
+} <span class="hljs-keyword">else</span> {
+  <span class="hljs-comment">// Workers can share any TCP connection</span>
+  <span class="hljs-comment">// In this case it is an HTTP server</span>
+  http.<span class="hljs-title function_">createServer</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+    res.<span class="hljs-title function_">writeHead</span>(<span class="hljs-number">200</span>);
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">'hello world\n'</span>);
+  }).<span class="hljs-title function_">listen</span>(<span class="hljs-number">8000</span>);
+
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Worker <span class="hljs-subst">${process.pid}</span> started`</span>);
+}</code><code class="language-js cjs"><span class="hljs-keyword">const</span> cluster = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:cluster'</span>);
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:http'</span>);
+<span class="hljs-keyword">const</span> numCPUs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:os'</span>).<span class="hljs-title function_">availableParallelism</span>();
+<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:process'</span>);
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Primary <span class="hljs-subst">${process.pid}</span> is running`</span>);
+
+  <span class="hljs-comment">// Fork workers.</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &#x3C; numCPUs; i++) {
+    cluster.<span class="hljs-title function_">fork</span>();
+  }
+
+  cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'exit'</span>, <span class="hljs-function">(<span class="hljs-params">worker, code, signal</span>) =></span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`worker <span class="hljs-subst">${worker.process.pid}</span> died`</span>);
+  });
+} <span class="hljs-keyword">else</span> {
+  <span class="hljs-comment">// Workers can share any TCP connection</span>
+  <span class="hljs-comment">// In this case it is an HTTP server</span>
+  http.<span class="hljs-title function_">createServer</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+    res.<span class="hljs-title function_">writeHead</span>(<span class="hljs-number">200</span>);
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">'hello world\n'</span>);
+  }).<span class="hljs-title function_">listen</span>(<span class="hljs-number">8000</span>);
+
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Worker <span class="hljs-subst">${process.pid}</span> started`</span>);
+}</code><button class="copy-button">copy</button></pre>
+<p>Running Node.js will now share port 8000 between the workers:</p>
+<pre><code class="language-console"><span class="hljs-meta prompt_">$ </span><span class="language-bash">node server.js</span>
+Primary 3596 is running
+Worker 4324 started
+Worker 4520 started
+Worker 6056 started
+Worker 5644 started</code> <button class="copy-button">copy</button></pre>
+<p>On Windows, it is not yet possible to set up a named pipe server in a worker.</p>
+<section><h3>How it works<span><a class="mark" href="#how-it-works" id="how-it-works">#</a></span><a aria-hidden="true" class="legacy" id="cluster_how_it_works"></a></h3>
+
+<p>The worker processes are spawned using the <a href="child_process.html#child_processforkmodulepath-args-options"><code>child_process.fork()</code></a> method,
+so that they can communicate with the parent via IPC and pass server
+handles back and forth.</p>
+<p>The cluster module supports two methods of distributing incoming
+connections.</p>
+<p>The first one (and the default one on all platforms except Windows)
+is the round-robin approach, where the primary process listens on a
+port, accepts new connections and distributes them across the workers
+in a round-robin fashion, with some built-in smarts to avoid
+overloading a worker process.</p>
+<p>The second approach is where the primary process creates the listen
+socket and sends it to interested workers. The workers then accept
+incoming connections directly.</p>
+<p>The second approach should, in theory, give the best performance.
+In practice however, distribution tends to be very unbalanced due
+to operating system scheduler vagaries. Loads have been observed
+where over 70% of all connections ended up in just two processes,
+out of a total of eight.</p>
+<p>Because <code>server.listen()</code> hands off most of the work to the primary
+process, there are three cases where the behavior between a normal
+Node.js process and a cluster worker differs:</p>
+<ol>
+<li><code>server.listen({fd: 7})</code> Because the message is passed to the primary,
+file descriptor 7 <strong>in the parent</strong> will be listened on, and the
+handle passed to the worker, rather than listening to the worker's
+idea of what the number 7 file descriptor references.</li>
+<li><code>server.listen(handle)</code> Listening on handles explicitly will cause
+the worker to use the supplied handle, rather than talk to the primary
+process.</li>
+<li><code>server.listen(0)</code> Normally, this will cause servers to listen on a
+random port. However, in a cluster, each worker will receive the
+same "random" port each time they do <code>listen(0)</code>. In essence, the
+port is random the first time, but predictable thereafter. To listen
+on a unique port, generate a port number based on the cluster worker ID.</li>
+</ol>
+<p>Node.js does not provide routing logic. It is therefore important to design an
+application such that it does not rely too heavily on in-memory data objects for
+things like sessions and login.</p>
+<p>Because workers are all separate processes, they can be killed or
+re-spawned depending on a program's needs, without affecting other
+workers. As long as there are some workers still alive, the server will
+continue to accept connections. If no workers are alive, existing connections
+will be dropped and new connections will be refused. Node.js does not
+automatically manage the number of workers, however. It is the application's
+responsibility to manage the worker pool based on its own needs.</p>
+<p>Although a primary use case for the <code>node:cluster</code> module is networking, it can
+also be used for other use cases requiring worker processes.</p>
+</section><section><h3>Class: <code>Worker</code><span><a class="mark" href="#class-worker" id="class-worker">#</a></span><a aria-hidden="true" class="legacy" id="cluster_class_worker"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.0</span>
+</div>
+<ul>
+<li>Extends: <a href="events.html#class-eventemitter" class="type">&#x3C;EventEmitter></a></li>
+</ul>
+<p>A <code>Worker</code> object contains all public information and method about a worker.
+In the primary it can be obtained using <code>cluster.workers</code>. In a worker
+it can be obtained using <code>cluster.worker</code>.</p>
+<h4>Event: <code>'disconnect'</code><span><a class="mark" href="#event-disconnect" id="event-disconnect">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_disconnect"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.7.7</span>
+</div>
+<p>Similar to the <code>cluster.on('disconnect')</code> event, but specific to this worker.</p>
+<pre><code class="language-js">cluster.<span class="hljs-title function_">fork</span>().<span class="hljs-title function_">on</span>(<span class="hljs-string">'disconnect'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-comment">// Worker has disconnected</span>
+});</code> <button class="copy-button">copy</button></pre>
+<h4>Event: <code>'error'</code><span><a class="mark" href="#event-error" id="event-error">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_error"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.7.3</span>
+</div>
+<p>This event is the same as the one provided by <a href="child_process.html#child_processforkmodulepath-args-options"><code>child_process.fork()</code></a>.</p>
+<p>Within a worker, <code>process.on('error')</code> may also be used.</p>
+<h4>Event: <code>'exit'</code><span><a class="mark" href="#event-exit" id="event-exit">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_exit"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.11.2</span>
+</div>
+<ul>
+<li><code>code</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The exit code, if it exited normally.</li>
+<li><code>signal</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The name of the signal (e.g. <code>'SIGHUP'</code>) that caused
+the process to be killed.</li>
+</ul>
+<p>Similar to the <code>cluster.on('exit')</code> event, but specific to this worker.</p>
+
+<pre class="with-40-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> cluster <span class="hljs-keyword">from</span> <span class="hljs-string">'node:cluster'</span>;
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  <span class="hljs-keyword">const</span> worker = cluster.<span class="hljs-title function_">fork</span>();
+  worker.<span class="hljs-title function_">on</span>(<span class="hljs-string">'exit'</span>, <span class="hljs-function">(<span class="hljs-params">code, signal</span>) =></span> {
+    <span class="hljs-keyword">if</span> (signal) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`worker was killed by signal: <span class="hljs-subst">${signal}</span>`</span>);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (code !== <span class="hljs-number">0</span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`worker exited with error code: <span class="hljs-subst">${code}</span>`</span>);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'worker success!'</span>);
+    }
+  });
+}</code><code class="language-js cjs"><span class="hljs-keyword">const</span> cluster = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:cluster'</span>);
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  <span class="hljs-keyword">const</span> worker = cluster.<span class="hljs-title function_">fork</span>();
+  worker.<span class="hljs-title function_">on</span>(<span class="hljs-string">'exit'</span>, <span class="hljs-function">(<span class="hljs-params">code, signal</span>) =></span> {
+    <span class="hljs-keyword">if</span> (signal) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`worker was killed by signal: <span class="hljs-subst">${signal}</span>`</span>);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (code !== <span class="hljs-number">0</span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`worker exited with error code: <span class="hljs-subst">${code}</span>`</span>);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'worker success!'</span>);
+    }
+  });
+}</code><button class="copy-button">copy</button></pre>
+<h4>Event: <code>'listening'</code><span><a class="mark" href="#event-listening" id="event-listening">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_listening"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.7.0</span>
+</div>
+<ul>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Similar to the <code>cluster.on('listening')</code> event, but specific to this worker.</p>
+
+<pre class="with-45-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs">cluster.<span class="hljs-title function_">fork</span>().<span class="hljs-title function_">on</span>(<span class="hljs-string">'listening'</span>, <span class="hljs-function">(<span class="hljs-params">address</span>) =></span> {
+  <span class="hljs-comment">// Worker is listening</span>
+});</code><code class="language-js cjs">cluster.<span class="hljs-title function_">fork</span>().<span class="hljs-title function_">on</span>(<span class="hljs-string">'listening'</span>, <span class="hljs-function">(<span class="hljs-params">address</span>) =></span> {
+  <span class="hljs-comment">// Worker is listening</span>
+});</code><button class="copy-button">copy</button></pre>
+<p>It is not emitted in the worker.</p>
+<h4>Event: <code>'message'</code><span><a class="mark" href="#event-message" id="event-message">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_message"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.7.0</span>
+</div>
+<ul>
+<li><code>message</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+<li><code>handle</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Undefined_type" class="type">&#x3C;undefined></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Similar to the <code>'message'</code> event of <code>cluster</code>, but specific to this worker.</p>
+<p>Within a worker, <code>process.on('message')</code> may also be used.</p>
+<p>See <a href="process.html#event-message"><code>process</code> event: <code>'message'</code></a>.</p>
+<p>Here is an example using the message system. It keeps a count in the primary
+process of the number of HTTP requests received by the workers:</p>
+
+<pre class="with-40-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> cluster <span class="hljs-keyword">from</span> <span class="hljs-string">'node:cluster'</span>;
+<span class="hljs-keyword">import</span> http <span class="hljs-keyword">from</span> <span class="hljs-string">'node:http'</span>;
+<span class="hljs-keyword">import</span> { availableParallelism } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:os'</span>;
+<span class="hljs-keyword">import</span> process <span class="hljs-keyword">from</span> <span class="hljs-string">'node:process'</span>;
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+
+  <span class="hljs-comment">// Keep track of http requests</span>
+  <span class="hljs-keyword">let</span> numReqs = <span class="hljs-number">0</span>;
+  <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =></span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`numReqs = <span class="hljs-subst">${numReqs}</span>`</span>);
+  }, <span class="hljs-number">1000</span>);
+
+  <span class="hljs-comment">// Count requests</span>
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">messageHandler</span>(<span class="hljs-params">msg</span>) {
+    <span class="hljs-keyword">if</span> (msg.<span class="hljs-property">cmd</span> &#x26;&#x26; msg.<span class="hljs-property">cmd</span> === <span class="hljs-string">'notifyRequest'</span>) {
+      numReqs += <span class="hljs-number">1</span>;
+    }
+  }
+
+  <span class="hljs-comment">// Start workers and listen for messages containing notifyRequest</span>
+  <span class="hljs-keyword">const</span> numCPUs = <span class="hljs-title function_">availableParallelism</span>();
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &#x3C; numCPUs; i++) {
+    cluster.<span class="hljs-title function_">fork</span>();
+  }
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> id <span class="hljs-keyword">in</span> cluster.<span class="hljs-property">workers</span>) {
+    cluster.<span class="hljs-property">workers</span>[id].<span class="hljs-title function_">on</span>(<span class="hljs-string">'message'</span>, messageHandler);
+  }
+
+} <span class="hljs-keyword">else</span> {
+
+  <span class="hljs-comment">// Worker processes have a http server.</span>
+  http.<span class="hljs-title class_">Server</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+    res.<span class="hljs-title function_">writeHead</span>(<span class="hljs-number">200</span>);
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">'hello world\n'</span>);
+
+    <span class="hljs-comment">// Notify primary about the request</span>
+    process.<span class="hljs-title function_">send</span>({ <span class="hljs-attr">cmd</span>: <span class="hljs-string">'notifyRequest'</span> });
+  }).<span class="hljs-title function_">listen</span>(<span class="hljs-number">8000</span>);
+}</code><code class="language-js cjs"><span class="hljs-keyword">const</span> cluster = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:cluster'</span>);
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:http'</span>);
+<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:process'</span>);
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+
+  <span class="hljs-comment">// Keep track of http requests</span>
+  <span class="hljs-keyword">let</span> numReqs = <span class="hljs-number">0</span>;
+  <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =></span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`numReqs = <span class="hljs-subst">${numReqs}</span>`</span>);
+  }, <span class="hljs-number">1000</span>);
+
+  <span class="hljs-comment">// Count requests</span>
+  <span class="hljs-keyword">function</span> <span class="hljs-title function_">messageHandler</span>(<span class="hljs-params">msg</span>) {
+    <span class="hljs-keyword">if</span> (msg.<span class="hljs-property">cmd</span> &#x26;&#x26; msg.<span class="hljs-property">cmd</span> === <span class="hljs-string">'notifyRequest'</span>) {
+      numReqs += <span class="hljs-number">1</span>;
+    }
+  }
+
+  <span class="hljs-comment">// Start workers and listen for messages containing notifyRequest</span>
+  <span class="hljs-keyword">const</span> numCPUs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:os'</span>).<span class="hljs-title function_">availableParallelism</span>();
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &#x3C; numCPUs; i++) {
+    cluster.<span class="hljs-title function_">fork</span>();
+  }
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> id <span class="hljs-keyword">in</span> cluster.<span class="hljs-property">workers</span>) {
+    cluster.<span class="hljs-property">workers</span>[id].<span class="hljs-title function_">on</span>(<span class="hljs-string">'message'</span>, messageHandler);
+  }
+
+} <span class="hljs-keyword">else</span> {
+
+  <span class="hljs-comment">// Worker processes have a http server.</span>
+  http.<span class="hljs-title class_">Server</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+    res.<span class="hljs-title function_">writeHead</span>(<span class="hljs-number">200</span>);
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">'hello world\n'</span>);
+
+    <span class="hljs-comment">// Notify primary about the request</span>
+    process.<span class="hljs-title function_">send</span>({ <span class="hljs-attr">cmd</span>: <span class="hljs-string">'notifyRequest'</span> });
+  }).<span class="hljs-title function_">listen</span>(<span class="hljs-number">8000</span>);
+}</code><button class="copy-button">copy</button></pre>
+<h4>Event: <code>'online'</code><span><a class="mark" href="#event-online" id="event-online">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_online"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.7.0</span>
+</div>
+<p>Similar to the <code>cluster.on('online')</code> event, but specific to this worker.</p>
+<pre><code class="language-js">cluster.<span class="hljs-title function_">fork</span>().<span class="hljs-title function_">on</span>(<span class="hljs-string">'online'</span>, <span class="hljs-function">() =></span> {
+  <span class="hljs-comment">// Worker is online</span>
+});</code> <button class="copy-button">copy</button></pre>
+<p>It is not emitted in the worker.</p>
+<h4><code>worker.disconnect()</code><span><a class="mark" href="#workerdisconnect" id="workerdisconnect">#</a></span><a aria-hidden="true" class="legacy" id="cluster_worker_disconnect"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v7.3.0</td>
+<td><p>This method now returns a reference to <code>worker</code>.</p></td></tr>
+<tr><td>v0.7.7</td>
+<td><p><span>Added in: v0.7.7</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li>Returns: <a href="cluster.html#class-worker" class="type">&#x3C;cluster.Worker></a> A reference to <code>worker</code>.</li>
+</ul>
+<p>In a worker, this function will close all servers, wait for the <code>'close'</code> event
+on those servers, and then disconnect the IPC channel.</p>
+<p>In the primary, an internal message is sent to the worker causing it to call
+<code>.disconnect()</code> on itself.</p>
+<p>Causes <code>.exitedAfterDisconnect</code> to be set.</p>
+<p>After a server is closed, it will no longer accept new connections,
+but connections may be accepted by any other listening worker. Existing
+connections will be allowed to close as usual. When no more connections exist,
+see <a href="net.html#event-close"><code>server.close()</code></a>, the IPC channel to the worker will close allowing it
+to die gracefully.</p>
+<p>The above applies <em>only</em> to server connections, client connections are not
+automatically closed by workers, and disconnect does not wait for them to close
+before exiting.</p>
+<p>In a worker, <code>process.disconnect</code> exists, but it is not this function;
+it is <a href="child_process.html#subprocessdisconnect"><code>disconnect()</code></a>.</p>
+<p>Because long living server connections may block workers from disconnecting, it
+may be useful to send a message, so application specific actions may be taken to
+close them. It also may be useful to implement a timeout, killing a worker if
+the <code>'disconnect'</code> event has not been emitted after some time.</p>
+<pre><code class="language-js"><span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  <span class="hljs-keyword">const</span> worker = cluster.<span class="hljs-title function_">fork</span>();
+  <span class="hljs-keyword">let</span> timeout;
+
+  worker.<span class="hljs-title function_">on</span>(<span class="hljs-string">'listening'</span>, <span class="hljs-function">(<span class="hljs-params">address</span>) =></span> {
+    worker.<span class="hljs-title function_">send</span>(<span class="hljs-string">'shutdown'</span>);
+    worker.<span class="hljs-title function_">disconnect</span>();
+    timeout = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =></span> {
+      worker.<span class="hljs-title function_">kill</span>();
+    }, <span class="hljs-number">2000</span>);
+  });
+
+  worker.<span class="hljs-title function_">on</span>(<span class="hljs-string">'disconnect'</span>, <span class="hljs-function">() =></span> {
+    <span class="hljs-built_in">clearTimeout</span>(timeout);
+  });
+
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isWorker</span>) {
+  <span class="hljs-keyword">const</span> net = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:net'</span>);
+  <span class="hljs-keyword">const</span> server = net.<span class="hljs-title function_">createServer</span>(<span class="hljs-function">(<span class="hljs-params">socket</span>) =></span> {
+    <span class="hljs-comment">// Connections never end</span>
+  });
+
+  server.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8000</span>);
+
+  process.<span class="hljs-title function_">on</span>(<span class="hljs-string">'message'</span>, <span class="hljs-function">(<span class="hljs-params">msg</span>) =></span> {
+    <span class="hljs-keyword">if</span> (msg === <span class="hljs-string">'shutdown'</span>) {
+      <span class="hljs-comment">// Initiate graceful close of any connections to server</span>
+    }
+  });
+}</code> <button class="copy-button">copy</button></pre>
+<h4><code>worker.exitedAfterDisconnect</code><span><a class="mark" href="#workerexitedafterdisconnect" id="workerexitedafterdisconnect">#</a></span><a aria-hidden="true" class="legacy" id="cluster_worker_exitedafterdisconnect"></a></h4>
+<div class="api_metadata">
+<span>Added in: v6.0.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>This property is <code>true</code> if the worker exited due to <code>.disconnect()</code>.
+If the worker exited any other way, it is <code>false</code>. If the
+worker has not exited, it is <code>undefined</code>.</p>
+<p>The boolean <a href="#workerexitedafterdisconnect"><code>worker.exitedAfterDisconnect</code></a> allows distinguishing between
+voluntary and accidental exit, the primary may choose not to respawn a worker
+based on this value.</p>
+<pre><code class="language-js">cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'exit'</span>, <span class="hljs-function">(<span class="hljs-params">worker, code, signal</span>) =></span> {
+  <span class="hljs-keyword">if</span> (worker.<span class="hljs-property">exitedAfterDisconnect</span> === <span class="hljs-literal">true</span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Oh, it was just voluntary – no need to worry'</span>);
+  }
+});
+
+<span class="hljs-comment">// kill worker</span>
+worker.<span class="hljs-title function_">kill</span>();</code> <button class="copy-button">copy</button></pre>
+<h4><code>worker.id</code><span><a class="mark" href="#workerid" id="workerid">#</a></span><a aria-hidden="true" class="legacy" id="cluster_worker_id"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.8.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;integer></a></li>
+</ul>
+<p>Each new worker is given its own unique id, this id is stored in the
+<code>id</code>.</p>
+<p>While a worker is alive, this is the key that indexes it in
+<code>cluster.workers</code>.</p>
+<h4><code>worker.isConnected()</code><span><a class="mark" href="#workerisconnected" id="workerisconnected">#</a></span><a aria-hidden="true" class="legacy" id="cluster_worker_isconnected"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.11.14</span>
+</div>
+<p>This function returns <code>true</code> if the worker is connected to its primary via its
+IPC channel, <code>false</code> otherwise. A worker is connected to its primary after it
+has been created. It is disconnected after the <code>'disconnect'</code> event is emitted.</p>
+<h4><code>worker.isDead()</code><span><a class="mark" href="#workerisdead" id="workerisdead">#</a></span><a aria-hidden="true" class="legacy" id="cluster_worker_isdead"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.11.14</span>
+</div>
+<p>This function returns <code>true</code> if the worker's process has terminated (either
+because of exiting or being signaled). Otherwise, it returns <code>false</code>.</p>
+
+<pre class="with-40-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> cluster <span class="hljs-keyword">from</span> <span class="hljs-string">'node:cluster'</span>;
+<span class="hljs-keyword">import</span> http <span class="hljs-keyword">from</span> <span class="hljs-string">'node:http'</span>;
+<span class="hljs-keyword">import</span> { availableParallelism } <span class="hljs-keyword">from</span> <span class="hljs-string">'node:os'</span>;
+<span class="hljs-keyword">import</span> process <span class="hljs-keyword">from</span> <span class="hljs-string">'node:process'</span>;
+
+<span class="hljs-keyword">const</span> numCPUs = <span class="hljs-title function_">availableParallelism</span>();
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Primary <span class="hljs-subst">${process.pid}</span> is running`</span>);
+
+  <span class="hljs-comment">// Fork workers.</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &#x3C; numCPUs; i++) {
+    cluster.<span class="hljs-title function_">fork</span>();
+  }
+
+  cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'fork'</span>, <span class="hljs-function">(<span class="hljs-params">worker</span>) =></span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'worker is dead:'</span>, worker.<span class="hljs-title function_">isDead</span>());
+  });
+
+  cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'exit'</span>, <span class="hljs-function">(<span class="hljs-params">worker, code, signal</span>) =></span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'worker is dead:'</span>, worker.<span class="hljs-title function_">isDead</span>());
+  });
+} <span class="hljs-keyword">else</span> {
+  <span class="hljs-comment">// Workers can share any TCP connection. In this case, it is an HTTP server.</span>
+  http.<span class="hljs-title function_">createServer</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+    res.<span class="hljs-title function_">writeHead</span>(<span class="hljs-number">200</span>);
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">`Current process\n <span class="hljs-subst">${process.pid}</span>`</span>);
+    process.<span class="hljs-title function_">kill</span>(process.<span class="hljs-property">pid</span>);
+  }).<span class="hljs-title function_">listen</span>(<span class="hljs-number">8000</span>);
+}</code><code class="language-js cjs"><span class="hljs-keyword">const</span> cluster = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:cluster'</span>);
+<span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:http'</span>);
+<span class="hljs-keyword">const</span> numCPUs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:os'</span>).<span class="hljs-title function_">availableParallelism</span>();
+<span class="hljs-keyword">const</span> process = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:process'</span>);
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Primary <span class="hljs-subst">${process.pid}</span> is running`</span>);
+
+  <span class="hljs-comment">// Fork workers.</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &#x3C; numCPUs; i++) {
+    cluster.<span class="hljs-title function_">fork</span>();
+  }
+
+  cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'fork'</span>, <span class="hljs-function">(<span class="hljs-params">worker</span>) =></span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'worker is dead:'</span>, worker.<span class="hljs-title function_">isDead</span>());
+  });
+
+  cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'exit'</span>, <span class="hljs-function">(<span class="hljs-params">worker, code, signal</span>) =></span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'worker is dead:'</span>, worker.<span class="hljs-title function_">isDead</span>());
+  });
+} <span class="hljs-keyword">else</span> {
+  <span class="hljs-comment">// Workers can share any TCP connection. In this case, it is an HTTP server.</span>
+  http.<span class="hljs-title function_">createServer</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =></span> {
+    res.<span class="hljs-title function_">writeHead</span>(<span class="hljs-number">200</span>);
+    res.<span class="hljs-title function_">end</span>(<span class="hljs-string">`Current process\n <span class="hljs-subst">${process.pid}</span>`</span>);
+    process.<span class="hljs-title function_">kill</span>(process.<span class="hljs-property">pid</span>);
+  }).<span class="hljs-title function_">listen</span>(<span class="hljs-number">8000</span>);
+}</code><button class="copy-button">copy</button></pre>
+<h4><code>worker.kill([signal])</code><span><a class="mark" href="#workerkillsignal" id="workerkillsignal">#</a></span><a aria-hidden="true" class="legacy" id="cluster_worker_kill_signal"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.9.12</span>
+</div>
+<ul>
+<li><code>signal</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Name of the kill signal to send to the worker
+process. <strong>Default:</strong> <code>'SIGTERM'</code></li>
+</ul>
+<p>This function will kill the worker. In the primary worker, it does this by
+disconnecting the <code>worker.process</code>, and once disconnected, killing with
+<code>signal</code>. In the worker, it does it by killing the process with <code>signal</code>.</p>
+<p>The <code>kill()</code> function kills the worker process without waiting for a graceful
+disconnect, it has the same behavior as <code>worker.process.kill()</code>.</p>
+<p>This method is aliased as <code>worker.destroy()</code> for backwards compatibility.</p>
+<p>In a worker, <code>process.kill()</code> exists, but it is not this function;
+it is <a href="process.html#processkillpid-signal"><code>kill()</code></a>.</p>
+<h4><code>worker.process</code><span><a class="mark" href="#workerprocess" id="workerprocess">#</a></span><a aria-hidden="true" class="legacy" id="cluster_worker_process"></a></h4>
+<div class="api_metadata">
+<span>Added in: v0.7.0</span>
+</div>
+<ul>
+<li><a href="child_process.html#class-childprocess" class="type">&#x3C;ChildProcess></a></li>
+</ul>
+<p>All workers are created using <a href="child_process.html#child_processforkmodulepath-args-options"><code>child_process.fork()</code></a>, the returned object
+from this function is stored as <code>.process</code>. In a worker, the global <code>process</code>
+is stored.</p>
+<p>See: <a href="child_process.html#child_processforkmodulepath-args-options">Child Process module</a>.</p>
+<p>Workers will call <code>process.exit(0)</code> if the <code>'disconnect'</code> event occurs
+on <code>process</code> and <code>.exitedAfterDisconnect</code> is not <code>true</code>. This protects against
+accidental disconnection.</p>
+<h4><code>worker.send(message[, sendHandle[, options]][, callback])</code><span><a class="mark" href="#workersendmessage-sendhandle-options-callback" id="workersendmessage-sendhandle-options-callback">#</a></span><a aria-hidden="true" class="legacy" id="cluster_worker_send_message_sendhandle_options_callback"></a></h4>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v4.0.0</td>
+<td><p>The <code>callback</code> parameter is supported now.</p></td></tr>
+<tr><td>v0.7.0</td>
+<td><p><span>Added in: v0.7.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>message</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+<li><code>sendHandle</code> <a href="net.html#serverlistenhandle-backlog-callback" class="type">&#x3C;Handle></a></li>
+<li><code>options</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> The <code>options</code> argument, if present, is an object used to
+parameterize the sending of certain types of handles. <code>options</code> supports
+the following properties:
+<ul>
+<li><code>keepOpen</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> A value that can be used when passing instances of
+<code>net.Socket</code>. When <code>true</code>, the socket is kept open in the sending process.
+<strong>Default:</strong> <code>false</code>.</li>
+</ul>
+</li>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a></li>
+<li>Returns: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>Send a message to a worker or primary, optionally with a handle.</p>
+<p>In the primary, this sends a message to a specific worker. It is identical to
+<a href="child_process.html#subprocesssendmessage-sendhandle-options-callback"><code>ChildProcess.send()</code></a>.</p>
+<p>In a worker, this sends a message to the primary. It is identical to
+<code>process.send()</code>.</p>
+<p>This example will echo back all messages from the primary:</p>
+<pre><code class="language-js"><span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  <span class="hljs-keyword">const</span> worker = cluster.<span class="hljs-title function_">fork</span>();
+  worker.<span class="hljs-title function_">send</span>(<span class="hljs-string">'hi there'</span>);
+
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isWorker</span>) {
+  process.<span class="hljs-title function_">on</span>(<span class="hljs-string">'message'</span>, <span class="hljs-function">(<span class="hljs-params">msg</span>) =></span> {
+    process.<span class="hljs-title function_">send</span>(msg);
+  });
+}</code> <button class="copy-button">copy</button></pre>
+</section><section><h3>Event: <code>'disconnect'</code><span><a class="mark" href="#event-disconnect_1" id="event-disconnect_1">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_disconnect_1"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.9</span>
+</div>
+<ul>
+<li><code>worker</code> <a href="cluster.html#class-worker" class="type">&#x3C;cluster.Worker></a></li>
+</ul>
+<p>Emitted after the worker IPC channel has disconnected. This can occur when a
+worker exits gracefully, is killed, or is disconnected manually (such as with
+<code>worker.disconnect()</code>).</p>
+<p>There may be a delay between the <code>'disconnect'</code> and <code>'exit'</code> events. These
+events can be used to detect if the process is stuck in a cleanup or if there
+are long-living connections.</p>
+<pre><code class="language-js">cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'disconnect'</span>, <span class="hljs-function">(<span class="hljs-params">worker</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`The worker #<span class="hljs-subst">${worker.id}</span> has disconnected`</span>);
+});</code> <button class="copy-button">copy</button></pre>
+</section><section><h3>Event: <code>'exit'</code><span><a class="mark" href="#event-exit_1" id="event-exit_1">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_exit_1"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.9</span>
+</div>
+<ul>
+<li><code>worker</code> <a href="cluster.html#class-worker" class="type">&#x3C;cluster.Worker></a></li>
+<li><code>code</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> The exit code, if it exited normally.</li>
+<li><code>signal</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> The name of the signal (e.g. <code>'SIGHUP'</code>) that caused
+the process to be killed.</li>
+</ul>
+<p>When any of the workers die the cluster module will emit the <code>'exit'</code> event.</p>
+<p>This can be used to restart the worker by calling <a href="#clusterforkenv"><code>.fork()</code></a> again.</p>
+<pre><code class="language-js">cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'exit'</span>, <span class="hljs-function">(<span class="hljs-params">worker, code, signal</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'worker %d died (%s). restarting...'</span>,
+              worker.<span class="hljs-property">process</span>.<span class="hljs-property">pid</span>, signal || code);
+  cluster.<span class="hljs-title function_">fork</span>();
+});</code> <button class="copy-button">copy</button></pre>
+<p>See <a href="child_process.html#event-exit"><code>child_process</code> event: <code>'exit'</code></a>.</p>
+</section><section><h3>Event: <code>'fork'</code><span><a class="mark" href="#event-fork" id="event-fork">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_fork"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.0</span>
+</div>
+<ul>
+<li><code>worker</code> <a href="cluster.html#class-worker" class="type">&#x3C;cluster.Worker></a></li>
+</ul>
+<p>When a new worker is forked the cluster module will emit a <code>'fork'</code> event.
+This can be used to log worker activity, and create a custom timeout.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> timeouts = [];
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">errorMsg</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">'Something must be wrong with the connection ...'</span>);
+}
+
+cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'fork'</span>, <span class="hljs-function">(<span class="hljs-params">worker</span>) =></span> {
+  timeouts[worker.<span class="hljs-property">id</span>] = <span class="hljs-built_in">setTimeout</span>(errorMsg, <span class="hljs-number">2000</span>);
+});
+cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'listening'</span>, <span class="hljs-function">(<span class="hljs-params">worker, address</span>) =></span> {
+  <span class="hljs-built_in">clearTimeout</span>(timeouts[worker.<span class="hljs-property">id</span>]);
+});
+cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'exit'</span>, <span class="hljs-function">(<span class="hljs-params">worker, code, signal</span>) =></span> {
+  <span class="hljs-built_in">clearTimeout</span>(timeouts[worker.<span class="hljs-property">id</span>]);
+  <span class="hljs-title function_">errorMsg</span>();
+});</code> <button class="copy-button">copy</button></pre>
+</section><section><h3>Event: <code>'listening'</code><span><a class="mark" href="#event-listening_1" id="event-listening_1">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_listening_1"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.0</span>
+</div>
+<ul>
+<li><code>worker</code> <a href="cluster.html#class-worker" class="type">&#x3C;cluster.Worker></a></li>
+<li><code>address</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>After calling <code>listen()</code> from a worker, when the <code>'listening'</code> event is emitted
+on the server, a <code>'listening'</code> event will also be emitted on <code>cluster</code> in the
+primary.</p>
+<p>The event handler is executed with two arguments, the <code>worker</code> contains the
+worker object and the <code>address</code> object contains the following connection
+properties: <code>address</code>, <code>port</code>, and <code>addressType</code>. This is very useful if the
+worker is listening on more than one address.</p>
+<pre><code class="language-js">cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'listening'</span>, <span class="hljs-function">(<span class="hljs-params">worker, address</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(
+    <span class="hljs-string">`A worker is now connected to <span class="hljs-subst">${address.address}</span>:<span class="hljs-subst">${address.port}</span>`</span>);
+});</code> <button class="copy-button">copy</button></pre>
+<p>The <code>addressType</code> is one of:</p>
+<ul>
+<li><code>4</code> (TCPv4)</li>
+<li><code>6</code> (TCPv6)</li>
+<li><code>-1</code> (Unix domain socket)</li>
+<li><code>'udp4'</code> or <code>'udp6'</code> (UDPv4 or UDPv6)</li>
+</ul>
+</section><section><h3>Event: <code>'message'</code><span><a class="mark" href="#event-message_1" id="event-message_1">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_message_1"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v6.0.0</td>
+<td><p>The <code>worker</code> parameter is passed now; see below for details.</p></td></tr>
+<tr><td>v2.5.0</td>
+<td><p><span>Added in: v2.5.0</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><code>worker</code> <a href="cluster.html#class-worker" class="type">&#x3C;cluster.Worker></a></li>
+<li><code>message</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+<li><code>handle</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Undefined_type" class="type">&#x3C;undefined></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Emitted when the cluster primary receives a message from any worker.</p>
+<p>See <a href="child_process.html#event-message"><code>child_process</code> event: <code>'message'</code></a>.</p>
+</section><section><h3>Event: <code>'online'</code><span><a class="mark" href="#event-online_1" id="event-online_1">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_online_1"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.0</span>
+</div>
+<ul>
+<li><code>worker</code> <a href="cluster.html#class-worker" class="type">&#x3C;cluster.Worker></a></li>
+</ul>
+<p>After forking a new worker, the worker should respond with an online message.
+When the primary receives an online message it will emit this event.
+The difference between <code>'fork'</code> and <code>'online'</code> is that fork is emitted when the
+primary forks a worker, and <code>'online'</code> is emitted when the worker is running.</p>
+<pre><code class="language-js">cluster.<span class="hljs-title function_">on</span>(<span class="hljs-string">'online'</span>, <span class="hljs-function">(<span class="hljs-params">worker</span>) =></span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Yay, the worker responded after it was forked'</span>);
+});</code> <button class="copy-button">copy</button></pre>
+</section><section><h3>Event: <code>'setup'</code><span><a class="mark" href="#event-setup" id="event-setup">#</a></span><a aria-hidden="true" class="legacy" id="cluster_event_setup"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.1</span>
+</div>
+<ul>
+<li><code>settings</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>Emitted every time <a href="#clustersetupprimarysettings"><code>.setupPrimary()</code></a> is called.</p>
+<p>The <code>settings</code> object is the <code>cluster.settings</code> object at the time
+<a href="#clustersetupprimarysettings"><code>.setupPrimary()</code></a> was called and is advisory only, since multiple calls to
+<a href="#clustersetupprimarysettings"><code>.setupPrimary()</code></a> can be made in a single tick.</p>
+<p>If accuracy is important, use <code>cluster.settings</code>.</p>
+</section><section><h3><code>cluster.disconnect([callback])</code><span><a class="mark" href="#clusterdisconnectcallback" id="clusterdisconnectcallback">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster_disconnect_callback"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.7</span>
+</div>
+<ul>
+<li><code>callback</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Called when all workers are disconnected and handles are
+closed.</li>
+</ul>
+<p>Calls <code>.disconnect()</code> on each worker in <code>cluster.workers</code>.</p>
+<p>When they are disconnected all internal handles will be closed, allowing the
+primary process to die gracefully if no other event is waiting.</p>
+<p>The method takes an optional callback argument which will be called when
+finished.</p>
+<p>This can only be called from the primary process.</p>
+</section><section><h3><code>cluster.fork([env])</code><span><a class="mark" href="#clusterforkenv" id="clusterforkenv">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster_fork_env"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.6.0</span>
+</div>
+<ul>
+<li><code>env</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> Key/value pairs to add to worker process environment.</li>
+<li>Returns: <a href="cluster.html#class-worker" class="type">&#x3C;cluster.Worker></a></li>
+</ul>
+<p>Spawn a new worker process.</p>
+<p>This can only be called from the primary process.</p>
+</section><section><h3><code>cluster.isMaster</code><span><a class="mark" href="#clusterismaster" id="clusterismaster">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster_ismaster"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.8.1</span><span>Deprecated since: v16.0.0</span>
+</div>
+<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated</div><p></p>
+<p>Deprecated alias for <a href="#clusterisprimary"><code>cluster.isPrimary</code></a>.</p>
+</section><section><h3><code>cluster.isPrimary</code><span><a class="mark" href="#clusterisprimary" id="clusterisprimary">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster_isprimary"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.0.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>True if the process is a primary. This is determined
+by the <code>process.env.NODE_UNIQUE_ID</code>. If <code>process.env.NODE_UNIQUE_ID</code> is
+undefined, then <code>isPrimary</code> is <code>true</code>.</p>
+</section><section><h3><code>cluster.isWorker</code><span><a class="mark" href="#clusterisworker" id="clusterisworker">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster_isworker"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.6.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a></li>
+</ul>
+<p>True if the process is not a primary (it is the negation of <code>cluster.isPrimary</code>).</p>
+</section><section><h3><code>cluster.schedulingPolicy</code><span><a class="mark" href="#clusterschedulingpolicy" id="clusterschedulingpolicy">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster_schedulingpolicy"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.11.2</span>
+</div>
+<p>The scheduling policy, either <code>cluster.SCHED_RR</code> for round-robin or
+<code>cluster.SCHED_NONE</code> to leave it to the operating system. This is a
+global setting and effectively frozen once either the first worker is spawned,
+or <a href="#clustersetupprimarysettings"><code>.setupPrimary()</code></a> is called, whichever comes first.</p>
+<p><code>SCHED_RR</code> is the default on all operating systems except Windows.
+Windows will change to <code>SCHED_RR</code> once libuv is able to effectively
+distribute IOCP handles without incurring a large performance hit.</p>
+<p><code>cluster.schedulingPolicy</code> can also be set through the
+<code>NODE_CLUSTER_SCHED_POLICY</code> environment variable. Valid
+values are <code>'rr'</code> and <code>'none'</code>.</p>
+</section><section><h3><code>cluster.settings</code><span><a class="mark" href="#clustersettings" id="clustersettings">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster_settings"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v13.2.0, v12.16.0</td>
+<td><p>The <code>serialization</code> option is supported now.</p></td></tr>
+<tr><td>v9.5.0</td>
+<td><p>The <code>cwd</code> option is supported now.</p></td></tr>
+<tr><td>v9.4.0</td>
+<td><p>The <code>windowsHide</code> option is supported now.</p></td></tr>
+<tr><td>v8.2.0</td>
+<td><p>The <code>inspectPort</code> option is supported now.</p></td></tr>
+<tr><td>v6.4.0</td>
+<td><p>The <code>stdio</code> option is supported now.</p></td></tr>
+<tr><td>v0.7.1</td>
+<td><p><span>Added in: v0.7.1</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a>
+<ul>
+<li><code>execArgv</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a> List of string arguments passed to the Node.js
+executable. <strong>Default:</strong> <code>process.execArgv</code>.</li>
+<li><code>exec</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> File path to worker file. <strong>Default:</strong> <code>process.argv[1]</code>.</li>
+<li><code>args</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string[]></a> String arguments passed to worker.
+<strong>Default:</strong> <code>process.argv.slice(2)</code>.</li>
+<li><code>cwd</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Current working directory of the worker process. <strong>Default:</strong>
+<code>undefined</code> (inherits from parent process).</li>
+<li><code>serialization</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&#x3C;string></a> Specify the kind of serialization used for sending
+messages between processes. Possible values are <code>'json'</code> and <code>'advanced'</code>.
+See <a href="child_process.html#advanced-serialization">Advanced serialization for <code>child_process</code></a> for more details.
+<strong>Default:</strong> <code>false</code>.</li>
+<li><code>silent</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> Whether or not to send output to parent's stdio.
+<strong>Default:</strong> <code>false</code>.</li>
+<li><code>stdio</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="type">&#x3C;Array></a> Configures the stdio of forked processes. Because the
+cluster module relies on IPC to function, this configuration must contain an
+<code>'ipc'</code> entry. When this option is provided, it overrides <code>silent</code>. See
+<a href="child_process.html#child_processspawncommand-args-options"><code>child_process.spawn()</code></a>'s <a href="child_process.html#optionsstdio"><code>stdio</code></a>.</li>
+<li><code>uid</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> Sets the user identity of the process. (See <a href="http://man7.org/linux/man-pages/man2/setuid.2.html"><code>setuid(2)</code></a>.)</li>
+<li><code>gid</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> Sets the group identity of the process. (See <a href="http://man7.org/linux/man-pages/man2/setgid.2.html"><code>setgid(2)</code></a>.)</li>
+<li><code>inspectPort</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type" class="type">&#x3C;number></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="type">&#x3C;Function></a> Sets inspector port of worker.
+This can be a number, or a function that takes no arguments and returns a
+number. By default each worker gets its own port, incremented from the
+primary's <code>process.debugPort</code>.</li>
+<li><code>windowsHide</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type" class="type">&#x3C;boolean></a> Hide the forked processes console window that would
+normally be created on Windows systems. <strong>Default:</strong> <code>false</code>.</li>
+</ul>
+</li>
+</ul>
+<p>After calling <a href="#clustersetupprimarysettings"><code>.setupPrimary()</code></a> (or <a href="#clusterforkenv"><code>.fork()</code></a>) this settings object will
+contain the settings, including the default values.</p>
+<p>This object is not intended to be changed or set manually.</p>
+</section><section><h3><code>cluster.setupMaster([settings])</code><span><a class="mark" href="#clustersetupmastersettings" id="clustersetupmastersettings">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster_setupmaster_settings"></a></h3>
+<div class="api_metadata">
+<details class="changelog"><summary>History</summary>
+<table>
+<tbody><tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v16.0.0</td>
+<td><p><span>Deprecated since: v16.0.0</span></p></td></tr>
+<tr><td>v6.4.0</td>
+<td><p>The <code>stdio</code> option is supported now.</p></td></tr>
+<tr><td>v0.7.1</td>
+<td><p><span>Added in: v0.7.1</span></p></td></tr>
+</tbody></table>
+</details>
+</div>
+<p></p><div class="api_stability api_stability_0"><a href="documentation.html#stability-index">Stability: 0</a> - Deprecated</div><p></p>
+<p>Deprecated alias for <a href="#clustersetupprimarysettings"><code>.setupPrimary()</code></a>.</p>
+</section><section><h3><code>cluster.setupPrimary([settings])</code><span><a class="mark" href="#clustersetupprimarysettings" id="clustersetupprimarysettings">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster_setupprimary_settings"></a></h3>
+<div class="api_metadata">
+<span>Added in: v16.0.0</span>
+</div>
+<ul>
+<li><code>settings</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a> See <a href="#clustersettings"><code>cluster.settings</code></a>.</li>
+</ul>
+<p><code>setupPrimary</code> is used to change the default 'fork' behavior. Once called,
+the settings will be present in <code>cluster.settings</code>.</p>
+<p>Any settings changes only affect future calls to <a href="#clusterforkenv"><code>.fork()</code></a> and have no
+effect on workers that are already running.</p>
+<p>The only attribute of a worker that cannot be set via <code>.setupPrimary()</code> is
+the <code>env</code> passed to <a href="#clusterforkenv"><code>.fork()</code></a>.</p>
+<p>The defaults above apply to the first call only; the defaults for later
+calls are the current values at the time of <code>cluster.setupPrimary()</code> is called.</p>
+
+<pre class="with-40-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> cluster <span class="hljs-keyword">from</span> <span class="hljs-string">'node:cluster'</span>;
+
+cluster.<span class="hljs-title function_">setupPrimary</span>({
+  <span class="hljs-attr">exec</span>: <span class="hljs-string">'worker.js'</span>,
+  <span class="hljs-attr">args</span>: [<span class="hljs-string">'--use'</span>, <span class="hljs-string">'https'</span>],
+  <span class="hljs-attr">silent</span>: <span class="hljs-literal">true</span>,
+});
+cluster.<span class="hljs-title function_">fork</span>(); <span class="hljs-comment">// https worker</span>
+cluster.<span class="hljs-title function_">setupPrimary</span>({
+  <span class="hljs-attr">exec</span>: <span class="hljs-string">'worker.js'</span>,
+  <span class="hljs-attr">args</span>: [<span class="hljs-string">'--use'</span>, <span class="hljs-string">'http'</span>],
+});
+cluster.<span class="hljs-title function_">fork</span>(); <span class="hljs-comment">// http worker</span></code><code class="language-js cjs"><span class="hljs-keyword">const</span> cluster = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:cluster'</span>);
+
+cluster.<span class="hljs-title function_">setupPrimary</span>({
+  <span class="hljs-attr">exec</span>: <span class="hljs-string">'worker.js'</span>,
+  <span class="hljs-attr">args</span>: [<span class="hljs-string">'--use'</span>, <span class="hljs-string">'https'</span>],
+  <span class="hljs-attr">silent</span>: <span class="hljs-literal">true</span>,
+});
+cluster.<span class="hljs-title function_">fork</span>(); <span class="hljs-comment">// https worker</span>
+cluster.<span class="hljs-title function_">setupPrimary</span>({
+  <span class="hljs-attr">exec</span>: <span class="hljs-string">'worker.js'</span>,
+  <span class="hljs-attr">args</span>: [<span class="hljs-string">'--use'</span>, <span class="hljs-string">'http'</span>],
+});
+cluster.<span class="hljs-title function_">fork</span>(); <span class="hljs-comment">// http worker</span></code><button class="copy-button">copy</button></pre>
+<p>This can only be called from the primary process.</p>
+</section><section><h3><code>cluster.worker</code><span><a class="mark" href="#clusterworker" id="clusterworker">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster_worker"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>A reference to the current worker object. Not available in the primary process.</p>
+
+<pre class="with-40-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> cluster <span class="hljs-keyword">from</span> <span class="hljs-string">'node:cluster'</span>;
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'I am primary'</span>);
+  cluster.<span class="hljs-title function_">fork</span>();
+  cluster.<span class="hljs-title function_">fork</span>();
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isWorker</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`I am worker #<span class="hljs-subst">${cluster.worker.id}</span>`</span>);
+}</code><code class="language-js cjs"><span class="hljs-keyword">const</span> cluster = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:cluster'</span>);
+
+<span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isPrimary</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'I am primary'</span>);
+  cluster.<span class="hljs-title function_">fork</span>();
+  cluster.<span class="hljs-title function_">fork</span>();
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cluster.<span class="hljs-property">isWorker</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`I am worker #<span class="hljs-subst">${cluster.worker.id}</span>`</span>);
+}</code><button class="copy-button">copy</button></pre>
+</section><section><h3><code>cluster.workers</code><span><a class="mark" href="#clusterworkers" id="clusterworkers">#</a></span><a aria-hidden="true" class="legacy" id="cluster_cluster_workers"></a></h3>
+<div class="api_metadata">
+<span>Added in: v0.7.0</span>
+</div>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="type">&#x3C;Object></a></li>
+</ul>
+<p>A hash that stores the active worker objects, keyed by <code>id</code> field. This makes it
+easy to loop through all the workers. It is only available in the primary
+process.</p>
+<p>A worker is removed from <code>cluster.workers</code> after the worker has disconnected
+<em>and</em> exited. The order between these two events cannot be determined in
+advance. However, it is guaranteed that the removal from the <code>cluster.workers</code>
+list happens before the last <code>'disconnect'</code> or <code>'exit'</code> event is emitted.</p>
+
+<pre class="with-40-chars"><input class="js-flavor-selector" type="checkbox" checked aria-label="Show modern ES modules syntax"><code class="language-js mjs"><span class="hljs-keyword">import</span> cluster <span class="hljs-keyword">from</span> <span class="hljs-string">'node:cluster'</span>;
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> worker <span class="hljs-keyword">of</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(cluster.<span class="hljs-property">workers</span>)) {
+  worker.<span class="hljs-title function_">send</span>(<span class="hljs-string">'big announcement to all workers'</span>);
+}</code><code class="language-js cjs"><span class="hljs-keyword">const</span> cluster = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node:cluster'</span>);
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> worker <span class="hljs-keyword">of</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(cluster.<span class="hljs-property">workers</span>)) {
+  worker.<span class="hljs-title function_">send</span>(<span class="hljs-string">'big announcement to all workers'</span>);
+}</code><button class="copy-button">copy</button></pre></section>
+        <!-- API END -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

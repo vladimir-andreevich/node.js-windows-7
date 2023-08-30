@@ -1,0 +1,68 @@
+{
+  "type": "module",
+  "source": "doc/api/single-executable-applications.md",
+  "modules": [
+    {
+      "textRaw": "Single executable applications",
+      "name": "single_executable_applications",
+      "introduced_in": "v18.16.0",
+      "meta": {
+        "added": [
+          "v19.7.0",
+          "v18.16.0"
+        ],
+        "changes": []
+      },
+      "stability": 1,
+      "stabilityText": "Experimental: This feature is being designed and will change.",
+      "desc": "<p><strong>Source Code:</strong> <a href=\"https://github.com/nodejs/node/blob/v18.19.1/src/node_sea.cc\">src/node_sea.cc</a></p>\n<p>This feature allows the distribution of a Node.js application conveniently to a\nsystem that does not have Node.js installed.</p>\n<p>Node.js supports the creation of <a href=\"https://github.com/nodejs/single-executable\">single executable applications</a> by allowing\nthe injection of a JavaScript file into the <code>node</code> binary. During start up, the\nprogram checks if anything has been injected. If the script is found, it\nexecutes its contents. Otherwise Node.js operates as it normally does.</p>\n<p>The single executable application feature only supports running a single\nembedded <a href=\"modules.html#modules-commonjs-modules\">CommonJS</a> file.</p>\n<p>A bundled JavaScript file can be turned into a single executable application\nwith any tool which can inject resources into the <code>node</code> binary.</p>\n<p>Here are the steps for creating a single executable application using one such\ntool, <a href=\"https://github.com/nodejs/postject\">postject</a>:</p>\n<ol>\n<li>\n<p>Create a JavaScript file:</p>\n<pre><code class=\"language-console\">$ echo 'console.log(`Hello, ${process.argv[2]}!`);' > hello.js\n</code></pre>\n</li>\n<li>\n<p>Create a copy of the <code>node</code> executable and name it according to your needs:</p>\n<pre><code class=\"language-console\">$ cp $(command -v node) hello\n</code></pre>\n</li>\n<li>\n<p>Remove the signature of the binary:</p>\n<ul>\n<li>On macOS:</li>\n</ul>\n<pre><code class=\"language-console\">$ codesign --remove-signature hello\n</code></pre>\n<ul>\n<li>On Windows (optional):</li>\n</ul>\n<p><a href=\"https://learn.microsoft.com/en-us/windows/win32/seccrypto/signtool\">signtool</a> can be used from the installed <a href=\"https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/\">Windows SDK</a>. If this step is\nskipped, ignore any signature-related warning from postject.</p>\n<pre><code class=\"language-console\">$ signtool remove /s hello\n</code></pre>\n</li>\n<li>\n<p>Inject the JavaScript file into the copied binary by running <code>postject</code> with\nthe following options:</p>\n<ul>\n<li><code>hello</code> - The name of the copy of the <code>node</code> executable created in step 2.</li>\n<li><code>NODE_JS_CODE</code> - The name of the resource / note / section in the binary\nwhere the contents of the JavaScript file will be stored.</li>\n<li><code>hello.js</code> - The name of the JavaScript file created in step 1.</li>\n<li><code>--sentinel-fuse NODE_JS_FUSE_fce680ab2cc467b6e072b8b5df1996b2</code> - The\n<a href=\"https://www.electronjs.org/docs/latest/tutorial/fuses\">fuse</a> used by the Node.js project to detect if a file has been injected.</li>\n<li><code>--macho-segment-name NODE_JS</code> (only needed on macOS) - The name of the\nsegment in the binary where the contents of the JavaScript file will be\nstored.</li>\n</ul>\n<p>To summarize, here is the required command for each platform:</p>\n<ul>\n<li>\n<p>On systems other than macOS:</p>\n<pre><code class=\"language-console\">$ npx postject hello NODE_JS_CODE hello.js \\\n    --sentinel-fuse NODE_JS_FUSE_fce680ab2cc467b6e072b8b5df1996b2\n</code></pre>\n</li>\n<li>\n<p>On macOS:</p>\n<pre><code class=\"language-console\">$ npx postject hello NODE_JS_CODE hello.js \\\n    --sentinel-fuse NODE_JS_FUSE_fce680ab2cc467b6e072b8b5df1996b2 \\\n    --macho-segment-name NODE_JS\n</code></pre>\n</li>\n</ul>\n</li>\n<li>\n<p>Sign the binary:</p>\n<ul>\n<li>On macOS:</li>\n</ul>\n<pre><code class=\"language-console\">$ codesign --sign - hello\n</code></pre>\n<ul>\n<li>On Windows (optional):</li>\n</ul>\n<p>A certificate needs to be present for this to work. However, the unsigned\nbinary would still be runnable.</p>\n<pre><code class=\"language-console\">$ signtool sign /fd SHA256 hello\n</code></pre>\n</li>\n<li>\n<p>Run the binary:</p>\n<pre><code class=\"language-console\">$ ./hello world\nHello, world!\n</code></pre>\n</li>\n</ol>",
+      "modules": [
+        {
+          "textRaw": "Notes",
+          "name": "notes",
+          "modules": [
+            {
+              "textRaw": "`require(id)` in the injected module is not file based",
+              "name": "`require(id)`_in_the_injected_module_is_not_file_based",
+              "desc": "<p><code>require()</code> in the injected module is not the same as the <a href=\"modules.html#requireid\"><code>require()</code></a>\navailable to modules that are not injected. It also does not have any of the\nproperties that non-injected <a href=\"modules.html#requireid\"><code>require()</code></a> has except <a href=\"modules.html#accessing-the-main-module\"><code>require.main</code></a>. It\ncan only be used to load built-in modules. Attempting to load a module that can\nonly be found in the file system will throw an error.</p>\n<p>Instead of relying on a file based <code>require()</code>, users can bundle their\napplication into a standalone JavaScript file to inject into the executable.\nThis also ensures a more deterministic dependency graph.</p>\n<p>However, if a file based <code>require()</code> is still needed, that can also be achieved:</p>\n<pre><code class=\"language-js\">const { createRequire } = require('node:module');\nrequire = createRequire(__filename);\n</code></pre>",
+              "type": "module",
+              "displayName": "`require(id)` in the injected module is not file based"
+            },
+            {
+              "textRaw": "`__filename` and `module.filename` in the injected module",
+              "name": "`__filename`_and_`module.filename`_in_the_injected_module",
+              "desc": "<p>The values of <code>__filename</code> and <code>module.filename</code> in the injected module are\nequal to <a href=\"process.html#processexecpath\"><code>process.execPath</code></a>.</p>",
+              "type": "module",
+              "displayName": "`__filename` and `module.filename` in the injected module"
+            },
+            {
+              "textRaw": "`__dirname` in the injected module",
+              "name": "`__dirname`_in_the_injected_module",
+              "desc": "<p>The value of <code>__dirname</code> in the injected module is equal to the directory name\nof <a href=\"process.html#processexecpath\"><code>process.execPath</code></a>.</p>",
+              "type": "module",
+              "displayName": "`__dirname` in the injected module"
+            },
+            {
+              "textRaw": "Single executable application creation process",
+              "name": "single_executable_application_creation_process",
+              "desc": "<p>A tool aiming to create a single executable Node.js application must\ninject the contents of a JavaScript file into:</p>\n<ul>\n<li>a resource named <code>NODE_JS_CODE</code> if the <code>node</code> binary is a <a href=\"https://en.wikipedia.org/wiki/Portable_Executable\">PE</a> file</li>\n<li>a section named <code>NODE_JS_CODE</code> in the <code>NODE_JS</code> segment if the <code>node</code> binary\nis a <a href=\"https://en.wikipedia.org/wiki/Mach-O\">Mach-O</a> file</li>\n<li>a note named <code>NODE_JS_CODE</code> if the <code>node</code> binary is an <a href=\"https://en.wikipedia.org/wiki/Executable_and_Linkable_Format\">ELF</a> file</li>\n</ul>\n<p>Search the binary for the\n<code>NODE_JS_FUSE_fce680ab2cc467b6e072b8b5df1996b2:0</code> <a href=\"https://www.electronjs.org/docs/latest/tutorial/fuses\">fuse</a> string and flip the\nlast character to <code>1</code> to indicate that a resource has been injected.</p>",
+              "type": "module",
+              "displayName": "Single executable application creation process"
+            },
+            {
+              "textRaw": "Platform support",
+              "name": "platform_support",
+              "desc": "<p>Single-executable support is tested regularly on CI only on the following\nplatforms:</p>\n<ul>\n<li>Windows</li>\n<li>macOS</li>\n<li>Linux (all distributions <a href=\"https://github.com/nodejs/node/blob/main/BUILDING.md#platform-list\">supported by Node.js</a> except Alpine and all\narchitectures <a href=\"https://github.com/nodejs/node/blob/main/BUILDING.md#platform-list\">supported by Node.js</a> except s390x and ppc64)</li>\n</ul>\n<p>This is due to a lack of better tools to generate single-executables that can be\nused to test this feature on other platforms.</p>\n<p>Suggestions for other resource injection tools/workflows are welcomed. Please\nstart a discussion at <a href=\"https://github.com/nodejs/single-executable/discussions\">https://github.com/nodejs/single-executable/discussions</a>\nto help us document them.</p>",
+              "type": "module",
+              "displayName": "Platform support"
+            }
+          ],
+          "type": "module",
+          "displayName": "Notes"
+        }
+      ],
+      "type": "module",
+      "displayName": "Single executable applications"
+    }
+  ]
+}
